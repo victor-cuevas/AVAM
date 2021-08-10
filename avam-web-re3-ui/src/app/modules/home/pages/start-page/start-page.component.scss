@@ -1,0 +1,23 @@
+$maxHeight: 100%;
+$maxWidth: 100%;
+
+.coverBackground {
+    background-image: url('../../../../../assets/images/cover-background.jpg');
+    background-position: 50% 50%;
+    background-size: cover;
+    width: $maxWidth;
+    height: $maxHeight;
+}
+
+.noCoverBackground {
+    background-color: #F5F5F5;
+}
+
+.screenSize {
+    width: $maxWidth;
+    height: $maxHeight;
+}
+
+.startpage {
+    padding-top: 80px;
+}

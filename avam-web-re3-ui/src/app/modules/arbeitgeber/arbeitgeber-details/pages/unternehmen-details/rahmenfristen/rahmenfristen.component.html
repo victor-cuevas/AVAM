@@ -1,0 +1,18 @@
+<div>
+    <or-spinner channel="{{ channel }}"></or-spinner>
+    <avam-rahmenfristen-kae-swe-table
+        [dataSource]="dataSource"
+        (openDetails)="openRahmenfristZahlungenModal($event)"
+        (openZahlungen)="openRahmenfristDetailsModal()"
+    ></avam-rahmenfristen-kae-swe-table>
+</div>
+<ng-template #modalPrint>
+    <avam-rahmenfristen-kae-swe-table [dataSource]="dataSource" [forPrinting]="true"></avam-rahmenfristen-kae-swe-table>
+</ng-template>
+
+<ng-template #modalDetails>
+    <avam-details-pro-rahmenfrist [unternehmenId]="unternehmenId"></avam-details-pro-rahmenfrist>
+</ng-template>
+<ng-template #modalZahlungen>
+    <avam-rahmenfrist-zahlungen [rahmenfristId]="selectedRahmenfristId"></avam-rahmenfrist-zahlungen>
+</ng-template>

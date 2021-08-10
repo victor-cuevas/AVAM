@@ -1,0 +1,59 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row" *ngIf="(formMode.mode$ | async) as mode">
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <app-textarea
+                    avamAutofocus
+                    id="bemerkung"
+                    formControlName="bemerkung"
+                    selectLabel="amm.nutzung.label.ergaenzendeAngaben"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="mode === formModes.READONLY"
+                ></app-textarea>
+                <avam-personalberater-autosuggest
+                    #bearbeitung
+                    id="bearbeitungDurch"
+                    [parentForm]="formGroup"
+                    controlName="bearbeitungDurch"
+                    componentLabel="{{ 'amm.zahlungen.label.bearbeitungdurch' }}"
+                    [benutzerSuchenTokens]="bearbeiterSuchenTokens"
+                    [type]="benutzerType"
+                    [readOnly]="mode === formModes.READONLY"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    id="status"
+                    [parentForm]="formGroup"
+                    controlName="status"
+                    [options]="statusOptions"
+                    selectLabel="amm.nutzung.label.status"
+                    [hideEmptyOption]="true"
+                    (onChange)="checkValidators()"
+                    [readOnly]="mode === formModes.READONLY"
+                >
+                </avam-label-dropdown>
+                <avam-personalberater-autosuggest
+                    id="freigabeDurch"
+                    [parentForm]="formGroup"
+                    controlName="freigabeDurch"
+                    componentLabel="{{ 'amm.zahlungen.label.freigabedurch' }}"
+                    [benutzerSuchenTokens]="freigeberSuchenTokens"
+                    [type]="benutzerType"
+                    [readOnly]="mode === formModes.READONLY"
+                ></avam-personalberater-autosuggest>
+                <avam-label-calendar
+                    controlName="freigabeDatum"
+                    [parentForm]="formGroup"
+                    id="freigabeDatum"
+                    calendarLabel="amm.nutzung.label.freigabeDatum"
+                    [readOnly]="true"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+            </div>
+        </div>
+    </div>
+</form>

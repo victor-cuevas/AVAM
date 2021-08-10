@@ -1,0 +1,9 @@
+.btn-height {
+    height: 100%;
+}
+
+@media print {
+    .openModalBtn {
+        display: none;
+    }
+}

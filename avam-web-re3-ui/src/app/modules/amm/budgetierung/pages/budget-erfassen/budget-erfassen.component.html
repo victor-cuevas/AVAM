@@ -1,0 +1,39 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <form [formGroup]="formGroup" closeBrowserTab #ngForm="ngForm" [form]="formGroup" autocomplete="off">
+        <div class="print-block">
+            <div class="avam-panel">
+                <div class="col-3">
+                    <avam-label-input controlName="jahr" [parentForm]="formGroup" selectLabel="common.label.datum.jahr"></avam-label-input>
+                </div>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter">
+                <p class="mb-0">{{ 'amm.budgetierung.label.kopieerstellenaus' | translate }}</p>
+            </div>
+        </div>
+    </form>
+    <avam-budget-auswaehlen-table [dataSource]="dataSource" [rowCheckboxes]="rowCheckboxes"></avam-budget-auswaehlen-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b> {{ 'common.label.version' | translate }} </b>
+            <span> 1 </span>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button avamDisableOnSpinner class="btn btn-primary ml-1" type="button" (click)="save()">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>

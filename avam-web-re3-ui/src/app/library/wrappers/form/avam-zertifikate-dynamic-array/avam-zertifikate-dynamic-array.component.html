@@ -1,0 +1,46 @@
+<div *ngIf="loaded" [formGroup]="form" class="d-flex flex-column">
+    <div formArrayName="zertifikate" *ngFor="let item of zertifikate.controls; let i = index">
+        <div [formGroupName]="i">
+            <div class="d-flex flex-nowrap">
+                <div class="w-60 dropdown-container">
+                    <label *ngIf="i == 0" class="mb-2 dropdown-label-container">{{ 'amm.anbieter.label.zertifikate' | translate }}</label>
+                    <avam-label-dropdown
+                        id="zertifikat"
+                        inputClass="w-100"
+                        [parentForm]="item"
+                        controlName="zertifikat"
+                        [placeholder]="zertifikatePlaceholder"
+                        [options]="zertifikateOptions"
+                        [isDisabled]="isDisabled"
+                        [readOnly]="isReadOnly"
+                        (onChange)="onChange($event)"
+                    ></avam-label-dropdown>
+                </div>
+                <div class="calendar-container">
+                    <label *ngIf="i == 0" class="mb-2"> {{ 'amm.infotag.label.gueltigBis' | translate }}</label>
+                    <avam-label-calendar
+                        id="calendar"
+                        inputClass="col-lg-12 col-md-12"
+                        [parentForm]="item"
+                        controlName="gueltigBis"
+                        [readOnly]="isReadOnly"
+                        [isDisabled]="isDisabled"
+                    ></avam-label-calendar>
+                </div>
+                <div>
+                    <label *ngIf="i == 0" class="mb-2"> &nbsp;</label>
+
+                    <div class="input-group-append d-flex flex-nowrap mb-2 button-container">
+                        <button type="button" *ngIf="zertifikate.length !== 1 && !isReadOnly" (click)="removeItem(i)" class="btn btn-secondary ml-1" [disabled]="isDisabled">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                        <button *ngIf="i == zertifikate.length - 1 && !isReadOnly" (click)="addItem()" type="button" class="btn btn-secondary ml-1" [disabled]="isDisabled">
+                            <span class="fa fa-plus"></span>
+                        </button>
+                        <div *ngIf="zertifikate.length === 1 || (zertifikate.length > 1 && i < zertifikate.length - 1)">&nbsp;</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

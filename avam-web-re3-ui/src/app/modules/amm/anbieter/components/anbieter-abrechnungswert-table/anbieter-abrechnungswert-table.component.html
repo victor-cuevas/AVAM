@@ -1,0 +1,92 @@
+<avam-generic-table
+    *ngIf="dataSource"
+    [dataSource]="dataSource"
+    [headers]="displayedColumns"
+    [footer]="showFooter"
+    [sortField]="sortField"
+    [sortOrder]="sortOrder"
+    [stateKey]="stateKey"
+    [recalculateMaxHeight]="false"
+    [maxHeight]="maxHeight"
+    [shouldFocusInitialRow]="shouldFocusInitialRow"
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'selection'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                <avam-label-checkbox
+                    *ngIf="dataSource.length"
+                    componentId="headerCheckbox"
+                    [parentForm]="parentForm"
+                    controlName="headerCheckbox"
+                    checkboxWrapperClass="mt-0 mb-0"
+                ></avam-label-checkbox>
+            </th>
+            <td cdk-cell *cdkCellDef="let row; let index = index">
+                <avam-label-checkbox
+                    *ngIf="!row.abrechnungsNr"
+                    componentId="rowCheckbox{{ index }}"
+                    [parentForm]="parentForm.controls.rowCheckboxes"
+                    controlName="{{ index }}"
+                    (onChange)="checkboxChange(index)"
+                    checkboxWrapperClass="mt-0 mb-0"
+                ></avam-label-checkbox>
+            </td>
+        </ng-container>
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'gueltigBis' || column.columnDef === 'gueltigVon' || column.columnDef === 'faelligAm'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <div class="table-btns">
+                    <button
+                        *ngIf="tableType === types.ZUORDNEN"
+                        ngbTooltip="{{ 'amm.abrechnungen.button.abrechnungswertzuordnen' | translate }}"
+                        (primaryButtonClick)="itemSelected(row)"
+                        avamPrimaryButtonDirective
+                        (click)="itemSelected(row)"
+                        class="fa fa-check btn btn-success btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                    <button
+                        *ngIf="tableType === types.BEARBEITEN || tableType === types.SUCHEN"
+                        ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                        avamPrimaryButtonDirective
+                        (click)="itemSelected(row)"
+                        class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                    <button
+                        *ngIf="tableType === types.BEARBEITEN && row.abrechnungswertLoeschbar"
+                        ngbTooltip="{{ 'common.button.loeschen' | translate }}"
+                        (click)="remove(row.abrechnungswertId)"
+                        class="buttonOnHover fa fa-trash btn btn-secondary btn-sm btn-padding"
+                        type="button"
+                    ></button>
+                    <button
+                        *ngIf="tableType === types.SUCHEN && !row.abrechnungsNr"
+                        ngbTooltip="{{ 'amm.abrechnungen.button.abrechnungerfassen' | translate }}"
+                        (click)="create(row.abrechnungswertId)"
+                        class="fa fa-plus btn btn-secondary btn-sm buttonOnHover btn-padding"
+                        type="button"
+                    ></button>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="showFooter && column.columnDef === 'saldochf'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ summeTotal }}</td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+        <ng-container *ngIf="showFooter">
+            <td cdk-footer-cell *cdkFooterCellDef class="text-right">{{ column.footer | translate }}</td>
+        </ng-container>
+    </ng-container>
+</avam-generic-table>

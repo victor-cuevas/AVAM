@@ -1,0 +1,27 @@
+<form [formGroup]="searchForm" #ngForm="ngForm" autocomplete="off">
+    <div class="avam-panel d-flex">
+        <avam-label-dropdown
+            inputClass="col-12"
+            class="col-3"
+            avamAutofocus
+            [parentForm]="searchForm"
+            controlName="elementCategory"
+            id="elementCategory"
+            [options]="categoriesOptions"
+            [hideEmptyOption]="true"
+        ></avam-label-dropdown>
+        <avam-label-calendar
+            class="col-5"
+            controlName="date"
+            [parentForm]="searchForm"
+            id="date"
+            calendarLabel="amm.administration.label.strukturanzeigen"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+        ></avam-label-calendar>
+        <div class="input-group-append d-block">
+            <button avamDisableOnSpinner class="btn btn-secondary rounded-0" type="button" ngbTooltip="{{ 'common.button.aktualisieren' | translate }}" (click)="refresh()">
+                <span class="fa fa-refresh"></span>
+            </button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,55 @@
+<avam-bew-standort-grunddaten-form #grunddatenFormComponent [grunddatenData]="grunddatenData"></avam-bew-standort-grunddaten-form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="reset()"
+        [permissions]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="moveNext()"
+        [permissions]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ organisationInfoBar }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.massnahmennr' | translate }} </b>
+        <span>{{ massnahmeId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+        <span>{{ massnahmeTitel }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+        <span>{{ zulassungstyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ unternehmensname }}</span>
+    </div>
+    <div class="item">
+        <b> {{ provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }} </b>
+        <span>{{ burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.status' | translate }} </b>
+        <span>{{ unternehmenStatus }}</span>
+    </div>
+</ng-template>

@@ -1,0 +1,49 @@
+<form class="outer-panel-height no-overflow h-100" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter p-3 sticky">
+        <div [formGroup]="searchForm" class="no-overflow h-100">
+            <h3>
+                <span class="fa fa-search mr-2"></span>
+                {{ 'verzeichnisse.label.berufe' | translate }}
+            </h3>
+            <avam-prepend-dropdown
+                controlName="gueltigkeit"
+                [parentForm]="searchForm"
+                [selectLabel]="'common.label.status'"
+                [options]="statusDropdownLabels"
+                [hideEmptyOption]="true"
+                inputClass="mt-4 mb-4"
+            ></avam-prepend-dropdown>
+            <avam-label-input
+                avamAutofocus
+                id="beruftaetigkeit"
+                controlName="beruftaetigkeit"
+                inputClass="col-lg-12 col-md-12"
+                placeholder="verzeichnisse.label.beruf"
+                [parentForm]="searchForm"
+            ></avam-label-input>
+
+            <avam-label-dropdown
+                inputClass="col-lg-12 col-md-12"
+                [parentForm]="searchForm"
+                controlName="anerkennungsform"
+                id="anerkennungsform"
+                [options]="anerkennungsoptionsDropdownLabels"
+                placeholder="{{ 'verzeichnisse.label.annerkennungsform' | translate }}"
+            >
+            </avam-label-dropdown>
+
+            <avam-label-input
+                id="bfsStammcode"
+                controlName="bfsStammcode"
+                inputClass="col-lg-12 col-md-12"
+                placeholder="verzeichnisse.label.bfsstammcode"
+                [parentForm]="searchForm"
+            ></avam-label-input>
+            <avam-berufsgruppe-autosuggest
+                [parentForm]="searchForm"
+                controlName="berufsgruppe"
+                placeholder="{{ 'verzeichnisse.label.berufart' | translate }}"
+            ></avam-berufsgruppe-autosuggest>
+        </div>
+    </div>
+</form>

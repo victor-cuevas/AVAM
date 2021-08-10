@@ -1,0 +1,84 @@
+<div class="modal-content" id="dms-templates">
+    <div class="modal-header">
+        <div>
+            <h4 class="modal-title" id="modal-basic-title">
+                <span>{{ 'dokmanager.label.dokumentenvorlagenauswaehlen' | translate }}</span>
+                <app-result-count *ngIf="tableData" [dataLength]="tableData.length"></app-result-count>
+            </h4>
+        </div>
+        <div class="sticky-actions">
+            <app-toolbox [id]="getChannel()" [formNumber]="getFormNr()" [configuration]="modalToolboxConfiguration"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body modal-dms-templates">
+        <or-notification [channel]="getChannel()"></or-notification>
+        <or-spinner [channel]="getChannel()"></or-spinner>
+        <div class="alert alert-warning" role="alert" *ngFor="let warning of warnings">
+            {{ warning | translate }}
+        </div>
+        <form [formGroup]="dokumentManagerForm" (ngSubmit)="changeLanguage()">
+            <div class="row avam-panel p-2 modal-dms-panel">
+                <h5 class="mb-2 align-self-center">{{ 'dokmanager.label.vorlagensprache' | translate }}</h5>
+                <div class="col-md-2 align-self-center">
+                    <select
+                        id="vorlagenSprache"
+                        formControlName="selectedLanguage"
+                        (change)="changeLanguage()"
+                        (keyup)="changeLanguage()"
+                        [value]="defaultSearchOption"
+                        class="form-control customdirective modal-dms-select"
+                    >
+                        <option *ngFor="let option of dropDownOptions" value="{{ option.id }}">{{ option.key | translate }}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="scrollable-modal-body pre-scrollable max-height-600 col-xl-12">
+                    <avam-dms-temp-table
+                        *ngIf="!toolboxData?.kursLamErstelltEntscheide"
+                        [dataSource]="tableData"
+                        (onItemSelected)="openDocument($event)"
+                        (onItemSaved)="saveDocument($event)"
+                    ></avam-dms-temp-table>
+                    <div *ngIf="toolboxData?.kursLamErstelltEntscheide" class="scroll-table">
+                        <avam-basic-tree-table
+                            [tree]="treeTableData"
+                            [options]="treeOptions"
+                            (onDoubleClick)="saveDocument($event)"
+                            (onEnter)="saveDocument($event)"
+                        ></avam-basic-tree-table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ getFormNr() }}</span>
+        <div class="sticky-actions">
+            <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalPrint>
+    <avam-dms-temp-table [dataSource]="tableData" [forPrinting]="true"></avam-dms-temp-table>
+</ng-template>
+
+<ng-template #actionColumnTemplate let-element="element">
+    <div *ngIf="element.children.length <= 0" class="row">
+        <button
+            ngbTooltip="{{ 'dokmanager.tooltip.dmsDossierSpeichern' | translate }}"
+            (click)="saveDocument(element)"
+            class="btn btn-primary btn-sm w-auto buttonOnHover"
+            type="button"
+        >
+            <span class="fa fa-save"> {{ 'dokmanager.label.dms' | translate }} </span>
+        </button>
+        <button
+            ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+            (click)="openDocument(element)"
+            class="fa fa-eye btn btn-secondary btn-sm buttonOnHover"
+            type="button"
+        ></button>
+    </div>
+</ng-template>

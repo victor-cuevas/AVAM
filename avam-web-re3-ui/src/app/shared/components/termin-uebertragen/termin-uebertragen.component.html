@@ -1,0 +1,89 @@
+<div class="modal-content d-block">
+    <or-spinner [channel]="'terminUebertragen'"></or-spinner>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'benutzerverwaltung.label.terminUebertragen' | translate }}
+        </h4>
+        <div class="mr-3">
+            <div class="sticky-actions">
+                <app-toolbox [configuration]="modalToolboxConfiguration" [id]="terminUebertragenToolboxId" [formNumber]="getFormNr()"></app-toolbox>
+            </div>
+        </div>
+    </div>
+
+    <div *ngFor="let alert of alertList; let i = index">
+        <ngb-alert *ngIf="alert.isShown" type="{{ alert.messageType }}" (close)="closeMessage(i)">
+            {{ alert.messageText }}
+        </ngb-alert>
+    </div>
+
+    <div class="avam-panel">
+        <form [formGroup]="emailForm" autocomplete="off">
+            <div class="form-group row">
+                <div class="col-lg-2 text-right">
+                    <label class="col-form-label">{{ 'common.label.emailFrom' | translate }}</label>
+                </div>
+                <div class="col-lg-10">
+                    <avam-label-input controlName="absender" id="absender" readOnly="true" [parentForm]="emailForm"> </avam-label-input>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-lg-2 text-right">
+                    <label for="empfaenger" class="col-form-label">{{ 'common.label.emailTo' | translate }}</label>
+                </div>
+                <div class="col-lg-9">
+                    <textarea ngbAutofocus formControlName="empfaenger" id="empfaenger" class="form-control" (keyup)="conditionallyShowWarning()" rows="2"></textarea>
+                    <div class="form-control-feedback-warn" *ngIf="emailWarning">{{ emailWarning | translate }}</div>
+                </div>
+                <div class="col-lg-1">
+                    <button *ngIf="!isUnternehmenTermin" type="button" (click)="addStesEmail()" class="btn btn-secondary">
+                        <span class="fa fa-at"></span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-lg-2 text-right">
+                    <label class="col-form-label">{{ 'common.label.betreff' | translate }}</label>
+                </div>
+                <div class="col-lg-10">
+                    <avam-label-input controlName="betreff" id="betreff" readOnly="true" [parentForm]="emailForm"> </avam-label-input>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-lg-2 text-right">
+                    <label class="col-form-label">{{ 'common.label.anhang' | translate }}</label>
+                </div>
+                <div class="col-lg-10">
+                    <avam-label-input controlName="anhang" id="anhang" readOnly="true" [parentForm]="emailForm"> </avam-label-input>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-lg-2 text-right">
+                    <label for="nachricht" class="col-form-label">{{ 'common.label.nachricht' | translate }}</label>
+                </div>
+                <div class="col-lg-10">
+                    <textarea id="nachricht" formControlName="nachricht" class="form-control" readonly="true" rows="15"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <span>{{ getFormNr() }}</span>
+        <div class="sticky-actions">
+            <button type="button" class="btn btn-link" (click)="close()">
+                {{ 'common.button.abbrechen' | translate }}
+            </button>
+            <button type="reset" (click)="reset()" class="btn btn-link" *ngIf="editButtonsVisible">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+            <button (click)="sendMail()" type="submit" class="btn btn-primary" *ngIf="editButtonsVisible">
+                <span>{{ 'common.alttext.emailversenden' | translate }}</span>
+            </button>
+        </div>
+    </div>
+</div>

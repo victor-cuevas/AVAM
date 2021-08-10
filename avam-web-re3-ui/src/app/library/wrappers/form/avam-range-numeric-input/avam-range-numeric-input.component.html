@@ -1,0 +1,57 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="row mb-2 {{ mainWrapperClass }}">
+    <div *ngIf="label" [ngClass]="labelWrapperClass ? labelWrapperClass : 'col-lg-4 col-md-4'" class="text-right align-self-start">
+        <label for="range-numeric-input" class="col-form-label {{ labelClass }}">{{ label | translate }}</label>
+    </div>
+    <div [ngClass]="label ? (inputFieldsWrapperClass ? inputFieldsWrapperClass : 'col-lg-8 col-md-8') : 'col-lg-12 col-md-12'" class="d-flex pr-0">
+        <div class="d-flex left-input-container w-150px align-items-start mr-4 {{ minInputWrapperClass }}">
+            <span class="input-group-text input-group-prepend d-block flex-shrink-0 flex-grow-0 flex-basis-auto w-60px {{ minLabelClass }}">{{ minLabel | translate }}</span>
+            <div [hidden]="isReadOnly && !coreReadOnly" orFormControlState class="flex-shrink-1 flex-grow-1 flex-basis-100-60">
+                <core-input
+                    #coreInputMin
+                    dynamicControlName
+                    [formControlName]="minInputControlName"
+                    [placeholder]="placeholderMin"
+                    [max]="maxValueMinInput"
+                    [disableControl]="isDisabled"
+                    [coreReadOnly]="coreReadOnly"
+                    [coreReadOnlyClearButton]="coreReadOnlyClearButton"
+                    (onInput)="inputMin($event)"
+                    (onClear)="clearMin($event)"
+                    (onChange)="changeMin($event)"
+                    (onKeyup)="keyupMin($event)"
+                    (onBlur)="blurMin($event)"
+                    [type]="minFieldType"
+                ></core-input>
+                <or-error-messages></or-error-messages>
+            </div>
+            <div [hidden]="!isReadOnly" class="pl-3 align-self-center">
+                {{ minReadOnlyValue }}
+            </div>
+        </div>
+        <div class="d-flex right-input-container w-150px align-items-start {{ maxInputWrapperClass }}">
+            <span class="input-group-text input-group-prepend d-block flex-shrink-0 flex-grow-0 flex-basis-auto w-60px {{ maxLabelClass }}">{{ maxLabel | translate }}</span>
+            <div [hidden]="isReadOnly && !coreReadOnly" orFormControlState class="flex-shrink-1 flex-grow-1 flex-basis-100-60">
+                <core-input
+                    #coreInputMax
+                    dynamicControlName
+                    [formControlName]="maxInputControlName"
+                    [placeholder]="placeholderMax"
+                    [max]="maxValueMaxInput"
+                    [disableControl]="isDisabled"
+                    [coreReadOnly]="coreReadOnly"
+                    [coreReadOnlyClearButton]="coreReadOnlyClearButton"
+                    (onInput)="inputMax($event)"
+                    (onClear)="clearMax($event)"
+                    (onChange)="changeMax($event)"
+                    (onKeyup)="keyupMax($event)"
+                    (onBlur)="blurMax($event)"
+                    [type]="maxFieldType"
+                ></core-input>
+                <or-error-messages></or-error-messages>
+            </div>
+            <div [hidden]="!isReadOnly || coreReadOnly" class="pl-3 align-self-center">
+                {{ maxReadOnlyValue }}
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="d-block">
+    <avam-date-range-form #searchForm [data]="data" label="amm.abrechnungen.label.ausfuehrungsdatum" (onDataRefresh)="search()"></avam-date-range-form>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-abrechnungen-suchen-table *ngIf="dataSource" [dataSource]="dataSource" (onItemSelected)="itemSelected($event)"></avam-abrechnungen-suchen-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #modalPrint>
+    <avam-abrechnungen-suchen-table *ngIf="dataSource" [dataSource]="dataSource" [forPrinting]="true"></avam-abrechnungen-suchen-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="navigateToCreate()">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'amm.abrechnungen.button.abrechnungerfassen' | translate }}
+    </button>
+</ng-template>

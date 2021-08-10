@@ -1,0 +1,27 @@
+<div [formGroup]="parentForm" class="form-group row">
+    <div *ngIf="label" class="col-lg-4 col-md-4 text-right">
+        <label for="input-group" class="col-form-label">{{ label | translate }}</label>
+    </div>
+    <div [ngClass]="label == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8'" class="d-flex flex-wrap">
+        <div formArrayName="inputGroup" *ngFor="let item of parentForm.controls.inputGroup['controls']; let i = index" class="w-100">
+            <div [formGroupName]="i">
+                <div class="d-flex flex-column" orFormControlState>
+                    <div class="d-flex flex-nowrap w-100">
+                        <div class="w-75">
+                            <core-input formControlName="inputControl" [placeholder]="placeholder" [coreReadOnly]="isReadOnly"></core-input>
+                        </div>
+                        <div class="input-group-append d-flex flex-nowrap mb-2 flex-shrink-0 flex-grow-0" *ngIf="!isReadOnly">
+                            <button type="button" *ngIf="inputGroup?.length > 1" (click)="removeItem(i)" class="btn btn-secondary ml-1">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                            <button type="button" *ngIf="i == inputGroup?.length - 1" (click)="addItem()" class="btn btn-secondary ml-1">
+                                <span class="fa fa-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <or-error-messages></or-error-messages>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

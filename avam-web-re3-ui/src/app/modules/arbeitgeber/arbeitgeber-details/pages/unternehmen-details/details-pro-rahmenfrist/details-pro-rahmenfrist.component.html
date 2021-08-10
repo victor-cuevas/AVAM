@@ -1,0 +1,34 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+        {{ 'kaeswe.label.rahmenfristen' | translate }}
+        <app-result-count [dataLength]="dataSource.length"></app-result-count>
+    </h4>
+    <div class="mr-3">
+        <app-toolbox [configuration]="modalToolboxConfiguration" [id]="toolboxId"></app-toolbox>
+    </div>
+</div>
+<div class="modal-body scrollable-modal-body pre-scrollable max-height-none">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="row mb-4">
+        <div class="links col-xl-6">
+            <div class="avam-panel h-100">
+                <app-paragraph id="unternehmensname1" label="{{ 'arbeitgeber.label.unternehmensname1' }}" [value]="commonRahmenfristenData?.name1"></app-paragraph>
+                <app-paragraph id="unternehmensname2" label="{{ 'arbeitgeber.label.unternehmensname2' }}" [value]="commonRahmenfristenData?.name2"></app-paragraph>
+                <app-paragraph id="unternehmensname3" label="{{ 'arbeitgeber.label.unternehmensname3' }}" [value]="commonRahmenfristenData?.name3"> </app-paragraph>
+                <app-paragraph id="strasseNr" label="{{ 'common.label.strassenr' }}" [value]="commonRahmenfristenData?.strasseNr"></app-paragraph>
+                <app-paragraph id="plzOrt" label="{{ 'common.label.plzort' }}" [value]="commonRahmenfristenData?.plzOrt"></app-paragraph>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel h-100">
+                <app-paragraph id="burNr" label="{{ 'unternehmen.label.burnummer' }}" [value]="getBurNr(commonRahmenfristenData?.burNr)"></app-paragraph>
+                <app-paragraph id="provBurNr" label="{{ 'arbeitgeber.label.provBurNr' }}" [value]="getBurNr(commonRahmenfristenData?.provBurNr)"></app-paragraph>
+            </div>
+        </div>
+    </div>
+    <avam-details-pro-rahmenfrist-table [dataSource]="dataSource"></avam-details-pro-rahmenfrist-table>
+</div>
+<div class="modal-footer justify-content-between">
+    <span>{{ uiNumber }}</span>
+    <button class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+</div>

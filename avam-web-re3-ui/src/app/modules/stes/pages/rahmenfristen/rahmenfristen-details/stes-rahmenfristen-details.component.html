@@ -1,0 +1,160 @@
+<div class="row" *ngIf="rahmenfristData">
+    <or-spinner [channel]="rahmenfristenDetailsChannel"></or-spinner>
+    <div class="rechts col-xl-6">
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'common.label.rahmenfrist' | translate }}</h3>
+            </label>
+            <app-paragraph id="alkZahlstelle" label="{{ 'stes.asal.label.alkZahlstelle' }}" [value]="rahmenfristData.alkZahlstelleNr"></app-paragraph>
+            <app-paragraph id="rahmenfristNr" label="{{ 'stes.asal.label.rahmenfristNr' }}" [value]="rahmenfristData.rahmenfristNr"></app-paragraph>
+            <app-paragraph id="dauerVon" label="{{ 'stes.asal.label.dauerVon' }}" [value]="rahmenfristData.dauerVon ? rahmenfristData.dauerVon : ''"></app-paragraph>
+            <app-paragraph id="bis" label="{{ 'stes.asal.label.bis' }}" [value]="rahmenfristData.dauerBis ? rahmenfristData.dauerBis : ''"></app-paragraph>
+            <app-paragraph
+                id="verlaengerungsgrund"
+                label="{{ 'stes.asal.label.verlaengerungsgrund' }}"
+                [value]="rahmenfristData.verlaengerungsgrund !== 'null' ? rahmenfristData.verlaengerungsgrund : ''"
+            ></app-paragraph>
+            <app-paragraph
+                id="anspruch"
+                label="{{ 'stes.asal.label.anspruch' }}"
+                [value]="rahmenfristData.anspruchText !== 'null' ? rahmenfristData.anspruchText : ''"
+            ></app-paragraph>
+        </div>
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'stes.asal.label.beitragsdauer' | translate }}</h3>
+            </label>
+            <app-double-paragraph
+                id="beitragsdauerBeitragsRF"
+                label="{{ 'stes.asal.label.beitragsdauerBeitragsRF' }}"
+                [value1]="rahmenfristData.beitragsdauerBeitragsRF | formatNumber: '1'"
+                [value2]="'stes.asal.label.monate' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="beitragsdauerAusland"
+                label="{{ 'stes.asal.label.beitragsdauerAusland' }}"
+                [value1]="rahmenfristData.beitragsdauerAusland | formatNumber: '1'"
+                [value2]="'stes.asal.label.monate' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+        </div>
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'stes.asal.label.beschaeftigungsgrade' | translate }}</h3>
+            </label>
+            <app-double-paragraph
+                id="versicherterVerdienst"
+                label="{{ 'stes.asal.label.versicherterVerdienst' }}"
+                [value1]="rahmenfristData.versicherterVerdienstProzent | formatNumber: '2'"
+                [value2]="'common.label.prozentzeichen' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="vermittlung"
+                label="{{ 'stes.asal.label.vermittlung' }}"
+                [value1]="rahmenfristData.vermittlung | formatNumber: '2'"
+                [value2]="'common.label.prozentzeichen' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+        </div>
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'stes.asal.label.zahlungsstopp' | translate }}</h3>
+            </label>
+            <app-paragraph
+                id="zahlungsstoppBis"
+                label="{{ 'stes.asal.label.zahlungsstoppBis' }}"
+                [value]="rahmenfristData.zahlungsstoppBis ? rahmenfristData.zahlungsstoppBis : ''"
+            ></app-paragraph>
+            <app-paragraph
+                id="grund"
+                label="{{ 'stes.asal.label.grund' }}"
+                [value]="rahmenfristData.zahlungsstoppGrund !== 'null' ? rahmenfristData.zahlungsstoppGrund : ''"
+            ></app-paragraph>
+        </div>
+    </div>
+    <div class="links col-xl-6">
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'stes.asal.label.anseatze' | translate }}</h3>
+            </label>
+            <app-double-paragraph
+                id="versicherterVerdienst"
+                label="{{ 'stes.asal.label.versicherterVerdienst' }}"
+                [value1]="rahmenfristData.versicherterVerdienstCHF | formatSwissFranc"
+                [value2]="'stes.asal.label.chf' | translate"
+            ></app-double-paragraph>
+            <app-paragraph
+                id="pauschalCodeV"
+                label="{{ 'stes.asal.label.pauschalCodeV' }}"
+                [value]="rahmenfristData.pauschalCode !== 'null' ? rahmenfristData.pauschalCode : ''"
+            ></app-paragraph>
+            <app-double-paragraph
+                id="hoechstgrenze"
+                label="{{ 'stes.asal.label.hoechstgrenze' }}"
+                [value1]="rahmenfristData.hoechstgrenze | formatNumber: '1'"
+                [value2]="'amm.nutzung.label.tage' | translate"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="taggeldsatz"
+                label="{{ 'stes.asal.label.taggeldsatz' }}"
+                [value1]="rahmenfristData.taggeldsatz | formatNumber: '2'"
+                [value2]="'common.label.prozentzeichen' | translate"
+            ></app-double-paragraph>
+            <app-paragraph id="ivCode" label="{{ 'stes.asal.label.ivCode' }}" [value]="rahmenfristData.ivCode !== 'null' ? rahmenfristData.ivCode : ''"></app-paragraph>
+        </div>
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'stes.asal.label.letzteAktualisierung' | translate }}</h3>
+            </label>
+            <app-paragraph id="nameVorname" label="{{ 'stes.label.nameVorname' }}" [value]="rahmenfristData.raAusloeserNameVorname"></app-paragraph>
+            <app-paragraph id="telefon" label="{{ 'stes.label.telefon' }}" [value]="rahmenfristData.raAusloeserTel"></app-paragraph>
+
+            <div class="row mb-2">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label>{{ 'stes.label.email' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 ">
+                    <a class="p-value-left-12" ngbTooltip="{{ 'common.button.emailSenden' | translate }}" [href]="'mailto:' + rahmenfristData.raAusloeserEmail">
+                        {{ rahmenfristData?.raAusloeserEmail }}</a
+                    >
+                </div>
+            </div>
+        </div>
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'stes.asal.label.eckdatenStellenuche' | translate }}</h3>
+            </label>
+            <app-double-paragraph
+                id="dauerStellensuche"
+                label="{{ 'stes.asal.label.dauerStellensuche' }}"
+                [value1]="rahmenfristData.dauerStellensuche | formatNumber: '1'"
+                [value2]="'amm.nutzung.label.tage' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="lzaSeit"
+                label="{{ 'stes.asal.label.lzaSeit' }}"
+                [value1]="rahmenfristData.langzeitarbeitslosSeit | formatNumber: '1'"
+                [value2]="'amm.nutzung.label.tage' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="restTaggelderBisAussteuerung"
+                label="{{ 'stes.asal.label.restTaggelderBisAussteuerung' }}"
+                [value1]="rahmenfristData.restTaggelderBisAussteuerung | formatNumber: '1'"
+                [value2]="'amm.nutzung.label.tage' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+        </div>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

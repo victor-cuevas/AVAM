@@ -1,0 +1,22 @@
+<div class="modal-content d-block">
+    <or-spinner [channel]="regionenAuswaehlenChannel"></or-spinner>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'stes.label.regionauswaehlen' | translate }}
+            <app-result-count [dataLength]="dataSource.length"></app-result-count>
+        </h4>
+        <div class="mr-3">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [id]="regionentoolboxId" [formNumber]="getFormNr()"></app-toolbox>
+        </div>
+    </div>
+
+    <avam-regionen-auswaehlen-table [dataSource]="dataSource" sortField="code" (onItemSelected)="receiveData($event)"></avam-regionen-auswaehlen-table>
+
+    <div class="modal-footer justify-content-between">
+        <span>{{ getFormNr() }}</span>
+        <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+    </div>
+</div>
+<ng-template #modalPrint>
+    <avam-regionen-auswaehlen-table [isPrintTable]="true" [dataSource]="dataSource" sortField="code"></avam-regionen-auswaehlen-table>
+</ng-template>

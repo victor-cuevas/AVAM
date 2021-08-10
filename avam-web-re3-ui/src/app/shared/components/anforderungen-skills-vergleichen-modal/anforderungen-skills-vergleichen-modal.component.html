@@ -1,0 +1,47 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-basic-title">
+            <span>{{ 'stes.label.stellenbeschreibungundskillsgegenueberstellen' | translate }} </span>
+        </h3>
+        <div class="mr-3">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [formNumber]="formNumber"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <table class="table-bordered w-100">
+            <tr>
+                <th class="w-50 p-1">
+                    <span class="title-line">{{ 'stes.label.vermittlung.stellenangebot' | translate }}</span>
+                    <span class="title-line">{{ 'arbeitgeber.label.stellenbeschreibung' | translate }}</span>
+                </th>
+                <th class="w-50 p-1">
+                    <span class="title-line">{{ 'arbeitgeber.label.stellensuchender' | translate }}</span>
+                    <span class="title-line">{{ 'stes.label.skills' | translate }}</span>
+                </th>
+            </tr>
+            <tr class="content-row">
+                <td>
+                    <div class="area-text-content p-2 d-block">
+                        <ng-container *ngFor="let item of beschreibung">
+                            <span class="text-break d-block mt-2">{{ item }}</span>
+                        </ng-container>
+                    </div>
+                </td>
+                <td>
+                    <div class="area-text-content p-2">
+                        <div class="d-block mt-2" *ngFor="let qualifikation of qualifikationen">
+                            <span class="text-break d-block">{{ qualifikation.berufsTaetigkeitObject | dbTranslate: 'bezeichnungMa' }}:</span>
+                            <ng-container *ngFor="let bemerkung of formatText(qualifikation.bemerkungen)">
+                                <span class="text-break d-block mt-1">{{ bemerkung }}</span>
+                            </ng-container>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button ngbAutofocus type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

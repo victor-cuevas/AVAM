@@ -1,0 +1,18 @@
+<avam-infotag-massnahme-beschreibung-form #beschreibungForm [beschreibungData]="beschreibungData"></avam-infotag-massnahme-beschreibung-form>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="previous()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button avamDisableOnSpinner class="btn btn-primary ml-1" type="button" (click)="finish()">
+        {{ 'common.button.fertigstellen' | translate }}
+    </button>
+</ng-template>

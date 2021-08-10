@@ -1,0 +1,22 @@
+<div class="overflow-auto-custom">
+    <or-spinner [channel]="vermittlungenChannel"></or-spinner>
+    <avam-arbeitsvermittlungen-table [dataSource]="arbeitsvermittlungTableData" (onItemSelected)="itemSelected($event)"></avam-arbeitsvermittlungen-table>
+</div>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="arbeitsvermittlungTableData">
+        <avam-arbeitsvermittlungen-table [dataSource]="arbeitsvermittlungTableData"></avam-arbeitsvermittlungen-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #buttons>
+    <ng-container *ngIf="!footerButtonsHidden">
+        <button class="btn btn-secondary ml-1" (click)="navigateSchnellZuweisungErfassen()" [permissions]="[permissions.STES_SCHNELLZUWEISUNG_BEARBEITEN]">
+            <i class="fa fa-plus mr-2"></i>{{ 'common.button.schnellzuweisungErfassen' | translate }}
+        </button>
+        <button class="btn btn-primary ml-1" (click)="navigateVermittlungErfassen()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+            <i class="fa fa-plus mr-2"></i>{{ 'common.button.vermittlungErfassen' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>

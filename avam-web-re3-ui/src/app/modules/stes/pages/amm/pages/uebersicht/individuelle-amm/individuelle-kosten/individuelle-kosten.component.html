@@ -1,0 +1,192 @@
+<form [formGroup]="kostenForm" #ngForm="ngForm" closeBrowserTab [form]="kostenForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="col-xl-12 col-lg-12">
+            <div class="avam-panel">
+                <div class="row mb-2">
+                    <div class="col-xl-4 col-lg-4">
+                        <avam-currency-input
+                            controlName="kurskosten"
+                            [parentForm]="kostenForm"
+                            label="amm.nutzung.label.kurskosten"
+                            secondaryLabel="common.label.chf"
+                            id="kurskosten"
+                            customInputClass="{{ !readOnly ? 'col-md-4' : 'col-md-4 flex-row-reverse' }}"
+                            [readOnly]="readOnly"
+                        ></avam-currency-input>
+                    </div>
+                    <div class="col-xl-4 col-lg-4">
+                        <avam-label-dropdown
+                            [parentForm]="kostenForm"
+                            controlName="kurskostenAn"
+                            id="kurskostenAn"
+                            [options]="kostenOptionsNoPruefungsinstitution"
+                            selectLabel="{{ 'amm.nutzung.label.an' }}"
+                            [readOnly]="readOnly"
+                        ></avam-label-dropdown>
+                    </div>
+                </div>
+                <hr class="hr-thin mb-2" />
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4">
+                        <avam-currency-input
+                            controlName="material"
+                            [parentForm]="kostenForm"
+                            label="amm.nutzung.label.materialkosten"
+                            secondaryLabel="common.label.chf"
+                            id="material"
+                            customInputClass="{{ !readOnly ? 'col-md-4' : 'col-md-4 flex-row-reverse' }}"
+                            customSecondaryLabelClass="col-lg-4 col-md-4 align-self-center"
+                            (onChange)="toggleRequired($event.target.value, 'materialAn')"
+                            [readOnly]="readOnly"
+                        ></avam-currency-input>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 align-self-center">
+                        <avam-label-dropdown
+                            [parentForm]="kostenForm"
+                            controlName="materialAn"
+                            id="materialAn"
+                            [options]="kostenOptionsNoPruefungsinstitution"
+                            selectLabel="{{ 'amm.nutzung.label.an' }}"
+                            [readOnly]="readOnly"
+                        ></avam-label-dropdown>
+                    </div>
+                </div>
+                <hr class="hr-thin" />
+                <div class="row mb-2">
+                    <div class="col-xl-4 col-lg-4">
+                        <avam-currency-input
+                            controlName="pruefungsgebuehren"
+                            [parentForm]="kostenForm"
+                            label="amm.nutzung.label.pruefungskosten"
+                            secondaryLabel="common.label.chf"
+                            id="pruefungsgebuehren"
+                            customInputClass="{{ !readOnly ? 'col-md-4' : 'col-md-4 flex-row-reverse' }}"
+                            (onChange)="toggleRequired($event.target.value, 'pruefungsgebuehrenAn')"
+                            [readOnly]="readOnly"
+                        ></avam-currency-input>
+                    </div>
+                    <div class="col-xl-4 col-lg-4">
+                        <avam-label-dropdown
+                            [parentForm]="kostenForm"
+                            controlName="pruefungsgebuehrenAn"
+                            id="pruefungsgebuehrenAn"
+                            [options]="kostenOptions"
+                            (onChange)="togglePruefungsinstitutionVisibility($event)"
+                            selectLabel="{{ 'amm.nutzung.label.an' }}"
+                            [readOnly]="readOnly"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="col-xl-4 col-lg-4" [hidden]="!showPruefungsinstitution">
+                        <avam-unternehmen-autosuggest
+                            [parentForm]="kostenForm"
+                            controlName="pruefungsinstitution"
+                            componentLabel="amm.nutzung.label.pruefungsinstitution"
+                            suchePlusLabel="amm.nutzung.label.pruefungsinstitution"
+                            isAvamOnly="true"
+                            [readOnly]="readOnly"
+                        ></avam-unternehmen-autosuggest>
+                    </div>
+                </div>
+                <hr class="hr-thick" />
+                <div class="row mb-2">
+                    <div class="col-xl-4 col-lg-4 px-0 d-flex">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label id="kurskostenTotal">{{ 'amm.nutzung.label.totalKosten' | translate }}</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <p>{{ kostenData?.kurskostenTotal | formatSwissFranc }}</p>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            {{ 'common.label.chf' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="row mb-2">
+                            <div class="col-xl-4 col-lg-4 text-right">
+                                <label>{{ 'amm.nutzung.label.anzahlKurstage' | translate }}</label>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 w-100 text-right">
+                                <p class="mb-2">{{ buchungData?.anzahlKurstage }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 px-0 d-flex">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label id="kostenProTag">{{ 'amm.nutzung.label.kostenprotag' | translate }}</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <p>{{ kostenData?.kostenProTag | formatSwissFranc }}</p>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            {{ 'common.label.chf' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4">
+                        <div class="row mb-2">
+                            <div class="col-xl-4 col-lg-4 text-right">
+                                <label>{{ 'amm.nutzung.label.anzahlLektionen' | translate }}</label>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 w-100 text-right">
+                                <p class="mb-2">{{ buchungData?.anzahlLektionen }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 px-0 d-flex">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label id="kostenProLektion">{{ 'amm.nutzung.label.kostenprolektion' | translate }}</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <p>{{ kostenData?.kostenProLektion | formatSwissFranc }}</p>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            {{ 'common.label.chf' | translate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR, ammButtonTypesEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_DATEN_UEBERNEHMBAR])"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="onLamWerteUebernehmen()"
+    >
+        {{ 'amm.nutzung.button.lamWerteUebernehmen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR])" class="btn btn-secondary ml-1" type="button" (click)="onBerechnen()">
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button></ng-template
+>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'common.label.entscheidnr' | translate }} </b>
+        <span>{{ entscheidNr }}</span>
+    </div>
+</ng-template>

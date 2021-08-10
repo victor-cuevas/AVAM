@@ -1,0 +1,136 @@
+<form [formGroup]="fseKostenForm" #ngForm="ngForm" closeBrowserTab [form]="fseKostenForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.gesuchstyp' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p>{{ fseKostenData?.gesuchTypIdObject | dbTranslate: 'text' }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.planungsphasegemaessgesuch' | translate }}</h3>
+                </label>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'amm.nutzung.label.datum' }}"
+                    [parentForm]="fseKostenForm"
+                    formControlNameFrom="planungsbeginnGesuch"
+                    formControlNameTo="planungsendeGesuch"
+                    [isResponsive]="true"
+                    [readOnly]="'all'"
+                ></avam-date-range-picker>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.anzahlarbeitstage' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="mb-2">{{ fseKostenData?.anzahlArbeitstageGesuch }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.bewilligteplanungsphase' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    avamAutofocus
+                    selectLabel="{{ 'amm.nutzung.label.berechnentyp' }}"
+                    [parentForm]="fseKostenForm"
+                    controlName="berechnungsmodus"
+                    id="berechnungsmodus"
+                    [options]="berechnenTypOptions"
+                    (onChange)="setRequiredFields($event)"
+                    [readOnly]="disableFieldsByEntscheidStatus"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'amm.nutzung.label.datum' }}"
+                    [parentForm]="fseKostenForm"
+                    formControlNameFrom="ausrichtungVon"
+                    formControlNameTo="ausrichtungBis"
+                    [isResponsive]="true"
+                    [readOnly]="disableFieldsByEntscheidStatus ? 'all' : ''"
+                ></avam-date-range-picker>
+                <avam-label-input
+                    controlName="anzahlArbeitstage"
+                    selectLabel="{{ 'amm.nutzung.label.anzahlarbeitstage' | translate }}"
+                    [parentForm]="fseKostenForm"
+                    [inputClass]="'col-lg-2 col-md-2'"
+                    [readOnly]="disableFieldsByEntscheidStatus"
+                ></avam-label-input>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.taggelder' | translate }}</h3>
+                </label>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.abgerechnete' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <div class="row ml-0">
+                            <p>{{ fseKostenData?.taggelderAbgerechnet }}</p>
+                            <p class="ml-2">{{ 'amm.nutzung.label.von' | translate }}</p>
+                            <p class="ml-2">{{ fseKostenData?.taggelderGesamt }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.verbleibende' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p>{{ fseKostenData?.taggelderOffen }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.letztekontrollperiode' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p>{{ fseKostenData?.letzteKontrollperiode }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(fseKostenButtons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR, ammButtonsTypeEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="(fseKostenButtons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-secondary ml-1" type="button" (click)="onBerechnen()">
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button *ngIf="(fseKostenButtons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button></ng-template
+>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'common.label.entscheidnr' | translate }} </b>
+        <span>{{ entscheidNr }}</span>
+    </div>
+</ng-template>

@@ -1,0 +1,33 @@
+<div class="row mb-2" [formGroup]="parentForm">
+    <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div class="col-lg-8 col-md-8">
+        <div [formArrayName]="controlName" *ngFor="let item of parentForm.controls[controlName]['controls']; let i = index">
+            <div [formGroupName]="i">
+                <div class="d-flex flex-nowrap">
+                    <div class="w-100">
+                        <avam-unternehmen-autosuggest
+                            [hidden]="isReadOnly"
+                            id="branche"
+                            [parentForm]="item"
+                            controlName="branche"
+                            [placeholder]="placeholder"
+                            [isAvamOnly]="isAvamOnly"
+                            [suchePlusLabel]="suchePlusLabel"
+                        ></avam-unternehmen-autosuggest>
+                        <input *ngIf="isReadOnly" disabled [value]="readOnlyValues[i]" class="form-control mb-2" />
+                    </div>
+                    <div class="input-group-append d-flex flex-nowrap mb-2">
+                        <button type="button" *ngIf="branchen.length !== 1" [disabled]="isReadOnly" (click)="removeItem(i)" class="btn btn-secondary ml-1">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                        <button *ngIf="i == branchen.length - 1 && !isReadOnly" (click)="addItem()" type="button" class="btn btn-secondary ml-1">
+                            <span class="fa fa-plus"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

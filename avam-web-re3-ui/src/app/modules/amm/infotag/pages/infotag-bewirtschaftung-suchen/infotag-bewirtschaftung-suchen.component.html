@@ -1,0 +1,31 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <avam-infotag-bewirtschaftung-suchen-form #infotagSuchenForm (onEnter)="search()" [infotagData]="infotagData"></avam-infotag-bewirtschaftung-suchen-form>
+        <or-spinner [channel]="searchSpinnerChannel"></or-spinner>
+    </div>
+
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button avamDisableOnSpinner type="submit" class="btn btn-primary" (click)="search()">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="default-layout">
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <or-spinner [channel]="tableSpinnerChannel"></or-spinner>
+        <avam-infotag-bewirtschaftung-suchen-table [dataSource]="dataSource" (onItemSelected)="itemSelected($event)"></avam-infotag-bewirtschaftung-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-infotag-bewirtschaftung-suchen-table [dataSource]="dataSource" [hideTableButton]="true"></avam-infotag-bewirtschaftung-suchen-table>
+    </avam-generic-table-print>
+</ng-template>

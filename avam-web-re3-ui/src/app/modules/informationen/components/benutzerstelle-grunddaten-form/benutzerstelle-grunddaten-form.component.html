@@ -1,0 +1,188 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel h-100">
+                <avam-label-input
+                    avamAutofocus
+                    id="benutzerstelleId"
+                    controlName="benutzerstelleId"
+                    [parentForm]="formGroup"
+                    [readOnly]="benutzerstelleIdReadOnly"
+                    selectLabel="{{ 'verzeichnisse.label.code' }}"
+                ></avam-label-input>
+                <avam-label-dropdown
+                    [parentForm]="formGroup"
+                    controlName="benutzerstelleTyp"
+                    id="benutzerstelleTyp"
+                    [options]="benutzerstelleTypOptions"
+                    [readOnly]="benutzerTypReadOnly"
+                    selectLabel="{{ 'verzeichnisse.label.benutzerstelletyp' }}"
+                    placeholder="{{ 'stes.placeholder.select.waehlen' | translate }}"
+                ></avam-label-dropdown>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel h-100">
+                <avam-label-input
+                    [parentForm]="formGroup"
+                    controlName="telefon"
+                    id="telefon"
+                    selectLabel="verzeichnisse.label.telefon"
+                    placeholder="{{ 'stes.placeholder.mobile' }}"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="formGroup"
+                    controlName="fax"
+                    id="fax"
+                    selectLabel="verzeichnisse.label.telefax"
+                    placeholder="{{ 'stes.placeholder.fax' }}"
+                ></avam-label-input>
+                <app-email-input [parentForm]="formGroup" controlName="email" id="email" placeholder="{{ 'stes.placeholder.email' }}" [emailButton]="false"></app-email-input>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="min-height: 10px"></div>
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <div class="row" style="margin-left: -10px">{{ 'benutzerverwaltung.label.postadresse' | translate }}</div>
+                <div class="row">
+                    <span style="width: 1em; text-align: right">D</span>
+                    <div class="col" style="position:relative; margin-left: -1em">
+                        <app-textarea
+                            id="benutzerstellePostD"
+                            formControlName="benutzerstellePostD"
+                            selectLabel="verzeichnisse.label.benutzerstelle"
+                            customFormControlState
+                            [maxLength]="255"
+                            (blurHandler)="onBlurPost($event)"
+                        ></app-textarea>
+                    </div>
+                </div>
+                <ng-container [ngTemplateOutlet]="adresseTemplate" [ngTemplateOutletContext]="{ language: 'D', groupName: 'postadresseD', hasPostfach: true }"> </ng-container>
+                <hr />
+                <div class="row">
+                    <span style="width: 1em; text-align: right">F</span>
+                    <div class="col" style="position:relative; margin-left: -1em">
+                        <app-textarea
+                            id="benutzerstellePostF"
+                            formControlName="benutzerstellePostF"
+                            selectLabel="verzeichnisse.label.benutzerstelle"
+                            customFormControlState
+                            [maxLength]="255"
+                            (blurHandler)="onBlurPost($event)"
+                        ></app-textarea>
+                    </div>
+                </div>
+                <ng-container [ngTemplateOutlet]="adresseTemplate" [ngTemplateOutletContext]="{ language: 'F', groupName: 'postadresseF', hasPostfach: true }"> </ng-container>
+                <hr />
+                <div class="row">
+                    <span style="width: 1em; text-align: right">I</span>
+                    <div class="col" style="position:relative; margin-left: -1em">
+                        <app-textarea
+                            id="benutzerstellePostI"
+                            formControlName="benutzerstellePostI"
+                            selectLabel="verzeichnisse.label.benutzerstelle"
+                            customFormControlState
+                            [maxLength]="255"
+                            (blurHandler)="onBlurPost($event)"
+                        ></app-textarea>
+                    </div>
+                </div>
+                <ng-container [ngTemplateOutlet]="adresseTemplate" [ngTemplateOutletContext]="{ language: 'I', groupName: 'postadresseI', hasPostfach: true }"> </ng-container>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <div class="row" style="margin-left: -10px">{{ 'benutzerverwaltung.label.standortadresse' | translate }}</div>
+                <div class="row">
+                    <span style="width: 1em; text-align: right">D</span>
+                    <div class="col" style="position:relative; margin-left: -1em">
+                        <app-textarea
+                            id="benutzerstelleStandortD"
+                            formControlName="benutzerstelleStandortD"
+                            selectLabel="verzeichnisse.label.benutzerstelle"
+                            customFormControlState
+                            [maxLength]="255"
+                            (blurHandler)="onBlurStandort($event)"
+                        ></app-textarea>
+                    </div>
+                </div>
+                <ng-container [ngTemplateOutlet]="adresseTemplate" [ngTemplateOutletContext]="{ language: 'D', groupName: 'standortadresseD', hasPostfach: false }"> </ng-container>
+                <hr />
+                <div class="row">
+                    <span style="width: 1em; text-align: right">F</span>
+                    <div class="col" style="position:relative; margin-left: -1em">
+                        <app-textarea
+                            id="benutzerstelleStandortF"
+                            formControlName="benutzerstelleStandortF"
+                            selectLabel="verzeichnisse.label.benutzerstelle"
+                            customFormControlState
+                            [maxLength]="255"
+                            (blurHandler)="onBlurStandort($event)"
+                        ></app-textarea>
+                    </div>
+                </div>
+                <ng-container [ngTemplateOutlet]="adresseTemplate" [ngTemplateOutletContext]="{ language: 'F', groupName: 'standortadresseF', hasPostfach: false }"> </ng-container>
+                <hr />
+                <div class="row">
+                    <span style="width: 1em; text-align: right">I</span>
+                    <div class="col" style="position:relative; margin-left: -1em">
+                        <app-textarea
+                            id="benutzerstelleStandortI"
+                            formControlName="benutzerstelleStandortI"
+                            selectLabel="verzeichnisse.label.benutzerstelle"
+                            customFormControlState
+                            [maxLength]="255"
+                            (blurHandler)="onBlurStandort($event)"
+                        ></app-textarea>
+                    </div>
+                </div>
+                <ng-container [ngTemplateOutlet]="adresseTemplate" [ngTemplateOutletContext]="{ language: 'I', groupName: 'standortadresseI', hasPostfach: false }"> </ng-container>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #adresseTemplate let-language="language" let-groupName="groupName" let-hasPostfach="hasPostfach">
+    <div class="print-block row">
+        <div class="col" style="position:relative">
+            <div>
+                <avam-label-input
+                    [parentForm]="formGroup.controls[groupName]"
+                    controlName="strasse"
+                    [inputClass]="'col-lg-5 col-md-5'"
+                    selectLabel="{{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}"
+                    (onChange)="onStrasseChange($event, hasPostfach)"
+                ></avam-label-input>
+            </div>
+            <div class="col-lg-3 col-md-3 align-col">
+                <avam-label-input
+                    [parentForm]="formGroup.controls[groupName]"
+                    controlName="strasseNr"
+                    [inputClass]="'col-lg-12 col-md-12'"
+                    (onChange)="onStrasseNrChange($event, hasPostfach)"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+    <avam-label-input
+        *ngIf="hasPostfach"
+        [parentForm]="formGroup.controls[groupName]"
+        controlName="postfach"
+        selectLabel="{{ 'stes.label.postfach' }}"
+        (onChange)="onPostfachChange($event)"
+    ></avam-label-input>
+    <avam-plz-autosuggest
+        plzControl="postleitzahl"
+        ortControl="ort"
+        [parentForm]="formGroup.controls[groupName].controls['plz']"
+        label="common.label.plzort"
+        supportsSimpleInput="true"
+        (onPlzSelect)="onPlzOrtSelect($event, hasPostfach, language)"
+        (onOrtSelect)="onPlzOrtSelect($event, hasPostfach, language)"
+    ></avam-plz-autosuggest>
+    <div class="row">
+        <div class="row-height" *ngIf="!hasPostfach"></div>
+    </div>
+</ng-template>

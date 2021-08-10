@@ -1,0 +1,13 @@
+<div>
+    <avam-button-group (onClick)="emitCurrentValue()" [parentForm]="parentForm" [controlName]="controlName" [group]="group"></avam-button-group>
+    <button
+        (click)="updateAnonymValue()"
+        dynamicControlName
+        type="button"
+        class="btn btn-secondary ml-2"
+        [ngClass]="isAnonymChecked ? 'selected' : ''"
+        [disabled]="isAnonymDisabled"
+    >
+        {{ checkBoxLabel | translate }}
+    </button>
+</div>

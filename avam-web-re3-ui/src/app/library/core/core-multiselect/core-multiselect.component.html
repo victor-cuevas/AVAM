@@ -1,0 +1,28 @@
+<div id="multiselect">
+    <or-multiselect
+        #orMultiselect
+        [options]="dropdownOptions"
+        [(ngModel)]="model"
+        [enableSearch]="enableSearch"
+        [showCheckAll]="showCheckAll"
+        [showUncheckAll]="showUncheckAll"
+        [labelFormatter]="labelFormatter.bind(this)"
+        [dynamicTitleMaxItems]="dynamicTitleMaxItems"
+        [disabled]="isDisabled"
+        (onAdded)="onAdded($event)"
+        (onRemoved)="onRemoved($event)"
+        (click)="onOpen($event)"
+        (dropdownClosed)="dropdownClosed($event)"
+        [multiselectTreeOrExtension]="treeMode"
+    >
+    </or-multiselect>
+    <div class="multiselect-body" #multiselectBody>
+        <ng-template
+            [ngTemplateOutletContext]="{
+                elements: model
+            }"
+            [ngTemplateOutlet]="template"
+        >
+        </ng-template>
+    </div>
+</div>

@@ -1,0 +1,183 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ 'stes.label.zasabgleichTitle' | translate }}</h4>
+        <div class="mr-3">
+            <div class="sticky-actions">
+                <app-toolbox [configuration]="modalToolboxConfiguration" [id]="getToolboxId()" [formNumber]="getFormNr()"></app-toolbox>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="links col-lg-12" *ngFor="let warning of warnings">
+                <p class="alert alert-warning">
+                    {{ warning }}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="links col-lg-6">
+                <form [formGroup]="personalienForm" autocomplete="off">
+                    <div
+                        class="avam-panel"
+                        [ngClass]="{
+                            'normal-height': normalHeight,
+                            'max-height': !normalHeight
+                        }"
+                    >
+                        <label>
+                            <h3>{{ 'stes.label.personenstammdaten' | translate }}</h3>
+                        </label>
+                        <avam-label-input
+                            selectLabel="stes.label.svnr"
+                            id="stesSvnr"
+                            readOnly="true"
+                            controlName="stesSvNr"
+                            [parentForm]="personalienForm"
+                            inputClass="p-value-left-27"
+                        ></avam-label-input>
+                        <div class="form-group row">
+                            <div class="col-lg-4 col-md-4 text-right">
+                                <label for="textarea-stesPreviousSvNrs">{{ 'amm.nutzung.label.bisherigeversicherungsnummer' | translate }}</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <textarea
+                                    autosize
+                                    id="textarea-stesPreviousSvNrs"
+                                    class="form-control customdirective"
+                                    formControlName="stesPreviousSvNrs"
+                                    readonly="true"
+                                    #stesPreviousSvNrs
+                                ></textarea>
+                            </div>
+                        </div>
+                        <avam-label-input
+                            selectLabel="stes.label.zasName"
+                            id="stesName"
+                            readOnly="true"
+                            controlName="stesName"
+                            [parentForm]="personalienForm"
+                            inputClass="p-value-left-27"
+                        ></avam-label-input>
+                        <avam-label-input
+                            selectLabel="stes.label.zasVorname"
+                            id="stesVorname"
+                            readOnly="true"
+                            controlName="stesVorname"
+                            [parentForm]="personalienForm"
+                            inputClass="p-value-left-27"
+                        ></avam-label-input>
+                        <avam-label-input
+                            selectLabel="stes.label.geburtsdatum"
+                            id="stesGeburtsdatum"
+                            readOnly="true"
+                            controlName="stesGeburtsdatum"
+                            [parentForm]="personalienForm"
+                            inputClass="p-value-left-27"
+                        ></avam-label-input>
+
+                        <avam-label-dropdown
+                            [parentForm]="personalienForm"
+                            controlName="stesGeschlecht"
+                            selectLabel="{{ 'stes.label.geschlecht' }}"
+                            id="stesGeschlecht"
+                            [options]="zasAbgleichRequest.geschlechtDropdownLables"
+                            [readOnly]="true"
+                            inputClass="p-value-left-27"
+                        ></avam-label-dropdown>
+
+                        <app-paragraph [label]="'stes.label.nationalitaet'" [id]="'nationalitaet'" [value]="getNationalitaet(zasAbgleichRequest.nationalitaet)"></app-paragraph>
+                        <app-paragraph id="letzterzasabgleich" label="{{ 'stes.label.letzterzasabgleich' }}" value="{{ zasAbgleichRequest.letzterZASAbgleich }}"></app-paragraph>
+                    </div>
+                </form>
+            </div>
+            <div class="rechts col-lg-6">
+                <or-spinner [channel]="getChannel()"></or-spinner>
+                <form [formGroup]="zasPersonalienForm" autocomplete="off">
+                    <div
+                        class="avam-panel"
+                        [ngClass]="{
+                            'normal-height': normalHeight,
+                            'max-height': !normalHeight
+                        }"
+                    >
+                        <label>
+                            <h3>{{ 'stes.label.zasdaten' | translate }}</h3>
+                        </label>
+                        <avam-label-input
+                            selectLabel="stes.label.svnr"
+                            id="zasSvNr"
+                            readOnly="true"
+                            controlName="zasSvNr"
+                            [parentForm]="zasPersonalienForm"
+                            inputClass="p-value-left-27"
+                        ></avam-label-input>
+                        <div class="form-group row">
+                            <div class="col-lg-4 col-md-4 text-right">
+                                <label for="textarea-zasPreviousSvNrs">{{ 'amm.nutzung.label.bisherigeversicherungsnummer' | translate }}</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <textarea
+                                    autosize
+                                    id="textarea-zasPreviousSvNrs"
+                                    class="form-control customdirective"
+                                    formControlName="zasPreviousSvNrs"
+                                    readonly="true"
+                                    #zasPreviousSvNrs
+                                ></textarea>
+                            </div>
+                        </div>
+                        <avam-label-input
+                            selectLabel="stes.label.zasName"
+                            id="zasName"
+                            readOnly="true"
+                            controlName="zasName"
+                            [parentForm]="zasPersonalienForm"
+                            inputClass="p-value-left-27"
+                        ></avam-label-input>
+                        <avam-label-input
+                            selectLabel="stes.label.zasVorname"
+                            id="zasVorname"
+                            readOnly="true"
+                            controlName="zasVorname"
+                            [parentForm]="zasPersonalienForm"
+                            inputClass="p-value-left-27"
+                        ></avam-label-input>
+                        <app-paragraph
+                            [label]="'stes.label.geburtsdatum'"
+                            [id]="'zasGeburtsdatum'"
+                            [value]="stesZasDTO ? formatDate(stesZasDTO.geburtsDatum) : null"
+                        ></app-paragraph>
+
+                        <avam-label-dropdown
+                            [parentForm]="zasPersonalienForm"
+                            controlName="zasGeschlecht"
+                            selectLabel="{{ 'stes.label.geschlecht' }}"
+                            id="zasGeschlecht"
+                            [options]="zasAbgleichRequest.geschlechtDropdownLables"
+                            [readOnly]="true"
+                            inputClass="p-value-left-27"
+                        ></avam-label-dropdown>
+
+                        <app-paragraph
+                            [label]="'stes.label.nationalitaet'"
+                            [id]="'zasNationalitaet'"
+                            [value]="stesZasDTO ? getNationalitaet(stesZasDTO.nationalitaetObject) : null"
+                        ></app-paragraph>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+            <span ngbAutofocus>{{ getFormNr() }}</span>
+            <div class="sticky-actions">
+                <button type="button" class="btn btn-link" (click)="close()">
+                    {{ 'common.button.abbrechen' | translate }}
+                </button>
+                <button type="button" class="btn btn-primary ml-1" (click)="takeOver()" [disabled]="isTakeOverButtonDisabled">
+                    {{ 'common.button.uebernehmen' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+<div class="sticky">
+    <div class="sticky-main">
+        <or-column-layout orColumnLayoutExtension [left]="true" [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="default-layout">
+                <br />
+                <p class="wizard-back-link">
+                    <span class="mouse-pointer" (click)="navigateToOsteUebersicht()">
+                        <span class="fa fa-caret-left" aria-hidden="true"></span>
+                        {{ 'arbeitgeber.oste.label.zuuebersichtstellenangebote' | translate }}
+                    </span>
+                </p>
+                <hr class="nm-t-6" />
+                <h3>{{ 'arbeitgeber.oste.label.neueosteerfassen' | translate }}</h3>
+                <avam-wizard service="osteErfassen">
+                    <avam-wizard-step stepId="1" text="arbeitgeber.oste.subnavmenuitem.basisangaben" [navigate]="step1"></avam-wizard-step>
+                    <avam-wizard-step stepId="2" text="arbeitgeber.oste.subnavmenuitem.anforderungen" [navigate]="step2"></avam-wizard-step>
+                    <avam-wizard-step stepId="3" text="arbeitgeber.oste.subnavmenuitem.bewerbung" [navigate]="step3"></avam-wizard-step>
+                    <avam-wizard-step stepId="4" text="arbeitgeber.oste.subnavmenuitem.bewirtschaftung" [navigate]="step4"></avam-wizard-step>
+                </avam-wizard>
+            </div>
+            <div column-main-content class="default-layout h-100">
+                <avam-unternehmen-content [unternehmenId]="unternehmenId"></avam-unternehmen-content>
+            </div>
+        </or-column-layout>
+    </div>
+</div>

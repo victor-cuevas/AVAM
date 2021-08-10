@@ -1,0 +1,56 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [parentForm]="formGroup"
+                    controlName="arbeitssprache"
+                    id="arbeitssprache"
+                    [options]="spracheOptions"
+                    selectLabel="verzeichnisse.label.arbeitssprache"
+                    [hideEmptyOption]="true"
+                >
+                </avam-label-dropdown>
+                <avam-label-input [parentForm]="formGroup" controlName="kanton" id="kanton" selectLabel="{{ 'verzeichnisse.label.kanton' }}" [readOnly]="true"></avam-label-input>
+                <avam-label-input #leiter [parentForm]="formGroup" controlName="leiter" id="leiter" selectLabel="{{ 'verzeichnisse.label.leiter' }}"></avam-label-input>
+                <avam-label-input
+                    [parentForm]="formGroup"
+                    controlName="ravAdresseStatistik"
+                    id="ravAdresseStatistik"
+                    selectLabel="{{ 'verzeichnisse.label.ravadressestatistik' }}"
+                    [readOnly]="isRavAdresseStatistikReadOnly"
+                ></avam-label-input>
+                <avam-label-input [parentForm]="formGroup" controlName="kundenIdPost" id="kundenIdPost" selectLabel="{{ 'verzeichnisse.label.kundenIdPost' }}"></avam-label-input>
+                <avam-label-checkbox componentId="vsaa" controlName="vsaa" [parentForm]="formGroup" selectLabel="{{ 'verzeichnisse.label.vsaamitglied' }}"></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="scanStation"
+                    controlName="scanStation"
+                    [parentForm]="formGroup"
+                    selectLabel="{{ 'verzeichnisse.label.scanstation' }}"
+                ></avam-label-checkbox>
+                <avam-label-checkbox componentId="jobRoom" controlName="jobRoom" [parentForm]="formGroup" selectLabel="{{ 'verzeichnisse.label.jobroom' }}"></avam-label-checkbox>
+                <avam-date-range-picker
+                    id="gueltigAbBis"
+                    class="form-group"
+                    wrapperClass="col-lg-8 col-md-8 flex-nowrap"
+                    inputClass="mr-4 w-250px"
+                    containerClass="flex-nowrap mt-2"
+                    label="amm.massnahmen.label.gueltig"
+                    [parentForm]="formGroup"
+                    formControlNameFrom="gueltigAb"
+                    formControlNameTo="gueltigBis"
+                    [readOnly]="gueltibAbBisReadonlyState"
+                    [isResponsive]="true"
+                ></avam-date-range-picker>
+            </div>
+        </div>
+        <div class="col-xl-6" *ngIf="showVollzugsregionen()">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'verzeichnisse.label.vollzugsregionen' | translate }}</h3>
+                </label>
+                <avam-vollzugsregionen *ngIf="dto && dto.vollzugsregionList" [regionen]="dto.vollzugsregionList"></avam-vollzugsregionen>
+            </div>
+        </div>
+    </div>
+</form>

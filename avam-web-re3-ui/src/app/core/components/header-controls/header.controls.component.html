@@ -1,0 +1,87 @@
+<ul class="navbar-nav navbar-controls ml-sm-auto" role="menu" *ngIf="isLoggedIn()">
+    <li *ngIf="authService.hasAllPermissions([permissions.FEATURE_33, permissions.KEY_AG_OSTE_JOBROOM_SUCHEN])" class="nav-item" role="presentation">
+        <a
+            style="padding-top: 0"
+            class="nav-link control-link mr-2"
+            role="menuitem"
+            placement="bottom-right"
+            ngbTooltip="{{ 'i18n.application.header.nueuMeldungenJobRoom' | translate }}"
+            (click)="getUrlJobroomMeldungen()"
+        >
+            <span style="margin-top: 15px" class="control-icon fa fa-inbox"></span>
+            <app-result-count [dataLength]="headerService?.resultCount" [isJobMeldung]="true"></app-result-count>
+        </a>
+    </li>
+    <app-schnellsuche></app-schnellsuche>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link control-link" role="menuitem" placement="bottom" ngbTooltip="{{ 'common.button.mehr' | translate }}" [ngbPopover]="languageMenu">
+            <span class="control-label font-weight-bold">...</span>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link control-link" role="menuitem" placement="bottom" ngbTooltip="{{ 'common.topnavmenuitem.dmsworkplace' | translate }}" (click)="openDmsWorkspace()">
+            <span class="control-label font-weight-bold">{{ 'i18n.application.header.dms.title' | translate }}</span>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link control-link" role="menuitem" placement="bottom-right" ngbTooltip="{{ 'i18n.application.header.new-window' | translate }}" (click)="openInNewWindow()">
+            <span class="control-icon fa fa-external-link"></span>
+        </a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link control-link" role="menuitem" placement="bottom-right" ngbTooltip="{{ 'i18n.application.header.logout' | translate }}" (click)="logout()">
+            <span class="control-icon fa fa-power-off"></span>
+        </a>
+    </li>
+</ul>
+
+<ng-template #languageMenu>
+    <div class="row">
+        <div class="col-sm">
+            <ul class="nav nav-indented nav-hover" role="menubar">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link mouse-pointer font-weight-600" (click)="help()" role="menuitem" aria-selected="false">{{ 'common.button.hilfe' | translate }}</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link mouse-pointer font-weight-600" (click)="guidedTour()" role="menuitem" aria-selected="false">Guided Tour</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm">
+            <ul class="nav nav-indented nav-hover" role="menubar">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link mouse-pointer" (click)="useDe()" [ngClass]="{ active: isDe() }" role="menuitem" aria-selected="false">{{
+                        'i18n.application.header.de' | translate
+                    }}</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link mouse-pointer" (click)="useFr()" [ngClass]="{ active: isFr() }" role="menuitem" aria-selected="false">{{
+                        'i18n.application.header.fr' | translate
+                    }}</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link mouse-pointer" (click)="useIt()" [ngClass]="{ active: isIt() }" role="menuitem" aria-selected="false">{{
+                        'i18n.application.header.it' | translate
+                    }}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <ul class="nav nav-indented nav-hover" role="menubar">
+            <li class="nav-item" style="white-space: nowrap;" role="presentation">
+                <div class="form-check form-check-inline checkbox-item__label-text ml-3">
+                    <core-checkbox componentId="hintergrundbild" (onChange)="changeBackgroundImage($event)" [isChecked]="isHintergrundbildChecked()">
+                        <label class="form-check-label form-check-label-padding-left font-weight-600" for="hintergrundbild">{{
+                            'i18n.application.header.hintergrundbild' | translate
+                        }}</label>
+                    </core-checkbox>
+                </div>
+            </li>
+        </ul>
+    </div>
+</ng-template>

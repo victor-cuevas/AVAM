@@ -1,0 +1,74 @@
+<avam-generic-table
+    *ngIf="dataSource"
+    [dataSource]="dataSource"
+    [headers]="displayedColumns"
+    sortField="beruftaetigkeit"
+    [sortOrder]="1"
+    maxHeight="1000"
+    recalculateMaxHeight="false"
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'meldepflicht'">
+            <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <div class="header-container">
+                    <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                        <sort-icon [column]="column.columnDef"></sort-icon>
+                        <i class="fa fa-flag fa-lg"></i>
+                    </span>
+                </div>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="row.meldepflicht.text === meldepflichtEnum.UNTERLIEGT_LAUFEND" class="fa fa-flag fa-lg" [ngbTooltip]="row.meldepflicht.tooltip"></span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'anmerkungen'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                <div class="header-container">
+                    <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                        {{ column.header | translate }}
+                    </span>
+                </div>
+            </th>
+            <td class="d-flex justify-content-around" cdk-cell *cdkCellDef="let row">
+                <button (click)="openInfo(row)" [ngClass]="{ 'fa fa-info btn visible': true, 'btn-secondary': !row.anmerkungen }" style="width: 40px;" type="button"></button>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'aehnlicheBerufe'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                <div class="header-container">
+                    <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                        {{ column.header | translate }}
+                    </span>
+                </div>
+            </th>
+            <td class="justify-content-around" cdk-cell *cdkCellDef="let row">
+                <div class="row">
+                    <div class="col-lg-6">
+                        {{ row.aehnlicheBerufe }}
+                    </div>
+                    <div class="col-lg-6">
+                        <avam-info-icon-btn *ngIf="row.aehnlicheBerufeList" [infoIconTemplate]="infoIconBerufe" [readOnly]="true"></avam-info-icon-btn>
+                        <ng-template #infoIconBerufe>
+                            <div>
+                                <h4>{{ 'stes.label.aehnlicheBerufe' | translate }}</h4>
+                                <div *ngFor="let el of row.aehnlicheBerufeList">
+                                    <a><span style="font-size: 5px;" class="fa fa-circle"></span> {{ el | dbTranslate: 'bezeichnungMa' }}</a>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+            </td>
+        </ng-container>
+
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

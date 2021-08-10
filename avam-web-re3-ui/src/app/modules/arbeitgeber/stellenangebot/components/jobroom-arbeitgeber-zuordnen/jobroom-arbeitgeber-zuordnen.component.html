@@ -1,0 +1,75 @@
+<div class="row h-100">
+    <div (keyup.enter)="search()" class="col-l-6 col-xl-3 p-0">
+        <avam-unternehmen-search-form
+            #unternehmenSearchFormComponent
+            [showAdvancedSearch]="false"
+            type="arbeitgeber"
+            [stateKey]="stateName"
+            (restoreCache)="search()"
+        ></avam-unternehmen-search-form>
+    </div>
+
+    <div class="col-l-6 col-xl-9">
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4 infoleiste">
+                    {{ 'arbeitgeber.oste.label.arbeitgeberzuordnen' | translate }}
+                </h2>
+                <app-result-count [dataLength]="rawTableData.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <or-spinner [channel]="spinnerChannel"></or-spinner>
+        <avam-alert></avam-alert>
+        <avam-common-wrapper-table
+            [dataSource]="tableConfig.data"
+            [columns]="tableConfig.columns"
+            [config]="tableConfig.config"
+            (onRowSelect)="selectItem($event)"
+            [stateKey]="tableStateName"
+        ></avam-common-wrapper-table>
+    </div>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableConfig.data">
+        <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="printColumns" [config]="printConfig" (onRowSelect)="selectItem($event)"></avam-common-wrapper-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #footerBtns>
+    <div class="col-l-6 col-md-6 col-xl-3 col-left">
+        <button class="btn btn-link" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button class="btn btn-primary ml-1" type="button" (click)="search()" [disabled]="!unternehmenSearchForm.searchForm.valid">
+            <span class="fa fa-search"></span>
+            {{ 'common.button.suchen' | translate }}
+        </button>
+    </div>
+
+    <div class="col-l-6 col-md-6 col-xl-9 col-right">
+        <button class="btn btn-link" (click)="wizardService.navigateToMeldungenUebersicht()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+        <button class="btn btn-secondary ml-1" (click)="wizardService.movePosition(0)">
+            {{ 'common.button.zurueck' | translate }}
+        </button>
+
+        <button class="btn btn-secondary ml-1" (click)="arbeitgeberErfassen()" [permissions]="[permissions.ARBEITGEBER_ERFASSEN]">
+            <i class="fa fa-plus mr-2"></i>{{ 'unternehmen.label.wizard.arbeitgeber_erfassen' | translate }}
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #trefferAusBURAnzeigen>
+    <avam-bur-daten-modal [selectedBurData]="selectedBurData" [isErfassen]="false"></avam-bur-daten-modal>
+</ng-template>
+
+<ng-template #jobroomArbeitgeberErfassen>
+    <avam-jobroom-arbeitgeber-erfassen [osteEgovDTO]="wizardService.osteEgovDTO" [staatDto]="staatDto"></avam-jobroom-arbeitgeber-erfassen>
+</ng-template>

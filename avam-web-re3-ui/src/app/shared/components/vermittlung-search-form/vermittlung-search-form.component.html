@@ -1,0 +1,113 @@
+<form class="page-scroll" [formGroup]="searchForm" #ngForm="ngForm" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            {{ 'i18n.routes.stes.title' | translate }}
+        </h3>
+        <avam-beruf-autosuggest
+            avamAutofocus
+            #berufAutosuggest
+            [parentForm]="searchForm"
+            controlName="berufeTaetigkeit"
+            placeholder=" {{ 'arbeitgeber.oste.label.beruftaetigkeit' | translate }}"
+            [showFilter]="true"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-beruf-autosuggest>
+        <avam-label-checkbox
+            componentId="umAehnlicheBerufeErgaenzen"
+            controlName="umAehnlicheBerufeErgaenzen"
+            [parentForm]="searchForm"
+            selectLabel="{{ 'arbeitgeber.label.umAehnlicheBerufeErgaenzen' | translate }}"
+            inputClass="col-lg-0"
+        ></avam-label-checkbox>
+        <br />
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [placeholder]="'arbeitgeber.oste.label.qualifikationWaehlen'"
+            [parentForm]="searchForm"
+            controlName="qualifikation"
+            id="qualifikation"
+            [options]="qualifikationDropdownLabels"
+        >
+        </avam-label-dropdown>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [placeholder]="'arbeitgeber.oste.label.erfahrungWaehlen'"
+            [parentForm]="searchForm"
+            controlName="erfahrung"
+            id="erfahrung"
+            [options]="erfahrungDropdownLabels"
+        >
+        </avam-label-dropdown>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [placeholder]="'arbeitgeber.oste.label.ausbildungsniveauWaehlen'"
+            [parentForm]="searchForm"
+            controlName="ausbildungniveau"
+            id="ausbildungniveau"
+            [options]="ausbildungniveauDropdownLabels"
+        >
+        </avam-label-dropdown>
+        <avam-label-input
+            inputClass="col"
+            controlName="faehigketienSkills"
+            id="faehigketienSkills"
+            placeholder="{{ 'arbeitgeber.oste.label.faehigketienSkills' | translate }}"
+            [parentForm]="searchForm"
+        >
+        </avam-label-input>
+        <avam-arbeitsorte-autosuggest
+            [parentForm]="searchForm"
+            controlName="gewuenscheArbeitsRegion"
+            placeholder="{{ 'stes.vermittlung.label.gewuenschtearbeitsregion' | translate }}"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-arbeitsorte-autosuggest>
+        <br />
+        <h4>
+            <span>{{ 'stes.vermittlung.label.stellensuchende' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            controlName="stesImZustaendigkeitsbereich"
+            [inputClass]="'col'"
+            [parentForm]="searchForm"
+            [options]="stesImZustaendigkeitsbereichLabels"
+            placeholder="common.label.waehlen"
+        ></avam-label-dropdown>
+        <br />
+        <avam-personalberater-autosuggest
+            id="personalberater"
+            showFilter="true"
+            [parentForm]="searchForm"
+            controlName="personalberater"
+            [benutzerSuchenTokens]="benutzerSuchenTokens"
+            [type]="benutzerAutosuggestType"
+            placeholder="{{ 'amm.nutzung.label.personalberater' | translate }}"
+            container="body"
+            [scrollIntoView]="false"
+            (onSelect)="updatePersonalberaterSuche($event)"
+            (onInput)="clearEmptyPersonalberaterSuche($event)"
+        ></avam-personalberater-autosuggest>
+        <br />
+        <avam-label-input inputClass="col" controlName="name" id="name" placeholder="{{ 'common.label.name' | translate }}" [parentForm]="searchForm"> </avam-label-input>
+        <avam-label-input inputClass="col" controlName="vorname" id="vorname" placeholder="{{ 'common.label.vorname' | translate }}" [parentForm]="searchForm"> </avam-label-input>
+        <avam-plz-autosuggest
+            plzControl="postleitzahl"
+            ortControl="ort"
+            [parentForm]="searchForm"
+            placeholderPlz="{{ 'unternehmen.label.plz' | translate }}"
+            placeholderOrt="{{ 'unternehmen.label.ort' | translate }}"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-plz-autosuggest>
+        <avam-erweiterte-suche
+            #erweiterteSucheComponent
+            [parentForm]="searchForm"
+            contextId="stes_fuer_zuweisung"
+            arrayName="extraCriteria"
+            unternehmensType="unternehmensdaten"
+            (onClick)="onClickErweiterteSuche()"
+        ></avam-erweiterte-suche>
+    </div>
+</form>

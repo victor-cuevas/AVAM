@@ -1,0 +1,35 @@
+<div class="form-group row">
+    <div *ngIf="!fullWidth" class="col-lg-4 col-md-4 text-right">
+        <label for="textarea-{{ id }}">{{ selectLabel | translate }}</label>
+    </div>
+    <div
+        [ngClass]="{
+            'col-lg-8': !fullWidth,
+            'col-md-8': !fullWidth,
+            'col-lg-12': fullWidth,
+            'col-md-12': fullWidth
+        }"
+    >
+        <div [ngClass]="{ readOnlyStyleDiv: readonly }">
+            <span #t="ngbTooltip" triggers="manual" [ngbTooltip]="tooltip | translate"></span>
+            <textarea
+                style="overflow-x: auto;"
+                (focusout)="onFocusOut()"
+                autosize
+                [ngModel]="value"
+                (ngModelChange)="onChangeTruncate($event)"
+                id="textarea-{{ id }}"
+                placeholder="{{ placeholder | translate }}"
+                class="form-control customdirective"
+                #inputElement
+                (blur)="onBlur($event)"
+                [readOnly]="readonly"
+                [ngClass]="{ readOnlyStyle: readonly }"
+                (mouseenter)="showTooltip(t)"
+                (mouseleave)="t.close()"
+            >
+            </textarea>
+        </div>
+        <custom-error-messages></custom-error-messages>
+    </div>
+</div>

@@ -1,0 +1,36 @@
+<form [formGroup]="sprachkenntnisseForm" #ngForm="ngForm" closeBrowserTab [form]="sprachkenntnisseForm">
+    <div>
+        <or-spinner [channel]="sprachkenntnisseChannel"></or-spinner>
+        <avam-components-table #table (onSort)="onSort($event)" [dataSource]="dataSource" [columns]="columns" sortField="language" [sortOrder]="1"></avam-components-table>
+        <textarea
+            autosize
+            maxlength="255"
+            id="textarea"
+            placeholder="{{ 'benutzerverwaltung.label.bemerkung' | translate }}"
+            class="form-control"
+            formControlName="bemerkungen"
+        ></textarea>
+    </div>
+</form>
+<ng-template #footerButtons>
+    <button *ngIf="isAnmeldung" class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="!isAnmeldung" class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]" [disabled]="isSaveDisabled">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung" class="btn btn-secondary ml-1" type="button" (click)="prev()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung" class="btn btn-secondary ml-1" type="button" (click)="save()">
+        {{ 'common.button.zwischenspeichern' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung" class="btn btn-primary ml-1" type="button" (click)="finish()">
+        {{ 'common.button.fertigstellen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

@@ -1,0 +1,26 @@
+<form (keydown.enter)="onEnter.emit($event)" [formGroup]="formGroup" #ngForm="ngForm" autocomplete="off">
+    <div class="mt-2 search-padding">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.administration.excelliste.titelcode' | translate }}</span>
+        </h3>
+        <avam-prepend-dropdown
+            inputClass="col"
+            [parentForm]="formGroup"
+            controlName="status"
+            id="status"
+            selectLabel="common.label.status"
+            [options]="statusDropdownLabels"
+            hideEmptyOption="true"
+        ></avam-prepend-dropdown>
+        <br />
+        <avam-code-domaene-autosuggest
+            avamAutofocus
+            [parentForm]="formGroup"
+            controlName="vollzugsregionType"
+            placeholder="{{ 'common.label.codedomain' | translate }}"
+            [scrollIntoView]="true"
+        ></avam-code-domaene-autosuggest>
+        <avam-label-input controlName="bezeichnung" inputClass="col" [parentForm]="formGroup" placeholder="informationen.placeholder.codebezeichnung"></avam-label-input>
+    </div>
+</form>

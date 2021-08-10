@@ -1,0 +1,13 @@
+<avam-common-wrapper-table
+    [dataSource]="tableConfig.data"
+    [columns]="tableConfig.columns"
+    [config]="tableConfig.config"
+    (onRowSelect)="rowSelected($event)"
+    stateKey="osteZuweisungSuchenResultsStateKey"
+></avam-common-wrapper-table>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableConfig.data">
+        <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="printColumns" [config]="printConfig"></avam-common-wrapper-table>
+    </avam-generic-table-print>
+</ng-template>

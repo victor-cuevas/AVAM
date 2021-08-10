@@ -1,0 +1,167 @@
+<ng-form #ngForm="ngForm" class="print-block row has-overlay pl-3 pr-3">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="col-xl-12 p-0 d-flex w-100" [formGroup]="beruftaetigkeitForm">
+        <div class="rechts col-xl-6 d-flex pl-0">
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <avam-beruf-autosuggest
+                    [coreAutofocus]="true"
+                    [parentForm]="beruftaetigkeitForm"
+                    controlName="berufTaetigkeit"
+                    componentLabel="arbeitgeber.oste.label.beruftaetigkeit"
+                ></avam-beruf-autosuggest>
+                <div class="row">
+                    <div class="col-md-4 text-right align-self-center">
+                        <label>{{ 'arbeitgeber.oste.label.besarbeitsformen' | translate }}</label>
+                    </div>
+                    <div class="col-md-8">
+                        <avam-label-checkbox
+                            inputClass="d-none"
+                            inputLabelClass="mw-200 ta-left"
+                            componentId="sonnfeiertagsarbeit"
+                            controlName="sonnfeiertagsarbeit"
+                            [parentForm]="beruftaetigkeitForm"
+                            selectLabel="{{ 'arbeitgeber.label.sonnfeiertagsarbeit' }}"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+                <avam-label-checkbox
+                    componentId="schichtarbeit"
+                    controlName="schichtarbeit"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.schichtarbeit' }}"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="nachtarbeit"
+                    controlName="nachtarbeit"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.nachtarbeit' }}"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="heimarbeit"
+                    controlName="heimarbeit"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.heimarbeit' }}"
+                ></avam-label-checkbox>
+                <br />
+                <div class="row">
+                    <div class="col-md-4 text-right align-self-center">
+                        <label>{{ 'arbeitgeber.label.arbeitspensen' | translate }}</label>
+                    </div>
+                    <div class="col-md-8">
+                        <avam-label-checkbox
+                            inputClass="d-none"
+                            inputLabelClass="mw-200 ta-left"
+                            componentId="vollzeit"
+                            controlName="vollzeit"
+                            [parentForm]="beruftaetigkeitForm"
+                            selectLabel="{{ 'arbeitgeber.label.vollzeit' }}"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+                <avam-label-checkbox
+                    componentId="teilzeit"
+                    controlName="teilzeit"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.teilzeit' }}"
+                ></avam-label-checkbox>
+                <br />
+                <div class="row">
+                    <div class="col-md-4 text-right align-self-center">
+                        <label>{{ 'arbeitgeber.label.artderstellen' | translate }}</label>
+                    </div>
+                    <div class="col-md-8">
+                        <avam-label-checkbox
+                            inputClass="d-none"
+                            inputLabelClass="mw-200 ta-left"
+                            componentId="temporaer"
+                            controlName="temporaer"
+                            [parentForm]="beruftaetigkeitForm"
+                            selectLabel="{{ 'arbeitgeber.label.temporaer' }}"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+                <avam-label-checkbox
+                    componentId="praktikumstellen"
+                    controlName="praktikumstellen"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.praktikumsstellen' }}"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="lehrstellen"
+                    controlName="lehrstellen"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.lehrstellen' }}"
+                ></avam-label-checkbox>
+                <br />
+                <div class="row">
+                    <div class="col-md-4 text-right align-self-center">
+                        <label>{{ 'arbeitgeber.label.entlohnung' | translate }}</label>
+                    </div>
+                    <div class="col-md-8">
+                        <avam-label-checkbox
+                            inputClass="d-none"
+                            inputLabelClass="mw-200 ta-left"
+                            componentId="monatslohn"
+                            controlName="monatslohn"
+                            [parentForm]="beruftaetigkeitForm"
+                            selectLabel="{{ 'arbeitgeber.label.monatslohn' }}"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+                <avam-label-checkbox
+                    componentId="stundenlohn"
+                    controlName="stundenlohn"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.stundenlohn' }}"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="akkordlohn"
+                    controlName="akkordlohn"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.akkordlohn' }}"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="provision"
+                    controlName="provision"
+                    [parentForm]="beruftaetigkeitForm"
+                    selectLabel="{{ 'arbeitgeber.label.provision' }}"
+                ></avam-label-checkbox>
+            </div>
+        </div>
+        <div class="links col-xl-6 pr-0">
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <label>{{ 'arbeitgeber.label.bemerkungen' | translate }}</label>
+                <app-textarea id="angaben" formControlName="angaben" [fullWidth]="true" maxLength="255" customFormControlState></app-textarea>
+            </div>
+        </div>
+    </div>
+</ng-form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" type="button" (click)="reset()" [permissions]="[permissions.KEY_AG_ARBEITGEBERDATEN_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="beschaeftigterBerufDTO"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openDeleteDialog()"
+        [permissions]="[permissions.KEY_AG_ARBEITGEBERDATEN_BEARBEITEN]"
+    >
+        {{ 'arbeitgeber.label.berufloeschen' | translate }}
+    </button>
+    <button
+        *ngIf="!beschaeftigterBerufId || beschaeftigterBerufDTO"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="save()"
+        [permissions]="[permissions.KEY_AG_ARBEITGEBERDATEN_BEARBEITEN]"
+    >
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

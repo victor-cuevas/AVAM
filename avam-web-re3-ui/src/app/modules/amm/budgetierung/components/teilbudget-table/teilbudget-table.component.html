@@ -1,0 +1,21 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                    (click)="itemSelected(row.teilbudgetId)"
+                    avamPrimaryButtonDirective
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

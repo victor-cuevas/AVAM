@@ -1,0 +1,49 @@
+.readonly-text {
+    align-items: center;
+    align-self: center;
+    display: flex;
+}
+
+.template-column {
+    display: block;
+    width: 33%;
+}
+
+.template-last-column {
+    display: block;
+    width: 34%;
+}
+
+.template-popover {
+    max-width: 380px;
+}
+
+.tooltip-btn {
+    border: 0;
+    background: none;
+    text-align: left;
+}
+
+avam-info-icon-btn {
+    position: absolute;
+    right: 0;
+}
+
+.input-group-hover.interactive {
+    &:hover {
+        avam-info-icon-btn {
+            right: 20px;
+            top: 1px;
+        }
+
+        &:focus-within {
+            right: 0;
+        }
+    }
+}
+
+.text-control .text-control-clear {
+    margin-left: -3.2rem !important;
+}
+
+

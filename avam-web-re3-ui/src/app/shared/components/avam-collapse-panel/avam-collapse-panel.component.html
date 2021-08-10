@@ -1,0 +1,19 @@
+<div class="avam-panel">
+    <div>
+        <div class="header">
+            <div (click)="isLeftSideCollapsed = !isLeftSideCollapsed" [attr.aria-expanded]="!isLeftSideCollapsed" aria-controls="body">
+                <i [className]="isLeftSideCollapsed ? 'fa fa-caret-right mr-1 mouse-pointer' : 'fa fa-caret-down mr-1 mouse-pointer'"></i>
+                <label class="mouse-pointer">
+                    <h3 class="mb-0 mt-2">{{ title | translate }}</h3>
+                </label>
+            </div>
+            <div class="btn-toolbar pull-right">
+                <ng-content select="[panel-type=action]"></ng-content>
+            </div>
+        </div>
+    </div>
+
+    <div class="collapsed-content" id="body" [ngbCollapse]="isLeftSideCollapsed">
+        <ng-content select="[panel-type=body]"></ng-content>
+    </div>
+</div>

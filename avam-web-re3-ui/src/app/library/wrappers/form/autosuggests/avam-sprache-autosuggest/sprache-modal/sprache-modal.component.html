@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h3 class="header-label">{{ 'stes.label.spracheauswaehlen' | translate }}&nbsp;&nbsp;</h3>
+        <app-result-count [dataLength]="dataSource.length"></app-result-count>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox [configuration]="modalToolboxConfiguration" [formNumber]="formNr" [id]="modalToolboxId"></app-toolbox>
+    </div>
+</div>
+<avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+<div>
+    <div class="scrollable-modal-body pre-scrollable mh-100 sprache-table-wrapper">
+        <avam-sprache-table [dataSource]="dataSource" (dbClick)="selectRow($event)" [selectedItem]="selectedItem"></avam-sprache-table>
+    </div>
+</div>
+<div class="row pl-3 pr-3">
+    <div class="col-l-6 col-xl-3 modal-footer form-nr-wrapper">
+        <span>{{ formNr }}</span>
+    </div>
+    <div class="col-l-6 col-xl-9 modal-footer sticky-actions">
+        <button type="button" class="btn btn-link" (click)="closeSpracheModal()">{{ 'common.button.abbrechen' | translate }}</button>
+    </div>
+</div>
+<ng-template #spracheModalPrint>
+    <avam-sprache-table *ngIf="dataSource" [dataSource]="dataSource"></avam-sprache-table>
+</ng-template>

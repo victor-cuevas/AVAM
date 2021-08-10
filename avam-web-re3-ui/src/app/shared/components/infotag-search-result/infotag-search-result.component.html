@@ -1,0 +1,19 @@
+<div>
+    <div *ngFor="let alert of alertList; let i = index">
+        <ngb-alert *ngIf="alert.isShown" type="{{ alert.messageType }}" (close)="close(i)">
+            {{ alert.messageText }}
+        </ngb-alert>
+    </div>
+</div>
+<div class="scrollable-modal-horizontal mh-100">
+    <or-spinner [channel]="channel"></or-spinner>
+
+    <avam-infotag-search-result-table
+        [displayedColumns]="displayedColumns"
+        [columns]="columns"
+        [dataSource]="dataSource"
+        [sortField]="sortField"
+        (onOeffnen)="emitAnschauen($event)"
+        (onUebernehmen)="emitUebernehmen($event)"
+    ></avam-infotag-search-result-table>
+</div>

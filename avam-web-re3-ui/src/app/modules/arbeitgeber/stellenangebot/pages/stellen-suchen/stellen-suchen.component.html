@@ -1,0 +1,100 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <form class="search-scroll" #ngForm="ngForm" autocomplete="off" (keyup.enter)="search()">
+            <div [formGroup]="searchForm">
+                <h3>
+                    <span class="fa fa-search mr-2"></span>
+                    {{ 'arbeitgeber.label.stellenageboteLabel' | translate }}
+                </h3>
+                <br />
+                <avam-prepend-dropdown controlName="status" [parentForm]="searchForm" [selectLabel]="'common.label.status'" [options]="statusOptions"></avam-prepend-dropdown>
+                <avam-label-input
+                    id="stellenbezeichnung"
+                    controlName="stellenbezeichnung"
+                    placeholder="{{ 'arbeitgeber.label.stellenbezeichnung' | translate }}"
+                    [parentForm]="searchForm"
+                    inputClass="col"
+                    [coreAutofocus]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="stellenNummer"
+                    controlName="stellenNummer"
+                    placeholder="{{ 'arbeitgeber.label.stellennr' | translate }}"
+                    [parentForm]="searchForm"
+                    inputClass="col"
+                ></avam-label-input>
+                <avam-unternehmen-autosuggest
+                    id="arbeitgeber"
+                    controlName="arbeitgeber"
+                    placeholder="{{ 'stes.label.arbeitgeber' | translate }}"
+                    [parentForm]="searchForm"
+                    suchePlusLabel="stes.label.arbeitgeber"
+                    [isAvamOnly]="true"
+                    (onSelect)="selectedUnternehmen($event)"
+                    (onClear)="clearUnternehmen()"
+                    [simpleInput]="true"
+                ></avam-unternehmen-autosuggest>
+                <avam-gemeinde-autosuggest
+                    placeholder="{{ 'benutzerverwaltung.label.gemeinde' | translate }}"
+                    [parentForm]="searchForm"
+                    controlName="gemeinde"
+                    [scrollIntoView]="false"
+                    (onSelect)="updateGemeindeSuche($event)"
+                >
+                </avam-gemeinde-autosuggest>
+                <avam-personalberater-autosuggest
+                    id="stellenverantwortung"
+                    controlName="stellenverantwortung"
+                    [parentForm]="searchForm"
+                    placeholder="{{ 'common.label.bearbeitungdurch' | translate }}"
+                    [type]="personalberaterAutosuggestType"
+                    (onSelect)="updatePersonalberaterSuche($event)"
+                    (onInput)="clearEmptyPersonalberaterSuche($event)"
+                ></avam-personalberater-autosuggest>
+                <br />
+                <app-schlagworte-autosuggest
+                    #schlagworteAutosuggest
+                    formControlName="schlagwort"
+                    customFormControlState
+                    [showLabel]="false"
+                    [geschaeftsart]="geschaeftsartEnum.OSTE"
+                    [useBenutzer]="true"
+                    (onSelectItem)="selectSchlagwort($event)"
+                    (onKeyUp)="removeSelectValue()"
+                ></app-schlagworte-autosuggest>
+                <avam-erweiterte-suche
+                    #erweiterteSucheComponent
+                    [parentForm]="searchForm"
+                    contextId="oste"
+                    arrayName="extraCriteria"
+                    unternehmensType="unternehmensdaten"
+                    (onClick)="onClickErweiterteSuche()"
+                ></avam-erweiterte-suche>
+            </div>
+        </form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            type="submit"
+            class="btn btn-primary keepDisabled"
+            [disabled]="!isSearchButtonEnabled || !this.searchForm.valid"
+            [permissions]="[permissions.KEY_AG_OSTE_SUCHEN]"
+            (click)="search()"
+        >
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <avam-stellen-suchen-table #stellenSuchenTable></avam-stellen-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-stellen-suchen-table #stellenSuchenTableModal [inputData]="dataSource" [isPrintModal]="true" [statusList]="this.statusOptions"> </avam-stellen-suchen-table>
+</ng-template>

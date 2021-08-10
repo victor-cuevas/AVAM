@@ -1,0 +1,190 @@
+<form [formGroup]="bewirtschaftungForm" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    id="stellenverantwortung"
+                    controlName="stellenverantwortung"
+                    [parentForm]="bewirtschaftungForm"
+                    componentLabel="{{ 'common.label.bearbeitungdurch' }}"
+                    [readOnly]="true"
+                    [type]="personalberaterAutosuggestType"
+                ></avam-personalberater-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.vermittlung' | translate }}</h3>
+                </label>
+                <avam-label-checkbox
+                    componentId="meldepflicht"
+                    inputClass="col-lg-4"
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="meldepflicht"
+                    selectLabel="{{ 'arbeitgeber.oste.label.stelleMeldepflicht' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <avam-label-dropdown
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="bearbeitungsstand"
+                    id="bearbeitungsstand"
+                    [options]="bearbeitungsstandOptions"
+                    selectLabel="arbeitgeber.oste.label.bearbeitungsstand"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <avam-label-checkbox
+                    componentId="meldung"
+                    inputClass="col-lg-4"
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="meldung"
+                    selectLabel="{{ 'arbeitgeber.oste.label.meldungbeizuweisung' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="zuweisungFreigeben"
+                    inputClass="col-lg-4"
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="zuweisungFreigeben"
+                    selectLabel="{{ 'arbeitgeber.oste.label.zuweisungfreigeben' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="vorselektion"
+                    inputClass="col-lg-4"
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="vorselektion"
+                    selectLabel="{{ 'arbeitgeber.oste.label.vorselektiondurchrav' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="zuweisungStop"
+                    inputClass="col-lg-4"
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="zuweisungStop"
+                    selectLabel="{{ 'arbeitgeber.oste.label.zuweisungsstopp' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <avam-label-input
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="gleicheOste"
+                    id="gleicheOste"
+                    selectLabel="{{ 'arbeitgeber.oste.label.anzahlstellen' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="zuweisungMax"
+                    id="zuweisungMax"
+                    selectLabel="{{ 'arbeitgeber.oste.label.zuweisungenmaxkurz' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <app-textarea
+                    customFormControlState
+                    [maxLength]="1000"
+                    id="weitereAngaben"
+                    formControlName="weitereAngaben"
+                    selectLabel="arbeitgeber.oste.label.ergaenzendeangaben"
+                    [readonly]="true"
+                ></app-textarea>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-multiselect
+                    id="schlagworte"
+                    controlName="schlagworte"
+                    [parentForm]="bewirtschaftungForm"
+                    [options]="schlagworteOptions"
+                    label="arbeitgeber.oste.label.schlagworte"
+                    [isDisabled]="true"
+                ></avam-multiselect>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.publikation' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    id="sperrfristbis"
+                    controlName="sperrfristbis"
+                    [parentForm]="bewirtschaftungForm"
+                    calendarLabel="arbeitgeber.oste.label.sperrfristBis"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right align-self-center mr-3">
+                        <label>{{ 'arbeitgeber.oste.label.jobroomIntern' | translate }}</label>
+                    </div>
+                    <avam-button-group [parentForm]="bewirtschaftungForm" controlName="jobroomInternPublikation" [group]="jobroomInternGroup"></avam-button-group>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right align-self-center mr-3">
+                        <label>{{ 'arbeitgeber.oste.label.jobroomExtern' | translate }}</label>
+                    </div>
+                    <avam-button-group [parentForm]="bewirtschaftungForm" controlName="jobroomExternPublikation" [group]="jobroomExternGroup"></avam-button-group>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right align-self-center mr-3">
+                        <label>{{ 'arbeitgeber.oste.label.eures' | translate }}</label>
+                    </div>
+                    <avam-button-group [parentForm]="bewirtschaftungForm" controlName="eures" [group]="euresGroup"></avam-button-group>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.gueltigkeit' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    id="anmeldeDatum"
+                    controlName="anmeldeDatum"
+                    [parentForm]="bewirtschaftungForm"
+                    calendarLabel="arbeitgeber.oste.label.meldedatum"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    id="gueltigkeitsDatum"
+                    controlName="gueltigkeitsDatum"
+                    [parentForm]="bewirtschaftungForm"
+                    calendarLabel="common.label.gueltig_bis"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-checkbox
+                    componentId="gueltigkeitUnbegrenzt"
+                    inputClass="col-lg-4"
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="gueltigkeitUnbegrenzt"
+                    selectLabel="{{ 'arbeitgeber.oste.label.unbegrenzt' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <avam-label-dropdown
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="status"
+                    id="status"
+                    [options]="statusOptions"
+                    selectLabel="arbeitgeber.oste.label.status"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.abmeldung' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    id="abmeldeDatum"
+                    controlName="abmeldeDatum"
+                    [parentForm]="bewirtschaftungForm"
+                    calendarLabel="common.label.datum"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-dropdown
+                    [parentForm]="bewirtschaftungForm"
+                    controlName="abmeldeGrund"
+                    id="abmeldeGrund"
+                    [options]="abmeldeGrundOptions"
+                    selectLabel="arbeitgeber.oste.label.abmeldegrund"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+            </div>
+        </div>
+    </div>
+</form>

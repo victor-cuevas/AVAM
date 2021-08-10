@@ -1,0 +1,74 @@
+<avam-alert></avam-alert>
+<div class="row main-content h-100">
+    <div class="col-l-6 col-xl-3 p-0">
+        <or-spinner [channel]="personenstammdatenSucheChannel"></or-spinner>
+        <form class="h-100" [formGroup]="searchForm" (keydown.enter)="$event.preventDefault()" (keyup.enter)="submitIfSuchenEnabled()" autocomplete="off">
+            <div class="avam-panel avam-panel-extra-lighter p-3 main-content-form-up">
+                <h3>
+                    <span class="fa fa-search mr-2"></span>
+                    <span>{{ 'stes.label.personenstammdaten' | translate }}</span>
+                </h3>
+                <avam-label-input
+                    avamAutofocus
+                    controlName="zasvorname"
+                    id="zasvorname"
+                    placeholder="stes.placeholder.searchZasVorname"
+                    inputClass="col"
+                    [parentForm]="searchForm"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="geburtsdatum"
+                    id="geburtsdatum"
+                    (onBlur)="formatWithDots()"
+                    inputClass="col"
+                    placeholder="stes.label.geburtsdatum"
+                    [parentForm]="searchForm"
+                ></avam-label-input>
+                <avam-label-input controlName="svnr" id="svnr" placeholder="{{ 'stes.label.svnr' }}" inputClass="col" [parentForm]="searchForm"></avam-label-input>
+            </div>
+            <div class="text-right buttonsposition">
+                <button type="reset" class="btn btn-link mt-3" (click)="reset()">
+                    {{ 'common.button.zuruecksetzen' | translate }}
+                </button>
+                <button type="submit" (click)="onSubmit()" class="btn btn-primary mt-3" [disabled]="!enableSuchen">
+                    <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col-l-6 col-xl-9 main-content-results h-100">
+        <div class="row pb-3">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-2">
+                    {{ 'stes.label.personenstammdaten' | translate }}
+                </h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="personenstammdatenData.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <hr class="nm-t-6" />
+        <div class="alert alert-info" role="alert" *ngIf="personenstammdatenData.length > 0 && showInfoMessage">
+            <strong> {{ 'stes.message.personenstammdatensucheninfomitteilung.titel' | translate }} </strong><br />
+            {{ 'stes.message.personenstammdatensucheninfomitteilung.text' | translate }}
+        </div>
+        <or-spinner [channel]="personenstammdatenSucheChannel"></or-spinner>
+        <avam-stes-personenstammdaten-table
+            *ngIf="personenstammdatenData"
+            [dataSource]="personenstammdatenData"
+            (onItemSelected)="receiveData($event)"
+        ></avam-stes-personenstammdaten-table>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button *ngIf="!isNeuanmeldungHidden" class="btn btn-secondary ml-1" type="button" (click)="callPersonenstammdaten()">
+        {{ 'common.button.neuanmeldung' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

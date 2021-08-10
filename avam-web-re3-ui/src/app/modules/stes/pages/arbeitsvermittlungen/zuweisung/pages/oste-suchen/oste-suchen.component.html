@@ -1,0 +1,155 @@
+<div class="row">
+    <or-spinner [channel]="stellenangebotChannel"></or-spinner>
+    <div (keyup.enter)="search()" class="col-l-6 col-xl-3 p-0">
+        <form class="page-scroll" [formGroup]="stellenangebotForm" #ngForm="ngForm" autocomplete="off">
+            <div>
+                <div class="avam-panel avam-panel-extra-lighter">
+                    <h3>
+                        <span class="fa fa-search mr-2"></span>
+                        <span>{{ 'stes.label.vermittlung.stellenangebot' | translate }}</span>
+                    </h3>
+
+                    <avam-beruf-autosuggest
+                        #berufAutosuggest
+                        avamAutofocusTwoFields
+                        [parentForm]="stellenangebotForm"
+                        controlName="beruf"
+                        placeholder="arbeitgeber.oste.label.beruftaetigkeit"
+                        container="body"
+                        [scrollIntoView]="false"
+                        [showFilter]="true"
+                    ></avam-beruf-autosuggest>
+
+                    <avam-label-checkbox
+                        componentId="aehnlicheBerufe"
+                        inputClass="mr-0"
+                        [parentForm]="stellenangebotForm"
+                        controlName="aehnlicheBerufe"
+                        selectLabel="{{ 'stes.wdg.label.aehnlicheberufe' }}"
+                    ></avam-label-checkbox>
+
+                    <avam-label-dropdown
+                        controlName="qualifikation"
+                        [inputClass]="'col'"
+                        [parentForm]="stellenangebotForm"
+                        [options]="qualifikationOptionsLabels"
+                        placeholder="arbeitgeber.oste.label.qualifikationWaehlen"
+                    ></avam-label-dropdown>
+                    <avam-label-dropdown
+                        controlName="erfahrung"
+                        [inputClass]="'col'"
+                        [parentForm]="stellenangebotForm"
+                        [options]="erfahrungOptionsLabels"
+                        placeholder="arbeitgeber.oste.label.erfahrungWaehlen"
+                    ></avam-label-dropdown>
+                    <avam-label-dropdown
+                        controlName="ausbildung"
+                        [inputClass]="'col'"
+                        [parentForm]="stellenangebotForm"
+                        [options]="ausbildungsniveauOptionsLabels"
+                        placeholder="arbeitgeber.oste.label.ausbildungsniveauWaehlen"
+                    ></avam-label-dropdown>
+
+                    <avam-label-input
+                        controlName="stellenbeschreibung"
+                        [inputClass]="'col'"
+                        [parentForm]="stellenangebotForm"
+                        placeholder="{{ 'arbeitgeber.oste.label.stellenbeschreibung' | translate }}"
+                    ></avam-label-input>
+                    <br />
+
+                    <avam-arbeitsorte-autosuggest
+                        [parentForm]="stellenangebotForm"
+                        controlName="arbeitsRegion"
+                        placeholder="{{ 'stes.vermittlung.label.arbeitsregion' | translate }}"
+                        container="body"
+                        [scrollIntoView]="false"
+                    ></avam-arbeitsorte-autosuggest>
+
+                    <br />
+                    <h4>
+                        <span>{{ 'stes.vermittlung.label.stellenangebote' | translate }}</span>
+                    </h4>
+
+                    <avam-label-dropdown
+                        controlName="stellenangebote"
+                        [inputClass]="'col'"
+                        [parentForm]="stellenangebotForm"
+                        [options]="zustaendigkeitsBereichOptionsLabels"
+                    ></avam-label-dropdown>
+
+                    <br />
+                    <avam-personalberater-autosuggest
+                        id="stellenverantwortung"
+                        controlName="stellenverantwortung"
+                        [parentForm]="stellenangebotForm"
+                        placeholder="{{ 'arbeitgeber.oste.label.stellenverantwortung' | translate }}"
+                        [benutzerSuchenTokens]="stellenverantwortungSuchenTokens"
+                        [type]="personalberaterAutosuggestType"
+                        container="body"
+                        [scrollIntoView]="false"
+                        (onInput)="onInputPersonalberaterSuche($event)"
+                    ></avam-personalberater-autosuggest>
+
+                    <avam-unternehmen-autosuggest
+                        [parentForm]="stellenangebotForm"
+                        controlName="arbeitgeber"
+                        [inputClass]="'col-lg-12 col-md-12'"
+                        placeholder="{{ 'amm.massnahmen.label.arbeitgeber' }}"
+                        [simpleInput]="true"
+                        suchePlusLabel="amm.massnahmen.label.arbeitgeber"
+                        container="body"
+                        [scrollIntoView]="false"
+                    ></avam-unternehmen-autosuggest>
+
+                    <avam-label-input
+                        controlName="stellenNr"
+                        [inputClass]="'col'"
+                        [parentForm]="stellenangebotForm"
+                        placeholder="{{ 'arbeitgeber.oste.label.stellennr' | translate }}"
+                    ></avam-label-input>
+                    <avam-erweiterte-suche
+                        #erweiterteSucheComponent
+                        [parentForm]="stellenangebotForm"
+                        contextId="oste_fuer_zuweisung"
+                        arrayName="erweiterteSuche"
+                        unternehmensType="arbeitgeber"
+                    ></avam-erweiterte-suche>
+                    <avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-l-6 col-xl-9 column-main">
+        <br />
+        <avam-stes-info-bar *ngIf="stesHeader" [data]="stesHeader"></avam-stes-info-bar>
+        <avam-alert></avam-alert>
+        <div class="oste-suchen-table-wrapper">
+            <avam-oste-suchen-table [dataSource]="dataSource" (onItemSelected)="itemSelected($event)"></avam-oste-suchen-table>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-oste-suchen-table *ngIf="dataSource" [dataSource]="dataSource" [forPrinting]="true"></avam-oste-suchen-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #footerBtns>
+    <div class="col-l-6 col-md-6 col-xl-3 col-left">
+        <button class="btn btn-link" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button class="btn btn-primary ml-1" type="button" (click)="search()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+            <span class="fa fa-search"></span>
+            {{ 'common.button.suchen' | translate }}
+        </button>
+    </div>
+    <div class="col-l-6 col-md-6 col-xl-9 col-right">
+        <button class="btn btn-link" type="button" (click)="cancel()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+    </div>
+</ng-template>

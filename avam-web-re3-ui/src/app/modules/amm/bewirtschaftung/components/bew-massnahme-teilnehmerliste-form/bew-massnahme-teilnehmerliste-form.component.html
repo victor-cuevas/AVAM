@@ -1,0 +1,36 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" autocomplete="off">
+    <div class="avam-panel pt-2 pb-1">
+        <div class="d-flex flex-nowrap col-md-12">
+            <div class="col-lg-4 col-md-4 flex-nowrap">
+                <avam-label-dropdown
+                    avamAutofocus
+                    id="zeitraumfilter"
+                    [parentForm]="formGroup"
+                    controlName="initialerZeitraumfilterCode"
+                    inputClass="col-lg-7 col-md-7"
+                    labelClass="col-lg-auto col-md-auto"
+                    [options]="zeitraumfilterOptions"
+                    selectLabel="amm.massnahmen.label.zeitraumfilter"
+                    [hideEmptyOption]="true"
+                    (onChange)="onZeitraumfilterChange($event)"
+                ></avam-label-dropdown>
+            </div>
+            <avam-date-range-picker
+                [hidden]="hideVonBis"
+                id="gueltigVonBis"
+                wrapperClass="col-lg-auto col-md-auto flex-nowrap"
+                inputClass="mr-4 w-250px"
+                containerClass="flex-nowrap"
+                [parentForm]="formGroup"
+                formControlNameFrom="initialerZeitraumVon"
+                formControlNameTo="initialerZeitraumBis"
+                [isResponsive]="true"
+            ></avam-date-range-picker>
+            <div class="input-group-append d-block">
+                <button class="btn btn-secondary rounded-0" type="button" (click)="refresh()">
+                    <span class="fa fa-refresh"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

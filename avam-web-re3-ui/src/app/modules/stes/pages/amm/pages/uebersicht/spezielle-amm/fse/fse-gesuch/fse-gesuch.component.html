@@ -1,0 +1,240 @@
+<form [formGroup]="fseGesuchForm" #ngForm="ngForm" closeBrowserTab [form]="fseGesuchForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-calendar
+                    [avamAutofocus]="isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                    id="eingangsdatum"
+                    controlName="eingangsdatum"
+                    calendarLabel="amm.nutzung.label.eingangsdatum"
+                    [parentForm]="fseGesuchForm"
+                    [readOnly]="isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                ></avam-label-calendar>
+                <app-textarea
+                    id="projekt"
+                    selectLabel="amm.nutzung.label.projekt"
+                    formControlName="projekt"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                ></app-textarea>
+                <avam-branche-autosuggest
+                    id="branche"
+                    componentLabel="amm.nutzung.label.branche"
+                    [parentForm]="fseGesuchForm"
+                    controlName="branche"
+                    placeholder="{{ 'stes.placeholder.nogacode' | translate }}"
+                    [readOnly]="isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                ></avam-branche-autosuggest>
+                <avam-label-calendar
+                    *ngIf="!isGesuchstypUebernahmeDesVerlustrisikos"
+                    id="beginnPlanungsphase"
+                    controlName="beginnPlanungsphase"
+                    calendarLabel="amm.nutzung.label.beginnplanungsphase"
+                    [parentForm]="fseGesuchForm"
+                    [readOnly]="
+                        (isGesuchstypGewaehrungVonTaggeldern || isGesuchstypGewaehrungVonTaggeldernUndVerlusrisiko) &&
+                        (isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt)
+                    "
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    id="beginnSelbstaendigkeit"
+                    controlName="beginnSelbstaendigkeit"
+                    calendarLabel="amm.nutzung.label.beginnselbstaendigkeit"
+                    [parentForm]="fseGesuchForm"
+                    [readOnly]="isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                ></avam-label-calendar>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    id="bearbeitung"
+                    [parentForm]="fseGesuchForm"
+                    controlName="bearbeitung"
+                    placeholder="{{ 'amm.massnahmen.label.benutzer' | translate }}"
+                    componentLabel="{{ 'stes.label.bearbeitung' }}"
+                    [benutzerSuchenTokens]="bearbeitungSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [readOnly]="isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    controlName="gesuchsNr"
+                    [parentForm]="fseGesuchForm"
+                    [readOnly]="true"
+                    id="gesuchsNr"
+                    selectLabel="stes.subnavmenuitem.stesAmm.gesuchsNr"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2"> {{ 'stes.subnavmenuitem.stesAmm.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            id="vorgaengerNr"
+                            *ngIf="fseGesuchData?.ammGeschaeftsfallObject?.vorgaengerId"
+                            [routerLink]="['./']"
+                            [queryParams]="{ gfId: fseGesuchData.ammGeschaeftsfallObject.vorgaengerId, entscheidId: vorgaengerEntscheidId }"
+                        >
+                            {{ fseGesuchData?.ammGeschaeftsfallObject?.vorgaengerObject?.ammGesuch?.gesuchsNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2"> {{ 'stes.subnavmenuitem.stesAmm.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            id="nachfolgerNr"
+                            *ngIf="fseGesuchData?.ammGeschaeftsfallObject?.nachfolgerId"
+                            [routerLink]="['./']"
+                            [queryParams]="{ gfId: fseGesuchData.ammGeschaeftsfallObject.nachfolgerId, entscheidId: nachfolgerEntscheidId }"
+                        >
+                            {{ fseGesuchData?.ammGeschaeftsfallObject?.nachfolgerObject?.ammGesuch?.gesuchsNr }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    selectLabel="{{ 'common.label.status' }}"
+                    [parentForm]="fseGesuchForm"
+                    controlName="status"
+                    id="status"
+                    [options]="statusOptions"
+                    [inputClass]="'col-4'"
+                    [readOnly]="isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                    (onChange)="setRequiredFields($event)"
+                    hideEmptyOption="true"
+                ></avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    selectLabel="{{ 'stes.subnavmenuitem.stesAmm.gesuchstyp' }}"
+                    [parentForm]="fseGesuchForm"
+                    controlName="gesuchstyp"
+                    id="gesuchstyp"
+                    [options]="gesuchstypOptions"
+                    (change)="onGesuchstypChange($event.target.value)"
+                    hideEmptyOption="true"
+                    [readOnly]="isGesuchStatusGeprueft || isEntscheidFreigabebereitFreigegebenOderErsetzt || hasGeschaeftsfallVorgaenger"
+                ></avam-label-dropdown>
+            </div>
+            <div *ngIf="!isGesuchstypGewaehrungVonTaggeldern" class="avam-panel">
+                <avam-unternehmen-autosuggest
+                    [parentForm]="fseGesuchForm"
+                    controlName="buergsschaftsgenossenschaft"
+                    componentLabel="amm.nutzung.label.buergsschaftsgenossenschaft"
+                    suchePlusLabel="amm.nutzung.label.buergsschaftsgenossenschaft"
+                    [readOnly]="(isGesuchstypUebernahmeDesVerlustrisikos && isGesuchStatusGeprueft) || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                    (onSelect)="onChangeBuergsschaftsgenossenschaft($event)"
+                    (onClear)="onKontaktpersonClear()"
+                    [isAvamOnly]="true"
+                ></avam-unternehmen-autosuggest>
+            </div>
+            <div *ngIf="!isGesuchstypGewaehrungVonTaggeldern" class="avam-panel">
+                <avam-kontaktperson-input-wrapper
+                    id="kontaktperson"
+                    [parentForm]="fseGesuchForm"
+                    controlName="kontaktperson"
+                    componentLabel="{{ 'amm.nutzung.label.kontaktperson' }}"
+                    [unternehmenId]="unternehmendId"
+                    (onClear)="onKontaktpersonClear(); setIsKpersonCleared()"
+                    (kontaktpersonSelected)="onKontaktpersonSelected($event)"
+                    [readonly]="(isGesuchstypUebernahmeDesVerlustrisikos && isGesuchStatusGeprueft) || isEntscheidFreigabebereitFreigegebenOderErsetzt"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-input
+                    [parentForm]="fseGesuchForm"
+                    controlName="name"
+                    id="name"
+                    selectLabel="{{ 'stes.label.name' }}"
+                    [readOnly]="(isGesuchstypUebernahmeDesVerlustrisikos && isGesuchStatusGeprueft) || isEntscheidFreigabebereitFreigegebenOderErsetzt || isKontaktpersonSelected"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fseGesuchForm"
+                    controlName="vorname"
+                    id="vorname"
+                    selectLabel="{{ 'stes.label.vorname' }}"
+                    [readOnly]="(isGesuchstypUebernahmeDesVerlustrisikos && isGesuchStatusGeprueft) || isEntscheidFreigabebereitFreigegebenOderErsetzt || isKontaktpersonSelected"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fseGesuchForm"
+                    controlName="telefon"
+                    id="telefon"
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    selectLabel="{{ 'stes.label.telefon' }}"
+                    [readOnly]="(isGesuchstypUebernahmeDesVerlustrisikos && isGesuchStatusGeprueft) || isEntscheidFreigabebereitFreigegebenOderErsetzt || isKontaktpersonSelected"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fseGesuchForm"
+                    controlName="mobile"
+                    id="mobile"
+                    placeholder="{{ 'stes.placeholder.mobile' }}"
+                    selectLabel="{{ 'stes.label.mobile' }}"
+                    [readOnly]="(isGesuchstypUebernahmeDesVerlustrisikos && isGesuchStatusGeprueft) || isEntscheidFreigabebereitFreigegebenOderErsetzt || isKontaktpersonSelected"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fseGesuchForm"
+                    controlName="fax"
+                    id="fax"
+                    placeholder="{{ 'stes.placeholder.fax' }}"
+                    selectLabel="{{ 'stes.label.fax' }}"
+                    [readOnly]="(isGesuchstypUebernahmeDesVerlustrisikos && isGesuchStatusGeprueft) || isEntscheidFreigabebereitFreigegebenOderErsetzt || isKontaktpersonSelected"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="fseGesuchForm"
+                    controlName="email"
+                    id="email"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    [readOnly]="(isGesuchstypUebernahmeDesVerlustrisikos && isGesuchStatusGeprueft) || isEntscheidFreigabebereitFreigegebenOderErsetzt || isKontaktpersonSelected"
+                ></app-email-input>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(buttonsFse | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_ERSETZBAR]) && !fseGesuchData?.ammGeschaeftsfallObject?.nachfolgerObject"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="onGeschaeftsfallErsetzen()"
+    >
+        {{ 'common.button.geschaeftsfallErsetzen' | translate }}
+    </button>
+    <button
+        *ngIf="(buttonsFse | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_ZURUECKNEHMBAR])"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="onGesuchFseZuruecknehmen()"
+    >
+        {{ 'common.button.zuruecknehmen' | translate }}
+    </button>
+    <button
+        *ngIf="(buttonsFse | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR, ammButtonsTypeEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="(buttonsFse | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_LOESCHBAR])" class="btn btn-secondary ml-1" type="button" (click)="openModalLoeschen()">
+        {{ 'common.button.geschaeftsfallLoeschen' | translate }}
+    </button>
+    <button *ngIf="(buttonsFse | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSubmit()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+</ng-template>

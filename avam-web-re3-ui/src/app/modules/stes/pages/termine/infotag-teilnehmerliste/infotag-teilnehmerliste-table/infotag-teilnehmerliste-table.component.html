@@ -1,0 +1,50 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" sortField="buchungsdatum" [sortOrder]="1">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'buchungsdatum'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'status'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="row.statusCode === null" [ngbTooltip]="'common.message.keineauswahl' | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t"
+                    ><i class="pa-2 fa fa-blank fa-minus"></i> {{ 'common.message.keineauswahl' | translate }}
+                </span>
+                <span
+                    *ngIf="row.statusCode?.code === PRAESENZSTATUS_TEILGENOMMEN"
+                    [ngbTooltip]="row.statusCode | dbTranslate: 'text'"
+                    triggers="manual"
+                    #t="ngbTooltip"
+                    [avamTableTooltip]="t"
+                    ><i class="pa-2 fa icon-green padding-right-5 fa-check"></i>{{ row.statusCode | dbTranslate: 'text' }}</span
+                >
+                <span
+                    *ngIf="row.statusCode?.code === PRAESENZSTATUS_ENTSCHULDIGT"
+                    [ngbTooltip]="row.statusCode | dbTranslate: 'text'"
+                    triggers="manual"
+                    #t="ngbTooltip"
+                    [avamTableTooltip]="t"
+                >
+                    <i class="pa-2 fa icon-gold padding-right-8 fa-minus"></i>{{ row.statusCode | dbTranslate: 'text' }}
+                </span>
+                <span
+                    *ngIf="row.statusCode?.code === PRAESENZSTATUS_UNENTSCHULDIGT"
+                    [ngbTooltip]="row.statusCode | dbTranslate: 'text'"
+                    triggers="manual"
+                    #t="ngbTooltip"
+                    [avamTableTooltip]="t"
+                >
+                    <i class="pa-2 fa icon-red padding-right-8 fa-close"></i>{{ row.statusCode | dbTranslate: 'text' }}
+                </span>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

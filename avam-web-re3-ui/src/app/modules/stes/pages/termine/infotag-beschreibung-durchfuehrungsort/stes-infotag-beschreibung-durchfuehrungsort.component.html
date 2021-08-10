@@ -1,0 +1,113 @@
+<form [formGroup]="mainForm" closeBrowserTab autocomplete="off" #ngForm="ngForm">
+    <or-spinner [channel]="getChannel()"></or-spinner>
+    <div class="print-block row">
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>{{ 'amm.massnahmen.label.inhalt' | translate }}</label>
+                <app-textarea customFormControlState [maxLength]="255" id="inhalt" formControlName="inhalt" [readonly]="true" [fullWidth]="true"></app-textarea>
+                <label>{{ 'amm.massnahmen.label.methodik' | translate }}</label>
+                <app-textarea customFormControlState [maxLength]="255" id="methodik" formControlName="methodik" [readonly]="true" [fullWidth]="true"></app-textarea>
+                <label>{{ 'amm.massnahmen.label.massnahmenziel' | translate }}</label>
+                <app-textarea customFormControlState [maxLength]="255" id="massnahmenziel" formControlName="massnahmenziel" [readonly]="true" [fullWidth]="true"></app-textarea>
+            </div>
+            <div class="avam-panel">
+                <h4>{{ 'amm.massnahmen.label.durchfuehrungsort' | translate }}</h4>
+                <avam-label-input
+                    id="durchfuehrungsortName"
+                    controlName="durchfuehrungsortName"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.name"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="durchfuehrungsortStrasseNr"
+                    controlName="durchfuehrungsortStrasseNr"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.strassenr"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="durchfuehrungsortRaum"
+                    controlName="durchfuehrungsortRaum"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.raum"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="durchfuehrungsortPlzOrt"
+                    controlName="durchfuehrungsortPlzOrt"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.plzort"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-land-autosuggest
+                    id="durchfuehrungsortLand"
+                    controlName="durchfuehrungsortLand"
+                    [parentForm]="mainForm"
+                    componentLabel="{{ 'common.label.land' | translate }}"
+                    [readOnly]="true"
+                ></avam-land-autosuggest>
+            </div>
+        </div>
+
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label for="kontaktPerson" class="col-form-label">{{ 'common.label.kontaktperson' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <div class="input-group-append">
+                            <input id="kontaktPerson" [value]="getKontaktPersonNameVorname()" class="form-control customdirective full-width" disabled />
+                            <button class="btn btn-secondary rounded-0" type="button" ngbTooltip="{{ 'common.button.waehlenKontaktperson' | translate }}" disabled>
+                                <span class="fa fa fa-clone fa-fw"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <avam-label-input
+                    id="kontaktPersonName"
+                    controlName="kontaktPersonName"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.name"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="kontaktPersonVorname"
+                    controlName="kontaktPersonVorname"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.vorname"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="kontaktPersonTelefon"
+                    controlName="kontaktPersonTelefon"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.telefon"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="kontaktPersonMobile"
+                    controlName="kontaktPersonMobile"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.mobile"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="kontaktPersonFax"
+                    controlName="kontaktPersonFax"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.fax"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="kontaktPersonEmail"
+                    controlName="kontaktPersonEmail"
+                    [parentForm]="mainForm"
+                    selectLabel="amm.massnahmen.label.email"
+                    readOnly="true"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+</form>

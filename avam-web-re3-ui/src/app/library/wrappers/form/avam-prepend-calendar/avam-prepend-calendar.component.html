@@ -1,0 +1,22 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="row {{ readOnly ? '' : 'form-group' }}">
+    <div class="col d-flex flex-row flex-nowrap align-items-center {{ inputClass ? inputClass : '' }}">
+        <span class="{{ readOnly ? '' : 'input-group-text input-group-prepend align-self-start' }} pl-1 pr-1" id="{{ id }}CalndarLabel">{{ label }}</span>
+        <div [hidden]="readOnly" orFormControlState class="flex-shrink-1 flex-grow-1 w-1">
+            <core-calendar
+                dynamicControlName
+                [formControlName]="controlName"
+                (dateChange)="onChangeDate($event)"
+                [bsConfig]="bsConfig"
+                [inputPlaceholder]="inputPlaceholder"
+                [minDate]="minDate"
+                [maxDate]="maxDate"
+                [isFocused]="isFocused"
+                [disableControl]="isDisabled"
+            ></core-calendar>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="readOnly" class="flex-shrink-1 flex-grow-1 w-1">
+            <p id="{{ id }}CalendarParagraph" class="m-0 p-value-left-12">{{ inputDate }}</p>
+        </div>
+    </div>
+</div>

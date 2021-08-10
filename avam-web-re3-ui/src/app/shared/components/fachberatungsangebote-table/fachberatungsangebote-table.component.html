@@ -1,0 +1,40 @@
+<avam-generic-table
+    *ngIf="tableData"
+    [stateKey]="getStateKey()"
+    [dataSource]="tableData"
+    [headers]="displayedTableColumns"
+    [scrollable]="true"
+    [maxHeight]="775"
+    (sortFunction)="sortFunction($event)"
+    [customSort]="true"
+>
+    <ng-container *ngFor="let column of tableColumns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                {{ column.header | translate }}
+            </th>
+            <td style="display: flex; justify-content: space-around;" cdk-cell *cdkCellDef="let row">
+                <button
+                    (primaryButtonClick)="onOpen(row)"
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    avamPrimaryButtonDirective
+                    type="button"
+                    [ngbTooltip]="'common.button.oeffnen' | translate"
+                ></button>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="isBeratungsbereichOrStatusColumn(column.columnDef)">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: column.columnDef" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | dbTranslate: column.columnDef }}
+                </span>
+            </td>
+        </ng-container>
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

@@ -1,0 +1,72 @@
+<avam-generic-table
+    #kontaktpersonenTable
+    *ngIf="tableData"
+    [stateKey]="getStateKey()"
+    [dataSource]="tableData"
+    [headers]="displayedTableColumns"
+    [scrollable]="true"
+    [computeHeightByElement]="true"
+    [maxHeight]="775"
+    (sortFunction)="sortFunction($event)"
+    [customSort]="true"
+>
+    <ng-container *ngFor="let column of tableColumns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'checkbox'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef><input type="checkbox" [checked]="allchecked" (click)="checkAll()" /></th>
+            <td [ngStyle]="{ background: row?.rowColor }" cdk-cell *cdkCellDef="let row">
+                <input *ngIf="row.allowMailTo" type="checkbox" [checked]="row.checked" (click)="checkbox(row)" />
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'actions'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                {{ column.header | translate }}
+            </th>
+            <td style="display: flex; justify-content: space-around;" cdk-cell *cdkCellDef="let row">
+                <button
+                    (primaryButtonClick)="onOpen(row)"
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    avamPrimaryButtonDirective
+                    type="button"
+                    [ngbTooltip]="'common.button.oeffnen' | translate"
+                ></button>
+                <button
+                    (click)="onOpenDocumentManager(row)"
+                    class="fa fa-file-word-o btn btn-secondary btn-sm buttonOnHover"
+                    type="button"
+                    [ngbTooltip]="'common.button.dokumentmanager' | translate"
+                ></button>
+                <button
+                    *ngIf="row.allowMailTo"
+                    (click)="onMailTo(row)"
+                    class="fa fa-envelope-o btn btn-secondary btn-sm buttonOnHover"
+                    type="button"
+                    [ngbTooltip]="'common.button.emailSenden' | translate"
+                ></button>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'anrede'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: 'anrede'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | dbTranslate: 'anrede' }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'status'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: 'status'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | dbTranslate: 'status' }}
+                </span>
+            </td>
+        </ng-container>
+
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

@@ -1,0 +1,19 @@
+<div class="overflow-auto-custom">
+    <or-spinner [channel]="zwischenverdienstChannel"></or-spinner>
+    <avam-zwischenverdienste-table [dataSource]="data" (onItemSelected)="itemSelected($event)"> </avam-zwischenverdienste-table>
+</div>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="data">
+        <avam-zwischenverdienste-table *ngIf="data" [dataSource]="data"></avam-zwischenverdienste-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="navigateToZwischenverdienstErfassen()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        <span class="fa fa-plus"></span>
+        {{ 'common.button.zwischenverdienstErfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

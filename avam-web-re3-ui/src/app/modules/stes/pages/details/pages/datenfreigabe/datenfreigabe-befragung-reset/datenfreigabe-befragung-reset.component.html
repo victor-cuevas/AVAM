@@ -1,0 +1,10 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ 'stes.subnavmenuitem.stesPublikation' | translate }}</h4>
+</div>
+<div class="modal-body">
+    <p>{{ 'stes.feedback.publikation.neinOderJa' | translate }}</p>
+</div>
+<div class="modal-footer" (keyup.escape)="resetBefragung(false)">
+    <button class="btn btn-secondary" (click)="resetBefragung(false)">{{ 'common.button.neinAbbrechen' | translate }}</button>
+    <button class="btn btn-primary" (click)="resetBefragung(true)">{{ 'common.button.inaktivieren' | translate }}</button>
+</div>

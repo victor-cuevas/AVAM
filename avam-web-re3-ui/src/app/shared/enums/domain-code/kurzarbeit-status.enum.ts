@@ -1,0 +1,8 @@
+export enum KurzarbeitStatusEnum {
+    KAE_STATUS_PENDENT = '0',
+    KAE_STATUS_MAHNUNG = '1',
+    KAE_STATUS_FREIGABEBEREIT = '2',
+    KAE_STATUS_FREIGEGEBEN = '3',
+    KAE_STATUS_INUEBERARBEITUNG = '4',
+    KAE_STATUS_ERSETZT = '9'
+}

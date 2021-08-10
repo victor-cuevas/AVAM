@@ -1,0 +1,65 @@
+.nav-tree-pattern-highlight {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+.avam-nav-link {
+    color: black !important;
+    text-decoration: none !important;
+    width: 100vw;
+    overflow: hidden;
+    span {
+        overflow: hidden;
+        width: 100%;
+        text-overflow: ellipsis;
+    }
+}
+
+.border-bottom-nav {
+    border-bottom: 1px solid #d5d5d5;
+}
+
+.nav-bordered .nav-link {
+    border-bottom: none !important;
+}
+
+.padding-left-11 {
+    padding-left: 11px !important;
+}
+
+.padding-left-9 {
+    padding-left: 9px !important;
+}
+
+.padding-left-6 {
+    padding-left: 6px !important;
+}
+
+.nav-tree .nav .nav > li > .nav-link {
+    padding-left: 50px !important; }
+
+.nav-tree .nav .nav .nav > li > .nav-link {
+    padding-left: 65px !important; }
+
+.nav-tree .nav .nav .nav .nav > li > .nav-link {
+    padding-left: 75px !important;}
+
+.nav-tree .nav .nav .nav .nav .nav > li > .nav-link {
+    padding-left: 85px !important; }
+
+.nav-tree .nav .nav .nav .nav .nav .nav > li > .nav-link {
+    padding-left: 100px !important; }
+
+.side-nav-tree {
+    .nav-link {
+        &.active {
+            background: #ececec;
+            &:after {
+                left: 0 !important;
+            }
+        }
+    }
+
+}
+
+

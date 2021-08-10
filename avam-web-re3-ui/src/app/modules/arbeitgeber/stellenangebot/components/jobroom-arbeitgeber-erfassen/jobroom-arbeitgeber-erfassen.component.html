@@ -1,0 +1,52 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ 'unternehmen.label.wizard.arbeitgeber_erfassen' | translate }}</h4>
+        <div class="col-4 pull-right">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [formNumber]="formNr"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <ng-form #ngForm="ngForm">
+            <div class="avam-panel avam-panel-extra-lighter p-3" [formGroup]="standOrtAdresseForm">
+                <or-spinner [channel]="channel"></or-spinner>
+                <div class="col">
+                    <h3>{{ 'benutzerverwaltung.label.standortadresse' | translate }}</h3>
+                    <br />
+                    <avam-common-info-fields
+                        #korrespondenzAdresseFormComponent
+                        [form]="standOrtAdresseForm"
+                        [requiredFieldValidations]="false"
+                        [disableControls]="false"
+                        [isFirstField]="true"
+                    ></avam-common-info-fields>
+                    <div class="mt-lg-5">
+                        <avam-branche-autosuggest
+                            id="branche"
+                            componentLabel="amm.nutzung.label.branche"
+                            [parentForm]="standOrtAdresseForm"
+                            controlName="branche"
+                            placeholder="{{ 'stes.placeholder.nogacode' | translate }}"
+                        ></avam-branche-autosuggest>
+                        <app-textarea
+                            [id]="'ergaenzendeAngaben'"
+                            formControlName="ergaenzendeAngaben"
+                            selectLabel="unternehmen.button.mitteilunganbfs"
+                            placeholder="unternehmen.label.bfsplaceholder"
+                            customFormControlState
+                            [maxLength]="255"
+                        ></app-textarea>
+                    </div>
+                </div>
+            </div>
+        </ng-form>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <div>{{ formNr }}</div>
+        <div class="sticky-actions">
+            <button type="button" class="btn btn-link ml-1" (click)="modalService.dismissAll()" data-dismiss="modal">{{ 'common.button.abbrechen' | translate }}</button>
+            <button type="button" class="btn btn-link ml-1" (click)="reset()" data-dismiss="modal">{{ 'common.button.zuruecksetzen' | translate }}</button>
+            <button type="button" class="btn btn-primary ml-1" (click)="complete()">{{ 'common.button.fertigstellenansBFSsenden' | translate }}</button>
+        </div>
+    </div>
+</div>

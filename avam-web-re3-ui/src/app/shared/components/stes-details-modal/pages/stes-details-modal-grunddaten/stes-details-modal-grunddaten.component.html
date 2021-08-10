@@ -1,0 +1,201 @@
+<form [formGroup]="grunddatenForm" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel" formGroupName="anmeldung">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.anmeldung' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    controlName="anmeldedatumgemeinde"
+                    [parentForm]="grunddatenForm.get('anmeldung')"
+                    id="anmeldedatumgemeinde"
+                    calendarLabel="{{ 'stes.label.anmeldedatumGemeinde' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="anmeldedatumrav"
+                    [parentForm]="grunddatenForm.get('anmeldung')"
+                    id="anmeldedatumrav"
+                    calendarLabel="{{ 'stes.label.anmeldedatumRav' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="stellenantrittab"
+                    [parentForm]="grunddatenForm.get('anmeldung')"
+                    id="stellenantrittab"
+                    calendarLabel="{{ 'stes.label.stellenantrittAb' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="ravwechsel"
+                    [parentForm]="grunddatenForm.get('anmeldung')"
+                    id="ravwechsel"
+                    calendarLabel="{{ 'stes.label.ravWechsel' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+            </div>
+            <div class="avam-panel" formGroupName="zustaendigkeit">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.zustaendigkeit' | translate }}</h3>
+                </label>
+                <avam-personalberater-autosuggest
+                    id="personalberater"
+                    controlName="personalberater"
+                    [parentForm]="grunddatenForm.get('zustaendigkeit')"
+                    componentLabel="{{ 'stes.label.personalberater' }}"
+                    [readOnly]="true"
+                    [type]="personalberaterAutosuggestType"
+                ></avam-personalberater-autosuggest>
+                <avam-benutzerstelle-autosuggest
+                    id="benutzerstelle"
+                    [parentForm]="grunddatenForm.get('zustaendigkeit')"
+                    controlName="benutzerstelle"
+                    componentLabel="{{ 'stes.label.benutzerstelle' | translate }}"
+                    [readOnly]="true"
+                    [type]="benutzerstelleAutosuggestType"
+                ></avam-benutzerstelle-autosuggest>
+            </div>
+            <div class="avam-panel" formGroupName="erwerbssituationarbeitsmarktsituation">
+                <label>
+                    <h3>{{ 'stes.label.erwerbssituation' | translate }} {{ '/' }} {{ 'stes.label.arbeitsmarktsituation' | translate }}</h3>
+                </label>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('erwerbssituationarbeitsmarktsituation')"
+                    controlName="erwerbssituationbeianmeldung"
+                    id="erwerbssituationbeianmeldung"
+                    selectLabel="{{ 'stes.label.erwerbssituationBeiAnmeldung' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('erwerbssituationarbeitsmarktsituation')"
+                    controlName="erwerbssituationaktuell"
+                    id="erwerbssituationaktuell"
+                    selectLabel="{{ 'stes.label.erwerbssituationAktuell' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('erwerbssituationarbeitsmarktsituation')"
+                    controlName="erwerbssituationberechnet"
+                    id="erwerbssituationberechnet"
+                    selectLabel="{{ 'stes.label.erwerbssituationBerechnet' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('erwerbssituationarbeitsmarktsituation')"
+                    controlName="arbeitsmarktsituationberechnet"
+                    id="arbeitsmarktsituationberechnet"
+                    selectLabel="{{ 'stes.label.arbeitsmarktsituationBerechnet' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <avam-label-input
+                    [parentForm]="grunddatenForm"
+                    controlName="hoechsteausbildung"
+                    id="hoechsteausbildung"
+                    selectLabel="{{ 'stes.label.hoechsteausbildung' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel" formGroupName="leistungsbezug">
+                <label>
+                    <h3>{{ 'stes.label.leistungsbezug' | translate }}</h3>
+                </label>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('leistungsbezug')"
+                    controlName="leistungsbezug"
+                    id="leistungsbezug"
+                    selectLabel="{{ 'stes.label.leistungsbezug' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('leistungsbezug')"
+                    controlName="kantonalearbeitslosenhilfe"
+                    id="kantonalearbeitslosenhilfe"
+                    selectLabel="{{ 'stes.label.kantonaleArbeitslosenhilfe' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <div orFormControlState class="form-group">
+                    <app-alk-zahlstelle-autosuggest dynamicControlName formControlName="alk" id="alk" [readOnly]="true"></app-alk-zahlstelle-autosuggest>
+                </div>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('leistungsbezug')"
+                    controlName="transferanalk"
+                    id="transferanalk"
+                    selectLabel="{{ 'stes.label.transferanalk' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel" formGroupName="sachbearbeitungalk">
+                <label>
+                    <h3>{{ 'stes.label.sachbearbeitungAlk' | translate }}</h3>
+                </label>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('sachbearbeitungalk')"
+                    controlName="nameRa"
+                    id="nameRa"
+                    selectLabel="{{ 'stes.label.name' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('sachbearbeitungalk')"
+                    controlName="vornameRa"
+                    id="vornameRa"
+                    selectLabel="{{ 'stes.label.vorname' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('sachbearbeitungalk')"
+                    controlName="telefonRa"
+                    id="telefonRa"
+                    selectLabel="{{ 'stes.label.telefon' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="grunddatenForm.get('sachbearbeitungalk')"
+                    controlName="emailRa"
+                    id="emailRa"
+                    selectLabel="{{ 'stes.label.email' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel" formGroupName="zentralerdruckformulare">
+                <label>
+                    <h3>{{ 'stes.label.zentralerdruckformulare' | translate }}</h3>
+                </label>
+                <avam-label-checkbox
+                    componentId="avpproduzieren"
+                    controlName="avpproduzieren"
+                    [parentForm]="grunddatenForm.get('zentralerdruckformulare')"
+                    selectLabel="{{ 'stes.label.avpproduzieren' }}"
+                    [isDisabled]="true"
+                    inputClass="ml-3"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="pabproduzieren"
+                    controlName="pabproduzieren"
+                    [parentForm]="grunddatenForm.get('zentralerdruckformulare')"
+                    selectLabel="{{ 'stes.label.pabProduzieren' }}"
+                    [isDisabled]="true"
+                    inputClass="ml-3"
+                ></avam-label-checkbox>
+            </div>
+            <div class="avam-panel">
+                <avam-label-checkbox
+                    componentId="vermittlungsstopp"
+                    controlName="vermittlungsstopp"
+                    [parentForm]="grunddatenForm"
+                    selectLabel="{{ 'stes.label.zuweisungsstop' }}"
+                    [isDisabled]="true"
+                    inputClass="ml-3"
+                ></avam-label-checkbox>
+            </div>
+        </div>
+    </div>
+</form>

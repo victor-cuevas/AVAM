@@ -1,0 +1,72 @@
+<form (keydown.enter)="onEnter.emit($event)" [formGroup]="massnahmeSuchenForm" #ngForm="ngForm" autocomplete="off">
+    <div class="mt-3 search-padding">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.infotag.label.infotagMassnahme' | translate }}</span>
+        </h3>
+        <h4>
+            <span>{{ 'amm.infotag.label.massnahmeartStruktur' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            controlName="strukturCategories"
+            [inputClass]="'col'"
+            [parentForm]="massnahmeSuchenForm"
+            [options]="categoriesOptions"
+            [isDisabled]="disableInputs"
+        ></avam-label-dropdown>
+        <avam-label-input
+            avamAutofocus
+            controlName="massnahmenNr"
+            [inputClass]="'col'"
+            [parentForm]="massnahmeSuchenForm"
+            placeholder="{{ 'amm.massnahmen.label.massnahmennr' | translate }}"
+            (onInput)="toggleEnabledInputs($event)"
+            (onChange)="toggleEnabledInputs($event)"
+        ></avam-label-input>
+        <avam-label-input
+            controlName="titel"
+            [inputClass]="'col'"
+            [parentForm]="massnahmeSuchenForm"
+            placeholder="{{ 'amm.massnahmen.label.titel' | translate }}"
+            [isDisabled]="disableInputs"
+        ></avam-label-input>
+        <avam-unternehmen-autosuggest
+            id="anbieter"
+            controlName="anbieter"
+            isAvamOnly="true"
+            [parentForm]="massnahmeSuchenForm"
+            placeholder="{{ 'amm.massnahmen.label.anbieter' | translate }}"
+            [readOnly]="disableInputs"
+            suchePlusLabel="{{ 'amm.massnahmen.label.anbieter' | translate }}"
+        ></avam-unternehmen-autosuggest>
+        <avam-personalberater-autosuggest
+            #massnahmenverantwortung
+            [parentForm]="massnahmeSuchenForm"
+            controlName="massnahmenverantwortung"
+            placeholder="{{ 'amm.massnahmen.label.massnahmenverantwortung' | translate }}"
+            [type]="personalberaterAutosuggestType"
+            [benutzerSuchenTokens]="verantwortungSuchenTokens"
+            [isDisabled]="disableInputs"
+            [showFilter]="true"
+        ></avam-personalberater-autosuggest>
+        <br />
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="gueltigVon"
+            [parentForm]="massnahmeSuchenForm"
+            id="gueltigVon"
+            inputPlaceholder="{{ 'amm.infotag.label.gueltigVon' }}"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            [isDisabled]="disableInputs"
+        ></avam-label-calendar>
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="gueltigBis"
+            [parentForm]="massnahmeSuchenForm"
+            id="gueltigBis"
+            inputPlaceholder="{{ 'amm.infotag.label.gueltigBis' }}"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            [isDisabled]="disableInputs"
+        ></avam-label-calendar>
+    </div>
+</form>

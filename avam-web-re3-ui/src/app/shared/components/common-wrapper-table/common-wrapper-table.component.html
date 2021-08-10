@@ -1,0 +1,105 @@
+<avam-generic-table
+    [formGroup]="tableForm"
+    [sortField]="config.sortField"
+    [sortOrder]="config.sortOrder"
+    [dataSource]="dataSource"
+    [headers]="config.displayedColumns"
+    [maxHeight]="config.maxHeight"
+    [stateKey]="stateKey"
+    [shouldFocusInitialRow]="shouldFocusInitialRow"
+    [computeHeightByElement]="true"
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th
+            [ngClass]="{ 'avam-column-width': column.fixWidth }"
+            [ngStyle]="{ width: column.initWidth }"
+            [sortable-column]="column.columnDef !== 'actions' ? column.columnDef : null"
+            cdk-header-cell
+            *cdkHeaderCellDef
+        >
+            <div class="header-container">
+                <span *ngIf="isNotSpecialColumn(column)" [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    <sort-icon [column]="column.columnDef"></sort-icon>
+                    {{ column.header | translate }}
+                </span>
+                <span *ngIf="column.columnDef === 'checkbox'" class="full-centered form-check-inline">
+                    <input [readOnly]="!formArray.length" type="checkbox" formControlName="headerControl" />
+                </span>
+                <em
+                    *ngIf="column.columnDef === 'flag' || column.columnDef === 'exclamation'"
+                    [ngbTooltip]="column.header | translate"
+                    class="pa-2 full-centered fa fa-lg"
+                    [ngClass]="column.columnDef === 'flag' ? 'fa-flag' : 'fa-exclamation'"
+                >
+                    <sort-icon [column]="column.columnDef"></sort-icon>
+                </em>
+            </div>
+        </th>
+
+        <ng-container *ngIf="column.columnDef === 'actions'; else normalValueColumn">
+            <td class="avam-table-action-column" cdk-cell *cdkCellDef="let row">
+                <button
+                    (primaryButtonClick)="onClick(row)"
+                    [disabled]="config.disabledButtonRow || row.disabled"
+                    ngbTooltip="{{ column.header | translate }}"
+                    avamPrimaryButtonDirective
+                    [ngClass]="column.header === 'common.button.uebernehmen' || !!column.isUebernehmen ? 'fa-check btn-success' : !!column.isDelete ? 'fa-trash' : 'fa-eye'"
+                    class="fa btn btn-primary btn-sm buttonOnHover"
+                    type="button"
+                ></button>
+                <button *ngIf="row.email && row.allowMailTo" (click)="onMailTo(row.email)" class="fa fa-envelope-o btn btn-secondary btn-sm buttonOnHover" type="button"></button>
+            </td>
+        </ng-container>
+        <ng-template #normalValueColumn>
+            <td cdk-cell *cdkCellDef="let row" [ngSwitch]="column.columnDef" [ngClass]="{ inactive: row.inactive }" formArrayName="tableRows">
+                <ng-container *ngSwitchCase="'checkbox'">
+                    <span *ngIf="row.dataFromTUnternehmen && !!row.email" class="full-centered form-check-inline">
+                        <input type="checkbox" [formControlName]="row.i" />
+                    </span>
+                </ng-container>
+                <ng-container *ngSwitchCase="'flag'">
+                    <span *ngIf="column.cell(row) == meldepflichtEnum.UNTERLIEGT_LAUFEND" [ngbTooltip]="'stes.tooltip.vermittlung.meldepflichtLaufend' | translate">
+                        <em class="full-centered fa fa-flag fa-lg"></em>
+                    </span>
+                    <span *ngIf="column.cell(row) == meldepflichtEnum.UNTERLIEGT_ABGELAUFEN" [ngbTooltip]="'stes.tooltip.vermittlung.meldepflichtAbgelaufen' | translate">
+                        <em class="full-centered fa fa-flag-o fa-lg"></em>
+                    </span>
+                    <span *ngIf="column.cell(row) == 'showWithoutTooltip'" [ngbTooltip]="'arbeitgeber.oste.label.stelleMeldepflicht' | translate">
+                        <em class="full-centered fa fa-flag fa-lg"></em>
+                    </span>
+                    <span *ngIf="!!column.cell(row) && column.cell(row).flagType == meldepflichtEnum.UNTERLIEGT_LAUFEND" [ngbTooltip]="column.cell(row).tooltip">
+                        <em class="full-centered fa fa-flag fa-lg"></em>
+                    </span>
+                    <span *ngIf="!!column.cell(row) && column.cell(row).flagType == meldepflichtEnum.UNTERLIEGT_ABGELAUFEN" [ngbTooltip]="column.cell(row).tooltip">
+                        <em class="full-centered fa fa-flag-o fa-lg"></em>
+                    </span>
+                </ng-container>
+                <ng-container *ngSwitchCase="'exclamation'">
+                    <span *ngIf="column.cell(row) != ''" [ngbTooltip]="column.cell(row) | translate">
+                        <em class="full-centered fa fa-exclamation fa-lg"></em>
+                    </span>
+                </ng-container>
+                <ng-container *ngSwitchCase="'berufetaetigkeit'">
+                    <span *ngIf="column.cell(row) != ''" [ngbTooltip]="'stes.label.berufTaetigkeitTooltip' | translate">
+                        {{ column.cell(row) | translate }}
+                    </span>
+                </ng-container>
+                <ng-container *ngSwitchCase="'erwerbssituationBerechnet'">
+                    <span *ngIf="column.cell(row) != ''" [ngbTooltip]="'stes.label.erwerbssituationBerechnetTooltip' | translate">
+                        {{ column.cell(row) | translate }}
+                    </span>
+                </ng-container>
+                <ng-container *ngSwitchDefault>
+                    <span *ngIf="!!column.tooltip; else defaultCellValue" [ngbTooltip]="column.tooltip(row)">
+                        {{ column.cell(row) | translate }}
+                    </span>
+                    <ng-template #defaultCellValue>
+                        <span [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                            {{ column.cell(row) | translate }}
+                        </span>
+                    </ng-template>
+                </ng-container>
+            </td>
+        </ng-template>
+    </ng-container>
+</avam-generic-table>

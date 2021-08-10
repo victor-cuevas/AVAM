@@ -1,0 +1,47 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" sortField="zuweisungDatumVom" [sortOrder]="-1" [stateKey]="stateKey">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'meldepflicht'">
+            <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <div class="header-container">
+                    <span [ngbTooltip]="column.header | translate">
+                        <sort-icon [column]="column.columnDef"></sort-icon>
+                        <i class="fa fa-flag fa-lg"></i>
+                    </span>
+                </div>
+            </th>
+
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="column.cell(row) === meldepflichtEnum.UNTERLIEGT_LAUFEND" [ngbTooltip]="'stes.tooltip.vermittlung.meldepflichtLaufend' | translate">
+                    <i class="full-centered fa fa-flag fa-lg"></i>
+                </span>
+                <span *ngIf="column.cell(row) === meldepflichtEnum.UNTERLIEGT_ABGELAUFEN" [ngbTooltip]="'stes.tooltip.vermittlung.meldepflichtAbgelaufen' | translate">
+                    <i class="full-centered fa fa-flag-o fa-lg"></i>
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'zuweisungDatumVom'">
+            <td [ngClass]="row.isBold ? 'font-weight-bold' : ''" cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                    (primaryButtonClick)="itemSelected(row)"
+                    avamPrimaryButtonDirective
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td [ngClass]="row.isBold ? 'font-weight-bold' : ''" cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

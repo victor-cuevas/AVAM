@@ -1,0 +1,30 @@
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+	<display-name>Frontend</display-name>
+
+    <filter>
+        <filter-name>HeaderCacheFilter</filter-name>
+        <filter-class>ch.adesso.HeaderCacheFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>HeaderCacheFilter</filter-name>
+        <url-pattern>/index.html</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>HeaderCacheFilter</filter-name>
+        <url-pattern>/</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <error-page>
+		<error-code>404</error-code>
+		<location>/</location>
+	</error-page>
+
+</web-app>

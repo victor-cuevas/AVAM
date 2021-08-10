@@ -1,0 +1,90 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-abrechnungswert-grunddaten-form #abrechnungswertForm [formData]="formData"></avam-abrechnungswert-grunddaten-form>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button class="btn btn-link" type="button" (click)="cancel()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)"
+            avamDisableOnSpinner
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="save()"
+        >
+            {{ 'common.button.weiter' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <span> {{ unternehmen?.strasse }} </span>
+        </div>
+        <div class="item">
+            <strong>{{ 'arbeitgeber.oste.label.postfach' | translate }}</strong>
+            <span> {{ unternehmen?.postfach }}</span>
+        </div>
+        <div class="item">
+            <strong>{{ 'unternehmen.label.burnummer' | translate }}</strong>
+            <span> {{ unternehmen?.burNr }}</span>
+        </div>
+        <div class="item">
+            <strong>{{ 'unternehmen.label.burstatus' | translate }}</strong>
+            <span> {{ unternehmen?.status }} </span>
+        </div>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.leistungsvereinbarungnr' | translate }} </b>
+            <span> {{ abrechnungswert?.vertragswertObject?.leistungsvereinbarungObject?.leistungsvereinbarungNr }} </span>
+        </div>
+        <div class="item">
+            <b> {{ 'arbeitgeber.oste.label.status' | translate }} </b>
+            <span> {{ abrechnungswert?.vertragswertObject?.leistungsvereinbarungObject?.statusObject | dbTranslate: 'text' }} </span>
+        </div>
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.MASSNAHME">
+            <b> {{ 'amm.akquisition.label.massnahmenNr' | translate }} </b>
+            <span>{{ abrechnungswert?.vertragswertObject?.massnahmeObject?.massnahmeId }}</span>
+        </div>
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.KURS">
+            <b> {{ 'amm.akquisition.label.durchfuehrungsnrkurs' | translate }} </b>
+            <span>{{ abrechnungswert?.vertragswertObject?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+        </div>
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.STANDORT">
+            <b> {{ 'amm.akquisition.label.durchfuehrungsnrstandort' | translate }} </b>
+            <span>{{ abrechnungswert?.vertragswertObject?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+        </div>
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.massnahmeObject">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.vertragswertObject?.massnahmeObject | dbTranslate: 'titel' }}
+            </span>
+        </div>
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.durchfuehrungseinheitObject">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.vertragswertObject?.durchfuehrungseinheitObject | dbTranslate: 'titel' }}
+            </span>
+        </div>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.profilnr' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.vertragswertObject?.profilNr }}
+            </span>
+        </div>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.vertragswertnr' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.vertragswertObject?.vertragswertNr }}
+            </span>
+        </div>
+    </ng-container>
+</ng-template>

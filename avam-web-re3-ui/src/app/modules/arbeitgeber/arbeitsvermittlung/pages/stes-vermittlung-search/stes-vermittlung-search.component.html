@@ -1,0 +1,57 @@
+<or-column-layout [right]="false">
+    <div column-left-content class="sticky-main">
+        <div (keyup.enter)="searchForm.search()">
+            <avam-vermittlung-search-form
+                #searchForm
+                (resetEmitter)="onResetEvent()"
+                (searchEmitter)="onSearchEvent($event)"
+                (spinnerEmitter)="onSpinnerEvent($event)"
+                [stateKey]="STATE_KEY"
+            >
+            </avam-vermittlung-search-form>
+        </div>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="searchForm.reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            (click)="searchForm.search()"
+            [disabled]="!searchForm.searchForm.valid"
+            [permissions]="[searchForm.permissions.ARBEITGEBER_SUCHEN]"
+        >
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4 infoleiste">{{ 'i18n.routes.stes-search.title' | translate }}</h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="responseData.length"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+
+        <ng-template #modalPrint>
+            <avam-generic-table-print [dataSource]="tableConfig.data">
+                <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="tableConfig.columns" [config]="printConfig"></avam-common-wrapper-table>
+            </avam-generic-table-print>
+        </ng-template>
+
+        <avam-alert></avam-alert>
+        <div class="overflow-hidden mh-100 pt-3">
+            <avam-common-wrapper-table
+                [dataSource]="tableConfig.data"
+                [columns]="tableConfig.columns"
+                [config]="tableConfig.config"
+                [stateKey]="TABLE_STATE_KEY"
+                (onRowSelect)="selectItem($event)"
+            ></avam-common-wrapper-table>
+        </div>
+    </div>
+</or-column-layout>

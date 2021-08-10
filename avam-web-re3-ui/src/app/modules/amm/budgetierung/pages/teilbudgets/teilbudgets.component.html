@@ -1,0 +1,37 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-teilbudget-table *ngIf="dataSource" [dataSource]="dataSource" (onItemSelected)="itemSelected($event)"></avam-teilbudget-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-teilbudget-table *ngIf="dataSource" [dataSource]="dataSource" [forPrinting]="true"></avam-teilbudget-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b>{{ 'common.label.version' | translate }}</b>
+            {{ budget?.version }}
+        </div>
+        <div class="item">
+            <b>{{ 'common.label.status' | translate }}</b>
+            {{ budget?.status | dbTranslate: 'text' }}
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(buttons | async | commonButtonDisplayPipe: buttonsEnum.AMMBUDGETIERUNGBUTTONNEUESTEILBUDGET)"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="navigateToCreate()"
+    >
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'amm.budgetierung.topnavmenuitem.teilbudgeterfassen' | translate }}
+    </button>
+</ng-template>

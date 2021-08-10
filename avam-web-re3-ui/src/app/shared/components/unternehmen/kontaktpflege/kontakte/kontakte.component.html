@@ -1,0 +1,16 @@
+<div>
+    <or-spinner channel="{{ resultSpinnerChannel }}"></or-spinner>
+    <avam-kontakt-table [tableData]="resultsData" [stateKey]="stateKey" (onPrimaryAction)="openKontakt($event)"></avam-kontakt-table>
+</div>
+<ng-template #buttons>
+    <button class="btn btn-primary ml-1" type="button" (click)="kontaktErfassen()" [permissions]="[permissions.ARBEITGEBER_KONTAKTE_BEARBEITEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'unternehmen.label.kontakterfassen' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="resultsData">
+        <avam-kontakt-table [tableData]="resultsData" [stateKey]="stateKey" [forPrinting]="true"></avam-kontakt-table>
+    </avam-generic-table-print>
+</ng-template>

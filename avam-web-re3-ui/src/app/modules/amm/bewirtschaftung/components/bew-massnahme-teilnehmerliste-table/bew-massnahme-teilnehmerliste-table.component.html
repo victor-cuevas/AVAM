@@ -1,0 +1,41 @@
+<avam-generic-table [maxHeight]="600" sortField="buchungsdatum" [sortOrder]="1" [dataSource]="dataSource" [headers]="displayedColumns" [stateKey]="stateKey">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'checkbox'">
+            <td cdk-cell *cdkCellDef="let row">
+                <avam-label-checkbox
+                    *ngIf="!row.hideCheckbox"
+                    componentId="rowCheckbox{{ row.index }}"
+                    [parentForm]="parentForm.controls.rowCheckboxes"
+                    controlName="{{ row.hideCheckbox ? null : row.index }}"
+                ></avam-label-checkbox>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'von' || column.columnDef === 'bis' || column.columnDef === 'buchungsdatum' || column.columnDef === 'abbruch'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    *ngIf="!row.hideCheckbox"
+                    ngbTooltip="{{ isWarteliste ? ('amm.massnahmen.label.aufteilnehmerlisteumbuchen' | translate) : ('amm.massnahmen.label.aufwartelisteumbuchen' | translate) }}"
+                    avamPrimaryButtonDirective
+                    class="btn btn-primary btn-sm buttonOnHover"
+                    type="button"
+                    (primaryButtonClick)="itemSelected(row)"
+                >
+                    {{ 'amm.massnahmen.button.umbuchen' | translate }}
+                </button>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

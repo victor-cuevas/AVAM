@@ -1,0 +1,62 @@
+<form class="inline-components-table" [formGroup]="form" #ngForm="ngForm">
+    <or-spinner [channel]="channel" *ngIf="visible"></or-spinner>
+    <avam-generic-table
+        *ngIf="data && displayedColumns && visible"
+        [selection]="selection"
+        [customSort]="true"
+        (sortFunction)="sortFunction($event)"
+        [dataSource]="data"
+        [headers]="displayedColumns"
+        formArrayName="tableRows"
+        [sortOrder]="sortOrder"
+        [sortField]="sortField"
+        [initialSort]="false"
+        [shouldFocusInitialRow]="!createdRow && !optionalFocus"
+        [recalculateMaxHeight]="recalculateMaxHeight"
+        [maxHeight]="maxHeight"
+    >
+        <ng-container *ngFor="let column of columns; first as isFirst" [cdkColumnDef]="column?.columnDef">
+            <ng-container *ngIf="column.columnDef !== 'actions'">
+                <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'actions'">
+                <th [ngStyle]="{ width: column?.width + 'px' }" cdk-header-cell *cdkHeaderCellDef>
+                    <div class="button-wrapper">
+                        <button
+                            type="button"
+                            class="fa fa-plus btn btn-secondary btn-sm buttonOnHover"
+                            (click)="onAddRowOnTop()"
+                            [ngbTooltip]="'common.button.add' | translate"
+                        ></button>
+                    </div>
+                </th>
+                <td cdk-cell *cdkCellDef="let row">
+                    <div class="button-wrapper">
+                        <button
+                            type="button"
+                            class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                            (click)="onDeleteRow(row)"
+                            [ngbTooltip]="'common.button.loeschen' | translate"
+                            [disabled]="disableDeleteButton"
+                        ></button>
+                    </div>
+                </td>
+            </ng-container>
+            <td cdk-cell *cdkCellDef="let row; let index = index" [formGroupName]="index">
+                <div class="component-container">
+                    <avam-components-table-container
+                        [optionalFocus]="optionalFocus"
+                        [index]="index"
+                        [isFirst]="isFirst"
+                        [controlName]="column.columnDef"
+                        [parentForm]="form.controls.tableRows.controls[index]"
+                        [column]="column"
+                        [createdRow]="createdRow"
+                    ></avam-components-table-container>
+                </div>
+            </td>
+        </ng-container>
+    </avam-generic-table>
+</form>

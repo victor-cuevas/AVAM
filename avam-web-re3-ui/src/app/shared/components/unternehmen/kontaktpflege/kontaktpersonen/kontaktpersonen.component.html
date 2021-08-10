@@ -1,0 +1,28 @@
+<div>
+    <avam-kontaktpersonen-table
+        #kontaktpersonenTable
+        [sourceData]="resultsData"
+        [showUnternehmen]="false"
+        [stateKey]="stateKey"
+        (onPrimaryAction)="openKontaktperson($event)"
+        (onCheck)="onCheck($event)"
+        (onMail)="onEmail($event)"
+        (onDocumentManager)="onDocumentManager($event)"
+    ></avam-kontaktpersonen-table>
+</div>
+<ng-template #buttons>
+    <button class="btn btn-secondary ml-1 keepDisabled" type="button" (click)="sendEmails()" [disabled]="footerDisabled">
+        <span class="fa fa-envelope-o"></span>
+        {{ 'common.button.emailSenden' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="kontaktpersonErfassen()" [permissions]="[permissions.ARBEITGEBER_KONTAKTPERSON_BEARBEITEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'unternehmen.label.kontaktpersonerfassen' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="resultsData">
+        <avam-kontaktpersonen-table [sourceData]="resultsData" [stateKey]="stateKey" [forPrinting]="true"> </avam-kontaktpersonen-table>
+    </avam-generic-table-print>
+</ng-template>

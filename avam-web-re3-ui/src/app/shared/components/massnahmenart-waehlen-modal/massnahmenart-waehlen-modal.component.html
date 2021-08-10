@@ -1,0 +1,52 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h3 class="modal-title mt-2 ml-1" id="modal-basic-title">
+            <span>{{ 'amm.administration.label.massnahmenartwaehlen' | translate }}</span>
+        </h3>
+        <button type="button" ngbTooltip="{{ 'common.button.schliessen' | translate }}" triggers="hover" class="btn btn-secondary border-0 bg-transparent" (click)="close()">
+            <span class="fa fa-close"></span>
+        </button>
+    </div>
+    <div class="modal-body px-2">
+        <avam-alert [channel]="alertChannel.NEST_MODAL"></avam-alert>
+        <or-spinner [channel]="spinnerChannel"></or-spinner>
+        <div class="avam-panel panel-custom-spacing d-flex" [formGroup]="massnahmenForm" #ngForm="ngForm" autocomplete="off">
+            <avam-label-dropdown
+                [isDisabled]="disableKategorie"
+                class="col-6"
+                [parentForm]="massnahmenForm"
+                controlName="kategorie"
+                id="massnahmenkategorie"
+                [options]="kategorieOptions"
+                hideEmptyOption="true"
+                selectLabel="{{ 'amm.massnahmen.label.massnahmenstruktur' }}"
+            ></avam-label-dropdown>
+            <avam-label-calendar
+                [readOnly]="true"
+                class="col-6 pt-1"
+                [parentForm]="massnahmenForm"
+                controlName="date"
+                id="strukturdate"
+                calendarLabel="{{ 'amm.administration.label.strukturanzeigen' }}"
+                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            ></avam-label-calendar>
+        </div>
+        <div class="scroll-table">
+            <avam-basic-tree-table [tree]="treeArray" [options]="treeOptions" (onDoubleClick)="onClick($event)" (onEnter)="onClick($event)"></avam-basic-tree-table>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button ngbAutofocus type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>
+
+<ng-template #actionColumnTemplate let-element="element">
+    <button
+        *ngIf="selectOnlyChildren ? element.children.length === 0 : true"
+        class="fa fa-check btn btn-success btn-sm buttonOnHover"
+        type="button"
+        (click)="onClick(element)"
+        ngbTooltip="{{ 'common.button.uebernehmen' | translate }}"
+    ></button>
+</ng-template>

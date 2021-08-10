@@ -1,0 +1,19 @@
+.wrapper {
+    display: flex;
+}
+
+::ng-deep avam-label-dropdown {
+    flex: 1;
+
+    .col-lg-10 {
+        width: 120px;
+    }
+}
+
+::ng-deep avam-date-range-picker {
+    .col-lg-8 {
+        flex: 1;
+        width: 100%;
+        max-width: 100%;
+    }
+}

@@ -1,0 +1,98 @@
+<div class="core-tree-table">
+    <table
+        *ngIf="table.dataSource || displayedColumns"
+        avamConnectingLines
+        [onCollapseRow]="onCollapse"
+        [onExpandRow]="onExpand"
+        cdk-table
+        [dataSource]="table.dataSource"
+        class="table table-hover table-responsive table-bordered d-sm-table"
+    >
+        <div *ngFor="let column of displayedColumns; first as isFirst; let i = index; trackBy: trackByFn">
+            <ng-container cdkColumnDef="{{ column }}">
+                <ng-container *ngIf="isFirst">
+                    <th [ngStyle]="{ width: options.firstColumnCustomWidth + 'px' }" cdk-header-cell *cdkHeaderCellDef>
+                        <div class="resize-container" coreTreeTableResize></div>
+                        <ng-container *ngIf="column !== 'action'">
+                            <span ngbTooltip="  {{ options.columnTitle[i] | translate }}">
+                                {{ options.columnTitle[i] | translate }}
+                            </span>
+                        </ng-container>
+                    </th>
+                </ng-container>
+                <ng-container *ngIf="column === 'action'">
+                    <th cdk-header-cell *cdkHeaderCellDef [ngStyle]="{ width: options.actions?.columnWidth + 'px' }">
+                        <div class="resize-container" coreTreeTableResize></div>
+                    </th>
+                </ng-container>
+                <th cdk-header-cell *cdkHeaderCellDef>
+                    <div class="resize-container" coreTreeTableResize></div>
+                    <ng-container *ngIf="column !== 'action'">
+                        <span ngbTooltip="  {{ options.columnTitle[i] | translate }}">
+                            {{ options.columnTitle[i] | translate }}
+                        </span>
+                    </ng-container>
+                </th>
+                <td cdk-cell *cdkCellDef="let element">
+                    <div *ngIf="isFirst">
+                        <div class="value-cell">
+                            <div [innerHTML]="formatIndentation(element)"></div>
+                            <div class="element-label first-column" style="display: flex; align-items: center;">
+                                <i
+                                    class="far"
+                                    [ngStyle]="{
+                                        visibility: element.children.length ? 'visible' : 'hidden'
+                                    }"
+                                    [ngClass]="element.isExpanded ? 'fa-minus-square' : 'fa-plus-square'"
+                                    (click)="onClick(element)"
+                                ></i>
+                                <span
+                                    [ngStyle]="{ color: element.model?.rowFontStyle?.color, 'font-weight': element.model?.rowFontStyle?.bold ? 'bold' : '' }"
+                                    ngbTooltip="{{ element.model.data[column] }}"
+                                >
+                                    {{ element.model.data[column] }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="!isFirst">
+                        <ng-container *ngIf="column === 'action'">
+                            <ng-template
+                                [ngTemplateOutletContext]="{
+                                    element: element
+                                }"
+                                [ngTemplateOutlet]="options.actions.template"
+                            >
+                            </ng-template>
+                        </ng-container>
+                        <div class="element-label" *ngIf="column !== 'action'">
+                            <span
+                                [ngStyle]="{ color: element.model?.rowFontStyle?.color, 'font-weight': element.model?.rowFontStyle?.bold ? 'bold' : '' }"
+                                ngbTooltip="{{ element.model.data[column] }}"
+                            >
+                                {{ element.model.data[column] }}
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+        </div>
+        <tr cdk-header-row *cdkHeaderRowDef="displayedColumns"></tr>
+        <tr
+            coreTreeTablePrimaryActionNavigation
+            [row]="row"
+            (onDoubleClick)="doubleClick($event)"
+            (onEnter)="enter($event)"
+            cdk-row
+            *cdkRowDef="let row; let i = index; columns: displayedColumns"
+            (click)="navigator.onClick(row)"
+            (keydown)="navigator.onKeydown($event, row)"
+            class="a_{{ row.model.id }}"
+            [ngClass]="row.model.id === navigator.selection?.selected?.model.id ? 'selected-row' : ''"
+            [tabindex]="0"
+            [ngStyle]="{
+                'background-color': row.parent ? (row.model.rowColor ? row.model.rowColor : '#fefefe') : row.model.rowColor ? row.model.rowColor : '#f2f7f9'
+            }"
+        ></tr>
+    </table>
+</div>

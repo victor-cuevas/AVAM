@@ -1,0 +1,35 @@
+<div *ngIf="!readOnly" class="icon-input-inside dropdown">
+    <div [formGroup]="parentForm" #ngForm="ngForm">
+        <div class="autosuggest" orFormControlState>
+            <input
+                type="text"
+                (blur)="dismiss()"
+                class="form-control"
+                [value]="model"
+                (input)="model = $event.target.value"
+                [inputFormatter]="formatValue"
+                [resultFormatter]="formatValue"
+                placeholder="{{ placeholder | translate }}"
+                [ngbTypeahead]="search"
+                (selectItem)="emmitSelectItem($event.item)"
+                (keyup)="onKeyup($event)"
+                formControlName="item"
+                #inputElement
+                textOverflowTooltipInputField
+            />
+            <or-error-messages></or-error-messages>
+        </div>
+
+        <button tabindex="-1" type="button" [hidden]="model !== '' || searching" class="fa fa-search icon-input" style="outline: none;"></button>
+        <button tabindex="-1" type="button" [hidden]="!searching" class="fa fa fa-circle-o-notch fa-spin icon-input" style="outline: none;"></button>
+        <button tabindex="-1" [hidden]="searching || model === ''" type="button" role="button" class="text-control-clear" [orTextControlClear]="inputElement" (onClear)="onClear()">
+            <span class="fa fa-times-circle fa-fw"></span>
+            <span class="sr-only">Clear text content.</span>
+        </button>
+    </div>
+</div>
+<div class="customdirective" *ngIf="readOnly">
+    <p class="p-value-left-12" id="{{ id }}Paragraph">
+        {{ value }}
+    </p>
+</div>

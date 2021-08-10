@@ -1,0 +1,23 @@
+<form (keydown.enter)="onEnter.emit($event)" [formGroup]="formGroup" #ngForm="ngForm" autocomplete="off">
+    <div class="avam-panel pt-2 pb-1">
+        <div class="d-flex flex-nowrap">
+            <avam-date-range-picker
+                id="gueltigVonBis"
+                [label]="label"
+                labelClass="col-lg-auto col-md-auto"
+                wrapperClass="col-lg-auto col-md-auto flex-nowrap"
+                inputClass="mr-4 w-250px"
+                containerClass="flex-nowrap"
+                [parentForm]="formGroup"
+                formControlNameFrom="gueltigVon"
+                formControlNameTo="gueltigBis"
+                [isResponsive]="true"
+            ></avam-date-range-picker>
+            <div class="input-group-append d-block">
+                <button avamDisableOnSpinner class="btn btn-secondary rounded-0" type="button" ngbTooltip="{{ 'common.button.aktualisieren' | translate }}" (click)="refresh()">
+                    <span class="fa fa-refresh"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

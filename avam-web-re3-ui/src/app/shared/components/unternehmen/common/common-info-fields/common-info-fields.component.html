@@ -1,0 +1,81 @@
+<div class="mb-lg-4">
+    <avam-label-input *ngIf="isFirstField; else nameWithoutFocus" avamAutofocus [parentForm]="form" controlName="name" selectLabel="unternehmen.label.name"></avam-label-input>
+    <ng-template #nameWithoutFocus>
+        <avam-label-input
+            [parentForm]="form"
+            [readOnly]="readonlyControls"
+            [isDisabled]="disableControls"
+            controlName="name"
+            selectLabel="unternehmen.label.name"
+        ></avam-label-input>
+    </ng-template>
+    <avam-label-input [parentForm]="form" [readOnly]="readonlyControls" [isDisabled]="disableControls" controlName="name2" selectLabel=" "></avam-label-input>
+    <avam-label-input [parentForm]="form" [readOnly]="readonlyControls" [isDisabled]="disableControls" controlName="name3" selectLabel=" "></avam-label-input>
+</div>
+<div class="row">
+    <div class="col-lg-8 col-md-8">
+        <avam-label-input
+            [parentForm]="form"
+            [readOnly]="readonlyControls"
+            [isDisabled]="disableControls"
+            controlName="strasse"
+            id="strasse"
+            placeholder="stes.label.strasse"
+            selectLabel="{{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}"
+            inputClass="col-lg-6 col-md-6 align-self-top"
+            labelClass="col-lg-6 col-md-6"
+        ></avam-label-input>
+    </div>
+    <div class="col-lg-4 col-md-4 ">
+        <avam-label-input
+            [parentForm]="form"
+            [readOnly]="readonlyControls"
+            [isDisabled]="disableControls"
+            controlName="strasseNr"
+            id="strasseNr"
+            [placeholder]="nummerPlaceholder ? nummerPlaceholder : 'unternehmen.label.hausnummer'"
+        ></avam-label-input>
+    </div>
+</div>
+<avam-plz-autosuggest
+    [disabled]="disableControls"
+    [readOnly]="readonlyControls"
+    plzControl="postleitzahl"
+    ortControl="ort"
+    [landControl]="form.get('land')"
+    [parentForm]="form.controls.plz"
+    label="common.label.plzort"
+    placeholderOrt="{{ 'unternehmen.label.burort' | translate }}"
+    placeholderPlz="{{ 'unternehmen.label.burplz' | translate }}"
+    supportsSimpleInput="true"
+></avam-plz-autosuggest>
+<avam-label-input
+    [readOnly]="readonlyControls"
+    [isDisabled]="disableControls"
+    [parentForm]="form"
+    controlName="postfach"
+    id="postfach"
+    selectLabel="{{ 'stes.label.postfach' }}"
+    placeholder="stes.label.nummer"
+></avam-label-input>
+<avam-plz-autosuggest
+    #plzAutosuggestComponent
+    [disabled]="disableControls"
+    [readOnly]="readonlyControls"
+    plzControl="postleitzahl"
+    ortControl="ort"
+    [landControl]="form.get('land')"
+    [parentForm]="form.controls.plzPostfach"
+    label="arbeitgeber.oste.label.postfachplzortup"
+    placeholderOrt="{{ 'unternehmen.label.burort' | translate }}"
+    placeholderPlz="{{ 'unternehmen.label.burplz' | translate }}"
+    supportsSimpleInput="true"
+></avam-plz-autosuggest>
+<avam-land-autosuggest
+    id="land"
+    controlName="land"
+    [readOnly]="readonlyControls"
+    [isDisabled]="disableControls"
+    [parentForm]="form"
+    componentLabel="{{ 'stes.label.land' | translate }}"
+></avam-land-autosuggest>

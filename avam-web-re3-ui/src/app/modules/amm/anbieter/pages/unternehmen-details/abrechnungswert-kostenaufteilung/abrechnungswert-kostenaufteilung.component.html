@@ -1,0 +1,104 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-controllingwerte-table #planwertControllingwerteTable [tableData]="tableData" (onDeleteRow)="deleteGeldgeber($event)"></avam-controllingwerte-table>
+</div>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONWERTEUEBERNEHMEN)"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="uebernehmen()"
+            avamDisableOnSpinner
+        >
+            {{ 'common.button.werteuebernehmen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONBERECHNEN)"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="submit(submitType.BERECHNEN)"
+            avamDisableOnSpinner
+        >
+            {{ 'common.button.berechnen' | translate }}
+        </button>
+        <button *ngIf="lastSaved?.abrechnungswertBearbeitenParameter?.abrechnung" class="btn btn-secondary ml-1" type="button" (click)="navigateToAbrechnung()">
+            <span class="fa fa-external-link"></span>
+            {{ 'amm.abrechnungen.button.zurabrechnung' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)"
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="submit(submitType.SPEICHERN)"
+            avamDisableOnSpinner
+        >
+            {{ 'i18n.common.save' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.leistungsvereinbarungnr' | translate }} </b>
+            <span> {{ abrechnungswert?.vertragswertObject?.leistungsvereinbarungObject?.leistungsvereinbarungNr }} </span>
+        </div>
+        <div class="item">
+            <b> {{ 'arbeitgeber.oste.label.status' | translate }} </b>
+            <span> {{ abrechnungswert?.vertragswertObject?.leistungsvereinbarungObject?.statusObject | dbTranslate: 'text' }} </span>
+        </div>
+
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.MASSNAHME">
+            <b> {{ 'amm.akquisition.label.massnahmenNr' | translate }} </b>
+            <span>{{ abrechnungswert?.vertragswertObject?.massnahmeObject?.massnahmeId }}</span>
+        </div>
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.KURS">
+            <b> {{ 'amm.akquisition.label.durchfuehrungsnrkurs' | translate }} </b>
+            <span>{{ abrechnungswert?.vertragswertObject?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+        </div>
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.STANDORT">
+            <b> {{ 'amm.akquisition.label.durchfuehrungsnrstandort' | translate }} </b>
+            <span>{{ abrechnungswert?.vertragswertObject?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+        </div>
+
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.massnahmeObject">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.vertragswertObject?.massnahmeObject | dbTranslate: 'titel' }}
+            </span>
+        </div>
+
+        <div class="item" *ngIf="abrechnungswert?.vertragswertObject?.durchfuehrungseinheitObject">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.vertragswertObject?.durchfuehrungseinheitObject | dbTranslate: 'titel' }}
+            </span>
+        </div>
+
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.profilnr' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.vertragswertObject?.profilNr }}
+            </span>
+        </div>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.vertragswertnr' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.vertragswertObject?.vertragswertNr }}
+            </span>
+        </div>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.abrechnungswertnr' | translate }} </b>
+            <span>
+                {{ abrechnungswert?.abrechnungswertNr }}
+            </span>
+        </div>
+    </ng-container>
+</ng-template>

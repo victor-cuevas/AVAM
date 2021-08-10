@@ -1,0 +1,64 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title mt-2 ml-1">
+            <span>{{ 'amm.massnahmen.kopfzeile.angebotsdatensichten' | translate }}</span>
+        </h3>
+        <button type="button" ngbTooltip="{{ 'common.button.schliessen' | translate }}" triggers="hover" class="btn btn-secondary border-0 bg-transparent" (click)="close()">
+            <span class="fa fa-close"></span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <or-column-layout [left]="true" [right]="false">
+            <div column-left-content class="default-layout">
+                <ul class="nav nav-indented nav-hover" role="menubar">
+                    <li class="nav-item" [ngClass]="{ 'show active open': pageNumber === pageNumbers.GRUNDDATEN }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(pageNumbers.GRUNDDATEN)"
+                            ><span class="fa fa-circle"></span> {{ 'amm.massnahmen.subnavmenuitem.grunddaten' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': pageNumber === pageNumbers.BESCHREIBUNG }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(pageNumbers.BESCHREIBUNG)"
+                            ><span class="fa fa-circle"></span> {{ 'amm.massnahmen.subnavmenuitem.beschreibung' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': pageNumber === pageNumbers.DURCHFUEHRUNGSORT }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(pageNumbers.DURCHFUEHRUNGSORT)"
+                            ><span class="fa fa-circle"></span> {{ 'amm.massnahmen.subnavmenuitem.durchfuehrungsort' | translate }}</a
+                        >
+                    </li>
+                </ul>
+            </div>
+            <div column-main-content class="default-layout">
+                <or-spinner [channel]="spinnerChannel"></or-spinner>
+                <ng-container [ngSwitch]="pageNumber">
+                    <div class="page-style">
+                        <avam-angebotsdaten-grunddaten
+                            *ngSwitchCase="pageNumbers.GRUNDDATEN"
+                            [stesId]="stesId"
+                            [massnahmenType]="massnahmenCode"
+                            [ammBuchung]="ammBuchung"
+                            [pageData]="pageData"
+                        ></avam-angebotsdaten-grunddaten>
+                        <avam-angebotsdaten-beschreibung
+                            *ngSwitchCase="pageNumbers.BESCHREIBUNG"
+                            [massnahmenType]="massnahmenCode"
+                            [ammBuchung]="ammBuchung"
+                            [spinnerChannel]="spinnerChannel"
+                            [pageData]="pageData"
+                        ></avam-angebotsdaten-beschreibung>
+                        <avam-angebotsdaten-durchfuehrungsort
+                            *ngSwitchCase="pageNumbers.DURCHFUEHRUNGSORT"
+                            [massnahmenType]="massnahmenCode"
+                            [ammBuchung]="ammBuchung"
+                            [pageData]="pageData"
+                        ></avam-angebotsdaten-durchfuehrungsort>
+                    </div>
+                </ng-container>
+            </div>
+        </or-column-layout>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

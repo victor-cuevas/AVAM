@@ -1,0 +1,399 @@
+<form [formGroup]="spesenForm" #ngForm="ngForm" closeBrowserTab [form]="spesenForm" autocomplete="off">
+    <or-spinner [channel]="channel"></or-spinner>
+    <!-- 1st PANEL -->
+    <div class="avam-panel d-flex p-0">
+        <div class="col-md-2"></div>
+        <div class="col-md-6"></div>
+        <div class="col-md-4 d-flex">
+            <div class="col-md-5 p-0 align-self-center">{{ 'amm.nutzung.label.dauerdermassnahme' | translate }}</div>
+            <div class="col-md-3 mt-3">
+                <avam-label-input controlName="massnahmeDauer" [parentForm]="spesenForm" id="massnahmeDauer" [readOnly]="true">
+                    <p class="ml-1" input-type="readOnly">{{ 'amm.nutzung.label.tage' | translate }}</p>
+                </avam-label-input>
+            </div>
+        </div>
+    </div>
+    <!-- 2nd PANEL -->
+    <div class="avam-panel d-flex">
+        <div class="col-md-2">
+            <avam-label-checkbox
+                inputClass="''"
+                inputLabelClass="font-weight-bold"
+                componentId="reisekostenCheckbox"
+                [parentForm]="spesenForm"
+                controlName="reisekostenCheckbox"
+                [isDisabled]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                selectLabel="amm.nutzung.label.reisekosten"
+            >
+            </avam-label-checkbox>
+            <div class="text-right mt-3">
+                <label>{{ 'amm.nutzung.label.privatverkehr' | translate }}</label>
+            </div>
+            <div class="text-right mt-3">
+                <label>{{ 'amm.nutzung.label.fahrtstrecke' | translate }}</label>
+            </div>
+            <div class="text-right mt-3">
+                <label>{{ 'amm.nutzung.label.oeffentlicherverkehr' | translate }}</label>
+            </div>
+            <div class="text-right mt-3">
+                <label>{{ 'amm.nutzung.label.billetart' | translate }}</label>
+            </div>
+            <div class="text-right mt-3">
+                <label>{{ 'amm.nutzung.label.halbtaxstreckenabo' | translate }}</label>
+            </div>
+            <div class="text-right mt-3">
+                <label>{{ 'amm.nutzung.label.totalReisekosten' | translate }}</label>
+            </div>
+        </div>
+
+        <div class="col-md-5 d-flex">
+            <div class="col-md-7 px-0">
+                <br />
+                <br />
+                <div [ngClass]="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? '' : 'pt-2'">
+                    <avam-label-dropdown
+                        inputClass="col-md-12"
+                        id="privatverkehr"
+                        [parentForm]="spesenForm"
+                        controlName="privatverkehr"
+                        [options]="privatverkehrOptions"
+                        [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    ></avam-label-dropdown>
+                </div>
+                <div class="d-flex" [ngClass]="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? '' : 'mb-1'">
+                    <div *ngIf="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt; else fahrstreckeReadonly" class="col-md-3 px-0" orFormControlState>
+                        <core-input formControlName="fahrstrecke"></core-input>
+                        <or-error-messages></or-error-messages>
+                    </div>
+                    <ng-template #fahrstreckeReadonly>
+                        <p class="col-md-2 pr-0 mr-2 mt-2 text-right" id="fahrstreckePara">{{ spesenData?.fahrtstrecke ? spesenData.fahrtstrecke : '' }}</p>
+                    </ng-template>
+                    <div class="mt-2 mr-0 col-md-3 px-0 pl-1">
+                        <p id="kmtag">{{ 'amm.nutzung.label.kmtag' | translate }}</p>
+                    </div>
+                    <div class="col-md-5 px-0">
+                        <avam-currency-input
+                            id="chfProKm"
+                            controlName="chfProKm"
+                            [parentForm]="spesenForm"
+                            secondaryLabel="amm.nutzung.label.chfkm"
+                            customInputClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-md-8 pr-0' : 'col-md-8 flex-row-reverse' }}"
+                            customSecondaryLabelClass="col-md-4 px-0"
+                            [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    inputClass="col-md-12"
+                    id="oeffentlicherVerkehr"
+                    [parentForm]="spesenForm"
+                    controlName="oeffentlicherVerkehr"
+                    [options]="oeffentlicherVerkehrOptions"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                ></avam-label-dropdown>
+                <div [ngClass]="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? '' : 'pt-2'">
+                    <avam-label-dropdown
+                        inputClass="col-md-12"
+                        id="billetart"
+                        [parentForm]="spesenForm"
+                        controlName="billetart"
+                        [options]="billetartOptions"
+                        [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    ></avam-label-dropdown>
+                </div>
+            </div>
+
+            <div class="col-md-4 px-0 text-right">
+                <br />
+                <br />
+                <br />
+                <br />
+                <div class="d-flex">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-10">
+                        <avam-currency-input
+                            id="fahrtkostenPrivat"
+                            controlName="fahrtkostenPrivat"
+                            [parentForm]="spesenForm"
+                            secondaryLabel="amm.nutzung.label.chftage"
+                            customInputClass="col-md-7 flex-row-reverse"
+                            customSecondaryLabelClass="col-md-5 px-0"
+                            [readOnly]="true"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="d-flex">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-10">
+                        <avam-currency-input
+                            id="billetartKostenProTag"
+                            controlName="billetartKostenProTag"
+                            [parentForm]="spesenForm"
+                            secondaryLabel="amm.nutzung.label.chftage"
+                            customInputClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-md-7 pl-0' : 'col-md-7 flex-row-reverse' }}"
+                            customSecondaryLabelClass="col-md-5 px-0"
+                            [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 px-0">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="col-md-12 px-0 d-flex">
+                <div class="col-md-6 px-0">
+                    <avam-currency-input
+                        id="reisekosten"
+                        controlName="reisekosten"
+                        [parentForm]="spesenForm"
+                        secondaryLabel="amm.nutzung.label.chftagex"
+                        customInputClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-lg-7 col-md-7 pr-2' : 'col-lg-5 col-md-5 pr-0 flex-row-reverse' }}"
+                        customSecondaryLabelClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-lg-5 col-md-5 px-0' : 'col-lg-6 col-md-6' }}"
+                        ngbTooltip="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? ('stes.tooltip.tageChfReisekosten' | translate) : '' }}"
+                        [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    ></avam-currency-input>
+                </div>
+                <div *ngIf="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt; else tageReisekostenReadonly" class="w-30 pr-2" orFormControlState>
+                    <core-input formControlName="reisetage" ngbTooltip="{{ 'stes.tooltip.tageReisekosten' | translate }}"></core-input>
+                    <or-error-messages extendWithWarnings></or-error-messages>
+                </div>
+                <ng-template #tageReisekostenReadonly>
+                    <p class="col-md-1 pr-0 mr-2 mt-2" id="tageReisekostenPara">{{ spesenData?.reisetage }}</p>
+                </ng-template>
+                <div class="mt-2 pr-2">
+                    <p id="reisetagePara">{{ 'amm.nutzung.label.tage' | translate }}</p>
+                </div>
+                <div class="mt-2">
+                    <p>=</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 px-0 text-right">
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <div class="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'pb-2' : 'pb-3' }}">
+                <avam-currency-input
+                    id="reisekostenSumme"
+                    controlName="reisekostenSumme"
+                    [parentForm]="spesenForm"
+                    secondaryLabel="common.label.chf"
+                    customInputClass="col-md-9 flex-row-reverse"
+                    customSecondaryLabelClass="col-md-3 px-0"
+                    [readOnly]="true"
+                ></avam-currency-input>
+            </div>
+            <avam-currency-input
+                id="halbtax"
+                controlName="halbtax"
+                [parentForm]="spesenForm"
+                secondaryLabel="common.label.chf"
+                customInputClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-md-9 pl-0' : 'col-md-9 flex-row-reverse' }}"
+                customSecondaryLabelClass="col-md-3 px-0"
+                [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+            ></avam-currency-input>
+            <hr class="hr-thick col-md-9 mb-0 sumBorder text-secondary" />
+            <avam-currency-input
+                id="reisekostenTotal"
+                controlName="reisekostenTotal"
+                [parentForm]="spesenForm"
+                secondaryLabel="common.label.chf"
+                customInputClass="col-md-9 flex-row-reverse"
+                customSecondaryLabelClass="col-md-3 px-0"
+                [readOnly]="true"
+            ></avam-currency-input>
+        </div>
+    </div>
+    <!-- 3rd PANEL -->
+    <div class="avam-panel d-flex">
+        <div class="col-md-2 align-self-center">
+            <avam-label-checkbox
+                inputClass="''"
+                inputLabelClass="font-weight-bold"
+                componentId="verpflegungCheckbox"
+                [parentForm]="spesenForm"
+                controlName="verpflegungCheckbox"
+                [isDisabled]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                selectLabel="amm.nutzung.label.verpflegung"
+            >
+            </avam-label-checkbox>
+        </div>
+        <div class="col-md-5 d-flex">
+            <div class="col-md-7 px-0" [ngClass]="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? '' : 'mt-3'">
+                <avam-label-dropdown
+                    class="mt-1"
+                    id="verpflegungDropdown"
+                    [parentForm]="spesenForm"
+                    controlName="verpflegungDropdown"
+                    [options]="verpflegungDropdownOptions"
+                    inputClass="col-md-12"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                ></avam-label-dropdown>
+            </div>
+            <div class="col-md-1"></div>
+            <avam-label-checkbox
+                class="col-md-6"
+                [ngClass]="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'mt-1' : 'mt-2'"
+                inputClass="''"
+                selectLabel="amm.nutzung.label.kantine"
+                componentId="kantineCheckbox"
+                [parentForm]="spesenForm"
+                controlName="kantineCheckbox"
+                [isDisabled]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+            >
+            </avam-label-checkbox>
+        </div>
+        <div class="col-md-4 px-0 d-flex" [ngClass]="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? '' : 'mt-2'">
+            <div class="col-md-6 px-0">
+                <avam-currency-input
+                    id="verpflegungskosten"
+                    controlName="verpflegungskosten"
+                    [parentForm]="spesenForm"
+                    secondaryLabel="amm.nutzung.label.chftagex"
+                    customInputClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-lg-7 col-md-7 pr-2' : 'col-lg-5 col-md-5 pr-0 flex-row-reverse' }}"
+                    customSecondaryLabelClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-lg-5 col-md-5 px-0' : 'col-lg-6 col-md-6' }}"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                ></avam-currency-input>
+            </div>
+            <div *ngIf="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt; else verpflegungstageReadonly" class="w-30 pr-2" orFormControlState>
+                <core-input formControlName="verpflegungstage" ngbTooltip="{{ 'stes.tooltip.tageVerpflegung' | translate }}"></core-input>
+                <or-error-messages extendWithWarnings></or-error-messages>
+            </div>
+            <ng-template #verpflegungstageReadonly>
+                <p class="col-md-1 pr-0 mr-2 mt-2" id="verpflegungstageReadonlyPara">{{ spesenData?.verpflegungstage }}</p>
+            </ng-template>
+            <div class="mt-2 pr-2">
+                <p id="verpflegungstagePara">{{ 'amm.nutzung.label.tage' | translate }}</p>
+            </div>
+            <div class="mt-2">
+                <p>=</p>
+            </div>
+        </div>
+        <div class="col-md-1 px-0 text-right" [ngClass]="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? '' : 'pt-2'">
+            <avam-currency-input
+                id="verpflegungskostenSumme"
+                controlName="verpflegungskostenSumme"
+                [parentForm]="spesenForm"
+                secondaryLabel="common.label.chf"
+                customInputClass="col-md-9 flex-row-reverse"
+                customSecondaryLabelClass="col-md-3 px-0"
+                [readOnly]="true"
+            ></avam-currency-input>
+        </div>
+    </div>
+    <!-- 4th PANEL -->
+    <div class="avam-panel d-flex">
+        <div class="col-md-2 d-flex align-self-center">
+            <avam-label-checkbox
+                inputClass="''"
+                inputLabelClass="font-weight-bold"
+                componentId="unterkunft"
+                [parentForm]="spesenForm"
+                controlName="unterkunft"
+                [isDisabled]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                selectLabel="amm.nutzung.label.unterkunft"
+            >
+            </avam-label-checkbox>
+        </div>
+        <div class="col-md-5"></div>
+        <div class="col-md-4 px-0 d-flex">
+            <div class="col-md-6 px-0">
+                <avam-currency-input
+                    id="unterkunftskostenDetail"
+                    controlName="unterkunftskostenDetail"
+                    [parentForm]="spesenForm"
+                    secondaryLabel="amm.nutzung.label.chftagex"
+                    customInputClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-lg-7 col-md-7 pr-2' : 'col-lg-5 col-md-5 pr-0 flex-row-reverse' }}"
+                    customSecondaryLabelClass="{{ !isEntscheidStatusFreigabebereitFreigegebenOrErsetzt ? 'col-lg-5 col-md-5 px-0' : 'col-lg-6 col-md-6' }}"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                ></avam-currency-input>
+            </div>
+            <div *ngIf="!isEntscheidStatusFreigabebereitFreigegebenOrErsetzt; else unterkunftstageReadonly" class="w-30 pr-2" orFormControlState>
+                <core-input formControlName="unterkunftstage" ngbTooltip="{{ 'stes.tooltip.tageUnterkunft' | translate }}"></core-input>
+                <or-error-messages extendWithWarnings></or-error-messages>
+            </div>
+            <ng-template #unterkunftstageReadonly>
+                <p class="col-md-1 pr-0 mr-2 mt-2" id="unterkunftstageReadonlyPara">{{ spesenData?.verpflegungstage }}</p>
+            </ng-template>
+            <div class="mt-2 pr-2">
+                <p id="unterkunftstagePara">{{ 'amm.nutzung.label.tage' | translate }}</p>
+            </div>
+            <div class="mt-2">
+                <p>=</p>
+            </div>
+        </div>
+        <div class="col-md-1 px-0 text-right">
+            <avam-currency-input
+                id="unterkunftskostenSumme"
+                controlName="unterkunftskostenSumme"
+                [parentForm]="spesenForm"
+                secondaryLabel="common.label.chf"
+                customInputClass="col-md-9 flex-row-reverse"
+                customSecondaryLabelClass="col-md-3 px-0"
+                [readOnly]="true"
+            ></avam-currency-input>
+        </div>
+    </div>
+    <!-- 5th PANEL -->
+    <div class="avam-panel d-flex">
+        <div class="col-md-8 align-self-center">
+            <label class="form-check-label font-weight-bold">{{ 'amm.nutzung.label.totalspesen' | translate }}</label>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-1 px-0 pt-1 text-right">
+            <avam-currency-input
+                id="spesenSumme"
+                controlName="spesenSumme"
+                [parentForm]="spesenForm"
+                secondaryLabel="common.label.chf"
+                customInputClass="col-md-9 flex-row-reverse"
+                customSecondaryLabelClass="col-md-3 px-0"
+                [readOnly]="true"
+            ></avam-currency-input>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR, ammButtonTypesEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR])" class="btn btn-secondary ml-1" type="button" (click)="onBerechnen()">
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button></ng-template
+>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'common.label.entscheidnr' | translate }} </b>
+        <span>{{ entscheidNr }}</span>
+    </div>
+</ng-template>

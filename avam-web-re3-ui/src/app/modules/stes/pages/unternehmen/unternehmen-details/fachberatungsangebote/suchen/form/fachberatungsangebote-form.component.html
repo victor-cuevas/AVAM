@@ -1,0 +1,83 @@
+<or-spinner [channel]="channel"></or-spinner>
+<form class="page-scroll no-overflow h-100" [formGroup]="form" #ngForm="ngForm" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter p-3 h-100">
+        <h4>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'stes.label.fachberatungsangebot' | translate }}</span>
+        </h4>
+        <label class="col-form-label">{{ 'stes.label.fachberatungsangebote.beratungsbereich' | translate }}</label>
+        <avam-label-dropdown
+            avamAutofocus
+            inputClass="col-lg-12 col-md-12"
+            placeholder="common.label.waehlen"
+            [parentForm]="form"
+            controlName="beratungsBereichId"
+            id="beratungsBereichId"
+            [options]="beratungsbereichOptionsLabels"
+        >
+        </avam-label-dropdown>
+        <div class="row mb-3"></div>
+        <avam-label-input
+            [inputClass]="'col'"
+            [parentForm]="form"
+            controlName="bezeichnung"
+            placeholder="{{ 'stes.label.fachberatungsangebote.bezeichnung' | translate }}"
+        ></avam-label-input>
+        <avam-label-input
+            [inputClass]="'col'"
+            [parentForm]="form"
+            controlName="angebotsNr"
+            placeholder="{{ 'stes.label.fachberatungsangebote.angebotnr' | translate }}"
+        ></avam-label-input>
+        <div class="row mb-3"></div>
+        <label class="col-form-label">{{ 'stes.label.fachberatung.zustaendigkeitsbereich' | translate }}</label>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="form"
+            controlName="zustaendigkeitsBereichId"
+            id="zustaendigkeitsBereichId"
+            [options]="zustaendigkeitsbereichOptionsLabels"
+            [hideEmptyOption]="true"
+        >
+        </avam-label-dropdown>
+        <div class="row mb-3"></div>
+        <avam-unternehmen-autosuggest
+            [inputClass]="'col-lg-12 col-md-12'"
+            [parentForm]="form"
+            controlName="fachberatungsstelle"
+            placeholder="{{ 'stes.label.fachberatungsangebote.fachberatungsstelle' }}"
+            suchePlusLabel="stes.label.fachberatungsangebote.fachberatungsstelle"
+            [isAvamOnly]="true"
+            (onSelect)="updateFachberatungsstelleSuche($event)"
+            (onClear)="clearFachberatungsstelleSuche()"
+            [readOnly]="angebotsverantwortungDisabled"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-unternehmen-autosuggest>
+        <div class="row mb-3"></div>
+        <avam-personalberater-autosuggest
+            #angebotsverantwortung
+            id="angebotsverantwortung"
+            [selectedFilterOption]="state?.fields?.angebotsverantwortungStatus"
+            [parentForm]="form"
+            controlName="angebotsverantwortung"
+            [type]="angebotsverantwortungType"
+            showFilter="true"
+            placeholder="{{ 'common.label.bearbeitungdurch' | translate }}"
+            (onSelect)="updateAngebotsverantwortungSuche($event)"
+            (onInput)="clearEmptyAngebotsverantwortungSuche($event)"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-personalberater-autosuggest>
+        <div class="row mb-3"></div>
+        <avam-prepend-dropdown
+            controlName="status"
+            [parentForm]="form"
+            [readOnly]="false"
+            [selectLabel]="'common.label.status'"
+            [options]="statusDropdownLabels"
+            [placeholder]="'common.message.keineauswahl'"
+            (onChange)="onChangeStatus()"
+        ></avam-prepend-dropdown>
+    </div>
+</form>

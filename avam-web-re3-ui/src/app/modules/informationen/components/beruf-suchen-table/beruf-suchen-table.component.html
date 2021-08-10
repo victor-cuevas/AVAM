@@ -1,0 +1,49 @@
+<avam-generic-table
+    [dataSource]="tableConfig.data"
+    [headers]="tableConfig.config.displayedColumns"
+    [sortField]="baseTableConfig.config.sortField"
+    [sortOrder]="baseTableConfig.config.sortOrder"
+    [computeHeightByElement]="true"
+>
+    <ng-container *ngFor="let column of baseTableConfig.columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'checked'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell [sortable-column]="column.columnDef" *cdkHeaderCellDef>
+                <input type="checkbox" [checked]="allchecked" (click)="checkAll()" />
+                <sort-icon [column]="column.columnDef"></sort-icon>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <input type="checkbox" [checked]="column.cell(row)" (click)="checkbox(row)" />
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'flag'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell [sortable-column]="column.columnDef" *cdkHeaderCellDef>
+                <em [ngbTooltip]="column.header | translate" class="pa-2 full-centered fa fa-lg fa-flag">
+                    <sort-icon [column]="column.columnDef"></sort-icon>
+                </em>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="column.cell(row)" [ngbTooltip]="row.flag">
+                    <em class="full-centered fa fa-flag fa-lg"></em>
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'actions'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                    (primaryButtonClick)="selectItem(row)"
+                    avamPrimaryButtonDirective
+                    class="fa btn btn-sm buttonOnHover"
+                    [ngClass]="{ 'fa-eye btn-primary': showEyeAction }"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

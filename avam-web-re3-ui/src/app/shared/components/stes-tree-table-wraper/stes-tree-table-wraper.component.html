@@ -1,0 +1,7 @@
+<avam-basic-tree-table
+    *ngIf="tree && objectOptions"
+    [tree]="tree"
+    (onDoubleClick)="launchNodeClickedEvent($event)"
+    (onEnter)="launchNodeClickedEvent($event)"
+    [options]="objectOptions"
+></avam-basic-tree-table>

@@ -1,0 +1,23 @@
+<div class="overflow-hidden mh-100 pt-3">
+    <or-spinner [channel]="stellenangeboteChannel"></or-spinner>
+    <avam-stellen-angebote-table (umteilenEmitter)="umteilen($event)" #stellenAngeboteTable></avam-stellen-angebote-table>
+</div>
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="stellenAngeboterfassen()" [permissions]="[permissions.KEY_AG_OSTE_BEARBEITEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'arbeitgeber.oste.button.stellenangeboterfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="stellenangeboteData">
+        <avam-stellen-angebote-table
+            #stellenAngeboteTableModal
+            [inputData]="stellenangeboteData"
+            [statusList]="this.statusList"
+            [isPrintModal]="true"
+        ></avam-stellen-angebote-table>
+    </avam-generic-table-print>
+</ng-template>

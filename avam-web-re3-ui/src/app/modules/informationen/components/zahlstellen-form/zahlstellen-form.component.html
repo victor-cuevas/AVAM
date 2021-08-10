@@ -1,0 +1,128 @@
+<form class="row" [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="col-xl-12 pl-0 pr-0 pt-3 d-flex w-100">
+        <div class="rechts col-xl-6 d-flex">
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <div class="row d-flex">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2"> {{ 'verzeichnisse.label.zahlstelle.alkZahlstelleNr' | translate }}</label>
+                    </div>
+                    <ng-container *ngIf="currentMode === formModes.CREATE; else alkReadonly">
+                        <div class="col-md-3 mr-2" orFormControlState>
+                            <core-input [coreAutofocus]="true" formControlName="alkNr"></core-input>
+                            <or-error-messages extendWithWarnings></or-error-messages>
+                        </div>
+                        <div class="col-md-3" orFormControlState>
+                            <core-input formControlName="zahlstellenNr"></core-input>
+                            <or-error-messages extendWithWarnings></or-error-messages>
+                        </div>
+                    </ng-container>
+                    <ng-template #alkReadonly>
+                        <p class="col-md-6 pr-0 mr-2 mt-2">{{ zahlstelleelementData?.zahlstelle?.alkNr }} / {{ zahlstelleelementData?.zahlstelle?.zahlstelleNr }}</p>
+                    </ng-template>
+                </div>
+                <avam-label-input
+                    controlName="kurznameDe"
+                    [coreAutofocus]="currentMode === formModes.EDIT"
+                    selectLabel="{{ 'verzeichnisse.label.zahlstelle.kurzname' | translate }} {{ 'common.alttext.deutsch' | translate | lowercase }}"
+                    [parentForm]="formGroup"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="kurznameFr"
+                    selectLabel="{{ 'verzeichnisse.label.zahlstelle.kurzname' | translate }} {{ 'common.alttext.franzoesisch' | translate | lowercase }}"
+                    [parentForm]="formGroup"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="kurznameIt"
+                    selectLabel="{{ 'verzeichnisse.label.zahlstelle.kurzname' | translate }} {{ 'common.alttext.italienisch' | translate | lowercase }}"
+                    [parentForm]="formGroup"
+                ></avam-label-input>
+                <avam-label-dropdown
+                    selectLabel="verzeichnisse.label.zahlstelle.kassenstatus"
+                    controlName="alkTyp"
+                    [parentForm]="formGroup"
+                    [options]="alkTypOptions"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+                <avam-label-input controlName="blockiergrund" selectLabel="verzeichnisse.label.blockiergrund" [parentForm]="formGroup"></avam-label-input>
+                <avam-date-range-picker
+                    [parentForm]="formGroup"
+                    formControlNameFrom="datumGueltigVon"
+                    formControlNameTo="datumGueltigBis"
+                    label="amm.abrechnungen.label.gueltig"
+                    placeholderFrom="dd.mm.yyyy"
+                    placeholderTo="dd.mm.yyyy"
+                    inputClass="col-md-12 pl-0 pr-0 mb-2"
+                >
+                </avam-date-range-picker>
+                <br />
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    controlName="telefon"
+                    selectLabel="{{ 'amm.massnahmen.label.telefon' }}"
+                    [parentForm]="formGroup"
+                    inputClass="col-md-6"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    controlName="fax"
+                    selectLabel="{{ 'verzeichnisse.label.telefax' }}"
+                    [parentForm]="formGroup"
+                    inputClass="col-md-6"
+                ></avam-label-input>
+                <avam-label-input
+                    *ngIf="currentMode === formModes.CREATE; else bearbeitenEmail"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    controlName="email"
+                    selectLabel="{{ 'common.label.email' }}"
+                    [parentForm]="formGroup"
+                ></avam-label-input>
+                <ng-template #bearbeitenEmail>
+                    <app-email-input [parentForm]="formGroup" controlName="email" placeholder="{{ 'stes.placeholder.email' }}"></app-email-input>
+                </ng-template>
+                <avam-label-dropdown
+                    selectLabel="unternehmen.label.arbeitssprache"
+                    controlName="arbeitsSprache"
+                    [parentForm]="formGroup"
+                    [options]="spracheOptions"
+                    [hideEmptyOption]="true"
+                    inputClass="col-md-4"
+                ></avam-label-dropdown>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <h3>{{ 'benutzerverwaltung.label.postadresse' | translate }}</h3>
+                <br />
+                <avam-label-input controlName="firmenname1" selectLabel="verzeichnisse.label.firmenname" [parentForm]="formGroup"></avam-label-input>
+                <avam-label-input controlName="firmenname2" selectLabel=" " [parentForm]="formGroup"></avam-label-input>
+                <avam-label-input controlName="firmenname3" selectLabel=" " [parentForm]="formGroup"></avam-label-input>
+                <br />
+                <avam-label-input controlName="strasse" selectLabel="common.label.strassenr" [parentForm]="formGroup"></avam-label-input>
+                <avam-label-input controlName="postfach" selectLabel="stes.label.postfach" [parentForm]="formGroup"></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [parentForm]="formGroup.get('postadresse')"
+                    [readOnly]="false"
+                    label="stes.label.plzort"
+                ></avam-plz-autosuggest>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <h3>{{ 'benutzerverwaltung.label.standortadresse' | translate }}</h3>
+                <br />
+                <avam-label-input controlName="standFirmenname1" selectLabel="verzeichnisse.label.firmenname" [parentForm]="formGroup"></avam-label-input>
+                <avam-label-input controlName="standFirmenname2" selectLabel=" " [parentForm]="formGroup"></avam-label-input>
+                <avam-label-input controlName="standFirmenname3" selectLabel=" " [parentForm]="formGroup"></avam-label-input>
+                <br />
+                <avam-label-input controlName="standortstrasse" selectLabel="common.label.strassenr" [parentForm]="formGroup"></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [parentForm]="formGroup.get('standortadresse')"
+                    [readOnly]="false"
+                    label="stes.label.plzort"
+                ></avam-plz-autosuggest>
+            </div>
+        </div>
+    </div>
+</form>

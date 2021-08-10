@@ -1,0 +1,22 @@
+<div>
+    <or-spinner [channel]="rahmenfristenChannel"></or-spinner>
+    <avam-stes-rahmenfristen-table
+        *ngIf="rahmenfristenData"
+        [dataSource]="rahmenfristenData"
+        [aktionenOptions]="aktionenOptions"
+        (onItemSelected)="showRahmenfristDetails($event)"
+        (openAuszahlungenRahmenfrist)="openAuszahlungenRahmenfrist($event)"
+        (openZwischenVerdienst)="openZwischenVerdienst($event)"
+    ></avam-stes-rahmenfristen-table>
+</div>
+<ng-template #modalAuszahlungen>
+    <app-stes-rahmenfristen-auszahlungen [personStesId]="personStesID" [stesRahmenfristId]="rahmenfristId"></app-stes-rahmenfristen-auszahlungen>
+</ng-template>
+<ng-template #modalZwischenverdienst>
+    <app-stes-rahmenfristen-zwischenverdienst [personStesId]="personStesID" [stesRahmenfristId]="rahmenfristId"></app-stes-rahmenfristen-zwischenverdienst>
+</ng-template>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="rahmenfristenData">
+        <avam-stes-rahmenfristen-table *ngIf="rahmenfristenData" [dataSource]="rahmenfristenData"></avam-stes-rahmenfristen-table>
+    </avam-generic-table-print>
+</ng-template>

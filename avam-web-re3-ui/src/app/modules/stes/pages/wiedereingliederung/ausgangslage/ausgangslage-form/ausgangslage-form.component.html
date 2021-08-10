@@ -1,0 +1,166 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="row print-block">
+        <div class="links col-xl-6">
+            <div class="avam-panel h-100">
+                <label>
+                    <h3>{{ 'stes.wdg.label.ausgangslage' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    [isFocused]="true"
+                    id="gueltigAb"
+                    controlName="gueltigAb"
+                    [parentForm]="formGroup"
+                    calendarLabel="stes.label.wiedereingliederung.gultigAb"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-label-dropdown
+                    selectLabel="{{ 'stes.label.wiedereingliederung.vermittelbarkeit' }}"
+                    [parentForm]="formGroup"
+                    controlName="vermittelbarkeit"
+                    id="vermittelbarkeit"
+                    [options]="vermittelbarkeitOptions"
+                >
+                </avam-label-dropdown>
+                <avam-label-dropdown
+                    selectLabel="{{ 'stes.label.wiedereingliederung.qualifizierungsbedarf' }}"
+                    [parentForm]="formGroup"
+                    controlName="qualifizierungsbedarf"
+                    id="qualifizierungsbedarf"
+                    [options]="qualifikationsbedarfOptions"
+                    placeholder="common.label.waehlen"
+                ></avam-label-dropdown>
+                <avam-personalberater-autosuggest
+                    id="bearbeitung"
+                    controlName="bearbeitung"
+                    [parentForm]="formGroup"
+                    componentLabel="{{ 'stes.label.wiedereingliederung.bearbeitung' }}"
+                    [benutzerSuchenTokens]="bearbeitungSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    #pberater
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel h-100">
+                <label>
+                    <h3>{{ 'stes.label.wiedereingliederung.bezugsubersicht' | translate }}</h3>
+                </label>
+                <app-paragraph
+                    id="anspruch"
+                    label="{{ 'stes.label.wiedereingliederung.anspruchLabel' }}"
+                    value="{{ formData?.rahmenfristDTO?.anspruch ? (formData?.rahmenfristDTO?.anspruch | dbTranslate: 'text') : '' }}"
+                >
+                </app-paragraph>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'stes.wdg.label.rahmenfristvon' | translate }}</label>
+                    </div>
+                    <span class="pl-4">
+                        {{ formData?.rahmenfristDTO?.raDatumRahmenfristVon | date: 'dd.MM.yyyy' }}
+                    </span>
+
+                    <div class="col-lg-4 col-md-4 text-left">
+                        <label>{{ 'stes.wdg.label.rahmenfristbis' | translate }}</label>
+                        <span class="pl-3"> {{ formData?.rahmenfristDTO?.raDatumRahmenfristBis | date: 'dd.MM.yyyy' }} </span>
+                    </div>
+                </div>
+                <app-paragraph
+                    id="anspruch"
+                    label="{{ 'stes.label.wiedereingliederung.dauerStellensucheLabel' }}"
+                    value="{{ formData?.rahmenfristDTO?.dauerStellensuche | number: '1.1-1' }}"
+                >
+                </app-paragraph>
+                <app-paragraph id="anspruch" label="{{ 'stes.label.wiedereingliederung.resttagegelder' }}" value="{{ resttaggelder ? (resttaggelder | number: '1.1-1') : '' }}">
+                </app-paragraph>
+                <app-paragraph
+                    id="anspruch"
+                    label="{{ 'stes.label.wiedereingliederung.per' }}"
+                    value="{{ formData?.rahmenfristDTO?.kwKontrollperiode | date: 'dd.MM.yyyy' }}"
+                ></app-paragraph>
+            </div>
+        </div>
+        <div class="col-12 mt-2">
+            <div class="avam-panel avam-panel-light mb-0">
+                <label class="mb-0">
+                    <h3 class="mb-0">{{ 'stes.label.wiedereingliederung.situationsbeurteilung' | translate }}</h3>
+                </label>
+            </div>
+        </div>
+        <div class="col-12" formArrayName="situationsbeurteilungRows">
+            <avam-generic-table
+                *ngIf="reloadTable"
+                id="situationsbeurteilung-table"
+                [dataSource]="rows"
+                [headers]="displayedColumns"
+                [recalculateMaxHeight]="false"
+                [maxHeight]="500"
+                [selection]="selection"
+                [customSort]="true"
+                (sortFunction)="sortFunction($event)"
+                [initialSort]="false"
+                [sortField]="sortField"
+                [sortOrder]="sortOrder"
+            >
+                <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+                    <ng-container *ngIf="column.columnDef === 'action'">
+                        <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                            <div class="button-wrapper">
+                                <button
+                                    type="button"
+                                    class="fa fa-plus btn btn-secondary btn-sm buttonOnHover"
+                                    (click)="addRow($event)"
+                                    [ngbTooltip]="'common.button.add' | translate"
+                                ></button>
+                            </div>
+                        </th>
+                        <td cdk-cell *cdkCellDef="let row; let index = index">
+                            <button
+                                *ngIf="rows.length > 1"
+                                type="button"
+                                class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                                (click)="removeRow(index)"
+                                [ngbTooltip]="'common.button.loeschen' | translate"
+                            ></button>
+                        </td>
+                    </ng-container>
+                    <ng-container *ngIf="column.columnDef === columnNames.BEURTEILUNGSKRITERIUM">
+                        <td cdk-cell *cdkCellDef="let row; let index = index">
+                            <avam-beurteilungscriterium-select
+                                placeholder="{{ 'stes.label.wiedereingliederung.beurteilungskriterium' | translate }}"
+                                [parentForm]="formArray.controls[index]"
+                                [controlName]="columnNames.BEURTEILUNGSKRITERIUM"
+                                [coreReadOnlyClearButton]="true"
+                            ></avam-beurteilungscriterium-select>
+                        </td>
+                    </ng-container>
+                    <ng-container *ngIf="column.columnDef === columnNames.HANDLUNGSBEDARF">
+                        <td cdk-cell *cdkCellDef="let row; let index = index">
+                            <avam-label-dropdown
+                                [parentForm]="formArray.controls[index]"
+                                [controlName]="columnNames.HANDLUNGSBEDARF"
+                                [options]="handlungsbedarfOptions"
+                                [inputClass]="'col-lg-12 col-md-4'"
+                                placeholder="common.label.waehlen"
+                            ></avam-label-dropdown>
+                        </td>
+                    </ng-container>
+                    <ng-container *ngIf="column.columnDef === columnNames.PRIORITY">
+                        <td cdk-cell *cdkCellDef="let row; let index = index">
+                            <avam-label-dropdown
+                                [parentForm]="formArray.controls[index]"
+                                [controlName]="columnNames.PRIORITY"
+                                [options]="priorityOptions"
+                                [inputClass]="'col-lg-12 col-md-4'"
+                                placeholder="common.label.waehlen"
+                            ></avam-label-dropdown>
+                        </td>
+                    </ng-container>
+                    <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                        <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                    </th>
+                    <td cdk-cell *cdkCellDef="let row"></td>
+                </ng-container>
+            </avam-generic-table>
+        </div>
+    </div>
+</form>

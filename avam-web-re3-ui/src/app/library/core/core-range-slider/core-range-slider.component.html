@@ -1,0 +1,6 @@
+<div #root class="d-flex position-relative root-element">
+    <div #thumb1 (mousedown)="dragMouseDown($event, 0)" class="slider-thumb disabledThumb" [ngClass]="{ disabledThumb: isDisabled }" id="sliderThumb1"></div>
+    <div #thumb2 (mousedown)="dragMouseDown($event, 1)" class="slider-thumb disabledThumb" [ngClass]="{ disabledThumb: isDisabled }" id="sliderThumb2"></div>
+
+    <div #track class="slider-track disabledSlider" [ngClass]="{ disabledSlider: isDisabled }" id="sliderTrack"></div>
+</div>

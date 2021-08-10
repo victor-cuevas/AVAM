@@ -1,0 +1,119 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="form-group row">
+    <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel ? 'col-lg-8 col-md-8' : 'col-lg-12 col-md-12'">
+        <div class="input-group" [hidden]="readOnly" orFormControlState>
+            <core-autosuggest
+                arrow-scrolling
+                #inputElement
+                dynamicControlName
+                [formControlName]="controlName"
+                [placeholder]="placeholder"
+                [inputFormatter]="inputFormatter"
+                [template]="rt"
+                [searchFunction]="searchBenutzerstellen"
+                [disableControl]="isDisabled"
+                [infoIconTemplate]="userInfoTemplate"
+                [showInfoIcon]="benutzerstellenInfo ? true : false"
+                [container]="container"
+                [scrollIntoView]="scrollIntoView"
+                ngbTooltip="{{ tooltip | translate }}"
+                triggers="{{ tooltip ? 'hover' : 'click' }}"
+                style="width: inherit;"
+                (onInput)="input($event)"
+                (onChange)="change($event)"
+                (onKeyup)="keyup($event)"
+                (onBlur)="blur($event)"
+                (onSelect)="select($event)"
+            >
+            </core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="readOnly">
+            <p class="mb-0 p-value-left-12">
+                <span> {{ inputValue }}</span>
+                <avam-info-icon-btn *ngIf="benutzerstellenInfo" [infoIconTemplate]="userInfoTemplate" [readOnly]="readOnly"></avam-info-icon-btn>
+            </p>
+        </div>
+    </div>
+</div>
+
+<ng-template #userInfoTemplate>
+    <or-spinner [channel]="infoIconChannel"></or-spinner>
+
+    <div class="p-4">
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.benutzerstellenid' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ benutzerstellenInfo?.benuStelleCode }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.benutzerstelle' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ benutzerstellenInfo?.benuStelleName }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.standortadresse' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ benutzerstellenInfo?.standortadresse }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.typ' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ benutzerstellenInfo?.typ }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.arbeitssprache' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ benutzerstellenInfo?.arbeitssprache }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.telefon' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ benutzerstellenInfo?.telefon }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.email' | translate }}</label>
+            </div>
+            <div class="col-7">
+                <a [href]="'mailto:' + benutzerstellenInfo?.email" target="_blank"> {{ benutzerstellenInfo?.email }}</a>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #rt let-r="result" let-t="term">
+    <div class="row flex-nowrap" avamAlignPopupTemplateAndInput>
+        <div class="d-inline-block w-20 pr-1 pl-1 min-width-80px">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.code" [term]="t"></ngb-highlight>
+        </div>
+        <button class="d-inline-block w-30 pr-1 pl-1 min-width-0 tooltip-btn" [ngbTooltip]="r.translatedName">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.translatedName" [term]="t"></ngb-highlight>
+        </button>
+        <button class="d-inline-block w-30 pr-1 pl-1 min-width-0 tooltip-btn" [ngbTooltip]="r.translatedStrasse + r.strasseNr">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.translatedStrasse + r.strasseNr" [term]="t"></ngb-highlight>
+        </button>
+        <button class="d-inline-block w-20 pr-1 pl-1 min-width-80px tooltip-btn" [ngbTooltip]="r.translatedOrt">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.translatedOrt" [term]="t"></ngb-highlight>
+        </button>
+    </div>
+</ng-template>

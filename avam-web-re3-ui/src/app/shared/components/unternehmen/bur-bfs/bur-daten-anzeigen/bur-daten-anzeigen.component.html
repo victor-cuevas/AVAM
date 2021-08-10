@@ -1,0 +1,155 @@
+<div class="print-block row has-overlay">
+    <or-spinner channel="burDatenAnzeigen"></or-spinner>
+    <div class="row w-100">
+        <div class="col-xl-12 pt-3 pb-3 pl-3 pr-0 d-flex w-100">
+            <div class="rechts col-xl-6">
+                <div class="avam-panel avam-panel-extra-lighter">
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label button-betriebe">
+                            <label class="mb-2">{{ 'unternehmen.label.uidnummer' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label button-betriebe" avamAutoFocus>
+                            <a *ngIf="!!burDetailDTO && !!burDetailDTO.uidFull" [href]="'https://www.uid.admin.ch/Detail.aspx?uid_id=' + burDetailDTO.uidFull" target="_blank">
+                                <span class="mr-2">{{ burDetailDTO.uidFull }}</span>
+                            </a>
+                            <ng-content select="[input-type=readOnly]"></ng-content>
+                            <button
+                                class="btn btn-secondary rounded-0"
+                                type="button"
+                                (click)="openBetriebe()"
+                                [disabled]="!burDetailDTO || !burDetailDTO.uidFull"
+                                ngbTooltip="{{ 'arbeitgeber.altext.betriebezuuid' | translate }}"
+                            >
+                                <span class="fa fa-clone fa-fw"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.name' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? burDetailDTO.name1 : '' }}
+                        </div>
+                    </div>
+                    <div *ngIf="!!burDetailDTO && !!burDetailDTO.name2" class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label"></div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ burDetailDTO.name2 }}
+                        </div>
+                    </div>
+                    <div *ngIf="!!burDetailDTO && !!burDetailDTO.name3" class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label"></div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ burDetailDTO.name3 }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.strassenr' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? burDetailDTO.street + ' ' + burDetailDTO.streetNr : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.plzort' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? burDetailDTO.plzOrt : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.postfach' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO && !!burDetailDTO.postfachNr ? burDetailDTO.postfachNr : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'arbeitgeber.oste.label.postfachplzortup' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? burDetailDTO.plzOrtPostfach : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.land' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? (burDetailDTO.staat | dbTranslate: 'name') : '' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="links col-xl-6 pr-0">
+                <div class="avam-panel avam-panel-extra-lighter">
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.rechtsform' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? (burDetailDTO.legalForm | dbTranslate: 'text') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.betriebsgroesse' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? (burDetailDTO.employeeSizeClass | dbTranslate: 'text') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.betriebstyp' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? burDetailDTO.type.code + ' ' + (burDetailDTO.type | dbTranslate: 'text') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.status' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? burDetailDTO.status.code + ' ' + (burDetailDTO.status | dbTranslate: 'text') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.burtelefon' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? burDetailDTO.phoneNumber : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.arbeitssprache' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!burDetailDTO ? (burDetailDTO.language | dbTranslate: 'text') : '' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #tableModal>
+    <app-modal-wrapper
+        [tableConfig]="tableConfig"
+        [modalToolboxConfiguration]="modalToolboxConfiguration"
+        [modalHeader]="getModalHeader()"
+        [modalToolboxId]="'tableBetriebeModal'"
+        [formNr]="formNr"
+        (modalClose)="selectItem($event)"
+    >
+    </app-modal-wrapper>
+</ng-template>

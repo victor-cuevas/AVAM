@@ -1,0 +1,90 @@
+<div class="p-4">
+    <div class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.benutzerid' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData?.benutzerLogin }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.name' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData?.nachname }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.vorname' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData?.vorname }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.geschlecht' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData | dbTranslate: 'geschlecht' }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.arbeitssprache' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData | dbTranslate: 'arbeitssprache' }}
+        </div>
+    </div>
+    <div *ngIf="benutzerDetails" class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.telefon' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData?.telefon }}
+        </div>
+    </div>
+    <div *ngIf="benutzerDetails" class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.mobile' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData?.mobile }}
+        </div>
+    </div>
+    <div *ngIf="benutzerDetails" class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.email' | translate }}</label>
+        </div>
+        <div class="col-7">
+            <a [href]="'mailto:' + userInfoData?.email" target="_blank" (click)="onClickEmail()"> {{ userInfoData?.email }}</a>
+        </div>
+    </div>
+    <div *ngIf="benutzerDetails" class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'amm.massnahmen.label.benutzerstelleId' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData?.benuStelleCode }}
+        </div>
+    </div>
+    <div *ngIf="benutzerDetails" class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'common.label.benutzerstelle' | translate }}</label>
+        </div>
+        <div class="col-7">
+            {{ userInfoData | dbTranslate: 'benuStelleName' }}
+        </div>
+    </div>
+    <div *ngIf="benutzerDetails" class="row">
+        <div class="col-5">
+            <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.standortadresse' | translate }}</label>
+        </div>
+        <div class="col-7 accept-new-line">
+            {{ userInfoData | dbTranslate: 'standortadresse' }}
+        </div>
+    </div>
+</div>

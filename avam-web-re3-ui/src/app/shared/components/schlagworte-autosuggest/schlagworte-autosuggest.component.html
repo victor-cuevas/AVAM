@@ -1,0 +1,36 @@
+<div class="form-group row">
+    <div class="col-lg-4 col-md-4 text-right align-self-center" *ngIf="showLabel">
+        <label class="col-form-label">{{ label | translate }}</label>
+    </div>
+    <div [ngClass]="showLabel ? 'col-lg-8 col-md-8 text-control align-self-center' : 'text-control w-100 ml-3 mr-3 align-self-center'">
+        <app-autosuggest-input
+            arrow-scrolling
+            class="customdirective"
+            style="width: inherit;"
+            [id]="'schlagworteAutosuggest'"
+            [disabled]="disabled"
+            [search]="searchSchlagworte"
+            [resultFormatter]="resultFormatter"
+            [inputFormatter]="inputFormatter"
+            [selectedItemId]="selectedItemId"
+            [displayInfoBtn]="false"
+            [placeholder]="currentPlaceholder"
+            (selectItem)="itemSelected($event)"
+            (writeItem)="writeValue($event)"
+            #inputElement
+        >
+        </app-autosuggest-input>
+        <div [ngClass]="'as-filter-width'">
+            <select class="form-control" id="filterDropdown" #filterDropdown [disabled]="filterDisabled" (change)="onChangeFilter($event)">
+                <option *ngFor="let option of filterOptions" value="{{ option.value }}">{{ option | dbTranslate: 'label' }}</option>
+            </select>
+        </div>
+    </div>
+    <div *ngIf="!alignLeft" class="col-lg-4 col-md-4"></div>
+    <div *ngIf="!alignLeft" class="col-lg-8 col-md-8">
+        <custom-error-messages></custom-error-messages>
+    </div>
+    <div class="col" *ngIf="alignLeft">
+        <custom-error-messages></custom-error-messages>
+    </div>
+</div>

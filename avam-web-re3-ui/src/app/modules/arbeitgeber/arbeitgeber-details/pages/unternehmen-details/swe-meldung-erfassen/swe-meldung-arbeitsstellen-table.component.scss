@@ -1,0 +1,21 @@
+.button-wrapper {
+    display: flex;
+
+    button {
+        display: flex;
+        margin: 0 auto;
+    }
+}
+
+.last-column {
+    width: 60px;
+}
+
+@media print {
+    .button-wrapper {
+        display: none;
+    }
+    th:last-child, td:last-child {
+        display: none;
+    }
+}

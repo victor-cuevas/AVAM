@@ -1,0 +1,29 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <or-spinner [channel]="formSpinnerChannel"></or-spinner>
+        <avam-benutzerstellen-suchen-form
+            #suchenFormComponent
+            [formData]="formData"
+            [searchFormStateKey]="searchFormStateKey"
+            (onEnter)="search()"
+            (savedSearchData)="onSavedSearchData()"
+        ></avam-benutzerstellen-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner [channel]="resultsSpinnerChannel"></or-spinner>
+        <avam-benutzerstellen-suchen-result
+            [resultsData]="searchResults"
+            [showBadge]="searchDone"
+            [tableStateKey]="tableStateKey"
+            class="sticky-main"
+        ></avam-benutzerstellen-suchen-result>
+    </div>
+</or-column-layout>

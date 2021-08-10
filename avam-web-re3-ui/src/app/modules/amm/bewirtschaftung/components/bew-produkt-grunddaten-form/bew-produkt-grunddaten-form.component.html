@@ -1,0 +1,163 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="erfassungssprache"
+                    id="erfassungssprache"
+                    [options]="erfassungsspracheOptions"
+                    selectLabel="amm.massnahmen.label.erfassungssprache"
+                    (onChange)="onLanguageDropdownChange($event)"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <div *ngIf="displayGermanElements">
+                    <label>{{ 'amm.massnahmen.label.titelde' | translate }}</label>
+                    <app-textarea id="titelDe" formControlName="titelDe" [fullWidth]="true" customFormControlState maxLength="255" [readonly]="isIndividuelleAmm"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungD' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenDe"
+                        formControlName="ergaenzendeAngabenDe"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="isIndividuelleAmm"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayFrenchElements">
+                    <label>{{ 'amm.massnahmen.label.titelfr' | translate }}</label>
+                    <app-textarea id="titelFr" formControlName="titelFr" [fullWidth]="true" customFormControlState maxLength="255" [readonly]="isIndividuelleAmm"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungF' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenFr"
+                        formControlName="ergaenzendeAngabenFr"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="isIndividuelleAmm"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayItalianElements">
+                    <label>{{ 'amm.massnahmen.label.titelit' | translate }}</label>
+                    <app-textarea id="titelIt" formControlName="titelIt" [fullWidth]="true" customFormControlState maxLength="255" [readonly]="isIndividuelleAmm"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungI' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenIt"
+                        formControlName="ergaenzendeAngabenIt"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="isIndividuelleAmm"
+                    ></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-date-range-picker
+                    id="gueltigVonBis"
+                    class="form-group"
+                    label="amm.massnahmen.label.gueltig"
+                    [parentForm]="formGroup"
+                    formControlNameFrom="gueltigVon"
+                    formControlNameTo="gueltigBis"
+                    [isResponsive]="true"
+                    [readOnly]="isIndividuelleAmm ? 'all' : ''"
+                ></avam-date-range-picker>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    id="produktverantwortung"
+                    [parentForm]="formGroup"
+                    controlName="produktverantwortung"
+                    placeholder="{{ 'amm.massnahmen.label.benutzer' | translate }}"
+                    componentLabel="amm.massnahmen.label.produktverantwortung"
+                    [benutzerSuchenTokens]="produktverantwortungTokens"
+                    [type]="produktverantwortungType"
+                    #produktverantwortung
+                    [readOnly]="isIndividuelleAmm"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <app-paragraph
+                    id="produktnr"
+                    label="amm.massnahmen.label.produktnr"
+                    value="{{ grunddatenData?.grunddatenDto?.produktId !== 0 ? grunddatenData?.grunddatenDto?.produktId : '' }}"
+                >
+                </app-paragraph>
+            </div>
+            <div class="avam-panel d-flex">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-8 flex-nowrap">
+                    <avam-label-checkbox
+                        inputClass="''"
+                        selectLabel="amm.massnahmen.label.produktinplanungsichtbar"
+                        componentId="inPlanungSichtbar"
+                        [parentForm]="formGroup"
+                        controlName="inPlanungSichtbar"
+                        [isDisabled]="isIndividuelleAmm"
+                    >
+                    </avam-label-checkbox>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-input-modal
+                    inputClass="col"
+                    [parentForm]="formGroup"
+                    controlName="amtsstelleText"
+                    placeholder="stes.placeholder.select.waehlen"
+                    [modal]="massnahmenAmtsstelleModal"
+                    selectLabel="amm.nutzung.label.massnahmenart"
+                    [isUpperLabel]="true"
+                    [toolTip]="handler.selectedAmtsstellePath | dbTranslate: 'name'"
+                    modalTooltip="amm.nutzung.label.massnahmenart"
+                    [coreReadOnly]="true"
+                    [hideOpenModalBtn]="isIndividuelleAmm"
+                ></avam-input-modal>
+                <ng-template #massnahmenAmtsstelleModal>
+                    <avam-massnahmenart-waehlen-modal
+                        [queryParams]="handler.massnahmenAmtsstelleQueryParams"
+                        (onSelect)="handler.selectMassnahmenart($event)"
+                        [getPaths]="true"
+                    ></avam-massnahmenart-waehlen-modal>
+                </ng-template>
+                <avam-input-modal
+                    inputClass="col"
+                    [parentForm]="formGroup"
+                    controlName="ausgleichsstelleText"
+                    placeholder="stes.placeholder.select.waehlen"
+                    [modal]="massnahmenAusgleichsstelleModal"
+                    selectLabel="common.label.massnahmenartAusgleichsstelle"
+                    [isUpperLabel]="true"
+                    [toolTip]="handler.selectedAusgleichstellePath | dbTranslate: 'name'"
+                    modalTooltip="common.label.massnahmenartAusgleichsstelle"
+                    [coreReadOnly]="true"
+                    [hideOpenModalBtn]="!formGroup.controls.amtsstelle.value || isIndividuelleAmm"
+                ></avam-input-modal>
+                <ng-template #massnahmenAusgleichsstelleModal>
+                    <avam-massnahmenart-waehlen-modal
+                        [queryParams]="handler.massnahmenAusgleichstelleQueryParams"
+                        (onSelect)="handler.selectAusgleichsstelle($event)"
+                        [getPaths]="true"
+                    ></avam-massnahmenart-waehlen-modal>
+                </ng-template>
+                <label>{{ 'amm.massnahmen.label.lamcode' | translate }}</label>
+                <avam-label-input inputClass="col-md-12" [parentForm]="formGroup" controlName="lamCode" [readOnly]="isIndividuelleAmm"></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <avam-unternehmen-dynamic-autosuggest
+                    componentLabel="amm.massnahmen.label.anbieter"
+                    suchePlusLabel="amm.massnahmen.label.anbieter"
+                    [readOnly]="isIndividuelleAmm"
+                    [parentForm]="formGroup"
+                    controlName="ammAnbieterList"
+                    [isAvamOnly]="true"
+                ></avam-unternehmen-dynamic-autosuggest>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,17 @@
+<div class="d-block">
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-date-range-form [data]="formData" #suchenFormComponent (onDataRefresh)="onRefresh()"></avam-date-range-form>
+    <avam-rahmenvertrag-suchen-table [dataSource]="dataSource" (onItemSelected)="onItemSelected($event)" [forUebersicht]="true"></avam-rahmenvertrag-suchen-table>
+</div>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="onCreate()" [permissions]="[permissions.AMM_AKQUISITION_BEARBEITEN]">
+        <span class="fa fa-plus"></span>
+        {{ 'amm.akquisition.kopfzeile.rahmenvertragerstellen' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-rahmenvertrag-suchen-table *ngIf="dataSource" [dataSource]="dataSource" [forPrinting]="true" [forUebersicht]="true"></avam-rahmenvertrag-suchen-table>
+</ng-template>

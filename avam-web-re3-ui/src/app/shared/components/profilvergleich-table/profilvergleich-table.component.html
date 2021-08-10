@@ -1,0 +1,39 @@
+<avam-generic-table [dataSource]="dataSource" [headers]="displayedColumns" [maxHeight]="maxHeight" #profilvergleichTable>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'isMismatch'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="column.cell(row) === suitableEnum.NICHT_GEEIGNET" [ngbTooltip]="'stes.tooltip.vermittlung.uebereinstimmungDerProfildatenPruefen' | translate">
+                    <i class="full-centered fa fa-exclamation fa-lg"></i>
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'attribute'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="row.isParent" class="font-weight-bold" [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | translate }}
+                </span>
+                <span *ngIf="!row.isParent" [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ column.cell(row) | translate }}
+                </span>
+            </td>
+        </ng-container>
+
+        <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+            <div class="header-container">
+                <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.header | translate }}
+                </span>
+            </div>
+        </th>
+
+        <td cdk-cell *cdkCellDef="let row">
+            <span *ngIf="row.isParent" [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                {{ column.cell(row) | translate }}
+            </span>
+            <span *ngIf="!row.isParent" [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ column.cell(row) | translate }}
+            </span>
+        </td>
+    </ng-container>
+</avam-generic-table>

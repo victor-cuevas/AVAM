@@ -1,0 +1,30 @@
+.add-padding-left{
+    padding-left: 17px;
+}
+
+.wdg-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+app-input {
+    display: block;
+    width: 100%;
+}
+
+.wdg-btn{
+    z-index: 1;
+    margin-left: -1px;
+}
+
+.wdg-radio {
+    width: 18px;
+    padding-top: 7px;
+    z-index: 1;
+}
+
+.massnahmen-input {
+    padding-left: 1px;
+    margin-bottom: 8px;
+}

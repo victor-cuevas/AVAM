@@ -1,0 +1,45 @@
+<or-column-layout [right]="false">
+    <div column-left-content class="sticky-main" (keyup.enter)="search()">
+        <avam-beruf-suchen-form #berufSuchenFormComponent (restoreCache)="restoreChache()"></avam-beruf-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [disabled]="!berufSuchenFormComponent.searchForm.valid">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4 infoleiste">{{ 'verzeichnisse.label.berufe' | translate }}</h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="responseData.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <avam-alert></avam-alert>
+        <avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+        <avam-beruf-suchen-table #berufSuchenTableComponent [dataSource]="responseData" [showEyeAction]="true"></avam-beruf-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #footerButtons>
+    <button class="btn btn-secondary ml-1 keepDisabled" type="button" (click)="aehlichenBerufSuchen()">
+        {{ 'stes.label.aehnlicheBerufeSuchen' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print>
+        <avam-beruf-suchen-table [isPrintModal]="true" [dataSource]="responseData"> </avam-beruf-suchen-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #aehnlicheBerufeSuchenModalComponent>
+    <avam-aehnliche-berufe-suchen-modal [dataSource]="responseDataAehlichBeruf" [showEyeAction]="true"></avam-aehnliche-berufe-suchen-modal>
+</ng-template>

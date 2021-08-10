@@ -1,0 +1,55 @@
+<form #ngForm="ngForm" autocomplete="off">
+    <or-spinner [channel]="sachverhaltChanel"></or-spinner>
+    <div class="print-block row">
+        <div class="rechts col-xl-6">
+            <div class="avam-panel min-height-20" [formGroup]="sachverhaltForm">
+                <label>
+                    <h3>{{ 'stes.label.sanktionen.arbeitsbemuehungen' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    [avamAutofocus]="existingEntscheidOrSachverhalt()"
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    id="grundId"
+                    [parentForm]="sachverhaltForm"
+                    controlName="grundId"
+                    selectLabel="{{ 'stes.label.sanktionsgrund' }}"
+                    [options]="sanktionsgrund"
+                >
+                </avam-label-dropdown>
+                <avam-data-table-modal
+                    id="datumKontrollPeriodeCalendar"
+                    [coreReadOnly]="true"
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    selectLabel="{{ 'stes.label.kontrollperiode' | translate }}"
+                    [parentForm]="sachverhaltForm"
+                    [controlType]="'calendar'"
+                    [controlName]="'datumKontrollPeriode'"
+                    [formNr]="formNr"
+                    [inputClass]="'col-7'"
+                    modalHeader="{{ 'stes.label.kontrollperiode.auswaehlen' | translate }}"
+                    [tableConfig]="tableConfig"
+                    (modalClosed)="setModalResult($event)"
+                ></avam-data-table-modal>
+                <avam-label-calendar
+                    id="datumEingang"
+                    [parentForm]="sachverhaltForm"
+                    controlName="datumEingang"
+                    calendarLabel="{{ 'stes.label.eingangsdatum' }}"
+                    readOnly="true"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    id="datumErfasstAm"
+                    [parentForm]="sachverhaltForm"
+                    controlName="datumErfasstAm"
+                    calendarLabel="{{ 'common.label.erfassungsdatum' }}"
+                    readOnly="true"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <avam-fallbearbeitung-form #fallbearbeitung [autofocus]="existingEntscheidOrSachverhalt()"></avam-fallbearbeitung-form>
+        </div>
+    </div>
+</form>

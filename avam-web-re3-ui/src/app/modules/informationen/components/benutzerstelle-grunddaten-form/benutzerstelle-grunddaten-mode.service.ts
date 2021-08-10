@@ -1,0 +1,9 @@
+import { Injectable } from '@angular/core';
+import { FormMode } from '@app/shared';
+
+@Injectable()
+export class BenutzerstelleGrunddatenModeService extends FormMode {
+    constructor() {
+        super();
+    }
+}

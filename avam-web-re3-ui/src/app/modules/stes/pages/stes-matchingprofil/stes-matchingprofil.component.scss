@@ -1,0 +1,44 @@
+hr.divider { 
+    margin-top: -0.8em;
+    margin-bottom: -0.2em;
+} 
+
+.padding-t{
+    padding-top: 6px;
+}
+
+.padding-t-b{
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.page-scroll{
+    height: calc(100vh - 226px);
+    overflow-y: auto;
+}
+
+.table-style{
+    display: block;
+    height: 1500px;
+}
+
+.label-font{
+    font-size: 85%;
+}
+
+.bold-checkbox{
+    /deep/ avam-label-checkbox {
+     label {
+           font-weight: bold !important;
+     }
+    }
+}
+
+.info-icon-height{
+    max-height: 57vh;
+    overflow-y: hidden;
+}
+
+.info-icon-margin{
+    margin-left: -15px;
+}

@@ -1,0 +1,11 @@
+<input
+    id="{{ componentId }}"
+    [formControl]="control"
+    type="checkbox"
+    class="form-check-input"
+    (change)="change($event.target.checked)"
+    (blur)="blur($event)"
+    #inputElement
+    [checked]="isChecked"
+/>
+<ng-content></ng-content>

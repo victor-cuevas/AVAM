@@ -1,0 +1,7 @@
+<div>
+    <or-spinner channel="geschaefteSpinner"></or-spinner>
+    <avam-geschaefte-table [rows]="rows" (onPrimaryAction)="openCallback($event)" [forStes]="true" [stateKey]="stateKey"></avam-geschaefte-table>
+</div>
+<ng-template #modalPrint>
+    <avam-geschaefte-table [rows]="rows" [forStes]="true" [stateKey]="stateKeyPrint" [print]="true"></avam-geschaefte-table>
+</ng-template>

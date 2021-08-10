@@ -1,0 +1,7 @@
+<div>
+    <or-spinner channel="stesMeldungResult-modal"></or-spinner>
+    <avam-stes-meldungen-result [stateKey]="stateKey" #stesMeldungenResult [geschaeftsbereichCode]="geschaeftsbereichCode.GESCHAEFTSBEREICH_STES"></avam-stes-meldungen-result>
+</div>
+<ng-template #modalPrint>
+    <avam-meldungen-table [sourceData]="stesMeldungenResult.resultsData" [stateKey]="stateKey" [forPrinting]="true" [showName]="false"></avam-meldungen-table>
+</ng-template>

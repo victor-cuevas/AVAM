@@ -1,0 +1,26 @@
+<avam-generic-table *ngIf="regionen" [dataSource]="regionen" [headers]="[name, type]" [shouldFocusInitialRow]="false">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === name">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: name" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | dbTranslate: name }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === type">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: 'text'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | dbTranslate: 'text' }}
+                </span>
+            </td>
+        </ng-container>
+
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

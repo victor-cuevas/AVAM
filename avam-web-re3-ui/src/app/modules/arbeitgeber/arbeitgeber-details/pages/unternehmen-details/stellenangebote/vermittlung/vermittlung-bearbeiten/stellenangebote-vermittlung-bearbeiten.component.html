@@ -1,0 +1,125 @@
+<form [formGroup]="bearbeitenForm" #ngForm="ngForm" closeBrowserTab [form]="bearbeitenForm" autocomplete="off">
+    <or-spinner [channel]="zuweisungChannel"></or-spinner>
+    <div class="print-block row">
+        <div class="links col-xl-6">
+            <avam-vermittlung-data-panel
+                [formGroup]="bearbeitenForm"
+                [vermittlungsartId]="zuweisung?.vermittlungsartId"
+                [radioButtonOptions]="vermittlungsArtOptions"
+                [vermittlungsartLabels]="vermittlungsArtLabels"
+                [zuweisungStatusLabels]="statusLabels"
+                [calendarDisabled]="calendarDisabled"
+                (radioWithDateSelected)="updateBewerbungBisControl($event)"
+            ></avam-vermittlung-data-panel>
+            <avam-collapse-panel [title]="'stes.label.vermittlung.stellensuchender'">
+                <div panel-type="action">
+                    <button type="button" class="btn btn-secondary mr-1" (click)="openStesDetails()" [disabled]="istDatenschutz">
+                        {{ 'arbeitgeber.label.detail' | translate }}
+                    </button>
+                </div>
+                <div panel-type="body">
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.name' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ zuweisungView?.stesName }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.vorname' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ zuweisungView?.stesVorname }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.ort' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ zuweisungView | dbTranslate: 'stesOrt' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'arbeitgeber.label.stesId' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ zuweisungView?.stesIdAvam }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.status' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ zuweisungView | dbTranslate: 'stesStatus' }}
+                        </div>
+                    </div>
+                    <avam-personalberater-autosuggest
+                        [parentForm]="stellensuchenderForm"
+                        controlName="personalberater"
+                        componentLabel="stes.label.personalberater"
+                        [isDisabled]="true"
+                        [type]="personalberaterAutosuggestType"
+                    ></avam-personalberater-autosuggest>
+                </div>
+            </avam-collapse-panel>
+        </div>
+
+        <div class="rechts col-xl-6">
+            <avam-vermittlung-rueckmeldungen [formGroup]="bearbeitenForm" [vermittlungsergebnisLabels]="vermittlungsErgebnisLabels"></avam-vermittlung-rueckmeldungen>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button type="button" class="btn btn-link ml-1" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button type="button" class="btn btn-link ml-1" (click)="reset()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        type="button"
+        *ngIf="isFreigabebereit()"
+        class="btn btn-secondary ml-1"
+        (click)="update('zurueckweisen')"
+        [permissions]="[permissions.STES_VM_ZUWEISUNG_FREIGEBEN_ZURUECKWEISEN]"
+    >
+        {{ 'stes.vermittlung.button.zuweisungzurueckweisen' | translate }}
+    </button>
+    <button
+        type="button"
+        *ngIf="isFreigabebereit()"
+        class="btn btn-secondary ml-1"
+        (click)="update('freigeben')"
+        [permissions]="[permissions.STES_VM_ZUWEISUNG_FREIGEBEN_ZURUECKWEISEN]"
+    >
+        {{ 'stes.vermittlung.button.zuweisungfreigeben' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="profilSenden()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+        {{ 'arbeitgeber.oste.button.profilSenden' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="openProfilvergleich()" [permissions]="[permissions.KEY_STES_VM_OSTE_ZUWEISUNG_SUCHEN]">
+        {{ 'stes.button.vermittlung.profilvergleich' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="openDeleteDialog()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+        {{ 'stes.vermittlung.button.vermittlungloeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="update('speichern')" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #profilvergleichModal>
+    <avam-profilvergleich-modal [zuweisungId]="zuweisungId" [parentFormNumber]="formNumber"></avam-profilvergleich-modal>
+</ng-template>
+
+<ng-template #stesDetailsModal>
+    <avam-stes-details-modal [stesId]="zuweisung?.stesId.toString()"></avam-stes-details-modal>
+</ng-template>

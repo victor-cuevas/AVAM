@@ -1,0 +1,40 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" autocomplete="off">
+    <avam-generic-tree-table [headers]="displayedColumns" [dataSource]="data" [options]="options">
+        <ng-container *ngFor="let column of columns; first as isFirst" [cdkColumnDef]="column?.columnDef">
+            <th cdk-header-cell *cdkHeaderCellDef>
+                <div class="header-container">
+                    <span>
+                        {{ column.header | translate }}
+                    </span>
+                </div>
+            </th>
+            <ng-container *ngIf="isFirst">
+                <td cdk-cell *cdkCellDef="let row; let index">
+                    <tree-table-toggler [element]="row" [column]="column"></tree-table-toggler>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="!isFirst && !readonly">
+                <ng-container *ngIf="column?.columnDef === 'chf'">
+                    <td cdk-cell *cdkCellDef="let row; let index = index" [formGroupName]="row.model.id">
+                        <avam-currency-input id="chf{{ index }}" controlName="chf" [parentForm]="formGroup.get(row.model.id)" [integerOnly]="true"></avam-currency-input>
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="column?.columnDef === 'tnTage'">
+                    <td cdk-cell *cdkCellDef="let row; let index = index" [formGroupName]="row.model.id">
+                        <avam-currency-input id="tnTage{{ index }}" controlName="tnTage" [parentForm]="formGroup.get(row.model.id)" [integerOnly]="true"></avam-currency-input>
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="column?.columnDef === 'tn'">
+                    <td cdk-cell *cdkCellDef="let row; let index = index" [formGroupName]="row.model.id">
+                        <avam-currency-input id="tn{{ index }}" controlName="tn" [parentForm]="formGroup.get(row.model.id)" [integerOnly]="true"></avam-currency-input>
+                    </td>
+                </ng-container>
+            </ng-container>
+            <td cdk-cell *cdkCellDef="let row">
+                <span class="resizeable-span" ngbTooltip="{{ column.cell(row.model.data) | formatSwissFranc }}" triggers="manual" #t="ngbTooltip" [avamCoreTreeTableTooltip]="t">{{
+                    column.cell(row.model.data) | formatSwissFranc
+                }}</span>
+            </td>
+        </ng-container>
+    </avam-generic-tree-table>
+</form>

@@ -1,0 +1,157 @@
+<or-column-layout [right]="false">
+    <div column-left-content class="sticky-main" (keyup.enter)="search()">
+        <form class="outer-panel-height no-overflow h-100" #ngForm="ngForm" autocomplete="off">
+            <div class="avam-panel avam-panel-extra-lighter inner-panel-height p-3">
+                <div [formGroup]="searchForm" class="no-overflow h-100">
+                    <h3>
+                        <span class="fa fa-search mr-2"></span>
+                        {{ 'stes.label.vermittlung.stellenangebot' | translate }}
+                    </h3>
+                    <avam-beruf-autosuggest
+                        [coreAutofocus]="true"
+                        [componentLabel]="null"
+                        [parentForm]="searchForm"
+                        controlName="berufeTaetigkeit"
+                        placeholder=" {{ 'arbeitgeber.oste.label.beruftaetigkeit' | translate }}"
+                        container="body"
+                        [showFilter]="true"
+                    ></avam-beruf-autosuggest>
+                    <avam-label-checkbox
+                        componentId="umAehnlicheBerufeErgaenzen"
+                        controlName="umAehnlicheBerufeErgaenzen"
+                        [parentForm]="searchForm"
+                        selectLabel="{{ 'arbeitgeber.label.umAehnlicheBerufeErgaenzen' | translate }}"
+                        inputClass="col-lg-0"
+                    ></avam-label-checkbox>
+                    <avam-label-dropdown
+                        inputClass="col-lg-12 col-md-12"
+                        [placeholder]="'arbeitgeber.oste.label.qualifikationWaehlen'"
+                        [parentForm]="searchForm"
+                        controlName="qualifikation"
+                        id="qualifikation"
+                        [options]="qualifikationDropdownLabels"
+                    >
+                    </avam-label-dropdown>
+                    <avam-label-dropdown
+                        inputClass="col-lg-12 col-md-12"
+                        [placeholder]="'arbeitgeber.oste.label.erfahrungWaehlen'"
+                        [parentForm]="searchForm"
+                        controlName="erfahrung"
+                        id="erfahrung"
+                        [options]="erfahrungDropdownLabels"
+                    >
+                    </avam-label-dropdown>
+                    <avam-label-dropdown
+                        inputClass="col-lg-12 col-md-12"
+                        [placeholder]="'arbeitgeber.oste.label.ausbildungsniveauWaehlen'"
+                        [parentForm]="searchForm"
+                        controlName="ausbildungniveau"
+                        id="ausbildungniveau"
+                        [options]="ausbildungniveauDropdownLabels"
+                    >
+                    </avam-label-dropdown>
+                    <avam-label-input
+                        inputClass="col"
+                        controlName="stellenbeschreibung"
+                        id="stellenbeschreibung"
+                        placeholder="{{ 'arbeitgeber.label.stellenbeschreibung' | translate }}"
+                        [parentForm]="searchForm"
+                    >
+                    </avam-label-input>
+                    <br />
+                    <avam-arbeitsorte-autosuggest
+                        [parentForm]="searchForm"
+                        controlName="arbeitsRegion"
+                        placeholder="{{ 'stes.vermittlung.label.arbeitsregion' | translate }}"
+                        container="body"
+                        [scrollIntoView]="false"
+                    ></avam-arbeitsorte-autosuggest>
+                    <br />
+                    <h4>
+                        <span>{{ 'stes.vermittlung.label.stellenangebote' | translate }}</span>
+                    </h4>
+                    <avam-label-dropdown
+                        controlName="stesImZustaendigkeitsbereich"
+                        [inputClass]="'col'"
+                        [parentForm]="searchForm"
+                        [options]="stesImZustaendigkeitsbereichLabels"
+                        placeholder="common.label.waehlen"
+                    ></avam-label-dropdown>
+                    <br />
+                    <avam-personalberater-autosuggest
+                        id="stellenverantwortung"
+                        [parentForm]="searchForm"
+                        controlName="stellenverantwortung"
+                        [type]="benutzerAutosuggestType"
+                        [benutzerSuchenTokens]="benutzerSuchenTokens"
+                        placeholder="{{ 'common.label.bearbeitungdurch' | translate }}"
+                        container="body"
+                        [scrollIntoView]="false"
+                        (onSelect)="updatePersonalberaterSuche($event)"
+                        (onInput)="clearEmptyPersonalberaterSuche($event)"
+                    ></avam-personalberater-autosuggest>
+                    <avam-unternehmen-autosuggest
+                        id="arbeitgeber"
+                        controlName="arbeitgeber"
+                        [parentForm]="searchForm"
+                        suchePlusLabel="arbeitgeber.oste.label.arbeitgeber"
+                        placeholder="{{ 'stes.label.arbeitgeber' }}"
+                        isAvamOnly="true"
+                        [simpleInput]="true"
+                    ></avam-unternehmen-autosuggest>
+                    <avam-label-input
+                        inputClass="col"
+                        controlName="stellenNr"
+                        id="stellenNr"
+                        placeholder="{{ 'stes.label.vermittlung.stellenNr' | translate }}"
+                        [parentForm]="searchForm"
+                    >
+                    </avam-label-input>
+                    <avam-erweiterte-suche
+                        #erweiterteSucheComponent
+                        [parentForm]="searchForm"
+                        contextId="oste_fuer_zuweisung"
+                        arrayName="extraCriteria"
+                        unternehmensType="unternehmensdaten"
+                    ></avam-erweiterte-suche>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4 infoleiste">{{ 'stes.label.vermittlung.stellenangebot' | translate }}</h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="responseData.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+
+            <ng-template #modalPrint>
+                <avam-generic-table-print [dataSource]="tableConfig.data">
+                    <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="tableConfig.columns" [config]="printConfig"></avam-common-wrapper-table>
+                </avam-generic-table-print>
+            </ng-template>
+        </div>
+        <avam-alert></avam-alert>
+        <div class="overflow-hidden mh-100 pt-3">
+            <avam-common-wrapper-table
+                [dataSource]="tableConfig.data"
+                [columns]="tableConfig.columns"
+                [config]="tableConfig.config"
+                [stateKey]="stateKey"
+                (onRowSelect)="selectItem($event)"
+            ></avam-common-wrapper-table>
+        </div>
+    </div>
+</or-column-layout>

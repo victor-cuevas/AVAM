@@ -1,0 +1,149 @@
+<form [formGroup]="berufForm" autocomplete="off">
+    <div class="print-block row">
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.angabenZumBeruf' | translate }}</h3>
+                </label>
+                <avam-label-input
+                    [parentForm]="berufForm"
+                    controlName="berufsTaetigkeit"
+                    id="berufsTaetigkeit"
+                    selectLabel="{{ 'stes.label.beruf' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-dropdown
+                    [parentForm]="berufForm"
+                    controlName="qualifikation"
+                    [options]="qualifikationOptions"
+                    id="qualifikation"
+                    selectLabel="{{ 'stes.label.qualifikation' }}"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <div class="row">
+                    <div class="col-4"></div>
+                    <avam-label-checkbox
+                        class="col-4"
+                        [inputClass]="' '"
+                        [parentForm]="berufForm"
+                        componentId="ausgeuebtB"
+                        controlName="ausgeuebtB"
+                        selectLabel="{{ 'stes.label.ausgeuebt' }}"
+                        [isDisabled]="true"
+                    ></avam-label-checkbox>
+                    <avam-label-checkbox
+                        class="col-4"
+                        [inputClass]="' '"
+                        [parentForm]="berufForm"
+                        componentId="zuletztB"
+                        controlName="zuletztB"
+                        selectLabel="{{ 'stes.label.zuletzt' }}"
+                        [isDisabled]="true"
+                    ></avam-label-checkbox>
+                </div>
+                <avam-label-checkbox
+                    [parentForm]="berufForm"
+                    componentId="gesuchtB"
+                    controlName="gesuchtB"
+                    selectLabel="{{ 'stes.label.gesucht' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <avam-label-dropdown
+                    [parentForm]="berufForm"
+                    controlName="berufsErfahrung"
+                    [options]="berufsErfahrungOptions"
+                    id="berufsErfahrung"
+                    selectLabel="{{ 'stes.label.erfahrung' }}"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="berufForm"
+                    controlName="berufsFunktion"
+                    [options]="berufsFunktionOptions"
+                    id="berufsFunktion"
+                    selectLabel="{{ 'stes.label.funktion' }}"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="berufForm"
+                    controlName="ausbildungsniveau"
+                    [options]="ausbildungsniveauOptions"
+                    id="ausbildungsniveau"
+                    selectLabel="{{ 'stes.label.ausbildungsniveau' }}"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="berufForm"
+                    controlName="berufsAbschluss"
+                    [options]="berufsAbschluss"
+                    id="berufsAbschluss"
+                    selectLabel="{{ 'stes.label.abschluss' }}"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <avam-label-checkbox
+                    [isDisabled]="true"
+                    componentId="berufsAbschlussAnerkannt"
+                    [parentForm]="berufForm"
+                    controlName="berufsAbschlussAnerkannt"
+                    selectLabel="{{ 'stes.label.abschlussAnerkannt' }}"
+                ></avam-label-checkbox>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.ausuebungDesBerufs' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    controlName="ausuebungVon"
+                    id="ausuebungVon"
+                    calendarLabel="{{ 'stes.label.von' }}"
+                    [parentForm]="berufForm"
+                    [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="ausuebungBis"
+                    id="ausuebungBis"
+                    calendarLabel="{{ 'stes.label.bis' }}"
+                    [parentForm]="berufForm"
+                    [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'stes.label.dauer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 row justify-content-between no-gutters">
+                        <div class="col-12 col-xl-6 row justify-content-between align-items-baseline no-gutters">
+                            <p class="col-lg-2">{{ berufForm.controls.dauerJahre.value }}</p>
+                            <p class="col-lg-10 p-1">{{ 'stes.label.jahre' | translate }}</p>
+                        </div>
+                        <div class="col-12 col-xl-6 row justify-content-between align-items-baseline no-gutters">
+                            <p class="col-lg-2">{{ berufForm.controls.dauerMonate.value }}</p>
+                            <p class="col-lg-10 p-1">{{ 'stes.label.monate' | translate }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.skillsLabel' | translate }}</h3>
+                </label>
+                <div>
+                    <label>{{ 'stes.label.skills' | translate }}</label>
+                    <app-textarea id="fachkenntnisse" customFormControlState formControlName="fachkenntnisse" fullWidth="true" [maxLength]="800" [readonly]="true"></app-textarea>
+                    <label>{{ 'stes.label.einschraenkungen' | translate }}</label>
+                    <app-textarea
+                        id="einschraenkungen"
+                        customFormControlState
+                        formControlName="einschraenkungen"
+                        fullWidth="true"
+                        [maxLength]="255"
+                        [readonly]="true"
+                    ></app-textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

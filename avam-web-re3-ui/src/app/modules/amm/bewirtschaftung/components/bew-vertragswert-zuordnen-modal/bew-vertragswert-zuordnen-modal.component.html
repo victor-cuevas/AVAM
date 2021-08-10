@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'amm.akquisition.kopfzeile.vertragswertzuordnen' | translate }}
+            <app-result-count [dataLength]="dataSource?.length"></app-result-count>
+        </h4>
+        <div class="mr-3">
+            <app-toolbox [configuration]="toolboxConfiguration" [formNumber]="formNumber"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-spinner [channel]="CHANNEL_STATE_KEY"> </or-spinner>
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <avam-bew-vertragswert-zuordnen-table
+            *ngIf="dataSource"
+            [dataSource]="dataSource"
+            (onItemSelected)="vertragswertUebernehmen($event)"
+        ></avam-bew-vertragswert-zuordnen-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <div class="sticky-actions">
+            <button class="btn btn-link" type="button" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+        </div>
+    </div>
+</div>

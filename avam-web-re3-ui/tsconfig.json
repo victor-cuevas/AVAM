@@ -1,0 +1,64 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "",
+        "allowJs": true,
+        "sourceMap": true,
+        "declaration": false,
+        "moduleResolution": "node",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "target": "es5",
+        "typeRoots": [
+            "node_modules/@types"
+        ],
+        "paths": {
+            "@app/*": [
+              "src/app/*"
+            ],
+            "@assets/*": [
+              "src/assets/*"
+            ],
+            "@environments/*": [
+              "src/environments/*"
+            ],
+            "@config/*": [
+              "src/app/config/*"
+            ],
+            "@core/*": [
+              "src/app/core/*"
+            ],
+            "@modules/*": [
+              "src/app/modules/*"
+            ],
+            "@shared/*": [
+              "src/app/shared/*"
+            ],
+            "@dtos/*": [
+              "src/app/shared/models/dtos-generated/*"
+            ],
+            "@auth/*": [
+              "src/app/modules/auth/*"
+            ],
+            "@error/*": [
+              "src/app/modules/error/*"
+            ],
+            "@home/*": [
+              "src/app/modules/home/*"
+            ],
+            "@stes/*": [
+              "src/app/modules/stes/*"
+            ],
+            "@myAvam/*": [
+              "src/app/modules/myAvam/*"
+            ],
+            "@test_helpers/*": [
+              "tests/helpers/*"
+            ]
+        },
+        "lib": [
+            "es2016",
+            "dom"
+        ]
+    }
+}

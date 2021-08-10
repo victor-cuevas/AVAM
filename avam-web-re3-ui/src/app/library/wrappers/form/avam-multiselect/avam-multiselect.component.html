@@ -1,0 +1,50 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="row">
+    <div *ngIf="label" class="col-xs-4 col-md-4 col-lg-4 text-right">
+        <label class="col-form-label">
+            {{ label | translate }}
+        </label>
+    </div>
+    <div class="{{ inputClass ? inputClass : 'col-lg-8 col-md-8' }} align-self-center">
+        <div class="form-group">
+            <div id="divMultiselect" orFormControlState>
+                <core-multiselect
+                    dynamicControlName
+                    [formControlName]="controlName"
+                    [dynamicTitleMaxItems]="dynamicTitleMaxItems"
+                    [options]="data"
+                    [disableControl]="isDisabled"
+                    [enableSearch]="enableSearch"
+                    [template]="multiSelectTemplate"
+                    (onLoaded)="onLoaded($event)"
+                    [placeholder]="placeholder"
+                    (onAddedElement)="changedElements()"
+                    (onRemoveElement)="changedElements()"
+                ></core-multiselect>
+                <or-error-messages></or-error-messages>
+                <ng-template #multiSelectTemplate let-elements="elements">
+                    <div class="template">
+                        <div *ngFor="let el of elements">
+                            <div class="col-lg-12 form-group">
+                                <div class="row input-group">
+                                    <div>
+                                        <label
+                                            *ngIf="!isDisabled"
+                                            (click)="onRemove(el, elements)"
+                                            class="fa fa-remove"
+                                            [ngClass]="{
+                                                'multiselect-search-remove-btn': !readOnly
+                                            }"
+                                        ></label>
+                                    </div>
+                                    <div class="ml-2">
+                                        <label>{{ el | dbTranslate: 'text' }}</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+</div>

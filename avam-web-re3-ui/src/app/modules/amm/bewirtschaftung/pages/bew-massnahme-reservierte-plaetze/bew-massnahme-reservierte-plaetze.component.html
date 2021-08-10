@@ -1,0 +1,51 @@
+<div>
+    <avam-bew-massnahme-reservierte-plaetze-table #reserviertePlaetzeTable [tableData]="tableData"></avam-bew-massnahme-reservierte-plaetze-table>
+    <or-spinner [channel]="channel"></or-spinner>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()" [permissionContext]="[permissions.AMM_MASSNAHMEN_RESERVATION_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="zurKursplanungAktiviert" class="btn btn-secondary ml-1" type="button" (click)="zurKursplanung()" [permissions]="[permissions.AMM_PLANUNG_LESEN]">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.massnahmen.button.zurkursplanung' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissionContext]="[permissions.AMM_MASSNAHMEN_RESERVATION_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ kuerzelMassnahmentyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.durchfuehrungsnr' | translate }} </b>
+        <span>{{ dfeId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+        <span>{{ zulassungstyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ unternehmensname }}</span>
+    </div>
+    <div class="item">
+        <b>{{ 'unternehmen.label.burnummer' | translate }}</b>
+        <span> {{ burNr }}</span>
+    </div>
+    <div class="item">
+        <b>{{ 'amm.nutzung.label.status' | translate }} </b>
+        <span>{{ unternehmenStatus }}</span>
+    </div>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableData">
+        <avam-bew-massnahme-reservierte-plaetze-table *ngIf="tableData" [tableData]="tableData"></avam-bew-massnahme-reservierte-plaetze-table>
+    </avam-generic-table-print>
+</ng-template>

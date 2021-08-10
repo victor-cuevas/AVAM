@@ -1,0 +1,18 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main" (keyup.enter)="stesSearchComponent.onSubmit()">
+        <or-spinner channel="stesSearch"></or-spinner>
+        <app-stes-search #stesSearchComponent class="sticky-main"></app-stes-search>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="onReset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="stesSearchComponent.onSubmit()">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner channel="stesSearchResult-modal"></or-spinner>
+        <app-stes-search-result #stesSearchResultComponent class="sticky-main"></app-stes-search-result>
+    </div>
+</or-column-layout>

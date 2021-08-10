@@ -1,0 +1,67 @@
+<or-column-layout [right]="false">
+    <div column-left-content class="sticky-main" (keyup.enter)="search()">
+        <avam-unternehmen-search-form
+            #unternehmenSearchForm
+            [type]="type"
+            (restoreCache)="restoreCache()"
+            [showAdvancedSearch]="true"
+            [stateKey]="cacheKey"
+        ></avam-unternehmen-search-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="onReset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [disabled]="!unternehmenSearchForm.searchForm.valid" [permissions]="[permissions.ARBEITGEBER_SUCHEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner channel="tableSpinner"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 *ngIf="infoleisteTranslationKey" class="pl-4 infoleiste">
+                    {{ infoleisteTranslationKey | translate }}
+                </h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="rawTableData?.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <avam-alert></avam-alert>
+        <avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+        <avam-common-wrapper-table
+            [tableForm]="tableForm"
+            [dataSource]="tableConfig.data"
+            [columns]="tableConfig.columns"
+            [config]="tableConfig.config"
+            [stateKey]="stateKey"
+            (onRowSelect)="selectItem($event)"
+            (onEmail)="onEmail($event)"
+        ></avam-common-wrapper-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableConfig.data">
+        <avam-common-wrapper-table
+            [tableForm]="tableForm"
+            [dataSource]="tableConfig.data"
+            [columns]="tableConfig.columns"
+            [config]="tableConfig.config"
+            (onRowSelect)="selectItem($event)"
+        ></avam-common-wrapper-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-secondary ml-1 keepDisabled" [disabled]="invalidMailCount()" type="button" (click)="sendEmails()">
+        <span class="fa fa-envelope-open-o"></span>
+        {{ 'common.button.emailSenden' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #trefferAusBURAnzeigen>
+    <avam-bur-daten-modal [selectedBurData]="selectedBurData"></avam-bur-daten-modal>
+</ng-template>

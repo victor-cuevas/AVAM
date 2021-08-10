@@ -1,0 +1,104 @@
+#participation-places {
+
+    position: relative;
+
+    .panel {
+
+        position: absolute;
+        top: 98px;
+        left: 19px;
+
+        .parent {
+            height: 20px; 
+            top: 30px;
+            &::before {
+                height: 0px;
+                top: -5px;
+                left: 5px;
+                width: 10px;
+            }
+        }
+
+        div {
+            border-right: 1px dashed;
+            height: 50px;
+            width: 1px;
+            position: absolute;
+
+            &::before {
+                width: 35px;
+                content: '';
+                height: 25px;
+                border-bottom: 1px dotted;
+                position: absolute;
+            }
+        }
+
+        div.last-child {
+            height: 25px;
+        }
+    }
+
+    .table {
+
+        table-layout: fixed;
+        
+        th {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            padding-right: 0px;
+            padding-left: 5px;
+
+            &.month-header {
+                padding: 0.75rem;
+            }
+
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: block;
+            }
+        }
+
+        .align-cell {
+            text-align: center;
+            padding: 0;
+            line-height: 48px;
+        }
+
+        .far {
+            font: normal normal normal 1rem FontAwesome;
+            color: #005e8e;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .row-wrapper {
+            display: flex;
+            align-items: center;
+
+            span {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: block;
+            }
+        }
+
+        .line {
+            height: 100%;
+            width: 1px;
+            position: absolute;
+            left: 20px;
+            bottom: 0;
+            border-left: 1px dashed;
+        }
+
+        td {
+            background-clip: padding-box !important;
+            position: relative;
+        }
+    }
+}

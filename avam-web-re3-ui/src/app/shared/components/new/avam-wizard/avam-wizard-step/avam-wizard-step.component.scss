@@ -1,0 +1,12 @@
+.loading {
+    .nav-item:before {
+        color: #d5d5d5 !important;
+        background-color: #ffffff  !important;
+        border-color: #d5d5d5 !important;
+    }
+
+    .nav-link {
+        color: #d5d5d5;
+        cursor: not-allowed;
+    }
+}

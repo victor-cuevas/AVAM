@@ -1,0 +1,90 @@
+<form (keydown.enter)="onEnter.emit($event)" [formGroup]="planungSuchenForm" #ngForm="ngForm" autocomplete="off">
+    <div class="mt-3 search-padding">
+        <h3 class="mb-3">
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.planung.subnavmenuitem.planung' | translate }}</span>
+        </h3>
+        <avam-prepend-calendar
+            controlName="planungAb"
+            [parentForm]="planungSuchenForm"
+            id="planungAb"
+            label="{{ 'common.label.ab' | translate }}"
+            [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+            inputPlaceholder="mmmm yyyy"
+        >
+        </avam-prepend-calendar>
+        <br />
+        <h4>
+            <span>{{ 'amm.nutzung.label.massnahmeartstruktur' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            controlName="massnahmeartStruktur"
+            [inputClass]="'col'"
+            [parentForm]="planungSuchenForm"
+            [options]="massnahmeartStrukturOptions"
+            [hideEmptyOption]="true"
+        ></avam-label-dropdown>
+        <br />
+        <avam-label-dropdown
+            controlName="massnahmetyp"
+            [inputClass]="'col'"
+            [parentForm]="planungSuchenForm"
+            [options]="massnahmentypOptions"
+            placeholder="amm.planung.label.massnhametypwaehlen"
+        ></avam-label-dropdown>
+        <br />
+        <h4>
+            <span>{{ 'amm.planung.label.produktmassnahmenverantwortung' | translate }}</span>
+        </h4>
+        <avam-personalberater-autosuggest
+            id="produktmassnahmenverantwortung"
+            [parentForm]="planungSuchenForm"
+            controlName="produktmassnahmenverantwortung"
+            [benutzerSuchenTokens]="benutzerSuchenTokens"
+            [type]="benutzerAutosuggestType"
+            placeholder="{{ 'stes.label.benutzer' | translate }}"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-personalberater-autosuggest>
+        <br />
+        <avam-label-dropdown
+            controlName="planungstyp"
+            [inputClass]="'col'"
+            [parentForm]="planungSuchenForm"
+            [options]="planungstypOptions"
+            [hideEmptyOption]="true"
+        ></avam-label-dropdown>
+        <br />
+        <avam-input-modal
+            [inputClass]="'col'"
+            [parentForm]="planungSuchenForm"
+            controlName="durchfuehrungsRegionText"
+            placeholder="{{ 'amm.massnahmen.label.durchfuehrungsregionWaehlen' }}"
+            [modal]="durchfuehrungsregionModal"
+            [isUpperLabel]="true"
+            [toolTip]="handler.selectedRegion | dbTranslate: 'region'"
+            modalTooltip="{{ 'amm.massnahmen.label.durchfuehrungsregion' }}"
+            [coreReadOnly]="true"
+            [coreReadOnlyClearButton]="true"
+            (onChange)="handleDurchfuehrungsRegionClear($event)"
+        ></avam-input-modal>
+        <ng-template #durchfuehrungsregionModal>
+            <app-regionen-auswaehlen
+                id="planungSuchenDurchfuehrungsRegion"
+                (emitRegion)="handler.selectDurchfuehrungsregion($event)"
+                [queryParams]="durchfuehrungsregionParams"
+            ></app-regionen-auswaehlen>
+        </ng-template>
+        <br />
+        <avam-unternehmen-autosuggest
+            id="anbieter"
+            controlName="anbieter"
+            [isAvamOnly]="true"
+            [parentForm]="planungSuchenForm"
+            container="body"
+            [scrollIntoView]="false"
+            suchePlusLabel="{{ 'amm.planundakqui.label.anbieter' | translate }}"
+            placeholder="{{ 'amm.planundakqui.label.anbieter' | translate }}"
+        ></avam-unternehmen-autosuggest>
+    </div>
+</form>

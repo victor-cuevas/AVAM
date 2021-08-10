@@ -1,0 +1,35 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main" (keyup.enter)="jobroomMeldungenSearchComponent.search()">
+        <or-spinner channel="jobroom-search-form"></or-spinner>
+        <avam-jobroom-meldungen-search-form #jobroomMeldungenSearchComponent class="sticky-main" (onSearch)="search($event)"></avam-jobroom-meldungen-search-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="onReset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!jobroomMeldungenSearchComponent.searchForm.valid"
+            [permissions]="[permissions.KEY_AG_OSTE_JOBROOM_SUCHEN]"
+            (click)="jobroomMeldungenSearchComponent.search()"
+        >
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <avam-jobroom-meldungen-search-table
+            #tableResult
+            [searchResult]="searchResult"
+            [meldeartOptions]="meldeartOptions"
+            (rowSelected)="rowSelected($event)"
+        ></avam-jobroom-meldungen-search-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-jobroom-meldungen-search-table [searchResult]="searchResult" [meldeartOptions]="meldeartOptions" [isPrintModal]="true"></avam-jobroom-meldungen-search-table>
+</ng-template>

@@ -1,0 +1,28 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <avam-codes-suchen-form #searchForm [formData]="formData" (onEnter)="search()" (savedSearchData)="searchRestCall()"></avam-codes-suchen-form>
+        <or-spinner [channel]="channel"></or-spinner>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button avamDisableOnSpinner type="submit" class="btn btn-primary" (click)="search()">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-codes-suchen-table [dataSource]="dataSource" (onItemSelected)="onItemSelected($event)"></avam-codes-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-codes-suchen-table [dataSource]="dataSource" [forPrinting]="true"></avam-codes-suchen-table>
+</ng-template>

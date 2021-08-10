@@ -1,0 +1,74 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="{{ wrapperInputClass ? wrapperInputClass : 'row mb-2' }}">
+    <div *ngIf="label" class="{{ labelWrapperInputClass ? labelWrapperInputClass : 'col-lg-4 col-md-4 text-right align-self-center' }}">
+        <label for="plz" class="{{ labelInputClass ? labelInputClass : 'col-form-label' }}">{{ label | translate }}</label>
+    </div>
+    <div class="{{ inputWrapperClass ? inputWrapperClass : label ? 'col-lg-8 col-md-8 row pr-0' : 'col-lg-12 col-md-12 row pr-0' }}">
+        <div [hidden]="_readOnly" orFormControlState class="{{ inputAlkClass ? inputAlkClass : 'col-lg-5 col-md-5 align-self-top' }}">
+            <core-autosuggest
+                #alkAutosuggest
+                arrow-scrolling
+                dynamicControlName
+                [formControlName]="alkControl"
+                [placeholder]="alkPlaceholder"
+                [disableControl]="disabled"
+                [coreReadOnly]="coreReadOnly"
+                [coreReadOnlyClearButton]="coreReadOnlyClearButton"
+                [container]="container"
+                [scrollIntoView]="scrollIntoView"
+                [searchFunction]="searchAlk"
+                [resultFormatter]="resultAlk"
+                [inputFormatter]="inputAlk"
+                (onSelect)="alkSelect($event)"
+                (onChange)="alkChange($event)"
+                (onInput)="alkInput($event)"
+                (onKeyup)="alkKeyup($event)"
+                (onClear)="alkClear($event)"
+                (onBlur)="alkBlur($event)"
+            ></core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div [hidden]="_readOnly" orFormControlState [ngClass]="inputZahlstelleClass ? inputZahlstelleClass : 'col-lg-7 col-md-7 align-self-top pr-0'">
+            <div class="d-flex">
+                <div class="w-100">
+                    <core-autosuggest
+                        #zahlstelleAutosuggest
+                        arrow-scrolling
+                        dynamicControlName
+                        [formControlName]="zahlstelleControl"
+                        [placeholder]="zahlstellePlaceholder"
+                        [disableControl]="disabled"
+                        [coreReadOnly]="coreReadOnly"
+                        [coreReadOnlyClearButton]="coreReadOnlyClearButton"
+                        [container]="container"
+                        [scrollIntoView]="scrollIntoView"
+                        [searchFunction]="searchZahlstelle"
+                        [resultFormatter]="resultZahlstelle"
+                        [inputFormatter]="inputZahlstelle"
+                        (onSelect)="zahlstelleSelect($event)"
+                        (onChange)="zahlstelleChange($event)"
+                        (onInput)="zahlstelleInput($event)"
+                        (onKeyup)="zahlstelleKeyup($event)"
+                        (onClear)="zahlstelleClear($event)"
+                        (onBlur)="zahlstelleBlur($event)"
+                    ></core-autosuggest>
+                </div>
+                <div class="input-group-append">
+                    <button class="btn btn-secondary rounded-0" type="button" role="button" (click)="buttonClick()">
+                        <span class="fa fa-clone fa-fw"></span>
+                    </button>
+                </div>
+            </div>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div
+            *ngIf="_readOnly"
+            class="{{ inputReadonlyWrapperClass ? inputReadonlyWrapperClass : label ? 'col-lg-8 col-md-8 pr-0 align-self-center' : 'col-lg-12 col-md-12 pl-0 align-self-center' }}"
+        >
+            <p class="{{ inputReadonlyValueClass ? inputReadonlyValueClass : 'mb-0 pl-0' }}">{{ alkValue }} {{ zahlstelleValue }}</p>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalZahlstelleSuchen>
+    <app-zahlstelle-suchen (emitAlkZahlstelle)="fillDataZahlstelle($event)"></app-zahlstelle-suchen>
+</ng-template>

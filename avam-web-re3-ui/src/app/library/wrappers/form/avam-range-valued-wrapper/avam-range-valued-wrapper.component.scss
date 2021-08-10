@@ -1,0 +1,20 @@
+.w-53px {
+    width: 53px;
+    min-width: 53px;
+}
+
+.min-width-130px {
+    min-width: 130px;
+}
+
+.max-width-170px {
+    max-width: 170px;
+}
+
+.space-between-input-fields {
+    width: calc(100% - 2 * 170px);
+}
+
+.flex-0-0-auto {
+    flex: 0 0 auto;
+}

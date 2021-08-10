@@ -1,0 +1,18 @@
+::ng-deep avam-abrechnungswert-kosten-form {
+    #secondaryLabel {
+        padding-left: 5px;
+    }
+
+    avam-input-modal {
+        input {
+            text-align: right !important;
+        }
+    }
+
+    core-input {
+        div {
+            width: 105% !important;
+        }
+    }
+}
+

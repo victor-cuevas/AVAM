@@ -1,0 +1,53 @@
+<div class="pre-scrollable mh-100 has-overlay h-100-no-headers">
+    <or-spinner channel="sanktionen"></or-spinner>
+    <avam-stes-tree-table-wraper
+        #sanktionenDataTable
+        id="sanktionenDataTable"
+        [tree]="sanktionenData"
+        (onDoubleClick)="onRowSelected($event)"
+        (onEnter)="onRowSelected($event)"
+        [objectOptions]="sanktionenTableOptions"
+    ></avam-stes-tree-table-wraper>
+</div>
+
+<ng-template #modalPrint>
+    <avam-stes-tree-table-wraper [tree]="sanktionenData" [objectOptions]="sanktionenTableOptions"></avam-stes-tree-table-wraper>
+</ng-template>
+
+<ng-template #actionColumnTemplate let-element="element">
+    <button
+        *ngIf="element.model.data['type']"
+        class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+        ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+        (click)="onRowSelected(element)"
+        type="button"
+    ></button>
+</ng-template>
+
+<ng-template #footerButtons>
+    <div #individuelle="ngbDropdown" ngbDropdown placement="top-right" class="dropdown">
+        <button class="btn btn-primary ml-1" ngbDropdownToggle (mouseenter)="individuelle.open()" [permissions]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+            <span class="fa fa-plus mr-2"></span>
+            {{ 'common.button.sachverhalteerfassen' | translate }}
+        </button>
+        <div class="dropdown-menu mb-0" ngbDropdownMenu (mouseenter)="individuelle.open()" (mouseleave)="individuelle.close()">
+            <button class="dropdown-item" (click)="navigateTo('arbeitsbemuehungen-erfassen')">
+                {{ 'stes.sanktionen.button.arbeitsbemuehungen' | translate }}
+            </button>
+            <button class="dropdown-item" (click)="navigateTo('arbeitsmarktliche-massnahmen-erfassen')">
+                {{ 'stes.sanktionen.button.arbeitsmarktlichemassnahmen' | translate }}
+            </button>
+            <button class="dropdown-item" (click)="navigateTo('beratung-erfassen')">
+                {{ 'stes.sanktionen.button.beratung' | translate }}
+            </button>
+            <button class="dropdown-item" (click)="navigateTo('kontrollvorschriften-weisungen-erfassen')">
+                {{ 'stes.sanktionen.button.kontrollvorschriftenweisungen' | translate }}
+            </button>
+            <button class="dropdown-item" (click)="navigateTo('vermittlung-erfassen')">
+                {{ 'stes.sanktionen.button.vermittlung' | translate }}
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

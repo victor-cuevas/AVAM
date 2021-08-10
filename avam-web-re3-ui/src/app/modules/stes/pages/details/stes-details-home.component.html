@@ -1,0 +1,13 @@
+<div class="sticky">
+    <div class="sticky-main">
+        <or-column-layout orColumnLayoutExtension [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="navigation-container sticky">
+                <div class="navigation-resizable" sideNavigationResize></div>
+                <app-navigation [navPath]="navPath"></app-navigation>
+            </div>
+            <div column-main-content class="h-100 default-layout">
+                <app-stes-details-content></app-stes-details-content>
+            </div>
+        </or-column-layout>
+    </div>
+</div>

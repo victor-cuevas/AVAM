@@ -1,0 +1,10 @@
+<div class="info-bar-panel-container">
+    <div class="info-panel-template avam-panel p-2">
+        <div class="row">
+            <ng-container *ngFor="let temp of dynamicTemplate">
+                <ng-container *ngTemplateOutlet="temp"></ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <app-stes-details-info-icon [data]="popupInformation" (onClick)="onClickInfoIcon()" *ngIf="rawData"></app-stes-details-info-icon>
+</div>

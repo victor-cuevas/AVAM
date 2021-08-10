@@ -1,0 +1,51 @@
+<div [formGroup]="parentForm" class="form-group" #ngForm="ngForm">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 text-right">
+            <label for="zielstaat" class="col-form-label">
+                {{ autosuggestLabel | translate }}
+            </label>
+        </div>
+        <div class="col-lg-8 col-md-8" id="scrollable-dropdown-menu-country">
+            <div orFormControlState>
+                <div class="input-group">
+                    <input
+                        dynamicControlName
+                        class="form-control"
+                        [formControlName]="controlName"
+                        [placement]="'bottom-left'"
+                        id="typeahead-focus"
+                        type="text"
+                        [ngbTypeahead]="countrySearch"
+                        [resultFormatter]="resultFormatter"
+                        [inputFormatter]="inputFormatter"
+                        (selectItem)="emitSelectItem($event.item)"
+                        (focus)="countryDropdownFocus.next($event.target.value)"
+                        (click)="countryDropdownClick.next($event.target.value)"
+                        #zielstaat="ngbTypeahead"
+                        #inputElement
+                    />
+                    <button tabindex="-1" [hidden]="parentForm.get(controlName).value" type="button" role="button" class="fa fa-search search-icon-input"></button>
+                    <button
+                        tabindex="-1"
+                        [hidden]="!parentForm.get(controlName).value"
+                        type="button"
+                        role="button"
+                        class="text-control-clear"
+                        [orTextControlClear]="inputElement"
+                        (onClear)="onClear(controlName)"
+                    >
+                        <span class="fa fa-times-circle fa-fw"></span>
+                        <span class="sr-only">Clear text content.</span>
+                    </button>
+                    <div class="input-group-append d-block">
+                        <button class="btn btn-secondary rounded-0" (click)="openModal(modalZielstaat)"><span class="fa fa-clone fa-fw"></span></button>
+                    </div>
+                </div>
+                <or-error-messages></or-error-messages>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #modalZielstaat>
+    <avam-land-autosuggest-modal [countriesList]="countriesList" (emitZielstaat)="selectFromModal($event)"></avam-land-autosuggest-modal>
+</ng-template>

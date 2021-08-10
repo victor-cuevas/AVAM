@@ -1,0 +1,98 @@
+<div class="d-block">
+    <avam-teilzahlungswert-form
+        #teilzahlungswertForm
+        [teilzahlungswertData]="teilzahlungswertData"
+        (teilzahlungsvertSelected)="navigateToTeilzahlungswert($event)"
+    ></avam-teilzahlungswert-form>
+    <or-spinner [channel]="channel"></or-spinner>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONLOESCHEN)"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="openDeleteDialog()"
+        >
+            {{ 'amm.akquisition.button.teilzahlungswertloeschen' | translate }}
+        </button>
+        <button
+            *ngIf="teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.teilzahlungSelected?.teilzahlungId"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="navigateToTeilzahlung()"
+        >
+            <span class="fa fa-external-link"></span>
+            {{ 'amm.administration.button.zurteilzahlung' | translate }}
+        </button>
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)"
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="submit()"
+        >
+            {{ 'i18n.common.save' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.leistungsvereinbarungnr' | translate }} </b>
+            <span> {{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.leistungsvereinbarungObject?.leistungsvereinbarungNr }} </span>
+        </div>
+        <div class="item">
+            <b> {{ 'arbeitgeber.oste.label.status' | translate }} </b>
+            <span> {{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.leistungsvereinbarungObject?.statusObject | dbTranslate: 'text' }} </span>
+        </div>
+
+        <div class="item" *ngIf="teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.MASSNAHME">
+            <b> {{ 'amm.akquisition.label.massnahmenNr' | translate }} </b>
+            <span>{{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.massnahmeObject?.massnahmeId }}</span>
+        </div>
+        <div class="item" *ngIf="teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.KURS">
+            <b> {{ 'amm.akquisition.label.durchfuehrungsnrkurs' | translate }} </b>
+            <span>{{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+        </div>
+        <div class="item" *ngIf="teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.typ?.code === vertragswertTypEnum.STANDORT">
+            <b> {{ 'amm.akquisition.label.durchfuehrungsnrstandort' | translate }} </b>
+            <span>{{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+        </div>
+
+        <div class="item" *ngIf="teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.massnahmeObject">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.massnahmeObject | dbTranslate: 'titel' }}
+            </span>
+        </div>
+
+        <div class="item" *ngIf="teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.durchfuehrungseinheitObject">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.durchfuehrungseinheitObject | dbTranslate: 'titel' }}
+            </span>
+        </div>
+
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.profilnr' | translate }} </b>
+            <span>
+                {{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.profilNr }}
+            </span>
+        </div>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.vertragswertnr' | translate }} </b>
+            <span>
+                {{ teilzahlungswertData?.teilzahlungswertParam?.teilzahlungswert?.vertragswertObject?.vertragswertNr }}
+            </span>
+        </div>
+    </ng-container>
+</ng-template>

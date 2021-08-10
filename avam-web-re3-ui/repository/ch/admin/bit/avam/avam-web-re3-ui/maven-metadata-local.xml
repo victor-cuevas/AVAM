@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>ch.admin.bit.avam</groupId>
+  <artifactId>avam-web-re3-ui</artifactId>
+  <versioning>
+    <versions>
+      <version>3.0.0.0-SNAPSHOT</version>
+      <version>3.2.19.1-SNAPSHOT</version>
+      <version>3.3.3.0-SNAPSHOT</version>
+      <version>3.3.3.2-SNAPSHOT</version>
+      <version>3.3.4.0-SNAPSHOT</version>
+      <version>3.3.5.0-SNAPSHOT</version>
+      <version>3.3.7.0-SNAPSHOT</version>
+      <version>3.3.7.1-SNAPSHOT</version>
+      <version>3.3.7.2-SNAPSHOT</version>
+      <version>3.2.29.0-SNAPSHOT</version>
+      <version>3.3.7.3-SNAPSHOT</version>
+      <version>3.3.7.4-SNAPSHOT</version>
+      <version>3.3.8.1-SNAPSHOT</version>
+      <version>3.3.8.2-SNAPSHOT</version>
+      <version>3.3.9.0-SNAPSHOT</version>
+      <version>3.3.9.1-SNAPSHOT</version>
+      <version>3.3.9.2-SNAPSHOT</version>
+      <version>3.3.10.0-SNAPSHOT</version>
+      <version>3.3.10.1-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20201103125054</lastUpdated>
+  </versioning>
+</metadata>

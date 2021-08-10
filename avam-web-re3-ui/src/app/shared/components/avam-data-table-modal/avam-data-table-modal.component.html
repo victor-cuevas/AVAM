@@ -1,0 +1,45 @@
+<div [ngClass]="'form-group row'" [formGroup]="parentForm" #ngForm="ngForm">
+    <div class="{{ labelClass ? labelClass : 'col-lg-4 col-md-4' }} text-right col-form-label">
+        <label class="col-form-label">{{ selectLabel }}</label>
+    </div>
+    <div class="{{ inputClass ? inputClass : 'col-lg-8 col-md-8' }} align-self-center" orFormControlState>
+        <div class="input-group">
+            <core-calendar
+                *ngIf="controlType === 'calendar'; else textInput"
+                dynamicControlName
+                [formControlName]="controlName"
+                [bsConfig]="bsConfig"
+                [disableControl]="inputDisabled"
+                [inputPlaceholder]="' '"
+                [coreReadOnly]="coreReadOnly"
+            ></core-calendar>
+            <ng-template #textInput>
+                <core-input class="col no-padding" [formControlName]="controlName" dynamicControlName [disableControl]="inputDisabled" [coreReadOnly]="coreReadOnly"></core-input>
+            </ng-template>
+            <div class="input-group-append">
+                <button
+                    ngbTooltip="{{ toolTip | translate }}"
+                    (click)="openModal($event)"
+                    class="btn btn-secondary rounded-0"
+                    type="button"
+                    [disabled]="isDisabled"
+                    [hidden]="isReadOnly"
+                >
+                    <span class="fa fa-clone fa-fw"></span>
+                </button>
+            </div>
+        </div>
+        <or-error-messages extendWithWarnings></or-error-messages>
+    </div>
+</div>
+
+<ng-template #tableModal>
+    <app-modal-wrapper
+        [tableConfig]="tableConfig"
+        [modalToolboxConfiguration]="modalToolboxConfiguration"
+        [modalHeader]="modalHeader"
+        [modalToolboxId]="modalToolboxId"
+        [formNr]="formNr"
+        (modalClose)="selectItem($event)"
+    ></app-modal-wrapper>
+</ng-template>

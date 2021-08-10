@@ -1,0 +1,7 @@
+<app-stes-zas-kein-abgleichen *ngIf="!hasSvNr"></app-stes-zas-kein-abgleichen>
+<app-stes-zas-person-abgleichen *ngIf="hasSvNr && !hasManyPersons" [zasAbgleichRequest]="zasAbgleichRequest" [zasResponse]="zasResponse"></app-stes-zas-person-abgleichen>
+<app-stes-zas-list-abgleichen
+    *ngIf="hasSvNr && hasManyPersons"
+    [geschlechtDropdownLables]="zasAbgleichRequest.geschlechtDropdownLables"
+    [zasResponse]="zasResponse"
+></app-stes-zas-list-abgleichen>

@@ -1,0 +1,119 @@
+<form #ngForm="ngForm" autocomplete="off">
+    <div class="print-block row">
+        <div class="rechts col-xl-6">
+            <div class="avam-panel" [formGroup]="sachverhaltForm">
+                <label>
+                    <h3>{{ 'stes.label.sachverhalt' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    avamAutofocus
+                    controlName="meldeDatum"
+                    [parentForm]="sachverhaltForm"
+                    id="meldeDatum"
+                    calendarLabel="{{ 'stes.label.meldedatum' }}"
+                    inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [isDisabled]="isDisabled && disableMeldedatum"
+                ></avam-label-calendar>
+                <app-textarea
+                    id="grund"
+                    formControlName="grund"
+                    selectLabel="{{ 'stes.label.grundDerUeberpruefung' }}"
+                    maxLength="255"
+                    customFormControlState
+                    [readonly]="isDisabled && disableGrund"
+                ></app-textarea>
+                <avam-label-checkbox
+                    controlName="ueberpruefung"
+                    componentId="ueberpruefung"
+                    selectLabel="{{ 'stes.label.ueberpruefungVermittlungsfaehigkeit' | translate }}"
+                    [parentForm]="sachverhaltForm"
+                    [isDisabled]="isDisabled && disableUeberpruefung"
+                ></avam-label-checkbox>
+                <avam-label-dropdown
+                    [hideEmptyOption]="true"
+                    id="statusCode"
+                    controlName="statusCode"
+                    selectLabel="{{ 'stes.label.status' }}"
+                    [parentForm]="sachverhaltForm"
+                    [options]="status"
+                    [isDisabled]="isBearbeiten"
+                    (onChange)="statusChanged($event)"
+                ></avam-label-dropdown>
+                <br />
+                <avam-label-input
+                    id="entscheidNr"
+                    controlName="entscheidNr"
+                    selectLabel="{{ 'stes.label.entscheidNr' }}"
+                    [parentForm]="sachverhaltForm"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="entscheidDatum"
+                    controlName="entscheidDatum"
+                    selectLabel="{{ 'stes.label.entscheidDatum' }}"
+                    [parentForm]="sachverhaltForm"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="alkTransferDate"
+                    controlName="alkTransferDate"
+                    selectLabel="{{ 'stes.label.transferanalk' }}"
+                    [parentForm]="sachverhaltForm"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="ersetztEntscheidNr"
+                    controlName="ersetztEntscheidNr"
+                    selectLabel="{{ 'stes.label.ersetztEntscheidNr' }}"
+                    [parentForm]="sachverhaltForm"
+                    readOnly="true"
+                ></avam-label-input>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <div class="avam-panel" [formGroup]="fallbearbeitungForm">
+                <label>
+                    <h3>{{ 'stes.label.fallbearbeitung' | translate }}</h3>
+                </label>
+                <avam-benutzerstelle-autosuggest
+                    id="benutzerstellenId"
+                    [parentForm]="fallbearbeitungForm"
+                    [benutzerstelleSuchenTokens]="benutzerstelleSuchenTokens"
+                    controlName="benutzerstellenId"
+                    (onSelect)="updateBenutzerstellenId($event)"
+                    (onBlur)="updateBenutzerstellenId($event.target.value)"
+                    (onInput)="bearbeitungValue($event, 'benutzerstellenId')"
+                    componentLabel="{{ 'stes.label.benutzerstellenid' | translate }}"
+                    [isDisabled]="isDisabled && disableBenutzerstellenId"
+                    [type]="benutzerstelleAutosuggestType"
+                ></avam-benutzerstelle-autosuggest>
+                <avam-personalberater-autosuggest
+                    id="bearbeitung"
+                    [parentForm]="fallbearbeitungForm"
+                    (onChange)="updateBearbeitung($event)"
+                    (onSelect)="updateBearbeitung($event)"
+                    (benutzerDetailEvent)="updateBenutzerDetal($event)"
+                    (onInput)="bearbeitungValue($event, 'bearbeitung')"
+                    controlName="bearbeitung"
+                    componentLabel="{{ 'stes.label.bearbeitung' | translate }}"
+                    [benutzerSuchenTokens]="benutzerSuchenTokensbearbeitung"
+                    [type]="personalberaterAutosuggestType"
+                    [isDisabled]="isDisabled && disableBearbeitung"
+                ></avam-personalberater-autosuggest>
+                <avam-personalberater-autosuggest
+                    id="freigabeDurch"
+                    [parentForm]="fallbearbeitungForm"
+                    controlName="freigabeDurch"
+                    (onChange)="updateFreigabeDurch($event)"
+                    (onSelect)="updateFreigabeDurch($event)"
+                    (onInput)="bearbeitungValue($event, 'freigabedurch')"
+                    componentLabel="{{ 'stes.label.freigabedurch' | translate }}"
+                    [benutzerSuchenTokens]="benutzerSuchenTokensfreigabeDurch"
+                    [type]="personalberaterAutosuggestType"
+                    [isDisabled]="isDisabled"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+    </div>
+</form>

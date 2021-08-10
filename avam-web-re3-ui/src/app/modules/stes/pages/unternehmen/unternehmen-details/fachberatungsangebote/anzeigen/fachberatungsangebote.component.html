@@ -1,0 +1,14 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-fachberatungsangebote-table [sourceData]="resultsData" [stateKey]="stateKey" (onPrimaryAction)="openFachberatungsangebot($event)"></avam-fachberatungsangebote-table>
+</div>
+<ng-template #modalPrint>
+    <avam-fachberatungsangebote-table [sourceData]="resultsData" [stateKey]="stateKey" [forPrinting]="true"></avam-fachberatungsangebote-table>
+</ng-template>
+<ng-template #buttons>
+    <button class="btn btn-primary ml-1" type="button" (click)="angebotErfassen()" [permissions]="[permissions.STES_FACHBERATUNG_BEARBEITEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'stes.label.fachberatungsangebotErfassen' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer *ngIf="showErfassen" [buttonsTemplate]="buttons"></avam-action-footer>

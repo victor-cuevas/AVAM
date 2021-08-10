@@ -1,0 +1,23 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title-error">{{ 'stes.label.zasabgleichTitle' | translate }}</h4>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="links col-xl-12">
+                <p class="alert alert-warning">
+                    {{ 'stes.error.anmeldung.keinesvnr' | translate }}
+                </p>
+            </div>
+        </div>
+        <div class="modal-footer justify-content-between">
+            <span>{{ getFormNr() }}</span>
+            <div class="sticky-actions">
+                <button type="button" class="btn btn-primary ml-1" (click)="close()" ngbAutofocus>{{ 'common.button.ok' | translate }}</button>
+            </div>
+        </div>
+    </div>
+</div>

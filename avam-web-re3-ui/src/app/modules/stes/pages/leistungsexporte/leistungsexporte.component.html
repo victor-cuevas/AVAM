@@ -1,0 +1,17 @@
+<div class="overflow-auto-custom">
+    <or-spinner [channel]="leistungsexporteChannel"></or-spinner>
+    <avam-leistungsexporte-table *ngIf="dataSource" [dataSource]="dataSource" (onItemSelected)="itemSelected($event)"></avam-leistungsexporte-table>
+</div>
+
+<ng-template #modalPrint>
+    <avam-leistungsexporte-table *ngIf="dataSource" [dataSource]="dataSource"></avam-leistungsexporte-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="leistungsexporteErfassen()" [permissions]="[permissions.STES_LEISTUNGSEXPORT_BEARBEITEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'common.button.leistungsexporterfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

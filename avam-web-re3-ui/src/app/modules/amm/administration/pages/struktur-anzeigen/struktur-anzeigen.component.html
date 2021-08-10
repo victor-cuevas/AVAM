@@ -1,0 +1,42 @@
+<div class="h-100 default-layout">
+    <avam-amm-infopanel></avam-amm-infopanel>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-alert></avam-alert>
+    <avam-struktur-filter #strukturFilter [data]="dropdownOptions" (onRefresh)="onRefresh($event)"></avam-struktur-filter>
+    <div class="scroll-table">
+        <avam-basic-tree-table
+            *ngIf="strukturEl?.elementkategorieId > 0"
+            [tree]="treeArray"
+            [options]="treeOptions"
+            (onDoubleClick)="openEdit($event?.model?.data)"
+            (onEnter)="openEdit($event?.model?.data)"
+        ></avam-basic-tree-table>
+    </div>
+</div>
+
+<ng-template #actionColumnTemplate let-element="element">
+    <div class="row">
+        <button
+            ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+            class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+            type="button"
+            (click)="openEdit(element.model?.data)"
+        ></button>
+        <button
+            *ngIf="element.model?.showActions"
+            ngbTooltip="{{ 'i18n.form.action.add' | translate }}"
+            type="button"
+            (click)="addItem(element.model?.data)"
+            class="fa fa-plus btn btn-secondary btn-sm buttonOnHover"
+        ></button>
+    </div>
+</ng-template>
+
+<ng-template #strukturelementModal>
+    <avam-strukturelement-modal
+        [strukturelementData]="strukturelementData"
+        [oldChannel]="channel"
+        (onSave)="onSave($event)"
+        (onDelete)="onDelete($event)"
+    ></avam-strukturelement-modal>
+</ng-template>

@@ -1,0 +1,35 @@
+<div class="core-calendar input-group">
+    <input
+        #datePicker="bsDatepicker"
+        [disabled]="disabled"
+        [readOnly]="coreReadOnly"
+        (bsValueChange)="bsEvent ? bsOnValueChange($event) : null"
+        bsDatepicker
+        [bsConfig]="bsConfig"
+        placeholder="{{ disabled ? '' : inputPlaceholder ? inputPlaceholder : 'dd.mm.yyyy' }}"
+        (input)="onValueChange($event)"
+        class="form-control"
+        triggers="none"
+        autocomplete="off"
+        [bsValue]="date"
+        [minDate]="minDate"
+        [maxDate]="maxDate"
+        (keyup)="onKeyup($event)"
+        (focusout)="focusout($event)"
+        #inputElement
+        [ngbTooltip]="tooltip"
+        triggers="manual"
+        #t="ngbTooltip"
+        (mouseover)="tooltip && inputElement.value ? t.open() : null"
+        (mouseleave)="tooltip && inputElement.value ? t.close() : null"
+    />
+    <button tabindex="-1" type="button" role="button" class="text-control-clear" [orTextControlClear]="inputElement" (onClear)="onClear()">
+        <span class="fa fa-times-circle"></span>
+        <span class="sr-only">Clear text content.</span>
+    </button>
+    <div class="input-group-append d-block">
+        <button style="height: 38px;" [disabled]="disabled" class="btn btn-secondary rounded-0" type="button" (click)="datePicker.toggle(); bsEvent = true">
+            <span class="fa fa-calendar fa-fw"></span>
+        </button>
+    </div>
+</div>

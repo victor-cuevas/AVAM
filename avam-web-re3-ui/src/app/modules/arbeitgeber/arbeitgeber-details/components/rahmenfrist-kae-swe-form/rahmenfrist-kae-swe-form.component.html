@@ -1,0 +1,164 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input [parentForm]="formGroup" id="branche" controlName="branche" selectLabel="{{ 'unternehmen.label.branche' }}" [readOnly]="true"> </avam-label-input>
+                <avam-label-input
+                    [parentForm]="formGroup"
+                    id="betriebsabteilung"
+                    controlName="betriebsabteilung"
+                    selectLabel="{{ 'kaeswe.label.betriebsabteilung' }}"
+                    [readOnly]="true"
+                >
+                </avam-label-input>
+                <avam-label-input
+                    [parentForm]="formGroup"
+                    id="betriebsabteilungnr"
+                    controlName="betriebsabteilungnr"
+                    selectLabel="{{ 'kaeswe.label.betriebsabteilungnr' }}"
+                    [readOnly]="true"
+                >
+                </avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <avam-label-input [parentForm]="formGroup" id="anspruch" controlName="anspruch" selectLabel="{{ 'kaeswe.label.anspruch' }}" [readOnly]="true"> </avam-label-input>
+                <avam-label-input [parentForm]="formGroup" id="rahmenfristnr" controlName="rahmenfristnr" selectLabel="{{ 'kaeswe.label.rahmenfristnr' }}" [readOnly]="true">
+                </avam-label-input>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'common.label.rahmenfrist' | translate }}"
+                    [parentForm]="formGroup"
+                    formControlNameFrom="rfbeginn"
+                    formControlNameTo="rfende"
+                    [hasVerticalLayout]="true"
+                    [isResponsive]="true"
+                    [isDisabled]="true"
+                ></avam-date-range-picker>
+                <div orFormControlState class="form-group">
+                    <app-alk-zahlstelle-autosuggest dynamicControlName formControlName="alk" id="alk" [readOnly]="true"></app-alk-zahlstelle-autosuggest>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label"></div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <div class="d-flex pt-2">
+                                <label class="mb-2">{{ 'kaeswe.label.kunds' | translate }}</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <div class="d-flex pt-2">
+                                <label class="mb-2">{{ 'kaeswe.label.kaegroesser85' | translate }}</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <div class="d-flex pt-2">
+                                <label class="mb-2">{{ 'kaeswe.label.swe' | translate }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'kaeswe.label.hoechstanspruch' | translate }}</label>
+                        </div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <avam-label-input [parentForm]="formGroup" id="hoechstanspruchKS" controlName="hoechstanspruchKS" [readOnly]="true"></avam-label-input>
+                        </div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <avam-label-input [parentForm]="formGroup" id="hoechstanspruchKAE85" controlName="hoechstanspruchKAE85" [readOnly]="true"></avam-label-input>
+                        </div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <avam-label-input [parentForm]="formGroup" id="hoechstanspruchSWE" controlName="hoechstanspruchSWE" [readOnly]="true"></avam-label-input>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'kaeswe.label.bezogeneap' | translate }}</label>
+                        </div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <avam-label-input [parentForm]="formGroup" id="anzahlBezApKS" controlName="anzahlBezApKS" [readOnly]="true"></avam-label-input>
+                        </div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <avam-label-input [parentForm]="formGroup" id="anzahlBezApKAE85" controlName="anzahlBezApKAE85" [readOnly]="true"></avam-label-input>
+                        </div>
+                        <div class="col-lg-2 col-md-2 align-self-center">
+                            <avam-label-input [parentForm]="formGroup" id="anzahlBezApSWE" controlName="anzahlBezApSWE" [readOnly]="true"></avam-label-input>
+                        </div>
+                    </div>
+                </div>
+                <hr class="m-0 p-0 bold" />
+                <div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'kaeswe.label.restanspruch' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 align-self-center">
+                            <avam-label-input [parentForm]="formGroup" id="restanspruch" controlName="restanspruch" [readOnly]="true"></avam-label-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.alttext.reportsviador' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 align-self-center">
+                            <div class="d-flex pt-2 mr-2">
+                                <p class="mr-2">
+                                    <a class="link" (click)="openRahmenfristDetailsModal()" ngbTooltip="{{ 'kaeswe.label.rahmenfristDetails' | translate }}">
+                                        {{ 'kaeswe.label.rahmenfristDetails' | translate }}
+                                    </a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'kaeswe.label.sachbearbeitungalk' | translate }}</h3>
+                </label>
+                <avam-label-input
+                    [parentForm]="formGroup"
+                    id="sachbearbalkname"
+                    controlName="sachbearbalkname"
+                    selectLabel="{{ 'kaeswe.label.sachbearbalkname' }}"
+                    [readOnly]="true"
+                >
+                </avam-label-input>
+                <avam-label-input
+                    [parentForm]="formGroup"
+                    id="sachbearbalkvorname"
+                    controlName="sachbearbalkvorname"
+                    selectLabel="{{ 'kaeswe.label.sachbearbalkvorname' }}"
+                    [readOnly]="true"
+                >
+                </avam-label-input>
+                <avam-label-input
+                    [parentForm]="formGroup"
+                    id="sachbearbalktelefon"
+                    controlName="sachbearbalktelefon"
+                    selectLabel="{{ 'kaeswe.label.sachbearbalktelefon' }}"
+                    [readOnly]="true"
+                >
+                </avam-label-input>
+                <app-email-input
+                    [parentForm]="formGroup"
+                    placeholder="{{ 'kaeswe.label.sachbearbalkemail' }}"
+                    id="sachbearbalkemail"
+                    controlName="sachbearbalkemail"
+                    [readOnly]="true"
+                ></app-email-input>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,12 @@
+.tooltip-btn {
+    border: 0px;
+    background: none;
+    text-align: left;
+}
+
+.disable {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+    display: inline-block;
+}

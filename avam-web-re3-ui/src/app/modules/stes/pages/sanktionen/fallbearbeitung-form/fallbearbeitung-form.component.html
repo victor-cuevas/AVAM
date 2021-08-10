@@ -1,0 +1,31 @@
+<div class="avam-panel min-height-20" [formGroup]="fallbearbeitungForm">
+    <label>
+        <h3>{{ 'stes.label.fallbearbeitung' | translate }}</h3>
+    </label>
+    <avam-benutzerstelle-autosuggest
+        id="benutzerstellenId"
+        [parentForm]="fallbearbeitungForm"
+        [benutzerstelleSuchenTokens]="benutzerstelleSuchenTokens"
+        controlName="benutzerstellenId"
+        componentLabel="{{ 'stes.label.benutzerstellenid' | translate }}"
+        (onSelect)="onSelectBenutzerstelle($event)"
+        (onBlur)="onFocusBenutzerstelle($event)"
+        (onInput)="onInputBenutzerstelle($event)"
+        [type]="benutzerstelleAutosuggestType"
+        [avamAutofocus]="!autofocus"
+    ></avam-benutzerstelle-autosuggest>
+    <avam-personalberater-autosuggest
+        id="bearbeitung"
+        [parentForm]="fallbearbeitungForm"
+        (onChange)="updateBearbeitung($event)"
+        (onSelect)="updateBearbeitung($event)"
+        (benutzerDetailEvent)="updateBenutzerDetail($event)"
+        (onInput)="bearbeitungValue($event)"
+        controlName="bearbeitung"
+        componentLabel="{{ 'stes.label.bearbeitung' | translate }}"
+        [benutzerSuchenTokens]="benutzerSuchenTokensbearbeitung"
+        [type]="personalberaterAutosuggestType"
+    ></avam-personalberater-autosuggest>
+    <br />
+    <app-textarea id="notizen" formControlName="notizen" selectLabel="{{ 'stes.label.notizenFallbearbeitung' }}" customFormControlState></app-textarea>
+</div>

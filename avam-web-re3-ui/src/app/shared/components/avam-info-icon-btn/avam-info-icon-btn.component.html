@@ -1,0 +1,9 @@
+<button
+    tabindex="-1"
+    type="button"
+    class="fa fa-info-circle"
+    [ngClass]="{ 'icon-input': !readOnly, 'icon-readonly': readOnly, 'shift-left': !disabled }"
+    [ngbPopover]="infoIconTemplate"
+    [autoClose]="'outside'"
+    container="body"
+></button>

@@ -1,0 +1,92 @@
+<form (keydown.enter)="onEnter.emit($event)" [formGroup]="formGroup" #ngForm="ngForm" autocomplete="off">
+    <div class="mt-3 search-padding">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.abrechnungen.subnavmenuitem.abrechnungswert' | translate }}</span>
+        </h3>
+        <avam-label-input
+            avamAutofocus
+            controlName="abrechnungswertNr"
+            inputClass="col"
+            [parentForm]="formGroup"
+            placeholder="amm.abrechnungen.label.abrechnungswertnr"
+            [isDisabled]="formGroup.controls.profilNr.value"
+            (onInput)="toggleEnabledInputs($event)"
+            (onChange)="toggleEnabledInputs($event)"
+        ></avam-label-input>
+        <avam-label-input
+            controlName="profilNr"
+            inputClass="col"
+            [parentForm]="formGroup"
+            placeholder="amm.abrechnungen.label.profilnr"
+            [isDisabled]="formGroup.controls.abrechnungswertNr.value"
+            (onInput)="toggleEnabledInputs($event)"
+            (onChange)="toggleEnabledInputs($event)"
+        ></avam-label-input>
+        <avam-unternehmen-autosuggest
+            id="anbieter"
+            controlName="anbieter"
+            isAvamOnly="true"
+            [parentForm]="formGroup"
+            placeholder="amm.massnahmen.label.anbieter"
+            [readOnly]="disableFields"
+        ></avam-unternehmen-autosuggest>
+        <br />
+        <h4>
+            <span>{{ 'amm.abrechnungen.label.statusabrechnung' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            controlName="status"
+            inputClass="col"
+            placeholder="common.label.waehlen"
+            [parentForm]="formGroup"
+            [options]="statusDropdownLabels"
+            [isDisabled]="disableFields || formGroup.controls.sucheAlleAbrechnungswerte.value === keinerCode"
+        ></avam-label-dropdown>
+        <br />
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="faelligVon"
+            [parentForm]="formGroup"
+            id="faelligVon"
+            inputPlaceholder="amm.zahlungen.label.faellig.zwischen"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            (dateChange)="onDateChange($event, 'faelligBis')"
+            [isDisabled]="disableFields"
+        ></avam-label-calendar>
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="faelligBis"
+            [parentForm]="formGroup"
+            id="faelligBis"
+            inputPlaceholder="amm.zahlungen.label.und"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            (dateChange)="onDateChange($event, 'faelligVon')"
+            [isDisabled]="disableFields"
+        ></avam-label-calendar>
+        <br />
+        <h4>
+            <span>{{ 'amm.abrechnungen.label.abrechnungswerte' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            controlName="sucheAlleAbrechnungswerte"
+            inputClass="col"
+            [parentForm]="formGroup"
+            [options]="abrechnungswerteDropdownLabels"
+            [hideEmptyOption]="true"
+            [isDisabled]="disableFields || formGroup.controls.sucheNurAktuelleAbrechnungswerte.value === neinCode || formGroup.controls.status.value"
+        ></avam-label-dropdown>
+        <br />
+        <h4>
+            <span>{{ 'amm.akquisition.label.nuraktuelle' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            controlName="sucheNurAktuelleAbrechnungswerte"
+            inputClass="col"
+            [parentForm]="formGroup"
+            [options]="nurAktuelleDropdownLabels"
+            [hideEmptyOption]="true"
+            [isDisabled]="disableFields || formGroup.controls.sucheAlleAbrechnungswerte.value === keinerCode"
+        ></avam-label-dropdown>
+    </div>
+</form>

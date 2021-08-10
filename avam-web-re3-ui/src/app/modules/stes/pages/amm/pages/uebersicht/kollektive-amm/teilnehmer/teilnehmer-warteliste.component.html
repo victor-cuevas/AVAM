@@ -1,0 +1,31 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <label class="mt-2 ml-2">{{ 'amm.nutzung.label.teilnehmerlisteInklUeberbuchung' | translate }}</label>
+    <avam-generic-table [dataSource]="teilnehmerlisteData" [headers]="tableHeaders" maxHeight="200">
+        <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+            <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+            </td>
+        </ng-container>
+    </avam-generic-table>
+    <label class="mt-2 ml-2">{{ 'amm.nutzung.label.warteliste' | translate }}</label>
+    <avam-generic-table [dataSource]="wartelisteData" [headers]="tableHeaders" maxHeight="200">
+        <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+            <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+            </td>
+        </ng-container>
+    </avam-generic-table>
+</div>
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+</ng-template>

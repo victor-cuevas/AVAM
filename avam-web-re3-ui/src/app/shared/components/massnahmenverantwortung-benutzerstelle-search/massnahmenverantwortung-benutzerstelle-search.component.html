@@ -1,0 +1,26 @@
+<avam-personalberater-autosuggest
+    id="personalberater"
+    controlName="personalberater"
+    [parentForm]="parentForm"
+    [placeholder]="'common.label.personalberater' | translate"
+    [benutzerSuchenTokens]="personalberaterTokens"
+    [type]="personalberaterAutosuggestType"
+    container="body"
+    [scrollIntoView]="false"
+></avam-personalberater-autosuggest>
+<label *ngIf="displayBenutzerstellenTitle" class="subtitle-label">
+    <h3>{{ 'stes.label.benutzerstellenid' | translate }}</h3>
+</label>
+<avam-benutzerstelle-autosuggest
+    id="benutzerstellenId"
+    controlName="benutzerstellenId"
+    [parentForm]="parentForm"
+    [placeholder]="'stes.label.benutzerstellenid' | translate"
+    [benutzerstelleSuchenTokens]="benutzerstellenIdTokens"
+    [type]="benutzerstelleAutosuggestType"
+    container="body"
+    [scrollIntoView]="false"
+    (onSelect)="onSelectBenutzerstellenId($event)"
+    (onBlur)="outfocusBenutzerstellenId()"
+    (onInput)="updateBenutzerstellenId($event)"
+></avam-benutzerstelle-autosuggest>

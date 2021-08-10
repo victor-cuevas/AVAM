@@ -1,0 +1,35 @@
+<div class="row">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div (keyup.enter)="searchForm.search()" class="col-l-6 col-xl-3 p-0">
+        <div>
+            <div class="page-scroll">
+                <avam-vermittlung-search-form #searchForm (searchEmitter)="search($event)" (spinnerEmitter)="manageSpinner($event)" stateKey="osteSuchenZuweisungErfassenStateKey">
+                </avam-vermittlung-search-form>
+            </div>
+            <avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>
+        </div>
+    </div>
+    <div class="col-l-6 col-xl-9">
+        <div column-main-content class="default-layout">
+            <avam-unternehmen-content [unternehmenId]="unternehmenId"></avam-unternehmen-content>
+            <avam-oste-zuweisung-suchen-results [searchResult]="searchResult" (itemSelected)="itemSelected($event)"></avam-oste-zuweisung-suchen-results>
+        </div>
+    </div>
+</div>
+
+<ng-template #footerBtns>
+    <div class="col-l-6 col-md-6 col-xl-3 col-left">
+        <button class="btn btn-link" type="button" (click)="searchForm.reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button class="btn btn-primary ml-1" type="button" (click)="searchForm.search()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+            <span class="fa fa-search"></span>
+            {{ 'common.button.suchen' | translate }}
+        </button>
+    </div>
+    <div class="col-l-6 col-md-6 col-xl-9 col-right">
+        <button class="btn btn-link" type="button" (click)="cancel()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+    </div>
+</ng-template>

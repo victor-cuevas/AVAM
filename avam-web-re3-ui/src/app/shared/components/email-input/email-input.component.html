@@ -1,0 +1,52 @@
+<div [formGroup]="parentForm" #ngForm="ngForm">
+    <div
+        class="row mb-2"
+        [ngClass]="{
+            'form-group': !readOnly
+        }"
+    >
+        <div class="col-lg-4 col-md-4 text-right col-form-label">
+            <label class="col-form-label">{{ 'stes.label.email' | translate }}</label>
+        </div>
+        <div class="{{ inputClass ? inputClass : 'col-lg-8 col-md-8' }} align-self-center">
+            <div [hidden]="readOnly" orFormControlState>
+                <div class="d-flex">
+                    <core-input
+                        class="w-100"
+                        dynamicControlName
+                        [formControlName]="controlName"
+                        [disableControl]="isDisabled"
+                        ngbTooltip="{{ toolTip | translate }}"
+                        triggers="{{ toolTip ? 'hover' : 'click' }}"
+                        placeholder="{{ placeholder | translate }}"
+                        [type]="type"
+                        (onInput)="input($event)"
+                        (onChange)="change($event)"
+                        (onKeyup)="keyup($event)"
+                        (onBlur)="blur($event)"
+                    ></core-input>
+                    <a
+                        *ngIf="emailButton"
+                        #emailUrl
+                        href="mailto:email@not.set"
+                        (click)="updateEmailUrl()"
+                        type="button"
+                        role="button"
+                        class="input-group-append d-block btn btn-secondary rounded-0"
+                        ngbTooltip="{{ 'common.button.emailAn' | translate }}"
+                    >
+                        <div>
+                            <span class="fa fa-envelope"></span>
+                        </div>
+                    </a>
+                    <ng-content select="[input-type=input]"></ng-content>
+                </div>
+                <or-error-messages extendWithWarnings></or-error-messages>
+            </div>
+            <div *ngIf="readOnly" class="mb-2">
+                <a class="link p-value-left-12" [ngbTooltip]="toolTip" [href]="'mailto:' + inputValue">{{ inputValue }}</a>
+                <ng-content select="[input-type=readOnly]"></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

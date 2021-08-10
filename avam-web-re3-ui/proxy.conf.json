@@ -1,0 +1,18 @@
+{
+    "/AVAM_MOD_REST/*": {
+        "target": "https://localhost:9443",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/AVAM_MOD_REST": "https://localhost:9443/AVAM_MOD_REST"
+        }
+    },
+    "/AVAM_MOD_RE2/*": {
+        "target": "https://localhost:9443",
+        "secure": false,
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/AVAM_MOD_RE2": "https://localhost:9443/AVAM_MOD_RE2"
+        }
+    }
+}

@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h2 class="pl-4">{{ 'benutzerverwaltung.label.benutzermeldungen' | translate }}&nbsp;&nbsp;</h2>
+        <app-result-count *ngIf="showBadge" [dataLength]="resultsData?.length" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<avam-alert></avam-alert>
+<div>
+    <div class="scrollable-modal-body pre-scrollable mh-100">
+        <avam-benutzermeldungen-table [tableData]="resultsData" (onPrimaryAction)="openBenutzermeldung($event)"></avam-benutzermeldungen-table>
+    </div>
+</div>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="resultsData">
+        <avam-benutzermeldungen-table [tableData]="resultsData" [withAction]="false"></avam-benutzermeldungen-table>
+    </avam-generic-table-print>
+</ng-template>

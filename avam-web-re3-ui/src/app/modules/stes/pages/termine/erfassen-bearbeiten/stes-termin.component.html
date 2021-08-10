@@ -1,0 +1,60 @@
+<ng-form #ngForm="ngForm">
+    <div class="print-block row">
+        <or-spinner [channel]="terminChannel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <app-stes-termin-angaben-form #angabenForm></app-stes-termin-angaben-form>
+            </div>
+            <div class="avam-panel">
+                <app-teilnehmer-form
+                    #interneTeilnehmerForm
+                    (teilnehmerSelectedEvent)="resetExterneTeilnehmerSelected()"
+                    [typ]="'interne'"
+                    [label]="'stes.label.termin.teilnehmer'"
+                    [intern]="true"
+                    [onInitTeilnehmerNumber]="onInitTeilnehmerNumber"
+                ></app-teilnehmer-form>
+            </div>
+            <div class="avam-panel">
+                <app-teilnehmer-form
+                    #externeTeilnehmerForm
+                    (teilnehmerSelectedEvent)="resetInterneTeilnehmerSelected()"
+                    [typ]="'externe'"
+                    [label]="'stes.label.termin.weitereTeilnehmer'"
+                    [intern]="false"
+                ></app-teilnehmer-form>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <div class="form-group">
+                    <h4>{{ 'stes.label.termin.angaben' | translate }}</h4>
+                    <app-textarea id="additionalInfoTermin" [formControl]="additionalInfo" fullWidth="true" customFormControlState [maxLength]="1000"></app-textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-form>
+<ng-template #modalTerminUebertragen>
+    <avam-termin-uebertragen [id]="stesId" [terminId]="terminId"></avam-termin-uebertragen>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()" [permissions]="[permissions.STES_GESCHAEFT_SUCHEN_SICHTEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="isBearbeiten" class="btn btn-secondary ml-1" type="button" (click)="delete()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.termin.loeschen' | translate }}
+    </button>
+    <button *ngIf="isBearbeiten" class="btn btn-secondary ml-1" type="button" (click)="uebertragen()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.termin.uebertragen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

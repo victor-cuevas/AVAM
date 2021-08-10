@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="{{ inputClass ? inputClass : 'col-lg-4 col-md-4' }}"></div>
+    <div class="text-control col">
+        <div [formGroup]="parentForm" #ngForm="ngForm" class="{{ checkboxWrapperClass }} form-check form-check-inline checkbox-item__label-text" orFormControlState>
+            <core-checkbox
+                [componentId]="componentId"
+                dynamicControlName
+                [formControlName]="controlName"
+                [disableControl]="isDisabled || readOnly"
+                (onChange)="change($event)"
+                (onBlur)="blur($event)"
+                [isChecked]="isChecked"
+            >
+                <label class="form-check-label form-check-label-padding-left font-weight-600 {{ inputLabelClass }}" for="{{ componentId }}"> {{ selectLabel | translate }}</label>
+            </core-checkbox>
+            <or-error-messages></or-error-messages>
+        </div>
+    </div>
+</div>

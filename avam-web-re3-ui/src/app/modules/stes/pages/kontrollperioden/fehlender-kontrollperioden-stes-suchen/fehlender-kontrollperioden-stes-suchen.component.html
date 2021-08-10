@@ -1,0 +1,30 @@
+<stes-common-search
+    #baseSearchComponent
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [sortField]="sortField"
+    [stateKey]="stateKey"
+    infoleisteTranslationKey="stes.subnavmenuitem.kontrollperioden.fehlenderkontrollperioden"
+    (searchEvent)="onSearchEvent()"
+    (resetEvent)="onResetEvent()"
+    (navigationEvent)="onNavigationEvent($event)"
+    (changeLanguageEvent)="setTableData()"
+>
+    <div [formGroup]="searchForm">
+        <h3 class="title-label">
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'stes.label.kontrollperiode-fehlend' | translate }}</span>
+        </h3>
+        <avam-label-calendar
+            id="kontrollperiode"
+            controlName="kontrollperiode"
+            [parentForm]="searchForm"
+            [inputClass]="'col-lg-12 col-md-12'"
+            [inputPlaceholder]="'stes.placeholder.monatjahr'"
+            [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+        ></avam-label-calendar>
+        <br />
+        <massnahmenverantwortung-benutzerstelle-search #stesAutosuggestSearchComponent [parentForm]="searchForm"></massnahmenverantwortung-benutzerstelle-search>
+    </div>
+</stes-common-search>

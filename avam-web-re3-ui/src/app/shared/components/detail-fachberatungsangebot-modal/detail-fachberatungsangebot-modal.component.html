@@ -1,0 +1,59 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-basic-title">
+            <span>{{ 'stes.label.fachberatungsangebot' | translate }} </span>
+        </h3>
+        <div class="mr-3">
+            <app-toolbox [configuration]="modalToolboxConfiguration"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="fachberatungsangebotForm" #ngForm="ngForm" autocomplete="off">
+            <div class="avam-panel">
+                <div class="print-block">
+                    <avam-label-input
+                        [parentForm]="fachberatungsangebotForm"
+                        readOnly="true"
+                        selectLabel="{{ 'stes.label.fachberatungsangebote.angebotnr' | translate }}"
+                        controlName="angebotsNr"
+                    ></avam-label-input>
+                    <avam-label-input
+                        [parentForm]="fachberatungsangebotForm"
+                        readOnly="true"
+                        selectLabel="{{ 'stes.label.fachberatungsangebote.beratungsbereich' | translate }}"
+                        controlName="beratungsbereich"
+                    ></avam-label-input>
+                    <avam-label-input
+                        [parentForm]="fachberatungsangebotForm"
+                        readOnly="true"
+                        selectLabel="{{ 'stes.label.fachberatungsangebote.bezeichnung' | translate }}"
+                        controlName="bezeichnung"
+                    ></avam-label-input>
+                    <br />
+                    <avam-label-input
+                        [parentForm]="fachberatungsangebotForm"
+                        readOnly="true"
+                        selectLabel="{{ 'stes.label.fachberatung.zielpublikum' | translate }}"
+                        controlName="zielpublikum"
+                    ></avam-label-input>
+                    <avam-label-input
+                        [parentForm]="fachberatungsangebotForm"
+                        readOnly="true"
+                        selectLabel="{{ 'stes.label.fachberatung.initialisierung' | translate }}"
+                        controlName="initialisierung"
+                    ></avam-label-input>
+                    <avam-label-input
+                        [parentForm]="fachberatungsangebotForm"
+                        readOnly="true"
+                        selectLabel="{{ 'stes.label.fachberatung.leistung' | translate }}"
+                        controlName="leistung"
+                    ></avam-label-input>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button ngbAutofocus type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<div class="d-block">
+    <avam-bew-planwert-form #planwertFormComponent [planwertData]="planwertData"></avam-bew-planwert-form>
+    <or-spinner [channel]="channel"></or-spinner>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container>
+        <button class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button avamDisableOnSpinner class="btn btn-secondary ml-1" type="button" (click)="openDeleteDialog()" [permissionContext]="[permissions.AMM_PLANUNG_BEARBEITEN]">
+            {{ 'common.button.planwertloeschen' | translate }}
+        </button>
+        <button avamDisableOnSpinner class="btn btn-secondary ml-1" type="button" (click)="submit('berechnen')" [permissionContext]="[permissions.AMM_PLANUNG_BEARBEITEN]">
+            {{ 'common.button.berechnen' | translate }}
+        </button>
+        <button class="btn btn-secondary ml-1" type="button" (click)="zurProduktplanung()">
+            <span class="fa fa-external-link"></span>
+            {{ 'amm.massnahmen.button.zurproduktplanung' | translate }}
+        </button>
+        <button avamDisableOnSpinner class="btn btn-primary ml-1" type="button" (click)="submit('speichern')" [permissionContext]="[permissions.AMM_PLANUNG_BEARBEITEN]">
+            {{ 'common.button.speichern' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <span>{{ planwertData?.produktObject?.elementkategorieAmtObject?.organisation }}-{{ planwertData?.typ | dbTranslate: 'text' }}</span>
+        </div>
+        <div class="item">
+            <b>{{ 'amm.massnahmen.label.produktnr' | translate }}</b>
+            {{ produktId }}
+        </div>
+    </ng-container>
+</ng-template>

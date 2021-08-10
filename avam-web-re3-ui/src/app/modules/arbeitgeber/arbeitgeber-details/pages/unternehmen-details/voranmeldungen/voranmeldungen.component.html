@@ -1,0 +1,17 @@
+<div>
+    <or-spinner channel="{{ channel }}"></or-spinner>
+    <avam-voranmeldungen-table [gesamtbetriebCode]="gesamtbetriebCode" [dataSource]="dataSource" [stateKey]="stateKey" (onPrimaryAction)="edit($event)"></avam-voranmeldungen-table>
+</div>
+<ng-template #buttons>
+    <button class="btn btn-secondary ml-1" type="button" (click)="searchAgain()" [permissions]="[permissions.ARBEITGEBER_KAE_VORANMELDUNG_SUCHEN]">
+        {{ 'common.button.neuesuche' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" *ngIf="isCreatePossible()" (click)="create()" [permissions]="[permissions.ARBEITGEBER_KAE_VORANMELDUNG_ERFASSEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'kaeswe.label.voranmeldungerfassen' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>
+<ng-template #modalPrint>
+    <avam-voranmeldungen-table [gesamtbetriebCode]="gesamtbetriebCode" [dataSource]="dataSource" [stateKey]="stateKey" [forPrinting]="true"></avam-voranmeldungen-table>
+</ng-template>

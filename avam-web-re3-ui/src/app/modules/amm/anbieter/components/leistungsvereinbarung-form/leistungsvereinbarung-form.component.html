@@ -1,0 +1,126 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <label>{{ 'amm.akquisition.label.titel' | translate }}</label>
+                <avam-label-input avamAutofocus id="titel" [parentForm]="formGroup" controlName="titel" inputClass="col-lg-12" [readOnly]="isDisabled"></avam-label-input>
+                <label>{{ 'amm.akquisition.label.beschreibung' | translate }}</label>
+                <app-textarea id="beschreibung" formControlName="beschreibung" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isDisabled"></app-textarea>
+            </div>
+            <div class="avam-panel">
+                <avam-date-range-picker
+                    id="gueltigVonBis"
+                    class="form-group"
+                    label="amm.akquisition.label.gueltig"
+                    [parentForm]="formGroup"
+                    formControlNameFrom="gueltigVon"
+                    formControlNameTo="gueltigBis"
+                    [isResponsive]="true"
+                    [hasVerticalLayout]="false"
+                    [isDisabled]="isDisabled"
+                ></avam-date-range-picker>
+                <avam-personalberater-autosuggest
+                    #bearbeitungDurch
+                    id="bearbeitungDurch"
+                    [parentForm]="formGroup"
+                    controlName="bearbeitungDurch"
+                    componentLabel="common.label.bearbeitungdurch"
+                    [benutzerSuchenTokens]="bearbeitungDurchSuchenTokens"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [readOnly]="isDisabled"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-input-modal
+                    [inputClass]="'col'"
+                    [parentForm]="formGroup"
+                    controlName="rahmenvertrag"
+                    placeholder="{{ 'common.label.waehlen' }}"
+                    [modal]="rahmenvertragModal"
+                    selectLabel="amm.akquisition.label.rahmenvertragnr"
+                    [coreReadOnly]="true"
+                    [coreReadOnlyClearButton]="!isDisabled"
+                    [hideOpenModalBtn]="isDisabled"
+                    (onChange)="updateRahmenvertragValue($event)"
+                ></avam-input-modal>
+                <ng-template #rahmenvertragModal>
+                    <avam-rahmenvertrag-zuordnen-modal
+                        [leistungsvereinbarungData]="lvData"
+                        [leistungsvereinbarungGueltigVon]="formGroup.controls.gueltigVon.value"
+                        [leistungsvereinbarungGueltigBis]="formGroup.controls.gueltigBis.value"
+                        (rahmenvertragZuordnenEmitter)="rahmenvertragZuordnen($event)"
+                    ></avam-rahmenvertrag-zuordnen-modal>
+                </ng-template>
+                <avam-label-input
+                    id="leistungsvereinbarungNr"
+                    [parentForm]="formGroup"
+                    controlName="leistungsvereinbarungNr"
+                    selectLabel="amm.akquisition.label.leistungsvereinbarungsnr"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'amm.akquisition.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="lvData?.lvDto?.vorgaengerObject?.leistungsvereinbarungId"
+                            id="vorgaengerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ lvId: lvData?.lvDto?.vorgaengerObject?.leistungsvereinbarungId }"
+                        >
+                            {{ lvData?.lvDto?.vorgaengerObject?.leistungsvereinbarungNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'amm.akquisition.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="lvData?.lvDto?.nachfolgerList && (lvData?.lvDto?.nachfolgerList)[lvData?.lvDto?.nachfolgerList?.length - 1]?.leistungsvereinbarungId"
+                            id="nachfolgerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ lvId: (lvData?.lvDto?.nachfolgerList)[lvData?.lvDto?.nachfolgerList?.length - 1]?.leistungsvereinbarungId }"
+                        >
+                            {{ (lvData?.lvDto?.nachfolgerList)[lvData?.lvDto?.nachfolgerList?.length - 1]?.leistungsvereinbarungNr }}</a
+                        >
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    id="status"
+                    [parentForm]="formGroup"
+                    controlName="status"
+                    selectLabel="common.label.status"
+                    [options]="statusOptions"
+                    [hideEmptyOption]="true"
+                    [readOnly]="isDisabled || currentMode === currentFormMode.CREATE"
+                >
+                </avam-label-dropdown>
+                <avam-personalberater-autosuggest
+                    id="freigabeDurch"
+                    #freigabeDurch
+                    [parentForm]="formGroup"
+                    controlName="freigabeDurch"
+                    componentLabel="amm.akquisition.label.freigabeDurch"
+                    [benutzerSuchenTokens]="freigabeDurchSuchenTokens"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [readOnly]="isDisabledFreigabe"
+                ></avam-personalberater-autosuggest>
+                <avam-label-calendar
+                    controlName="freigabeDatum"
+                    [parentForm]="formGroup"
+                    id="freigabeDatum"
+                    calendarLabel="amm.akquisition.label.freigabeDatum"
+                    [readOnly]="true"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+            </div>
+        </div>
+    </div>
+</form>

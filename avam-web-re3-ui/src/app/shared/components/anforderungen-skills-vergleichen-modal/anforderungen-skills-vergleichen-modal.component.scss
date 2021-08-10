@@ -1,0 +1,12 @@
+.title-line {
+    display: block;
+    text-align: center;
+}
+
+.area-text-content {
+    height: 500px;
+    vertical-align: top;
+    overflow-y: auto;
+    max-width:100%;
+    word-break: break-all !important;
+}

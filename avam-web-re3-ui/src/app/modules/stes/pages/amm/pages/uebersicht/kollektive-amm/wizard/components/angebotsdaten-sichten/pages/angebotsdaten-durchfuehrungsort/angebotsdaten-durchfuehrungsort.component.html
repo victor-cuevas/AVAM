@@ -1,0 +1,152 @@
+<div class="col-12 d-flex align-items-center p-0">
+    <h1 class="pr-4">{{ pageData.type | translate }} {{ pageData.title }}</h1>
+    <h2 class="pl-4">{{ 'amm.massnahmen.label.durchfuehrungsort' | translate }}</h2>
+</div>
+<div class="avam-panel p-2">
+    <div class="row bar">
+        <ng-container>
+            <div class="item">
+                <span> {{ pageData.organisationAndType }}</span>
+            </div>
+            <div class="item">
+                <b> {{ pageData.dfeNumberLabel | translate }} </b>
+                <span> {{ pageData.dfeNumber }}</span>
+            </div>
+            <div *ngIf="massnahmenType === massnahmenTypes.INDIVIDUELL_KURS_IM_ANGEBOT" class="item">
+                <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+                <span> {{ pageData.zulassungsType }} </span>
+            </div>
+            <div class="item">
+                <b> {{ unternehmenLabel | translate }} </b>
+                <span> {{ unternehmenName }}</span>
+            </div>
+            <div class="item">
+                <b *ngIf="ammBuchung.unternehmenObject.provBurNr; else provisorisch"> {{ 'amm.massnahmen.label.burNrProvisorisch' | translate }} </b>
+                <ng-template #provisorisch>
+                    <b> {{ 'amm.massnahmen.label.burNr' | translate }}</b>
+                </ng-template>
+                <span> {{ burNr }} </span>
+            </div>
+            <div class="item">
+                <b> {{ 'common.label.status' | translate }} </b>
+                <span> {{ status }} </span>
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+<form [formGroup]="angebotsdatenDurchfForm">
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <h3>
+                    {{ 'amm.nutzung.label.durchfuehrungsort' | translate }}
+                </h3>
+                <div>
+                    <avam-label-input
+                        controlName="name1"
+                        selectLabel="{{ 'amm.nutzung.label.name' | translate }}"
+                        [parentForm]="angebotsdatenDurchfForm"
+                        [readOnly]="true"
+                    ></avam-label-input>
+                    <avam-label-input controlName="name2" selectLabel="{{ ' ' }}" [parentForm]="angebotsdatenDurchfForm" [readOnly]="true"></avam-label-input>
+                    <avam-label-input controlName="name3" selectLabel="{{ ' ' }}" [parentForm]="angebotsdatenDurchfForm" [readOnly]="true"></avam-label-input>
+                </div>
+                <div class="mt-5">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label for="strasse" class="col-form-label"> {{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 text-right ">
+                            <avam-label-input [readOnly]="true" inputClass="col-lg-12" [parentForm]="angebotsdatenDurchfForm" controlName="strasse"> </avam-label-input>
+                        </div>
+                        <div class="col-lg-2 col-md-2 text-right ">
+                            <avam-label-input [readOnly]="true" inputClass="col-lg-12" [parentForm]="angebotsdatenDurchfForm" controlName="strasseNr"> </avam-label-input>
+                        </div>
+                    </div>
+                    <avam-label-input
+                        controlName="raum"
+                        selectLabel="{{ 'amm.massnahmen.label.raum' }}"
+                        [parentForm]="angebotsdatenDurchfForm"
+                        [readOnly]="true"
+                    ></avam-label-input>
+                    <avam-plz-autosuggest
+                        plzControl="postleitzahl"
+                        ortControl="ort"
+                        [landControl]="angebotsdatenDurchfForm.controls.land"
+                        [parentForm]="angebotsdatenDurchfForm.get('plz')"
+                        label="{{ 'amm.massnahmen.label.plzort' }}"
+                        [supportsSimpleInput]="true"
+                        [readOnly]="true"
+                    ></avam-plz-autosuggest>
+                    <avam-land-autosuggest
+                        controlName="land"
+                        componentLabel="{{ 'stes.label.land' }}"
+                        [parentForm]="angebotsdatenDurchfForm"
+                        [readOnly]="true"
+                    ></avam-land-autosuggest>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label>{{ 'amm.massnahmen.label.bemerkung' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center">
+                        <app-textarea customFormControlState id="ergaenzendeAngaben" formControlName="ergaenzendeAngaben" [readonly]="true" [fullWidth]="true"></app-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-kontaktperson-input-wrapper
+                    controlName="kontaktperson"
+                    componentLabel="{{ 'amm.nutzung.label.kontaktperson' }}"
+                    [parentForm]="angebotsdatenDurchfForm"
+                    [unternehmenId]="unternehmenId"
+                    [readonly]="true"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-input
+                    controlName="name"
+                    selectLabel="{{ 'amm.nutzung.label.name' | translate }}"
+                    [parentForm]="angebotsdatenDurchfForm"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="vorname"
+                    selectLabel="{{ 'amm.nutzung.label.vorname' | translate }}"
+                    [parentForm]="angebotsdatenDurchfForm"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' | translate }}"
+                    controlName="telefon"
+                    selectLabel="{{ 'amm.massnahmen.label.telefon' | translate }}"
+                    [parentForm]="angebotsdatenDurchfForm"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.mobile' | translate }}"
+                    controlName="mobile"
+                    selectLabel="{{ 'amm.massnahmen.label.mobile' | translate }}"
+                    [parentForm]="angebotsdatenDurchfForm"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.fax' | translate }}"
+                    controlName="fax"
+                    selectLabel="{{ 'amm.massnahmen.label.fax' | translate }}"
+                    [parentForm]="angebotsdatenDurchfForm"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-4">
+                        <label class="pull-right no-word-wrap">{{ 'common.label.email' | translate }}</label>
+                    </div>
+                    <div class="col-8">
+                        <a [href]="'mailto:' + angebotsdatenDurchfForm.get('email').value" target="_blank"> {{ angebotsdatenDurchfForm.get('email').value }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

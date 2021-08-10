@@ -1,0 +1,17 @@
+<avam-step3-oste-erfassen-form #formComponent [unternehmenDTO]="wizardService?.unternehmenDto"></avam-step3-oste-erfassen-form>
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="movePrevious()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1 keepDisabled" type="button" (click)="moveNext()" [permissions]="[permissions.KEY_AG_OSTE_BEARBEITEN]">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer class="btn-bar-zero-height" [buttonsTemplate]="footerButtons"></avam-action-footer>

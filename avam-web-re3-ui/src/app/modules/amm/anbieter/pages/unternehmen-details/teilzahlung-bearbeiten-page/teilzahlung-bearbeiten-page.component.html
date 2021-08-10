@@ -1,0 +1,64 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-teilzahlung-form #tzform [data]="teilzahlungData"></avam-teilzahlung-form>
+    <hr class="hr-thick mt-2" />
+    <div class="avam-panel  avam-panel-extra-lighter mb-0">
+        <strong class="mb-0">{{ 'amm.zahlungen.label.teilzahlungswerte' | translate }}</strong>
+    </div>
+    <avam-anbieter-teilzahlungswerte-table
+        [dataSource]="tableDataSource"
+        [summeTotal]="summeTotal"
+        [tableType]="teilzahlungswerteTableType.BEARBEITEN"
+        (onItemSelected)="navigateToTzwert($event)"
+        (onRemove)="openRemoveTzwertDialog($event)"
+    ></avam-anbieter-teilzahlungswerte-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONERSETZEN)" class="btn btn-primary ml-1" type="button" (click)="ersetzen()">
+            {{ 'amm.zahlungen.button.teilzahlungersetzen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONUEBERARBEITEN)" class="btn btn-secondary ml-1" type="button" (click)="ueberarbeiten()">
+            {{ 'common.button.ueberarbeiten' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONFREIGEBEN)" class="btn btn-secondary ml-1" type="button" (click)="freigeben()">
+            {{ 'common.button.freigeben' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONZURUECKNEHMEN)" class="btn btn-primary ml-1" type="button" (click)="zuruecknehmen()">
+            {{ 'common.button.zuruecknehmen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.AMMZAHLUNGENBUTTONTEILZAHLUNGSWERTZUORDNEN)"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="openTeilzahlungswertModal()"
+        >
+            {{ 'amm.zahlungen.button.teilzahlungswertzuordnen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONLOESCHEN)" class="btn btn-secondary ml-1" type="button" (click)="openDeleteModal()">
+            {{ 'amm.zahlungen.alttext.teilzahlungloeschen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-primary ml-1" type="button" (click)="submit()">
+            {{ 'i18n.common.save' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #teilzahlungswertModal>
+    <avam-teilzahlungswerte-zuordnen-modal
+        [teilzahlungId]="tzId"
+        [anbieterId]="anbieterId"
+        [teilzahlungswerteIds]="teilzahlungswertIds"
+        (teilzahlungswertZuordnenEmitter)="teilzahlungswertZuordnen($event)"
+    ></avam-teilzahlungswerte-zuordnen-modal>
+</ng-template>
+
+<ng-template #auszahlungenModal>
+    <avam-auszahlungen-zur-teilzahlung-modal [teilzahlungId]="tzId"></avam-auszahlungen-zur-teilzahlung-modal>
+</ng-template>

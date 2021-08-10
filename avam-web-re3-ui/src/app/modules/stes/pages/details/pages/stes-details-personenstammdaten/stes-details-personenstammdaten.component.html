@@ -1,0 +1,91 @@
+<avam-alert></avam-alert>
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h1 class="pr-4 ng-star-inserted">
+            <span *ngIf="headerName"> {{ headerName }},</span> {{ headerVorname }}
+        </h1>
+        <h2 class="pl-4">
+            {{ 'stes.label.personenstammdaten' | translate }}
+        </h2>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox [configuration]="toolboxConfig"></app-toolbox>
+    </div>
+</div>
+<hr class="nm-t-6" />
+<form [formGroup]="personenstammdatenForm" #ngForm="ngForm" closeBrowserTab [form]="personenstammdatenForm" autocomplete="off">
+    <or-spinner [channel]="personenstammdatenChannel"></or-spinner>
+    <div class="avam-panel">
+        <p class="font-weight-bold">
+            {{ 'stes.label.personenstammdaten' | translate }}
+        </p>
+        <div class="rechts col-xl-6">
+            <avam-label-input avamAutofocus id="svNr" controlName="svNr" [readOnly]="isReadOnly()" selectLabel="stes.label.svnr" [parentForm]="personenstammdatenForm">
+            </avam-label-input>
+            <app-textarea
+                id="versichertenNrList"
+                formControlName="versichertenNrList"
+                selectLabel="{{ 'amm.nutzung.label.bisherigeversicherungsnummer' }}"
+                [readonly]="true"
+                customFormControlState
+            >
+            </app-textarea>
+            <avam-label-input id="zasName" controlName="zasName" [readOnly]="isReadOnly()" selectLabel="stes.label.zasName" [parentForm]="personenstammdatenForm">
+            </avam-label-input>
+            <avam-label-input id="zasVorname" controlName="zasVorname" [readOnly]="isReadOnly()" selectLabel="stes.label.zasVorname" [parentForm]="personenstammdatenForm">
+            </avam-label-input>
+            <avam-label-input
+                controlName="geburtsdatum"
+                id="geburtsdatum"
+                (onBlur)="formatWithDots()"
+                [readOnly]="isReadOnly()"
+                selectLabel="stes.label.geburtsdatum"
+                [parentForm]="personenstammdatenForm"
+            ></avam-label-input>
+            <avam-label-dropdown
+                [parentForm]="personenstammdatenForm"
+                controlName="geschlecht"
+                selectLabel="{{ 'stes.label.geschlecht' }}"
+                id="geschlecht"
+                [options]="geschlechtDropdownData"
+                [readOnly]="isReadOnly()"
+            ></avam-label-dropdown>
+            <avam-label-dropdown
+                [parentForm]="personenstammdatenForm"
+                controlName="zivilstand"
+                selectLabel="{{ 'stes.label.zivilstand' }}"
+                id="zivilstand"
+                [options]="zivilstandDropdownData"
+            ></avam-label-dropdown>
+            <avam-land-autosuggest
+                id="nationalitaet"
+                controlName="nationalitaet"
+                [parentForm]="personenstammdatenForm"
+                componentLabel="{{ 'stes.label.nationalitaet' | translate }}"
+            ></avam-land-autosuggest>
+            <div class="top-spacing">
+                <app-paragraph id="letzterZasAbgleich" label="{{ 'stes.label.letzterzasabgleich' }}" [value]="letzterZASAbgleich"> </app-paragraph>
+                <app-paragraph id="personenNumber" label="{{ 'stes.asal.label.personenNr' }}" [value]="state ? (state.personenNr ? state.personenNr : '') : ''"> </app-paragraph>
+            </div>
+        </div>
+    </div>
+</form>
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="openZasAbgleichen()">
+        {{ 'common.button.zasAbgleichen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="prev()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="next()">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

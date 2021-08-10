@@ -1,0 +1,42 @@
+<or-column-layout [right]="false">
+    <div column-left-content class="sticky-main" (keyup.enter)="search()">
+        <avam-zahlstellen-suchen-form #zahlstellenSearchForm (restoreCache)="restoreCache()"></avam-zahlstellen-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [permissions]="[permissions.INFORMATIONEN_VERZEICHNISSE_ZAHLSTELLEN_SUCHEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4 infoleiste">{{ 'verzeichnisse.label.zahlstelle.resultlist' | translate }}</h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="responseData.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+
+            <ng-template #modalPrint>
+                <avam-generic-table-print [dataSource]="tableConfig.data">
+                    <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="tableConfig.columns" [config]="printConfig"></avam-common-wrapper-table>
+                </avam-generic-table-print>
+            </ng-template>
+        </div>
+        <avam-alert></avam-alert>
+        <div class="overflow-hidden mh-100 pt-3">
+            <avam-common-wrapper-table
+                [dataSource]="tableConfig.data"
+                [columns]="tableConfig.columns"
+                [config]="tableConfig.config"
+                (onRowSelect)="selectItem($event)"
+                stateKey="zahlstellen-table-search"
+            ></avam-common-wrapper-table>
+        </div>
+    </div>
+</or-column-layout>

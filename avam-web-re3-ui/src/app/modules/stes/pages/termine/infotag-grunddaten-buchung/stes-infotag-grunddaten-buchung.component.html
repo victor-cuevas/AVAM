@@ -1,0 +1,243 @@
+<avam-alert *ngIf="isAngebotsdaten()"></avam-alert>
+
+<form [formGroup]="mainForm" closeBrowserTab autocomplete="off">
+    <or-spinner [channel]="screenName"></or-spinner>
+    <!-- spinner: double row screen (2x div) - hide whole form -->
+
+    <div class="print-block row">
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <div>
+                    <label class="col-form-label">{{ 'amm.massnahmen.label.bemerkung' | translate }}</label>
+                </div>
+                <app-textarea
+                    [id]="'ergaenzendeAngaben'"
+                    formControlName="ergaenzendeAngaben"
+                    [readonly]="mainForm.controls.ergaenzendeAngaben.disabled"
+                    #inputElement
+                    [fullWidth]="true"
+                    customFormControlState
+                ></app-textarea>
+            </div>
+            <div class="avam-panel" *ngIf="isAngebotsdaten()">
+                <div class="form-group" orFormControlState>
+                    <h3>{{ 'amm.massnahmen.label.durchfuehrung' | translate }}</h3>
+                    <avam-date-range-picker
+                        class="form-group"
+                        label="{{ 'amm.massnahmen.label.durchfuehrung' | translate }}"
+                        [parentForm]="mainForm"
+                        formControlNameFrom="durchfuehrungVon"
+                        formControlNameTo="durchfuehrungBis"
+                        [isResponsive]="true"
+                    ></avam-date-range-picker>
+                    <div class="row spacer-bottom-small">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label class="col-form-label">{{ 'amm.massnahmen.label.anzahlkurstage' | translate }}</label>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <input type="text" class="form-control w-25" formControlName="kurstage" size="3" />
+                        </div>
+                    </div>
+                    <avam-select-week-availability
+                        [parentForm]="mainForm"
+                        vormittagsControlName="vormittags"
+                        nachmittagsControlName="nachmittags"
+                        [dropdownOptions]="verfuegbarkeitOptions"
+                        verfuegbarkeitControl="verfuegbarkeit"
+                        [isDisabled]="true"
+                        selectLabel="{{ 'amm.massnahmen.label.verfuegbarkeit' }}"
+                    ></avam-select-week-availability>
+                    <app-textarea
+                        [id]="'kurszeiten'"
+                        [selectLabel]="'amm.massnahmen.label.kurszeiten'"
+                        formControlName="kurszeiten"
+                        #inputElement
+                        [readonly]="mainForm.controls.kurszeiten.disabled"
+                        customFormControlState
+                    ></app-textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <div class="col-lg-4 col-md-4 text-right d-inline-block">
+                    <label id="durchfuehrungsNrparagraphLable">{{ 'amm.massnahmen.label.durchfuehrungsnr' | translate }}</label>
+                </div>
+                <div class="col-lg-1 col-md-1 d-inline-block">
+                    <p id="durchfuehrungsNrparagraph">
+                        {{ mainForm.controls.durchfuehrungsNr.value }}
+                    </p>
+                </div>
+                <div class="col-lg-7 col-md-7 d-inline-block">
+                    <button type="button" class="btn btn-secondary ml-1" (click)="onDMSClick()">{{ 'dokmanager.label.dms' | translate }}</button>
+                </div>
+            </div>
+
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.belegtePlaetze' | translate }}</h3>
+                </label>
+                <div class="form-group row" orFormControlState>
+                    <!-- teilnehmer -->
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label class="col-form-label">{{ 'amm.massnahmen.label.teilnehmer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <table>
+                            <tr>
+                                <td><input [readonly]="mainForm.controls.teilnehmer.disabled" type="text" class="form-control" formControlName="teilnehmer" size="3" /></td>
+                                <td>&nbsp;{{ 'amm.massnahmen.label.von' | translate }}&nbsp;</td>
+                                <td><input [readonly]="mainForm.controls.teilnehmerMax.disabled" type="text" class="form-control" formControlName="teilnehmerMax" size="3" /></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group row" orFormControlState>
+                    <!-- ueberbuchung -->
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label class="col-form-label">{{ 'amm.massnahmen.label.ueberbuchung' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <table>
+                            <tr>
+                                <td><input [readonly]="mainForm.controls.ueberbuchung.disabled" type="text" class="form-control" formControlName="ueberbuchung" size="3" /></td>
+                                <td>&nbsp;{{ 'amm.massnahmen.label.von' | translate }}&nbsp;</td>
+                                <td>
+                                    <input [readonly]="mainForm.controls.ueberbuchungMax.disabled" type="text" class="form-control" formControlName="ueberbuchungMax" size="3" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <!-- Anbieter -->
+                <avam-unternehmen-autosuggest
+                    id="anbieter"
+                    controlName="anbieter"
+                    [parentForm]="mainForm"
+                    componentLabel="{{ 'amm.massnahmen.label.anbieter' }}"
+                    suchePlusLabel="{{ 'stes.label.arbeitgeber' }}"
+                ></avam-unternehmen-autosuggest>
+            </div>
+
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    id="verantwortung"
+                    [parentForm]="mainForm"
+                    controlName="verantwortung"
+                    componentLabel="{{ 'amm.massnahmen.label.massnahmenverantwortung' }}"
+                    [type]="benutzerAutosuggestType"
+                    isDisabled="true"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+    </div>
+    <hr class="nm-t-12" />
+    <div class="row" *ngIf="!isAngebotsdaten()">
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <div class="form-group" orFormControlState>
+                    <avam-date-range-picker
+                        class="form-group"
+                        label="{{ 'amm.infotag.label.durchfuehrungbuchung' | translate }}"
+                        [parentForm]="mainForm"
+                        formControlNameFrom="durchfuehrungVon"
+                        formControlNameTo="durchfuehrungBis"
+                        [isResponsive]="true"
+                    ></avam-date-range-picker>
+                    <div class="row spacer-bottom-small">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label class="col-form-label">{{ 'amm.massnahmen.label.anzahlkurstage' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <table>
+                                <tr>
+                                    <td><input type="text" class="form-control" formControlName="kurstage" size="3" /></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <avam-select-week-availability
+                        [parentForm]="mainForm"
+                        vormittagsControlName="vormittags"
+                        nachmittagsControlName="nachmittags"
+                        [dropdownOptions]="verfuegbarkeitOptions"
+                        verfuegbarkeitControl="verfuegbarkeit"
+                        [isDisabled]="true"
+                        selectLabel="{{ 'amm.massnahmen.label.verfuegbarkeit' }}"
+                    ></avam-select-week-availability>
+                    <app-textarea
+                        [id]="'kurszeiten'"
+                        [selectLabel]="'amm.massnahmen.label.kurszeiten'"
+                        formControlName="kurszeiten"
+                        [readonly]="mainForm.controls.kurszeiten.disabled"
+                        customFormControlState
+                    ></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    id="bearbeitung"
+                    [parentForm]="mainForm"
+                    controlName="bearbeitung"
+                    componentLabel="{{ 'stes.label.bearbeitung' }}"
+                    [type]="benutzerAutosuggestType"
+                    isDisabled="true"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <app-paragraph id="buchungsnr" label="{{ 'amm.nutzung.label.buchungsnr' }}" [value]="mainForm.controls.buchungsNr.value"></app-paragraph>
+
+                <!-- Status -->
+                <avam-label-dropdown
+                    [parentForm]="mainForm"
+                    controlName="buchungStatusId"
+                    selectLabel="{{ 'amm.massnahmen.label.status' }}"
+                    id="status"
+                    [options]="buchungStatusOptions"
+                    [hideEmptyOption]="true"
+                    (onChange)="bspBuchungStatus()"
+                ></avam-label-dropdown>
+
+                <!-- praesenzStatus -->
+                <avam-label-dropdown
+                    [parentForm]="mainForm"
+                    controlName="praesenzStatusId"
+                    selectLabel="{{ 'amm.infotag.label.praesenzstatus' }}"
+                    id="praesenzStatus"
+                    [options]="praesenzStatusOptions"
+                ></avam-label-dropdown>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()" [permissions]="[permissions.KEY_AMM_INFOTAG_NUTZEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="responseData && responseData.buchungSchreibrecht && responseData.deletable"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="deleteBuchung()"
+        [permissions]="[{ and: [permissions.KEY_AMM_INFOTAG_NUTZEN, permissions.STES_ANMELDEN_BEARBEITEN] }]"
+    >
+        {{ 'common.button.buchungLoeschen' | translate }}
+    </button>
+    <button
+        *ngIf="responseData && responseData.buchungSchreibrecht"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="save()"
+        [permissions]="[{ and: [permissions.KEY_AMM_INFOTAG_NUTZEN, permissions.STES_ANMELDEN_BEARBEITEN] }]"
+    >
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer *ngIf="showOwnFooter" [buttonsTemplate]="footerButtons"></avam-action-footer>

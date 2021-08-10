@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h2 class="pl-4">{{ 'unternehmen.label.kontaktpersonen' | translate }}&nbsp;&nbsp;</h2>
+        <app-result-count *ngIf="searchDone" [dataLength]="resultsData ? resultsData.length : 0" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<avam-alert></avam-alert>
+<div>
+    <avam-kontaktpersonen-table
+        #kontaktpersonenTable
+        [sourceData]="resultsData"
+        [showUnternehmen]="true"
+        [stateKey]="stateKey"
+        [unternehmenType]="unternehmenType"
+        (onPrimaryAction)="openKontaktperson($event)"
+        (onCheck)="onCheck($event)"
+        (onMail)="onEmail($event)"
+        (onDocumentManager)="onDocumentManager($event)"
+    ></avam-kontaktpersonen-table>
+</div>
+<ng-template #buttons>
+    <button class="btn btn-secondary ml-1 keepDisabled" type="button" (click)="sendEmails()" [disabled]="footerDisabled">
+        <span class="fa fa-envelope-o"></span>
+        {{ 'common.button.emailSenden' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="resultsData">
+        <avam-kontaktpersonen-table [sourceData]="resultsData" [forPrinting]="true" [stateKey]="stateKey"></avam-kontaktpersonen-table>
+    </avam-generic-table-print>
+</ng-template>

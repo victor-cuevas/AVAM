@@ -1,0 +1,256 @@
+<form [formGroup]="massnahmeForm" #ngForm="ngForm" closeBrowserTab [form]="massnahmeForm" autocomplete="off">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <h5>{{ 'common.label.ergaenzendeangaben' | translate }}</h5>
+                <app-textarea
+                    customFormControlState
+                    [maxLength]="255"
+                    [fullWidth]="true"
+                    id="ergaenzendeAngaben"
+                    formControlName="ergaenzendeAngaben"
+                    [readonly]="true"
+                ></app-textarea>
+                <h5>{{ 'stes.label.beruf' | translate }}</h5>
+                <div class="col-13">
+                    <avam-beruf-autosuggest [parentForm]="massnahmeForm" controlName="taetigkeit" [isDisabled]="true"></avam-beruf-autosuggest>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.massnahmen.label.durchfuehrung' | translate }}</h3>
+                </label>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'amm.massnahmen.label.gueltig' | translate }}"
+                    [parentForm]="massnahmeForm.controls.dateRangeGroup"
+                    formControlNameFrom="durchfuehrungVon"
+                    formControlNameTo="durchfuehrungBis"
+                    [isResponsive]="true"
+                    [isDisabled]="true"
+                ></avam-date-range-picker>
+                <avam-select-week-availability
+                    [parentForm]="massnahmeForm"
+                    vormittagsControlName="vormittags"
+                    nachmittagsControlName="nachmittags"
+                    [dropdownOptions]="verfuegbarkeitOptions"
+                    [clearCheckboxes]="clearCheckboxes"
+                    verfuegbarkeitControl="verfuegbarkeit"
+                    [isDisabled]="true"
+                    selectLabel="{{ 'amm.massnahmen.label.verfuegbarkeit' }}"
+                ></avam-select-week-availability>
+                <app-textarea
+                    customFormControlState
+                    [maxLength]="255"
+                    id="arbeitszeiten"
+                    formControlName="arbeitszeiten"
+                    selectLabel="{{ 'amm.massnahmen.label.arbeitszeiten' | translate }}"
+                    [readonly]="true"
+                ></app-textarea>
+                <avam-label-input
+                    selectLabel="{{ 'amm.massnahmen.label.sozialeabfederung' | translate }}"
+                    [parentForm]="massnahmeForm"
+                    controlName="abfederung"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <hr />
+                <avam-label-checkbox
+                    [isDisabled]="true"
+                    componentId="vorstellungsgespraech"
+                    inputClass="mr-0"
+                    [parentForm]="massnahmeForm"
+                    controlName="vorstellungsgespraech"
+                    selectLabel="{{ 'amm.massnahmen.label.vorstellungsgespraechTest' }}"
+                ></avam-label-checkbox>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <div class="col-lg-4 col-md-4 text-right d-inline-block">
+                    <label id="durchfuehrungsNr">{{ durchfuehrungsLabel | translate }}</label>
+                </div>
+                <div class="col-lg-1 col-md-1 d-inline-block">
+                    <p id="durchfuehrungsNrparagraph">
+                        {{ massnahmeForm.controls.durchfuehrungsnr.value }}
+                    </p>
+                </div>
+                <div class="col-lg-7 col-md-7 d-inline-block">
+                    <button type="button" class="btn btn-secondary ml-1" (click)="onDMSClick()">{{ 'dokmanager.label.dms' | translate }}</button>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-unternehmen-autosuggest
+                    id="anbieter"
+                    controlName="anbieter"
+                    isAvamOnly="true"
+                    [parentForm]="massnahmeForm"
+                    [readOnly]="true"
+                    componentLabel="{{ unternehmenLabel | translate }}"
+                ></avam-unternehmen-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    [isDisabled]="true"
+                    [parentForm]="massnahmeForm"
+                    controlName="massnahmenverantwortung"
+                    componentLabel="{{ 'amm.massnahmen.label.massnahmenverantwortung' }}"
+                    [type]="personalberaterAutosuggestType"
+                ></avam-personalberater-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <avam-input-slider
+                    id="beschaeftigungsgradMax"
+                    [parentForm]="massnahmeForm.controls.anwesenheitGroup"
+                    controlName="beschaeftigungsgradMax"
+                    [showTwoLines]="true"
+                    selectLabel="amm.nutzung.label.beschaeftigungsgrad"
+                    [isDisabled]="true"
+                    prependLabel="amm.nutzung.label.max"
+                    ><span>%</span>
+                </avam-input-slider>
+            </div>
+        </div>
+        <div class="col-xl-12 separation-line"></div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'amm.nutzung.label.buchung' | translate }}"
+                    [parentForm]="massnahmeForm.controls.dateRangeGroup"
+                    formControlNameFrom="buchungVon"
+                    formControlNameTo="buchungBis"
+                    [isResponsive]="true"
+                    [isDisabled]="isGesperrt"
+                    avamAutofocusTwoFields
+                    [scrollIntoView]="true"
+                ></avam-date-range-picker>
+                <avam-input-slider
+                    id="beschaeftigungsgrad"
+                    [parentForm]="massnahmeForm.controls.anwesenheitGroup"
+                    controlName="beschaeftigungsgrad"
+                    [showTwoLines]="true"
+                    selectLabel="amm.nutzung.label.beschaeftigungsgrad"
+                    [isDisabled]="isGesperrt"
+                    ><span>%</span>
+                </avam-input-slider>
+                <avam-select-week-availability
+                    [parentForm]="massnahmeForm.controls.anwesenheitGroup"
+                    vormittagsControlName="anwesenheitVormittags"
+                    nachmittagsControlName="anwesenheitNachmittags"
+                    [dropdownOptions]="verfuegbarkeitOptions"
+                    [clearCheckboxes]="clearCheckboxes"
+                    verfuegbarkeitControl="anwesenheit"
+                    selectLabel="{{ 'amm.massnahmen.label.anwesenheit' }}"
+                    [hideEmptyOption]="true"
+                    [isDisabled]="isGesperrt"
+                ></avam-select-week-availability>
+                <div
+                    *ngIf="showAvailabilityWarningMornings || showAvailabilityWarningAfternoons"
+                    class="warning-message availability-warning col-lg-8 col-md-8 offset-lg-4 offset-md-4"
+                >
+                    {{ 'i18n.validation.val291' | translate }}
+                </div>
+                <app-textarea
+                    customFormControlState
+                    [maxLength]="255"
+                    id="arbeitszeitenBuchung"
+                    formControlName="arbeitszeitenBuchung"
+                    selectLabel="{{ 'amm.massnahmen.label.arbeitszeiten' | translate }}"
+                    [readonly]="isGesperrt"
+                ></app-textarea>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    [parentForm]="massnahmeForm"
+                    controlName="bearbeitung"
+                    placeholder="{{ 'stes.label.bearbeitung' | translate }}"
+                    componentLabel="{{ 'stes.label.bearbeitung' }}"
+                    [benutzerSuchenTokens]="bearbeiterSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    #bearbeitung
+                    [isDisabled]="isGesperrt"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    controlName="buchungsnr"
+                    [parentForm]="massnahmeForm"
+                    readOnly="true"
+                    id="buchungsnr"
+                    selectLabel="amm.nutzung.label.buchungsnr"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2"> {{ 'stes.subnavmenuitem.stesAmm.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            id="vorgaengerNr"
+                            *ngIf="buchungObject?.ammGeschaeftsfallObject?.vorgaengerId"
+                            [routerLink]="['./']"
+                            [queryParams]="{ gfId: buchungObject.ammGeschaeftsfallObject.vorgaengerId, entscheidId: vorgaengerEntscheidId }"
+                        >
+                            {{ vorgaengerBuchungsNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2"> {{ 'stes.subnavmenuitem.stesAmm.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            id="nachfolgerNr"
+                            *ngIf="buchungObject?.ammGeschaeftsfallObject?.nachfolgerId"
+                            [routerLink]="['./']"
+                            [queryParams]="{ gfId: buchungObject.ammGeschaeftsfallObject.nachfolgerId, entscheidId: nachfolgerEntscheidId }"
+                        >
+                            {{ nachfolgerBuchungsNr }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [parentForm]="massnahmeForm"
+                    controlName="status"
+                    id="status"
+                    [options]="statusOptions"
+                    selectLabel="{{ 'amm.massnahmen.label.status' }}"
+                    [hideEmptyOption]="true"
+                    [isDisabled]="isGesperrt"
+                ></avam-label-dropdown>
+            </div>
+        </div>
+    </div>
+</form>
+
+<avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>
+
+<ng-template #footerBtns>
+    <button class="btn btn-link" (click)="onReset()" *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR, ammButtonsTypeEnum.FKT_BUCHBAR])">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" (click)="openDeleteDialog()" *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_LOESCHBAR])">
+        {{ 'common.button.geschaeftsfallLoeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" (click)="onErsetzen()" *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_ERSETZBAR])">
+        {{ 'common.button.geschaeftsfallErsetzen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" (click)="onSave()" *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" (click)="onZuruecknehmen()" *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_ZURUECKNEHMBAR])">
+        {{ 'common.button.zuruecknehmen' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #infobarTemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+</ng-template>

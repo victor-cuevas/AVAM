@@ -1,0 +1,43 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="form-group row">
+    <div class="col-lg-4 col-md-4 text-right" *ngIf="componentLabel">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8'" class="d-flex align-items-center">
+        <div class="input-group" [hidden]="readOnly" orFormControlState>
+            <core-autosuggest
+                arrow-scrolling
+                #inputElement
+                dynamicControlName
+                [formControlName]="controlName"
+                [placeholder]="placeholder"
+                [inputFormatter]="inputFormatter"
+                [template]="rt"
+                [searchFunction]="searchBerufsgruppe"
+                [disableControl]="isDisabled"
+                ngbTooltip="{{ tooltip | translate }}"
+                triggers="{{ tooltip ? 'hover' : 'click' }}"
+                style="width: inherit;"
+                (onInput)="input($event)"
+                (onChange)="change($event)"
+                (onKeyup)="keyup($event)"
+                (onBlur)="blur($event)"
+                (onSelect)="select($event)"
+            >
+            </core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div class="p-value-left-12" *ngIf="readOnly">
+            {{ inputValue }}
+        </div>
+    </div>
+</div>
+<ng-template #rt let-r="result" let-t="term">
+    <div class="margin-0-minus-15" avamAlignPopupTemplateAndInput>
+        <div class="d-inline-block w-20 pl-1 pr-1 min-width-45px">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.chIscoCode" [term]="t"></ngb-highlight>
+        </div>
+        <button class="d-inline-block w-80 pl-1 pr-1 tooltip-btn" [ngbTooltip]="r.translatedBerufsGruppe">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.translatedBerufsGruppe" [term]="t"></ngb-highlight>
+        </button>
+    </div>
+</ng-template>

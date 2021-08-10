@@ -1,0 +1,63 @@
+<form #ngForm="ngForm" autocomplete="off">
+    <or-spinner [channel]="sachverhaltChanel"></or-spinner>
+    <div class="print-block row">
+        <div class="rechts col-xl-6">
+            <div class="avam-panel min-height-20" [formGroup]="sachverhaltForm">
+                <label>
+                    <h3>{{ 'stes.sanktionen.form.kontrolWeis.title' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    [avamAutofocus]="existingEntscheidOrSachverhalt()"
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    id="grundId"
+                    controlName="grundId"
+                    selectLabel="{{ 'stes.sanktionen.form.kontrolWeis.sanktionsgrund' }}"
+                    [parentForm]="sachverhaltForm"
+                    [options]="sanktionsgrund"
+                ></avam-label-dropdown>
+                <avam-label-calendar
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    controlName="datumKontrollPeriode"
+                    id="datumKontrollPeriode"
+                    [parentForm]="sachverhaltForm"
+                    [inputClass]="'col-5'"
+                    calendarLabel="{{ 'stes.sanktionen.form.kontrolWeis.kontrolPeriod' | translate }}"
+                    inputPlaceholder="{{ 'stes.placeholder.monatjahr' }}"
+                    [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                    (dateChange)="kontrollPeriodeIsChanged($event)"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    id="datumVorfalls"
+                    calendarLabel="{{ 'stes.sanktionen.form.kontrolWeis.datumVorfalls' }}"
+                    inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                    [inputClass]="'col-5'"
+                    controlName="datumVorfalls"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [parentForm]="sachverhaltForm"
+                    (dateChange)="datumVorfallIsChanged($event)"
+                ></avam-label-calendar>
+                <app-textarea
+                    [readonly]="existingEntscheidOrSachverhalt()"
+                    id="ergazendeAngaben"
+                    formControlName="ergazendeAngaben"
+                    selectLabel="{{ 'stes.sanktionen.form.kontrolWeis.ergazendeAngaben' }}"
+                    maxLength="255"
+                    customFormControlState
+                ></app-textarea>
+                <avam-label-calendar
+                    id="datumErfasstAm"
+                    calendarLabel="{{ 'stes.sanktionen.form.kontrolWeis.erfassungdatum' }}"
+                    inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                    controlName="datumErfasstAm"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [parentForm]="sachverhaltForm"
+                    readOnly="true"
+                ></avam-label-calendar>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <avam-fallbearbeitung-form #fallbearbeitung [autofocus]="existingEntscheidOrSachverhalt()"></avam-fallbearbeitung-form>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,18 @@
+<div class="modal-content max-height-800 no-padding overflow-hidden">
+    <div class="modal-header">
+        <h4 class="modal-title " id="exampleModalLabel">{{ 'common.button.dmsmetadaten.title' | translate }}</h4>
+        <div class="mr-3 mb-2">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [id]="getToolboxId()"></app-toolbox>
+        </div>
+    </div>
+    <div class="scrollable-modal-body mh-100">
+        <or-spinner [channel]="spinnerChannel"></or-spinner>
+        <avam-metadaten-copy-table *ngIf="tableData" [dataSource]="tableData"></avam-metadaten-copy-table>
+    </div>
+    <div class="modal-footer justify-content-between mt-2">
+        <span>{{ getFormNr() }}</span>
+        <div class="sticky-actions">
+            <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+        </div>
+    </div>
+</div>

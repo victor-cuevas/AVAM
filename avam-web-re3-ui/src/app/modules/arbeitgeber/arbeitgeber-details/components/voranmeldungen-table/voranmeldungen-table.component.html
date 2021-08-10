@@ -1,0 +1,47 @@
+<avam-generic-table
+    *ngIf="dataSource"
+    [dataSource]="dataSource"
+    [headers]="displayedTableColumns"
+    [stateKey]="getStateKey()"
+    [scrollable]="true"
+    [maxHeight]="775"
+    (sortFunction)="sortFunction($event)"
+    [customSort]="true"
+>
+    <ng-container *ngFor="let column of tableColumns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'actions'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                {{ column.header | translate }}
+            </th>
+            <td style="display: flex; justify-content: space-around;" cdk-cell *cdkCellDef="let row">
+                <button
+                    (primaryButtonClick)="onOpen(row)"
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    avamPrimaryButtonDirective
+                    type="button"
+                    [ngbTooltip]="'common.button.oeffnen' | translate"
+                ></button>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'kurzarbeitVon' || column.columnDef === 'kurzarbeitBis'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t" *ngIf="column.cell(row)">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'entscheid' || column.columnDef === 'kategorie' || column.columnDef === 'status'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: 'text'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t" *ngIf="column.cell(row)">
+                    {{ column.cell(row) | dbTranslate: 'text' }}
+                </span>
+            </td>
+        </ng-container>
+        <th [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

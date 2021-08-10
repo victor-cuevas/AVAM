@@ -1,0 +1,152 @@
+<div>
+    <or-spinner channel="kontrollperioden"></or-spinner>
+    <form #ngForm="ngForm" autocomplete="off">
+        <div class="print-block row">
+            <div class="rechts col-xl-6">
+                <div class="avam-panel" [formGroup]="kontrollperiodeForm">
+                    <label>
+                        <h3>{{ 'stes.label.kontrollperiode' | translate }}</h3>
+                    </label>
+                    <avam-label-calendar
+                        [coreAutofocus]="!isBearbeiten"
+                        controlName="kontrollperiode"
+                        [parentForm]="kontrollperiodeForm"
+                        id="kontrollperiode"
+                        calendarLabel="{{ 'stes.label.kontrollperiode' }}"
+                        inputPlaceholder="{{ 'stes.placeholder.monatjahr' }}"
+                        [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                        [inputClass]="'col-5'"
+                        (dateChange)="getDefaultDataForKontrollperiode()"
+                        [isDisabled]="isBearbeiten"
+                    ></avam-label-calendar>
+                    <avam-label-dropdown
+                        [coreAutofocus]="isBearbeiten"
+                        id="zeit"
+                        [parentForm]="kontrollperiodeForm"
+                        controlName="zeit"
+                        selectLabel="{{ 'stes.label.inderZeit' | translate }}"
+                        [options]="zeitOptions"
+                        [hideEmptyOption]="true"
+                    ></avam-label-dropdown>
+                    <avam-label-dropdown
+                        id="status"
+                        [parentForm]="kontrollperiodeForm"
+                        controlName="status"
+                        (onChange)="statusChange($event)"
+                        selectLabel="{{ 'stes.label.status' | translate }}"
+                        [options]="status"
+                        [hideEmptyOption]="true"
+                    ></avam-label-dropdown>
+                    <avam-personalberater-autosuggest
+                        id="personalberater"
+                        #personalberater
+                        [parentForm]="kontrollperiodeForm"
+                        [benutzerSuchenTokens]="benutzerSuchenTokens"
+                        controlName="personalberater"
+                        componentLabel="{{ 'stes.label.personalberater' | translate }}"
+                        isDisabled="true"
+                        readOnly="true"
+                        [type]="personalberaterAutosuggestType"
+                    ></avam-personalberater-autosuggest>
+                </div>
+            </div>
+            <div class="links col-xl-6">
+                <div class="avam-panel" [formGroup]="arbeitsbemuehungenForm">
+                    <label>
+                        <h3>{{ 'stes.label.arbeitsbemuehungen' | translate }}</h3>
+                    </label>
+                    <avam-label-calendar
+                        controlName="eingangsdatum"
+                        [parentForm]="arbeitsbemuehungenForm"
+                        id="eingangsdatum"
+                        calendarLabel="{{ 'stes.label.eingangsdatum' }}"
+                        inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                        [inputClass]="'col-5'"
+                    ></avam-label-calendar>
+                    <avam-label-input
+                        id="scandatum"
+                        controlName="scandatum"
+                        selectLabel="{{ 'stes.label.scandatum' }}"
+                        [parentForm]="arbeitsbemuehungenForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                    <avam-label-calendar
+                        controlName="kontrolldatum"
+                        [parentForm]="arbeitsbemuehungenForm"
+                        id="kontrolldatum"
+                        calendarLabel="{{ 'stes.label.kontrolldatum' }}"
+                        inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                        [inputClass]="'col-5'"
+                    ></avam-label-calendar>
+                    <br />
+                    <div class="row mb-2">
+                        <div class="col-4 text-right align-self-center">
+                            <label>{{ 'stes.label.anzahlbewerbungen' | translate }}</label>
+                        </div>
+                        <div class="col-2" orFormControlState>
+                            <core-input id="vereinbart" formControlName="vereinbart" max="3"></core-input>
+                            <or-error-messages></or-error-messages>
+                        </div>
+                        <span class="sublabel-input">{{ 'stes.label.vereinbart' | translate }}</span>
+                        <div class="col-2" orFormControlState>
+                            <core-input id="erbracht" formControlName="erbracht" max="3"> </core-input>
+                            <or-error-messages></or-error-messages>
+                        </div>
+                        <span class="sublabel-input">{{ 'stes.label.erbracht' | translate }}</span>
+                    </div>
+                    <avam-label-dropdown
+                        id="beurteilung"
+                        [parentForm]="arbeitsbemuehungenForm"
+                        controlName="beurteilung"
+                        selectLabel="{{ 'stes.label.beurteilung' | translate }}"
+                        [options]="beurteilung"
+                        (onChange)="beurteilungChange($event)"
+                        [hideEmptyOption]="true"
+                    ></avam-label-dropdown>
+                    <div class="row mb-2">
+                        <label class="col-4 text-right align-self-center">{{ 'stes.label.ergaenzendeAngaben' | translate }}</label>
+                        <div class="col-lg-8 col-md-8 align-self-center">
+                            <app-textarea id="ergaenzendeAngaben" formControlName="ergaenzendeAngaben" maxLength="255" fullWidth="true" customFormControlState></app-textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="avam-panel-light">
+            <h3>
+                {{ 'stes.label.nachweisbefreit' | translate }}
+            </h3>
+        </div>
+    </form>
+    <div>
+        <avam-components-table
+            [optionalFocus]="true"
+            [recalculateMaxHeight]="false"
+            [maxHeight]="5000"
+            #table
+            (onSort)="onSort($event)"
+            [restrictDelete]="true"
+            [dataSource]="dataSource"
+            [columns]="columns"
+        ></avam-components-table>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button type="button" class="btn btn-link" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button type="button" class="btn btn-link" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="isBearbeiten && stesPermissions.includes(permissions.STES_ANMELDEN_BEARBEITEN)" class="btn btn-secondary ml-1" type="button" (click)="deleteWithConfirm()">
+        {{ 'stes.label.kontrollperiode.loeschen' | translate }}
+    </button>
+    <button *ngIf="stesPermissions.includes(permissions.STES_ANMELDEN_BEARBEITEN)" type="button" class="btn btn-primary ml-1" (click)="save()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

@@ -1,0 +1,285 @@
+<div class="col-12 d-flex align-items-center p-0">
+    <h1 class="pr-4">{{ pageData.type | translate }} {{ pageData.title }}</h1>
+    <h2 class="pl-4">{{ 'amm.massnahmen.subnavmenuitem.grunddaten' | translate }}</h2>
+</div>
+<div class="avam-panel p-2">
+    <div class="row bar">
+        <ng-container>
+            <div class="item">
+                <span> {{ pageData.organisationAndType }}</span>
+            </div>
+            <div class="item">
+                <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+                <span> {{ pageData.zulassungsType }} </span>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<avam-alert></avam-alert>
+<form [formGroup]="ammBuchungForm" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel" id="ergaenzende-angaben">
+                <label>{{ 'amm.massnahmen.label.bemerkung' | translate }}</label>
+                <app-textarea
+                    [id]="'ergaenzendeAngaben'"
+                    formControlName="ergaenzendeAngaben"
+                    [readonly]="true"
+                    [fullWidth]="true"
+                    customFormControlState
+                    [maxLength]="255"
+                ></app-textarea>
+
+                <div [hidden]="isKursKolektiv || isKursIndivImAngebot">
+                    <label>{{ 'stes.label.beruf' | translate }}</label>
+                    <div class="col-13">
+                        <avam-beruf-autosuggest [parentForm]="ammBuchungForm" controlName="berufTaetigkeit" [isDisabled]="true"></avam-beruf-autosuggest>
+                    </div>
+                </div>
+            </div>
+
+            <div class="avam-panel" id="durchfuehrung">
+                <label>{{ 'amm.massnahmen.label.durchfuehrung' | translate }}</label>
+                <avam-date-range-picker
+                    [hidden]="!isKursKolektiv"
+                    class="form-group"
+                    label="{{ 'amm.massnahmen.label.durchfuehrung' | translate }}"
+                    [parentForm]="ammBuchungForm"
+                    formControlNameFrom="durchfuehrungVon"
+                    formControlNameTo="durchfuehrungBis"
+                    [isResponsive]="true"
+                    [isDisabled]="true"
+                ></avam-date-range-picker>
+
+                <avam-date-range-picker
+                    [hidden]="isKursKolektiv"
+                    class="form-group"
+                    label="{{ 'amm.massnahmen.label.gueltig' | translate }}"
+                    [parentForm]="ammBuchungForm"
+                    formControlNameFrom="gueltigVon"
+                    formControlNameTo="gueltigBis"
+                    [isResponsive]="true"
+                    [isDisabled]="true"
+                ></avam-date-range-picker>
+
+                <div [hidden]="!isKursKolektiv" class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label> {{ 'amm.massnahmen.label.stichtag' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <avam-prepend-calendar
+                            [isDisabled]="true"
+                            controlName="stichtagAm"
+                            [parentForm]="ammBuchungForm"
+                            id="sichtag"
+                            label="{{ 'common.label.am' | translate }}"
+                        ></avam-prepend-calendar>
+                    </div>
+                </div>
+
+                <div [hidden]="!isKursKolektiv" class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label> {{ 'amm.massnahmen.label.eintrittfrist' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <avam-prepend-calendar
+                            [isDisabled]="true"
+                            controlName="eintrittsfristBis"
+                            [parentForm]="ammBuchungForm"
+                            id="eintrittsfrist"
+                            label="{{ 'common.label.bis' | translate }}"
+                        ></avam-prepend-calendar>
+                    </div>
+                </div>
+
+                <avam-label-input
+                    [hidden]="!isKursKolektiv"
+                    [isDisabled]="true"
+                    [inputClass]="'col-lg-2 col-md-2'"
+                    [parentForm]="ammBuchungForm"
+                    controlName="anzahlKurstage"
+                    selectLabel="{{ 'amm.massnahmen.label.anzahlkurstage' | translate }}"
+                >
+                </avam-label-input>
+
+                <avam-label-input
+                    [hidden]="!isKursKolektiv"
+                    [isDisabled]="true"
+                    [inputClass]="'col-lg-2 col-md-2'"
+                    [parentForm]="ammBuchungForm"
+                    controlName="anzahlLektionen"
+                    selectLabel="{{ 'amm.massnahmen.label.anzahllektionen' | translate }}"
+                >
+                </avam-label-input>
+
+                <avam-select-week-availability
+                    [hidden]="isKursIndivImAngebot"
+                    [parentForm]="ammBuchungForm"
+                    vormittagsControlName="vormittags"
+                    nachmittagsControlName="nachmittags"
+                    [dropdownOptions]="verfuegbarkeitOptions"
+                    [clearCheckboxes]="clearCheckboxes"
+                    verfuegbarkeitControl="verfuegbarkeit"
+                    [isDisabled]="true"
+                    selectLabel="{{ 'amm.massnahmen.label.verfuegbarkeit' }}"
+                ></avam-select-week-availability>
+
+                <app-textarea
+                    [hidden]="!isKursKolektiv"
+                    id="kurszeiten"
+                    selectLabel="amm.massnahmen.label.kurszeiten"
+                    customFormControlState
+                    formControlName="kurszeiten"
+                    [readonly]="true"
+                    [maxLength]="255"
+                ></app-textarea>
+
+                <app-textarea
+                    [hidden]="isKursKolektiv || isKursIndivImAngebot"
+                    id="arbeitszeiten"
+                    selectLabel="{{ 'amm.massnahmen.label.arbeitszeiten' | translate }}"
+                    customFormControlState
+                    formControlName="arbeitszeiten"
+                    [readonly]="true"
+                    [maxLength]="255"
+                ></app-textarea>
+
+                <avam-label-dropdown
+                    [hidden]="!isKursKolektiv"
+                    [isDisabled]="true"
+                    [parentForm]="ammBuchungForm"
+                    controlName="durchfuehrungskriterium"
+                    selectLabel="{{ 'amm.nutzung.label.durchfuehrungskriterium' }}"
+                    id="durchfuehrungskriterium"
+                    [options]="durchfuehrungskriteriumOptions"
+                ></avam-label-dropdown>
+
+                <avam-label-input
+                    [hidden]="isKursKolektiv || isKursIndivImAngebot"
+                    selectLabel="{{ 'amm.massnahmen.label.sozialeabfederung' | translate }}"
+                    [parentForm]="ammBuchungForm"
+                    controlName="sozialeabfederung"
+                    [readOnly]="true"
+                ></avam-label-input>
+
+                <hr />
+
+                <avam-label-checkbox
+                    [hidden]="isKursIndivImAngebot"
+                    [isDisabled]="true"
+                    componentId="vorstellungsgespraech"
+                    inputClass="mr-0"
+                    [parentForm]="ammBuchungForm"
+                    controlName="vorstellungsgespraech"
+                    selectLabel="{{ 'amm.massnahmen.label.vorstellungsgespraechTest' }}"
+                ></avam-label-checkbox>
+
+                <avam-label-checkbox
+                    [hidden]="!isKursIndivImAngebot"
+                    [isDisabled]="true"
+                    componentId="zustimmunglam"
+                    inputClass="mr-0"
+                    [parentForm]="ammBuchungForm"
+                    controlName="zustimmungLam"
+                    selectLabel="{{ 'amm.abrechnungen.label.kurseDurchLam' }}"
+                ></avam-label-checkbox>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+            <div class="avam-panel" id="nr-and-dms">
+                <div class="col-lg-4 col-md-4 text-right d-inline-block">
+                    <label id="buchungNrparagraphLable">{{ buchungNrLabel | translate }}</label>
+                </div>
+                <div class="col-lg-1 col-md-1 d-inline-block">
+                    <p id="buchungNrparagraph">
+                        {{ ammBuchungForm.controls.buchungNr.value }}
+                    </p>
+                </div>
+                <div class="col-lg-7 col-md-7 d-inline-block">
+                    <button type="button" class="btn btn-secondary ml-1" (click)="onDMSClick()">{{ 'dokmanager.label.dms' | translate }}</button>
+                </div>
+            </div>
+
+            <div class="avam-panel" id="anbieter">
+                <avam-unternehmen-autosuggest
+                    id="anbieter"
+                    controlName="anbieter"
+                    isAvamOnly="true"
+                    [parentForm]="ammBuchungForm"
+                    [readOnly]="true"
+                    componentLabel="{{ anbieterLabel | translate }}"
+                ></avam-unternehmen-autosuggest>
+            </div>
+
+            <div class="avam-panel" id="verantwortung">
+                <avam-personalberater-autosuggest
+                    [isDisabled]="true"
+                    [parentForm]="ammBuchungForm"
+                    controlName="verantwortung"
+                    placeholder="{{ 'amm.massnahmen.label.benutzer' | translate }}"
+                    componentLabel="{{ 'amm.massnahmen.label.massnahmenverantwortung' }}"
+                    [type]="personalberaterAutosuggestType"
+                ></avam-personalberater-autosuggest>
+            </div>
+
+            <div [hidden]="!(isKursKolektiv || isKursIndivImAngebot)" class="avam-panel" id="plaetze">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.belegtePlaetze' | translate }}</h3>
+                </label>
+                <!-- teilnehmer -->
+                <div class="form-group row" orFormControlState>
+                    <div class="col-sm-1"></div>
+                    <label for="teilnehmer" class="col-sm-3 col-form-label">{{ 'amm.massnahmen.label.teilnehmer' | translate }}</label>
+                    <div class="col-sm-2">
+                        <input id="teilnehmer" formControlName="teilnehmer" [readonly]="true" type="text" class="form-control" size="3" />
+                    </div>
+                    <label for="teilnehmerMax" class="col-sm-1 col-form-label">{{ 'amm.massnahmen.label.von' | translate }}</label>
+                    <div class="col-sm-2">
+                        <input id="teilnehmerMax" formControlName="teilnehmerMax" [readonly]="true" type="text" class="form-control" size="3" />
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                <!-- ueberbuchung -->
+                <div [hidden]="isKursIndivImAngebot" class="form-group row" orFormControlState>
+                    <div class="col-sm-1"></div>
+                    <label for="ueberbuchung" class="col-sm-3 col-form-label">{{ 'amm.massnahmen.label.ueberbuchung' | translate }}</label>
+                    <div class="col-sm-2">
+                        <input id="ueberbuchung" formControlName="ueberbuchung" [readonly]="true" type="text" class="form-control" size="3" />
+                    </div>
+                    <label for="ueberbuchungMax" class="col-sm-1 col-form-label">{{ 'amm.massnahmen.label.von' | translate }}</label>
+                    <div class="col-sm-2">
+                        <input id="ueberbuchungMax" formControlName="ueberbuchungMax" [readonly]="true" type="text" class="form-control" size="3" />
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+                <!-- wartelisteplaetze -->
+                <div [hidden]="isKursIndivImAngebot" class="form-group row" orFormControlState>
+                    <div class="col-sm-1"></div>
+                    <label for="wartelisteplaetze" class="col-sm-3 col-form-label">{{ 'amm.massnahmen.label.wartelisteplaetze' | translate }}</label>
+                    <div class="col-sm-2">
+                        <input id="wartelisteplaetze" formControlName="wartelisteplaetze" [readonly]="true" type="text" class="form-control" size="3" />
+                    </div>
+                    <label for="wartelisteplaetzeMax" class="col-sm-1 col-form-label">{{ 'amm.massnahmen.label.von' | translate }}</label>
+                    <div class="col-sm-2">
+                        <input id="wartelisteplaetzeMax" formControlName="wartelisteplaetzeMax" [readonly]="true" type="text" class="form-control" size="3" />
+                    </div>
+                    <div class="col-sm-3"></div>
+                </div>
+            </div>
+
+            <div [hidden]="isKursKolektiv || isKursIndivImAngebot" class="avam-panel" id="beschaeftignungsgrad">
+                <avam-input-slider
+                    id="beschaeftigungsgradMax"
+                    [parentForm]="ammBuchungForm"
+                    controlName="beschaeftigungsgradMax"
+                    [showTwoLines]="true"
+                    selectLabel="amm.nutzung.label.beschaeftigungsgrad"
+                    [isDisabled]="true"
+                    prependLabel="amm.nutzung.label.max"
+                    ><span>%</span>
+                </avam-input-slider>
+            </div>
+        </div>
+    </div>
+</form>

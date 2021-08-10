@@ -1,0 +1,5 @@
+<div class="sticky-footer" [ngClass]="{ 'full-width': navCollapsed }">
+    <div class="sticky-actions" [ngStyle]="{ width: customWidth ? customWidth : 'auto' }">
+        <ng-container *ngTemplateOutlet="buttonsTemplate"></ng-container>
+    </div>
+</div>

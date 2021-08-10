@@ -1,0 +1,17 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" [maxHeight]="300">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <div class="header-container">
+                <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    <sort-icon [column]="column.columnDef"></sort-icon>
+                    {{ column.header | translate }}
+                </span>
+            </div>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <span [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                {{ column.cell(row) | translate }}
+            </span>
+        </td>
+    </ng-container>
+</avam-generic-table>

@@ -1,0 +1,9 @@
+<span
+    class="badge badge-pill"
+    [ngClass]="{
+        'mb-5': isInfoleiste,
+        'badge-danger': (!isJobMeldung && allResults === 0) || (isJobMeldung && allResults),
+        'badge-primary': (!isJobMeldung && allResults > 0) || (isJobMeldung && allResults === 0)
+    }"
+    >{{ allResults === 501 ? '500+' : allResults === 301 ? '300+' : allResults }}</span
+>

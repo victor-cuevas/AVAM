@@ -1,0 +1,67 @@
+<or-column-layout class="h-100 stellenmeldepflicht-berufe" [right]="false">
+    <div column-left-content class="full-size">
+        <div class="avam-panel-extra-lighter full-size"></div>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <hr class="nm-t-6" />
+        <avam-alert></avam-alert>
+        <div class="row print-block has-overlay">
+            <div class="avam-panel w-100 ml-3 mr-3 mb-3" [formGroup]="searchForm">
+                <div class="col-xl-12 col-md-12 col-xs-12 d-flex w-100">
+                    <div class="col-xl-3 col-md-3 col-xs-6">
+                        <avam-label-checkbox
+                            [parentForm]="searchForm"
+                            inputClass="pl-0"
+                            controlName="gesamtschweizerisch"
+                            componentId="gesamtschweizerisch"
+                            (onChange)="gesamtschweizerischChanged($event)"
+                            selectLabel="{{ 'arbeitgeber.oste.label.meldepflichtGesamtschweizerisch' | translate }}"
+                        ></avam-label-checkbox>
+                    </div>
+                    <div class="col-xl-3 col-md-3 col-xs-6">
+                        <avam-label-checkbox
+                            [parentForm]="searchForm"
+                            inputClass="pl-0"
+                            (onChange)="kantonalChanged($event)"
+                            controlName="kantonal"
+                            componentId="kantonal"
+                            selectLabel="{{ 'arbeitgeber.oste.label.meldepflichtKantonalListe' | translate }}"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+                <div class="col-xl-12 col-md-12 col-xs-12 d-flex w-100">
+                    <div class="col-xl-3 col-md-3 col-xs-6"></div>
+                    <div class="col-xl-3 col-md-3 col-xs-6">
+                        <avam-label-dropdown
+                            [parentForm]="searchForm"
+                            controlName="kantonalDropdown"
+                            id="kantonalDropdown"
+                            [options]="kantoneOptions"
+                            inputClass="pl-3 w-100"
+                            placeholder="{{ 'common.label.keineauswahl' | translate }}"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="col-xl-3 col-md-3 col-xs-6">
+                        <div class="input-group-append d-block">
+                            <button class="btn btn-secondary rounded-1" type="button" (click)="updateData()">
+                                <span class="fa fa-refresh"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <avam-common-wrapper-table
+            [dataSource]="tableConfig.data"
+            [columns]="tableConfig.columns"
+            [config]="tableConfig.config"
+            stateKey="stellenmeldepflichtige-berufe-table"
+        ></avam-common-wrapper-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="tableConfig.columns" [config]="tableConfig.config"></avam-common-wrapper-table>
+</ng-template>

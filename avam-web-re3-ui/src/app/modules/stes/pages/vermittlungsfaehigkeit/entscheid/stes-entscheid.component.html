@@ -1,0 +1,168 @@
+<div>
+    <or-spinner channel="entscheidFormChannel"></or-spinner>
+    <avam-sachverhalt-form [isBearbeiten]="true" [stesId]="stesId" [sachverhaltId]="sachverhaltId" [isDisabled]="true" #sachverhaltForm> </avam-sachverhalt-form>
+    <hr />
+    <form #ngForm="ngForm" autocomplete="off">
+        <div class="print-block row" [formGroup]="entscheidForm">
+            <div class="rechts col-xl-6">
+                <div class="avam-panel">
+                    <label>
+                        <h3>{{ 'common.label.entscheid' | translate }}</h3>
+                    </label>
+                    <avam-label-checkbox
+                        controlName="vermittlungsfaehig"
+                        componentId="vermittlungsfaehig"
+                        selectLabel="{{ 'stes.label.vermittlungsfaehig' | translate }}"
+                        [parentForm]="entscheidForm"
+                        (onChange)="updateVermittlungsgrad($event)"
+                    >
+                    </avam-label-checkbox>
+
+                    <div class="form-group row" orFormControlState>
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label for="sliderValue">{{ 'stes.label.vermittlungsgrad' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <div class="row" style="align-items: center">
+                                <div class="d-flex align-items-baseline col-lg-4 col-md-3" orFormControlState>
+                                    <input id="sliderValue" class="form-control" style="width: 75px" formControlName="vermittlungsgrad" (blur)="onBlurSliderValue($event.target)" />
+                                    <p class="ml-1 mb-1">%</p>
+                                </div>
+                                <div class="col-lg-7 col-md-8">
+                                    <core-slider formControlName="vermittlungsgrad" (onChangeSlide)="onChangeSlider($event.target)"></core-slider>
+                                </div>
+                            </div>
+                            <or-error-messages></or-error-messages>
+                        </div>
+                    </div>
+
+                    <avam-date-range-picker
+                        id="zeitraum"
+                        label="{{ 'stes.label.vermittlungsfaehigvon' }}"
+                        formControlNameFrom="vermittlungsfaehigVon"
+                        formControlNameTo="vermittlungsfaehigBis"
+                        class="form-group"
+                        [isResponsive]="true"
+                        [hasVerticalLayout]="false"
+                        [labelClass]="'col-lg-4 col-md-4'"
+                        [wrapperClass]="'col-lg-8 col-md-8'"
+                        [parentForm]="entscheidForm"
+                    ></avam-date-range-picker>
+                    <avam-label-dropdown
+                        id="statusCode"
+                        controlName="statusCode"
+                        selectLabel="{{ 'stes.label.status' }}"
+                        [parentForm]="entscheidForm"
+                        [options]="statusOptions"
+                        [readOnly]="!isBearbeiten"
+                    ></avam-label-dropdown>
+                    <br />
+                    <avam-label-input
+                        id="entscheidNr"
+                        controlName="entscheidNr"
+                        selectLabel="{{ 'stes.label.entscheidNr' }}"
+                        [parentForm]="entscheidForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                    <avam-label-input
+                        id="entscheidDatum"
+                        controlName="entscheidDatum"
+                        selectLabel="{{ 'stes.label.entscheidDatum' }}"
+                        [parentForm]="entscheidForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                    <avam-label-input
+                        id="alkTransferDate"
+                        controlName="alkTransferDate"
+                        selectLabel="{{ 'stes.label.transferanalk' }}"
+                        [parentForm]="entscheidForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                    <avam-label-input
+                        id="ersetztEntscheidNr"
+                        controlName="ersetztEntscheidNr"
+                        selectLabel="{{ 'stes.label.ersetztEntscheidNr' }}"
+                        [parentForm]="entscheidForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                </div>
+            </div>
+
+            <div class="links col-xl-6">
+                <div class="avam-panel">
+                    <avam-personalberater-autosuggest
+                        #freigabeDurch
+                        id="freigabeDurch"
+                        [parentForm]="entscheidForm"
+                        controlName="freigabeDurch"
+                        [isDisabled]="entscheidForm.disabled"
+                        (onInput)="updateFreigabeDurch($event)"
+                        (onSelect)="updateFreigabeDurch($event)"
+                        componentLabel="{{ 'stes.label.freigabedurch' | translate }}"
+                        [benutzerSuchenTokens]="benutzerSuchenTokensfreigabeDurch"
+                        [type]="personalberaterAutosuggestType"
+                    ></avam-personalberater-autosuggest>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<ng-template #footerButtons>
+    <button type="button" class="btn btn-link" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button *ngIf="!isBearbeiten || BSP23" type="button" class="btn btn-link" (click)="reset()" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        type="button"
+        class="btn btn-secondary ml-1"
+        (click)="updateEntscheid('ueberarbeitenVmfEntscheid')"
+        *ngIf="isBearbeiten && BSP24"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'common.button.ueberarbeiten' | translate }}
+    </button>
+    <button
+        type="button"
+        class="btn btn-secondary ml-1"
+        (click)="updateEntscheid('zuruecknehmenVmfEntscheid')"
+        *ngIf="isBearbeiten && BSP24"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'common.button.zuruecknehmen' | translate }}
+    </button>
+    <button
+        type="button"
+        class="btn btn-secondary ml-1"
+        (click)="openDeleteDialog()"
+        *ngIf="isBearbeiten && BSP23"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'stes.vermittlungsfaehigkeit.button.entscheid.loeschen' | translate }}
+    </button>
+    <button
+        type="button"
+        class="btn btn-primary ml-1"
+        (click)="updateEntscheid('ersetzenVmfEntscheid')"
+        *ngIf="isBearbeiten && BSP25"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'common.button.ersetzen' | translate }}
+    </button>
+    <button
+        type="button"
+        class="btn btn-primary ml-1"
+        (click)="updateEntscheid('freigebenVmfEntscheid')"
+        *ngIf="isBearbeiten && BSP24"
+        [permissionContext]="[permissions.STES_VMF_ENTSCHEID_FREIGEBEN_UEBERARBEITEN]"
+    >
+        {{ 'common.button.freigeben' | translate }}
+    </button>
+    <button type="button" class="btn btn-primary ml-1" (click)="save()" *ngIf="!isBearbeiten || BSP23" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

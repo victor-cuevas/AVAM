@@ -1,0 +1,31 @@
+<avam-amm-infopanel [hidden]="!contentService.getVisibility()"></avam-amm-infopanel>
+<avam-alert [hidden]="!contentService.getVisibility() || !contentService.getAlertVisibility()"></avam-alert>
+<!--TODO #outlet="outlet" (activate)="onOutletActivate(outlet)" (deactivate)="onOutletDeactivate()"-->
+<router-outlet> </router-outlet>
+<ng-template #panelTemplate>
+    <ng-container *ngIf="contentService.unternehmen">
+        <div class="item">
+            <span>{{ contentService.getStrasseInfo(contentService.unternehmen) }}</span>
+        </div>
+        <div class="item" *ngIf="contentService.unternehmen.postfachPlzObject || contentService.isPostfachEmpty() || contentService.isPlzAusland(contentService.unternehmen)">
+            <strong>{{ 'arbeitgeber.oste.label.postfach' | translate }}</strong>
+            <span> {{ contentService.getPostfachInfo(contentService.unternehmen) }}</span>
+        </div>
+        <div class="item">
+            <strong>{{ 'unternehmen.label.burnummer' | translate }}</strong>
+            <span> {{ contentService.getBurnummerInfo(contentService.unternehmen) }}</span>
+        </div>
+        <div class="item">
+            <strong>{{ 'unternehmen.label.burstatus' | translate }}</strong>
+            <span> {{ contentService.unternehmen.statusObject | dbTranslate: 'text' }}</span>
+        </div>
+        <div class="item" *ngIf="contentService.getOsteHeaderData()?.stellenNr">
+            <strong>{{ 'arbeitgeber.label.stellennr' | translate }}</strong>
+            <span> {{ contentService.getOsteHeaderData()?.stellenNr }}</span>
+        </div>
+        <div class="item" *ngIf="contentService.getOsteHeaderData()?.jobRoomNr">
+            <strong>{{ 'arbeitgeber.oste.label.jobroomnr' | translate }}</strong>
+            <span> {{ contentService.getOsteHeaderData()?.jobRoomNr }}</span>
+        </div>
+    </ng-container>
+</ng-template>

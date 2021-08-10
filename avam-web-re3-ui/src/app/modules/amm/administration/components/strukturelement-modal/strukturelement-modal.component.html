@@ -1,0 +1,46 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title mt-2 ml-1">
+            <span>{{ headerLabelKey | translate }}</span>
+        </h3>
+        <div class="mr-3 mb-2">
+            <app-toolbox [configuration]="toolboxConfiguration" [formNumber]="formNumber"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <avam-amm-infopanel [hasTitle]="false"></avam-amm-infopanel>
+        <avam-strukturelement-form #strukturelementForm [strukturelementData]="strukturelementData"></avam-strukturelement-form>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <div>
+            <button class="btn btn-link" type="button" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+            <button *ngIf="strukturelementData?.formMode !== formModes.READONLY" class="btn btn-link ml-1" type="button" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+            <button
+                avamDisableOnSpinner
+                *ngIf="strukturelementData?.formMode === formModes.EDIT && !strukturelementData.strukturelement.gesetz"
+                class="btn btn-secondary"
+                type="button"
+                (click)="openDeleteDialog()"
+            >
+                {{ 'common.button.loeschen' | translate }}
+            </button>
+            <button avamDisableOnSpinner *ngIf="strukturelementData?.formMode !== formModes.READONLY" class="btn btn-primary ml-1" type="button" (click)="save()">
+                {{ 'i18n.common.save' | translate }}
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b> {{ 'amm.administration.topnavmenuitem.massnahmenart' | translate }} </b>
+            <span> {{ strukturelementData?.selectedCategory | dbTranslate: 'beschreibung' }} </span>
+        </div>
+    </ng-container>
+</ng-template>

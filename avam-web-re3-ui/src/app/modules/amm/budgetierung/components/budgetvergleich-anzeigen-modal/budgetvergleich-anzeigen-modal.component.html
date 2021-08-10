@@ -1,0 +1,32 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title mt-2 ml-1">
+            <span>{{ 'amm.budgetierung.label.budgetvergleich' | translate }}</span>
+        </h3>
+        <div class="mr-3 mb-2">
+            <app-toolbox [configuration]="toolboxConfiguration" [formNumber]="formNumber" [id]="channel"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-spinner [channel]="channel"> </or-spinner>
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <div class="avam-panel">
+            <p class="mb-0">{{ 'amm.budgetierung.label.kopieerstelltausjahr' | translate }} {{ listeKopieParam?.jahrQuelle }}</p>
+        </div>
+        <div class="avam-panel">
+            <p class="mb-0">{{ 'amm.budgetierung.label.nichtkopiertewerte' | translate }}</p>
+        </div>
+        <avam-listekopie-table [dataSource]="nichtKopierteElemente" [displayBudgetwerte]="true"></avam-listekopie-table>
+        <div class="avam-panel">
+            <p class="mb-0">{{ 'amm.budgetierung.label.kopieerstelltfuerjahr' | translate }} {{ listeKopieParam?.jahrZiel }}</p>
+        </div>
+        <div class="avam-panel">
+            <p class="mb-0">{{ 'amm.budgetierung.label.nichtbelegtewerte' | translate }}</p>
+        </div>
+        <avam-listekopie-table [dataSource]="nichtBelegteElemente"></avam-listekopie-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button class="btn btn-link" type="button" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

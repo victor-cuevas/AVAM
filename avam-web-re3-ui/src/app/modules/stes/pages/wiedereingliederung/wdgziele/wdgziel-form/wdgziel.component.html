@@ -1,0 +1,67 @@
+<form [formGroup]="wdgZielForm" #ngForm="ngForm" closeBrowserTab [form]="wdgZielForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="wdgZielChannel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.wdg.label.wdgziel' | translate }}</h3>
+                </label>
+                <avam-label-input avamAutofocus controlName="ziel" id="ziel" selectLabel="stes.label.wiedereingliederung.ziel" [parentForm]="wdgZielForm"></avam-label-input>
+                <app-textarea customFormControlState id="bemerkung" formControlName="bemerkung" selectLabel="{{ 'stes.label.bemerkungen' }}" [maxLength]="255"> </app-textarea>
+                <avam-label-calendar
+                    controlName="erfassungsDatum"
+                    [parentForm]="wdgZielForm"
+                    id="erfassungsDatum"
+                    calendarLabel="{{ 'common.label.erfassungsdatum' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="fristBis"
+                    [parentForm]="wdgZielForm"
+                    id="fristBis"
+                    calendarLabel="{{ 'stes.label.wiedereingliederung.fristBis' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-label-checkbox controlName="isErreicht" componentId="isErreicht" selectLabel="{{ 'stes.wdg.label.erreicht' | translate }}" [parentForm]="wdgZielForm">
+                </avam-label-checkbox>
+                <avam-dropdown-array
+                    selectedLabel="{{ 'stes.wdg.label.beurteilungskriterium' }}"
+                    [parentForm]="wdgZielForm"
+                    formArray="beurteilungsKriterium"
+                    [dropDownOptions]="beurteilungsKriteriumOptions"
+                    [idPrefix]="'beurteilungsKriterium'"
+                ></avam-dropdown-array>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    #benutzerAusVollzugsregion
+                    [parentForm]="wdgZielForm"
+                    controlName="bearbeitung"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    componentLabel="{{ 'stes.label.bearbeitung' }}"
+                    [benutzerSuchenTokens]="benutzerSuchenTokens"
+                    [type]="benutzerAutosuggestType"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="zielId" class="btn btn-secondary ml-1" type="button" (click)="openDeleteDialog()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.wiedereingliederungszielloeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

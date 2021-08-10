@@ -1,0 +1,84 @@
+<div id="participation-places" *ngIf="_dataSource">
+    <div class="panel">
+        <div *ngIf="_dataSource.plaetze[0].isExpanded" class="parent"></div>
+        <ng-container *ngFor="let buchungen of _dataSource.plaetze[0].buchungen; let i = index">
+            <div [ngStyle]="{ top: buchungen.panelPos + 'px' }" class="child" *ngIf="buchungen.isVisible" [ngClass]="{ 'last-child': buchungen.lastChild }"></div>
+        </ng-container>
+    </div>
+    <table class="table table-hover table-responsive table-bordered d-sm-table">
+        <thead>
+            <tr>
+                <th class="month-header" style="width: 250px">{{ beginDate }}</th>
+                <th *ngFor="let week of calendar" [attr.colspan]="week.range">
+                    <div class="header-container">
+                        <span
+                            ngbTooltip="{{ week.startDate.format('DD.MM') }} - {{ week.endDate.format('DD.MM') }} ({{ 'amm.nutzung.label.kalenderwoche' | translate }}
+                            {{ week.startDate.week() }})"
+                            triggers="manual"
+                            #t="ngbTooltip"
+                            [avamParticipationTooltip]="t"
+                        >
+                            {{ week.startDate.format('DD.MM') }} - {{ week.endDate.format('DD.MM') }} ({{ 'amm.nutzung.label.kalenderwoche' | translate }}
+                            {{ week.startDate.week() }})
+                        </span>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td class="align-cell" *ngFor="let day of weekDays">
+                    <span>{{ day }}</span>
+                </td>
+            </tr>
+            <tr>
+                <td class="parent-element" rowspan="2">
+                    <div class="row-wrapper">
+                        <i
+                            *ngIf="_dataSource.plaetze[0].buchungen.length > 0"
+                            [ngClass]="_dataSource.plaetze[0].isExpanded ? 'fa-minus-square' : 'fa-plus-square'"
+                            class="far"
+                            (click)="toggleTree()"
+                        ></i>
+                        <span
+                            ngbTooltip=" {{ _dataSource.plaetze[0].bezeichnung }} {{ _dataSource.plaetze[0].buchungsKapazitaet }} {{ 'amm.nutzung.label.plaetze' | translate }},
+                        {{ _dataSource.plaetze[0].ueberbuchungMax }} {{ 'amm.nutzung.label.ueberbuchung' | translate }}"
+                            triggers="manual"
+                            #t="ngbTooltip"
+                            [avamParticipationTooltip]="t"
+                        >
+                            {{ _dataSource.plaetze[0].bezeichnung }} {{ _dataSource.plaetze[0].buchungsKapazitaet }} {{ 'amm.nutzung.label.plaetze' | translate }},
+                            {{ _dataSource.plaetze[0].ueberbuchungMax }} {{ 'amm.nutzung.label.ueberbuchung' | translate }}
+                        </span>
+                    </div>
+                </td>
+                <td *ngFor="let p of _dataSource.plaetze[0].parentStatus.statusOfBookingsAM" [ngStyle]="{ background: status[p] }"></td>
+            </tr>
+            <tr>
+                <td *ngFor="let p of _dataSource.plaetze[0].parentStatus.statusOfBookingsPM" [ngStyle]="{ background: status[p] }"></td>
+            </tr>
+            <ng-container *ngFor="let buchungen of _dataSource.plaetze[0].buchungen">
+                <ng-container *ngIf="buchungen.isVisible">
+                    <tr>
+                        <td style="padding-left: 55px;" rowspan="2">
+                            <div class="row-wrapper">
+                                <span ngbTooltip=" {{ buchungen.bezeichnung }}" triggers="manual" #t="ngbTooltip" [avamParticipationTooltip]="t" class="child">
+                                    {{ buchungen.bezeichnung }}
+                                </span>
+                            </div>
+                        </td>
+                        <ng-container *ngFor="let am of buchungen.status.bookingAM">
+                            <td [ngStyle]="{ background: status[am] }"></td>
+                        </ng-container>
+                    </tr>
+                    <tr>
+                        <ng-container *ngFor="let pm of buchungen.status.bookingPM">
+                            <td [ngStyle]="{ background: status[pm] }"></td>
+                        </ng-container>
+                    </tr>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </table>
+</div>

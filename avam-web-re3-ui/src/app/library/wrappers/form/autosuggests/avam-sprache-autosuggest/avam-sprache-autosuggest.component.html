@@ -1,0 +1,62 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="form-group row">
+    <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8'" class="d-flex">
+        <div class="d-flex flex-column w-100" orFormControlState>
+            <div class="d-flex">
+                <div class="input-group" [hidden]="isReadOnly">
+                    <core-autosuggest
+                        arrow-scrolling
+                        #inputElement
+                        dynamicControlName
+                        [formControlName]="controlName"
+                        [placeholder]="placeholder | translate"
+                        [inputFormatter]="inputFormatter"
+                        [template]="rt"
+                        [searchFunction]="searchSprache"
+                        [disableControl]="isDisabled"
+                        [scrollIntoView]="scrollIntoView"
+                        [container]="container"
+                        ngbTooltip="{{ tooltip | translate }}"
+                        triggers="{{ tooltip ? 'hover' : 'click' }}"
+                        style="width: inherit;"
+                        (onInput)="input($event)"
+                        (onChange)="change($event)"
+                        (onKeyup)="keyup($event)"
+                        (onBlur)="blur($event)"
+                        (onSelect)="select($event)"
+                    >
+                    </core-autosuggest>
+                </div>
+                <div *ngIf="isReadOnly">
+                    <p class="mb-2">
+                        {{ inputValue }}
+                    </p>
+                </div>
+                <div class="openModalBtn 'd-none'">
+                    <button type="button" [hidden]="isReadOnly" class="btn btn-secondary rounded-0 btn-height" (click)="openModal()">
+                        <span class="fa fa-clone fa-fw"></span>
+                    </button>
+                </div>
+            </div>
+            <or-error-messages></or-error-messages>
+        </div>
+    </div>
+</div>
+<ng-template #rt let-r="result" let-t="term">
+    <div class="row flex-nowrap" avamAlignPopupTemplateAndInput>
+        <div class="d-inline-block pl-1 pr-1">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.value" [term]="t"></ngb-highlight>
+        </div>
+    </div>
+</ng-template>
+<ng-template #modal>
+    <avam-sprache-modal
+        [dataSource]="alleSprachen"
+        (onCloseSpracheModal)="closeModal()"
+        (onSelectRow)="selectRow($event)"
+        [modalToolboxId]="modalToolboxId"
+        [selectedItem]="selectedItem"
+    ></avam-sprache-modal>
+</ng-template>

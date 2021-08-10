@@ -1,0 +1,27 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <avam-vertragswert-suchen-form (onEnter)="search()" [data]="data" #suchenFormComponent></avam-vertragswert-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button avamDisableOnSpinner type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button avamDisableOnSpinner type="submit" class="btn btn-primary" (click)="search()">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <avam-vertragswert-suchen-table #tableComponent (onItemSelected)="onItemSelected($event)" [dataSource]="dataSource"></avam-vertragswert-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-vertragswert-suchen-table *ngIf="dataSource" [dataSource]="dataSource"></avam-vertragswert-suchen-table>
+</ng-template>

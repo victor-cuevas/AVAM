@@ -1,0 +1,66 @@
+<avam-vertragswert-erfassen-tree-table
+    #treeTable
+    [dataSource]="tableData"
+    (itemSelected)="itemSelected($event)"
+    [tableOptions]="tableOptions"
+></avam-vertragswert-erfassen-tree-table>
+
+<ng-template #modalPrint>
+    <avam-vertragswert-erfassen-tree-table [dataSource]="tableData" [tableOptions]="tableOptionsForPrinting"></avam-vertragswert-erfassen-tree-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <div class="left flex-shrink-1 flex-grow-1 text-left">
+        <div class="row">
+            <div class="text-control col">
+                <div class="form-check form-check-inline checkbox-item__label-text">
+                    <input
+                        id="planwertUebernehmenCheckbox"
+                        type="checkbox"
+                        class="form-check-input"
+                        (change)="onPlanwertUebernehmenChange($event.target.checked)"
+                        [checked]="isPlanwertUebernehmenChecked"
+                        [disabled]="disablePlanwertUebernehmenCheckbox"
+                    />
+                    <label class="form-check-label form-check-label-padding-left font-weight-600" for="planwertUebernehmenCheckbox">
+                        {{ 'amm.akquisition.label.planwertuebernehmen' | translate }}</label
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="moveToStep()">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons" customWidth="100%"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ strasseInfo }}</span>
+    </div>
+    <div class="item" *ngIf="unternehmenDTO?.postfachPlzObject">
+        <strong>{{ 'arbeitgeber.oste.label.postfach' | translate }}</strong>
+        <span> {{ postfachInfo }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'unternehmen.label.burnummer' | translate }}</strong>
+        <span> {{ burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'unternehmen.label.burstatus' | translate }}</strong>
+        <span> {{ unternehmenDTO?.statusObject | dbTranslate: 'text' }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.leistungsvereinbarungnr' | translate }}</strong>
+        <span>{{ wizardService.leistungsvereinbarungDTO?.leistungsvereinbarungNr }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'common.label.status' | translate }}</strong>
+        <span> {{ wizardService.leistungsvereinbarungDTO?.statusObject | dbTranslate: 'text' }}</span>
+    </div>
+</ng-template>

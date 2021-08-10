@@ -1,0 +1,34 @@
+<div class="scrollable-modal-body mh-100">
+    <or-spinner [channel]="berufsdatenChannel"></or-spinner>
+    <avam-berufe-table #berufsdatenAnzeigenTable (dbClick)="onClick($event)"></avam-berufe-table>
+</div>
+<ng-template #modalPrint>
+    <avam-berufe-table *ngIf="berufsdatenAnzeigenTable.data" [data]="berufsdatenAnzeigenTable.data"> </avam-berufe-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button *ngIf="isAnmeldung" class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung" class="btn btn-secondary ml-1" type="button" (click)="prev()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung" class="btn btn-secondary ml-1" type="button" (click)="showSaveMessage()">
+        {{ 'common.button.zwischenspeichern' | translate }}
+    </button>
+    <button
+        [ngClass]="isAnmeldung ? 'btn-secondary' : 'btn-primary'"
+        class="btn ml-1"
+        type="button"
+        (click)="beruferfassen()"
+        [permissions]="!isAnmeldung ? [permissions.STES_ANMELDEN_BEARBEITEN] : null"
+    >
+        <span class="fa fa-plus mr-1"></span>
+        {{ 'common.button.berufErfassen' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung" class="btn btn-primary ml-1" type="button" (click)="next()">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

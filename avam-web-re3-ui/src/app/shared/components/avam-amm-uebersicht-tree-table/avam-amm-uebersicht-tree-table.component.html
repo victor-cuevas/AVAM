@@ -1,0 +1,7 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-basic-tree-table [tree]="treeArray" [options]="treeOptions" (onDoubleClick)="onClick($event)" (onEnter)="onClick($event)"></avam-basic-tree-table>
+</div>
+<ng-template #actionColumnTemplate let-element="element">
+    <button class="fa fa-eye btn btn-primary btn-sm buttonOnHover" type="button" (click)="onClick(element)" ngbTooltip="{{ 'common.button.oeffnen' | translate }}"></button>
+</ng-template>

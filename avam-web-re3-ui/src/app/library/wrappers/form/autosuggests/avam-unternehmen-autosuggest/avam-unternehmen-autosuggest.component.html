@@ -1,0 +1,210 @@
+<div [formGroup]="parentForm" #ngForm="ngForm">
+    <div [hidden]="simpleInput" class="form-group row">
+        <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right">
+            <label class="col-form-label">{{ componentLabel | translate }}</label>
+        </div>
+        <div
+            [ngClass]="componentLabel == null ? inputClass || 'col-lg-12 col-md-12' : inputClass || 'col-lg-8 col-md-8'"
+            class="{{ inputClass ? inputClass : 'col-lg-8 col-md-8' }} d-flex"
+        >
+            <div class="input-group" orFormControlState>
+                <core-autosuggest
+                    arrow-scrolling
+                    #inputElement
+                    dynamicControlName
+                    [formControlName]="controlName"
+                    [placeholder]="placeholder | translate"
+                    [inputFormatter]="inputFormatter"
+                    style="width: inherit;"
+                    [infoIconTemplate]="isSelectedItem ? unternehmenInfoTemplate : ''"
+                    [showInfoIcon]="true"
+                    (onInput)="input($event)"
+                    (onChange)="change($event)"
+                    (onKeyup)="keyup($event)"
+                    (onBlur)="blur($event)"
+                    (onSelect)="select($event)"
+                    (onClear)="clear()"
+                    [coreReadOnly]="true"
+                    [coreReadOnlyClearButton]="!isReadOnly"
+                    [scrollIntoView]="scrollIntoView"
+                    [container]="container"
+                >
+                </core-autosuggest>
+                <or-error-messages></or-error-messages>
+            </div>
+
+            <div class="'d-none'">
+                <button type="button" class="btn btn-secondary rounded-0" [disabled]="isReadOnly" (click)="openSuchePlus()" [ngbTooltip]="ngTooltip">
+                    <span class="fa fa-search-plus fa-fw"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="simpleInput" class="form-group row">
+        <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right">
+            <label class="col-form-label">{{ componentLabel | translate }}</label>
+        </div>
+        <div
+            [ngClass]="componentLabel == null ? inputClass || 'col-lg-12 col-md-12' : inputClass || 'col-lg-8 col-md-8'"
+            class="{{ inputClass ? inputClass : 'col-lg-8 col-md-8' }} d-flex"
+        >
+            <div class="input-group input-group-hover {{ isReadOnly ? '' : 'interactive' }}" orFormControlState>
+                <core-input
+                    #inputElement
+                    dynamicControlName
+                    (onInput)="input($event)"
+                    (onChange)="change($event)"
+                    (onBlur)="blur($event)"
+                    (onClear)="clear()"
+                    style="width: inherit;"
+                    [placeholder]="placeholder | translate"
+                    [formControlName]="controlName"
+                    [coreReadOnly]="isReadOnly"
+                ></core-input>
+                <avam-info-icon-btn [infoIconTemplate]="infoIconDetails ? unternehmenInfoTemplate : ''"></avam-info-icon-btn>
+                <or-error-messages></or-error-messages>
+            </div>
+            <div class="'d-none'">
+                <button type="button" class="btn btn-secondary rounded-0" [disabled]="isReadOnly" (click)="openSuchePlus(suchePlus)">
+                    <span class="fa fa-search-plus fa-fw"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #unternehmenInfoTemplate>
+    <or-spinner [channel]="infoIconChannel"></or-spinner>
+
+    <div class="p-4">
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'common.label.name' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.name }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'benutzerverwaltung.label.standortadresse' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.standortadresse }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'common.label.plzort' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.plz }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'stes.label.gemeinde' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.gemeinde }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.postfach' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.postfach }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.postfachplzort' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.postfachplzort }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.land' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.land }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.telefon' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.telefon }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.fax' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.fax }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.email' | translate }}</label>
+            </div>
+            <div class="col-7">
+                <a [href]="'mailto:' + infoIconDetails?.email" target="_blank"> {{ infoIconDetails.email }}</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.webadresse' | translate }}</label>
+            </div>
+            <div class="col-7">
+                <a [href]="infoIconDetails.webadresse" target="_blank">{{ infoIconDetails.webadresse }}</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.uidnummer' | translate }}</label>
+            </div>
+            <div class="col-7">
+                <a [href]="uidWebAddress + infoIconDetails.uidnummer" target="_blank">{{ infoIconDetails.uidnummer }}</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.burnummer' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.bur }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.branche' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.branche }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.status' | translate }}</label>
+            </div>
+            <div class="col-7">
+                {{ infoIconDetails.status }}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <label class="pull-right no-word-wrap">{{ 'unternehmen.label.verweiser' | translate }}</label>
+            </div>
+            <div class="col-7">
+                <a [href]="infoIconDetails.verweiser" target="_blank">{{ infoIconDetails.verweiser }}</a>
+            </div>
+        </div>
+    </div>
+</ng-template>

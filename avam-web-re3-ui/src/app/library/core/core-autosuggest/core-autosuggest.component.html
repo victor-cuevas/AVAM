@@ -1,0 +1,36 @@
+<div class="core-autosuggest">
+    <input
+        #inputElement
+        type="text"
+        [placement]="placement"
+        [container]="container"
+        placeholder="{{ placeholder }}"
+        class="form-control {{ coreReadOnlyClearButton ? 'show-clear-button' : '' }}  {{ coreReadOnly ? 'input-group-hover' : '' }}"
+        [formControl]="control"
+        [inputFormatter]="inputFormatter"
+        [resultFormatter]="resultFormatter"
+        [resultTemplate]="template"
+        [ngbTypeahead]="search"
+        (keyup)="keyup($event)"
+        (change)="change($event)"
+        (blur)="blur($event)"
+        (selectItem)="select($event.item)"
+        (focusout)="focusout($event)"
+        [readOnly]="coreReadOnly"
+    />
+    <button
+        tabindex="-1"
+        type="button"
+        [hidden]="searching || emptyInput || disabled || coreReadOnly"
+        role="button"
+        class="text-control-clear {{showInfoIcon? 'noInfoButton' : ''}}"
+        [orTextControlClear]="inputElement"
+        (click)="clear('')"
+    >
+        <span class="fa fa-times-circle"></span>
+        <span class="sr-only">Clear text content.</span>
+    </button>
+    <button type="button" [hidden]="!emptyInput || searching || disabled || coreReadOnly" class="fa fa-search autosuggest-icon"></button>
+    <button type="button" [hidden]="!searching || searchFailed || disabled" class="fa fa fa-circle-o-notch fa-spin autosuggest-icon"></button>
+    <avam-info-icon-btn [hidden]="!showInfoIcon || searching || (emptyInput && !coreReadOnly)" [infoIconTemplate]="infoIconTemplate" [disabled]="disabled"></avam-info-icon-btn>
+</div>

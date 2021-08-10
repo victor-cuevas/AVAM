@@ -1,0 +1,51 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-teilbudget-tree-table #teilbudgetTable [dataSource]="treeArray" [readonly]="tableReadonlyMode"></avam-teilbudget-tree-table>
+</div>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b>{{ 'common.label.version' | translate }}</b>
+            {{ budget?.version }}
+        </div>
+        <div class="item">
+            <b>{{ 'common.label.status' | translate }}</b>
+            {{ budget?.status | dbTranslate: 'text' }}
+        </div>
+    </ng-container>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONLOESCHEN)"
+            avamDisableOnSpinner
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="openDeleteDialog()"
+        >
+            {{ 'amm.budgetierung.button.teilbudgetloeschen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONBERECHNEN)"
+            avamDisableOnSpinner
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="berechnen()"
+        >
+            {{ 'common.button.berechnen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)"
+            avamDisableOnSpinner
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="save()"
+        >
+            {{ 'i18n.common.save' | translate }}
+        </button>
+    </ng-container>
+</ng-template>

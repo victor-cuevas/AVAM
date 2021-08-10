@@ -1,0 +1,14 @@
+<or-master-layout>
+    <avam-top-navigation *ngIf="isLoggedIn" orNavigation [navigation]="data | permission"></avam-top-navigation>
+    <ng-container orHeaderTitle
+        >{{ 'i18n.application.title' | translate }} <small class="text-muted position-relative top-minus-1">{{ getEnvironment() | translate }}</small></ng-container
+    >
+
+    <ng-template *ngIf="isLoggedIn" #orHeaderControl>
+        <header-controls></header-controls>
+    </ng-template>
+
+    <p class="small" orFooterInfo>
+        <app-footer-infos [envInfo]="envInfo"></app-footer-infos>
+    </p>
+</or-master-layout>

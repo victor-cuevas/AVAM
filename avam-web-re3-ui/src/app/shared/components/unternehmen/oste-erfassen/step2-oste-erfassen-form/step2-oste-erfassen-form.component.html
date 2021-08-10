@@ -1,0 +1,119 @@
+<form [formGroup]="anforderungenForm" closeBrowserTab [form]="anforderungenForm">
+    <div class="print-block row">
+        <or-spinner [channel]="anforderungenChannel"></or-spinner>
+        <div class="col-xl-12">
+            <div class="avam-panel-light">
+                <h3 class="p-3">
+                    {{ 'arbeitgeber.oste.label.berufanforderungen' | translate }}
+                </h3>
+            </div>
+        </div>
+        <div class="col-xl-12 h-100 mb-2">
+            <avam-step2-oste-beruf-table [disableForm]="!activeFields" #berufTable></avam-step2-oste-beruf-table>
+        </div>
+        <div class="col-xl-12">
+            <div class="avam-panel-light">
+                <h3 class="p-3">
+                    {{ 'arbeitgeber.oste.label.sprachlicheanforderungen' | translate }}
+                </h3>
+            </div>
+        </div>
+        <div class="col-xl-12 h-100 mb-2">
+            <avam-step2-oste-sprache-table [disableForm]="!activeFields" #spracheTable></avam-step2-oste-sprache-table>
+        </div>
+        <div class="col-xl-12">
+            <div class="avam-panel">
+                <div class="row">
+                    <div class="col-xl-6"></div>
+                    <div class="col-xl-6">
+                        <app-textarea
+                            [readonly]="!activeFields"
+                            customFormControlState
+                            id="ergaenzendeAngabenSprache"
+                            formControlName="ergaenzendeAngabenSprache"
+                            selectLabel="arbeitgeber.oste.label.ergaenzendeangaben"
+                        ></app-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="avam-panel-light">
+                <h3 class="p-3">
+                    {{ 'arbeitgeber.oste.label.weitereanforderungen' | translate }}
+                </h3>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="avam-panel">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <avam-range-valued-wrapper
+                            id="idealesAlter"
+                            [isDisabled]="!activeFields"
+                            [parentForm]="anforderungenForm.controls.idealesAlterSlider"
+                            rangeSliderControlName="idealesAlter"
+                            fromInputControlName="alterVon"
+                            toInputControlName="alterBis"
+                            selectLabel="arbeitgeber.oste.label.idealalter"
+                            [minVal]="18"
+                            [maxVal]="65"
+                        ></avam-range-valued-wrapper>
+                        <avam-label-dropdown
+                            [isDisabled]="!activeFields"
+                            [parentForm]="anforderungenForm"
+                            controlName="geschlecht"
+                            id="geschlecht"
+                            [options]="geschlechtOptions"
+                            selectLabel="arbeitgeber.oste.label.geschlecht"
+                            inputClass="col-lg-5 col-md-5"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="col-xl-6">
+                        <app-textarea
+                            [readonly]="!activeFields"
+                            customFormControlState
+                            id="ergaenzendeAngabenAlterGeschlecht"
+                            formControlName="ergaenzendeAngabenAlterGeschlecht"
+                            selectLabel="arbeitgeber.oste.label.ergaenzendeangaben"
+                        ></app-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12">
+            <div class="avam-panel">
+                <div class="row">
+                    <div class="col-xl-6">
+                        <avam-label-dropdown
+                            [isDisabled]="!activeFields"
+                            [parentForm]="anforderungenForm"
+                            controlName="fuehrerausweiskategorie"
+                            id="fuehrerausweiskategorie"
+                            [options]="fuehrerausweiskategorieOptions"
+                            selectLabel="arbeitgeber.oste.label.fuehrerausweiskategorie"
+                            inputClass="col-lg-5 col-md-5"
+                        ></avam-label-dropdown>
+                        <avam-label-checkbox
+                            [isDisabled]="!activeFields"
+                            componentId="privFahrzeug"
+                            inputClass="col-lg-4"
+                            [parentForm]="anforderungenForm"
+                            controlName="privFahrzeug"
+                            selectLabel="{{ 'arbeitgeber.oste.label.privfahrzeug' }}"
+                        ></avam-label-checkbox>
+                    </div>
+                    <div class="col-xl-6">
+                        <app-textarea
+                            [readonly]="!activeFields"
+                            customFormControlState
+                            id="ergaenzendeAngabenFuehrerausweiskategorie"
+                            formControlName="ergaenzendeAngabenFuehrerausweiskategorie"
+                            selectLabel="arbeitgeber.oste.label.ergaenzendeangaben"
+                        ></app-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,84 @@
+<or-column-layout [right]="false">
+    <div column-left-content class="no-overflow h-100">
+        <form class="h-100" [formGroup]="searchForm" autocomplete="off">
+            <div class="avam-panel avam-panel-extra-lighter search-height">
+                <h3>
+                    <span class="fa fa-search mr-2"></span>
+                    {{ 'arbeitgeber.oste.topnavmenuitem.meldepflichtPruefen' | translate }}
+                </h3>
+                <br />
+                <avam-beruf-autosuggest
+                    #berufAutosuggest
+                    [parentForm]="searchForm"
+                    controlName="beruftaetigkeit"
+                    placeholder=" {{ 'arbeitgeber.oste.label.beruftaetigkeit' | translate }}"
+                    container="body"
+                    [scrollIntoView]="false"
+                ></avam-beruf-autosuggest>
+            </div>
+            <div column-left-content class="sticky-footer sticky-actions buttons-pannel-margin">
+                <button type="reset" class="btn btn-link" (click)="reset()">
+                    {{ 'common.button.zuruecksetzen' | translate }}
+                </button>
+                <button type="submit" class="btn btn-primary" (click)="search()" [disabled]="isDisabled()">
+                    <span>{{ 'arbeitgeber.oste.button.pruefen' | translate }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4 infoleiste">{{ 'arbeitgeber.oste.topnavmenuitem.meldepflichtPruefen' | translate }}</h2>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+
+        <avam-alert></avam-alert>
+        <div class="overflow-hidden mh-100 pt-3">
+            <form autocomplete="off" [formGroup]="pruefenForm">
+                <div class="print-block row">
+                    <div class="rechts col-xl-6">
+                        <div class="avam-panel">
+                            <avam-label-input
+                                [isDisabled]="true"
+                                [parentForm]="pruefenForm"
+                                controlName="beruftaetigkeit"
+                                id="beruftaetigkeit"
+                                selectLabel="{{ 'arbeitgeber.oste.label.beruftaetigkeit' }}"
+                            ></avam-label-input>
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4  text-right">
+                                    <label>{{ 'arbeitgeber.oste.label.ergebnis' | translate }}</label>
+                                </div>
+                                <div class="col-8">
+                                    <label>{{ 'arbeitgeber.oste.label.stellenmeldungenSind' | translate }}</label>
+                                </div>
+                            </div>
+                            <avam-label-input
+                                [isDisabled]="true"
+                                [parentForm]="pruefenForm"
+                                controlName="stellenmeldungen"
+                                id="stellenmeldungen"
+                                selectLabel=" "
+                            ></avam-label-input>
+                            <div *ngIf="isKantonVisible">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4  text-right"></div>
+
+                                    <div class="col-8">
+                                        <label>{{ 'arbeitgeber.oste.label.wennDerArbeitsort' | translate }}</label>
+                                    </div>
+                                </div>
+                                <avam-label-input [isDisabled]="true" [parentForm]="pruefenForm" controlName="kantone" id="kantone" selectLabel=" "></avam-label-input>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</or-column-layout>

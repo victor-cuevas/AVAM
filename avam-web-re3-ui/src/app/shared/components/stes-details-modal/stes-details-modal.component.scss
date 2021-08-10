@@ -1,0 +1,31 @@
+@media (min-resolution: 120dpi) {
+    .page-style {
+        height: 61vh !important;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+@media (max-resolution: 96dpi) {
+    .page-style {
+        height: 70vh !important;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }   
+}
+
+.fa-circle {
+    font-size: 5px;
+    vertical-align: middle;
+}
+
+.info-panel-template {
+    .row {
+        margin: 0;
+        justify-content: space-evenly;
+    
+        .item {
+            margin: 0 auto 0 0;
+        }
+    }
+} 

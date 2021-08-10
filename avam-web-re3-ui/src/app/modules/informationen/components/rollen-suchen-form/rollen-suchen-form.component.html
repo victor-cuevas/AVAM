@@ -1,0 +1,33 @@
+<form #ngForm="ngForm" [formGroup]="searchForm" (keydown.enter)="onEnter.emit($event)" autocomplete="off" closeBrowserTab>
+    <div class="mt-3 search-padding">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            {{ 'benutzerverwaltung.label.rolle' | translate }}
+        </h3>
+        <avam-label-input
+            avamAutofocus
+            id="bezeichnung"
+            controlName="bezeichnung"
+            inputClass="col"
+            placeholder="common.label.bezeichnung"
+            [parentForm]="searchForm"
+        ></avam-label-input>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="searchForm"
+            controlName="vollzugsregionenTyp"
+            id="vollzugsregionenTyp"
+            [options]="handler.vollzugsregionenOptions"
+            placeholder="{{ 'benutzerverwaltung.label.vollzugsregiontypwaehlen' | translate }}"
+        ></avam-label-dropdown>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="searchForm"
+            controlName="benutzerstellenTyp"
+            id="benutzerstellenTyp"
+            [options]="handler.benutzerstellenOptions"
+            placeholder="{{ 'benutzerverwaltung.label.benutzerstellentypwaehlen' | translate }}"
+        ></avam-label-dropdown>
+        <avam-label-input id="rollenId" controlName="rollenId" inputClass="col" placeholder="benutzerverwaltung.label.rollenId" [parentForm]="searchForm"></avam-label-input>
+    </div>
+</form>

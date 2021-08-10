@@ -1,0 +1,151 @@
+<form (keydown.enter)="onEnter.emit($event)" class="search-scroll" [formGroup]="formGroup" #ngForm="ngForm" autocomplete="off">
+    <div class="mt-3">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.massnahmen.subnavmenuitem.durchfuehrungseinheit' | translate }}</span>
+        </h3>
+    </div>
+    <div class="mt-3">
+        <div class="mb-4">
+            <avam-input-modal
+                [inputClass]="'col'"
+                [parentForm]="formGroup"
+                controlName="strukturelementText"
+                placeholder="{{ 'amm.massnahmen.label.massnahmenartwaehlen' }}"
+                [modal]="massnahmenAmtsstelleModal"
+                isUpperLabel="true"
+                [toolTip]="handler.selectedAmtsstellePath | dbTranslate: 'name'"
+                modalTooltip="{{ 'amm.nutzung.label.massnahmenart' }}"
+                [coreReadOnly]="true"
+                [coreReadOnlyClearButton]="true"
+                (onChange)="updateMassnahmenartValue($event)"
+                [hideOpenModalBtn]="disableInputs"
+            ></avam-input-modal>
+            <ng-template #massnahmenAmtsstelleModal>
+                <avam-massnahmenart-waehlen-modal
+                    [queryParams]="handler.massnahmenAmtsstelleQueryParams"
+                    (onSelect)="handler.selectMassnahmenart($event)"
+                    [getPaths]="true"
+                    [disableKategorie]="false"
+                ></avam-massnahmenart-waehlen-modal>
+            </ng-template>
+            <avam-label-input
+                controlName="durchfuehrungseinheitId"
+                [inputClass]="'col'"
+                [parentForm]="formGroup"
+                placeholder="{{ 'amm.massnahmen.label.durchfuehrungsnr' | translate }}"
+                (onInput)="toggleEnabledInputs($event, true)"
+                (onChange)="toggleEnabledInputs($event, true)"
+            ></avam-label-input>
+            <avam-label-input
+                controlName="beschaeftigungseinheitId"
+                [inputClass]="'col'"
+                [parentForm]="formGroup"
+                placeholder="{{ 'amm.massnahmen.label.beschaeftigungseinheitnr' | translate }}"
+                (onInput)="toggleEnabledInputs($event, false)"
+                (onChange)="toggleEnabledInputs($event, false)"
+            ></avam-label-input>
+            <avam-label-input controlName="titel" [inputClass]="'col'" [parentForm]="formGroup" placeholder="{{ 'amm.massnahmen.label.titel' | translate }}"></avam-label-input>
+            <avam-beruf-autosuggest
+                [parentForm]="formGroup"
+                controlName="taetigkeit"
+                placeholder="{{ 'amm.massnahmen.label.taetigkeit' }}"
+                container="body"
+                [showFilter]="true"
+                [scrollIntoView]="false"
+                [readOnly]="disableInputs"
+            ></avam-beruf-autosuggest>
+            <avam-input-modal
+                [inputClass]="'col'"
+                [parentForm]="formGroup"
+                controlName="regionText"
+                placeholder="{{ 'amm.massnahmen.label.durchfuehrungsregionWaehlen' }}"
+                [modal]="durchfuehrungsregionModal"
+                [isUpperLabel]="true"
+                [toolTip]="handler.selectedRegion | dbTranslate: 'region'"
+                modalTooltip="{{ 'amm.massnahmen.label.durchfuehrungsregion' }}"
+                [coreReadOnly]="true"
+                [hideOpenModalBtn]="disableInputs"
+                [coreReadOnlyClearButton]="true"
+                (onChange)="onChangeRegionInput($event)"
+            ></avam-input-modal>
+            <ng-template #durchfuehrungsregionModal>
+                <app-regionen-auswaehlen [id]="formGroup" (emitRegion)="handler.selectDurchfuehrungsregion($event)"></app-regionen-auswaehlen>
+            </ng-template>
+            <avam-unternehmen-autosuggest
+                id="anbieter"
+                controlName="anbieterParam"
+                [isAvamOnly]="true"
+                [parentForm]="formGroup"
+                placeholder="{{ 'amm.massnahmen.label.anbieter' | translate }}"
+                [readOnly]="disableInputs"
+                container="body"
+                [scrollIntoView]="false"
+            ></avam-unternehmen-autosuggest>
+            <avam-label-dropdown
+                controlName="zulassungstypId"
+                [inputClass]="'col'"
+                [parentForm]="formGroup"
+                [options]="zulassungstypOptionsMapped"
+                placeholder="amm.massnahmen.label.zulassungstypWaehlen"
+            ></avam-label-dropdown>
+            <avam-label-checkbox
+                inputClass="''"
+                selectLabel="{{ 'amm.massnahmen.label.dfeimangebotsichtbar' | translate }}"
+                componentId="dfeImAngebotSichtbar"
+                [parentForm]="formGroup"
+                controlName="dfeImAngebotSichtbar"
+                [isDisabled]="disableInputs"
+            >
+            </avam-label-checkbox>
+            <br />
+            <avam-multiselect
+                id="zeitraum"
+                controlName="zeitraum"
+                [parentForm]="formGroup"
+                [options]="zeitraumOptionsMapped"
+                placeholder="amm.massnahmen.label.zeitraumvwaehlen"
+                inputClass="col-12"
+                (onChange)="onZeitraumChange($event)"
+                [mandatory]="handler.reactiveForms.isZeitraumMandatory"
+            ></avam-multiselect>
+            <avam-label-calendar
+                inputClass="col-12"
+                controlName="zeitraumVon"
+                [parentForm]="formGroup"
+                id="zeitraumVon"
+                inputPlaceholder="{{ 'common.label.von' }}"
+                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                (dateChange)="checkRequredDate($event)"
+            ></avam-label-calendar>
+            <avam-label-calendar
+                inputClass="col-12"
+                controlName="zeitraumBis"
+                [parentForm]="formGroup"
+                id="zeitraumBis"
+                inputPlaceholder="{{ 'common.label.bis' }}"
+                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                (dateChange)="checkRequredDate($event)"
+            ></avam-label-calendar>
+            <br />
+            <avam-multiselect
+                id="platzsituation"
+                controlName="platzsituation"
+                [parentForm]="formGroup"
+                [options]="platzsituationOptionsMapped"
+                placeholder="amm.massnahmen.label.platzsituation"
+                inputClass="col-12"
+            ></avam-multiselect>
+            <br />
+            <avam-prepend-dropdown
+                id="statusId"
+                [placeholder]="'common.label.waehlen'"
+                [parentForm]="formGroup"
+                controlName="statusId"
+                [selectLabel]="'common.label.status'"
+                [options]="statusOptions"
+            >
+            </avam-prepend-dropdown>
+        </div>
+    </div>
+</form>

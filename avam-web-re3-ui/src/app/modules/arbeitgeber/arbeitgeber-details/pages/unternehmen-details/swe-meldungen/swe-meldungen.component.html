@@ -1,0 +1,17 @@
+<div>
+    <or-spinner channel="{{ channel }}"></or-spinner>
+    <avam-swe-meldungen-table [gesamtbetriebCode]="gesamtbetriebCode" [dataSource]="dataSource" [stateKey]="stateKey" (onPrimaryAction)="edit($event)"></avam-swe-meldungen-table>
+</div>
+<ng-template #buttons>
+    <button class="btn btn-secondary ml-1" type="button" (click)="newSearch()" [permissions]="[permissions.ARBEITGEBER_SWE_MELDUNG_SUCHEN]">
+        {{ 'common.button.neuesuche' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="createMeldung()" *ngIf="isMeldungErfassenEnabled" [permissions]="[permissions.ARBEITGEBER_SWE_MELDUNG_ERFASSEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'kaeswe.label.meldungerfassen' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>
+<ng-template #modalPrint>
+    <avam-swe-meldungen-table [gesamtbetriebCode]="gesamtbetriebCode" [dataSource]="dataSource" [stateKey]="stateKey" [forPrinting]="true"></avam-swe-meldungen-table>
+</ng-template>

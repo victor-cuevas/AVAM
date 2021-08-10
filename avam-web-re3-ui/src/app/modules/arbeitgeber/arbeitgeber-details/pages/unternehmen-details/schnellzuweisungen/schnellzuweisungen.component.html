@@ -1,0 +1,15 @@
+<div class="overflow-hidden mh-100 pt-3">
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-common-wrapper-table
+        [dataSource]="tableConfig.data"
+        [columns]="tableConfig.columns"
+        [config]="tableConfig.config"
+        (onRowSelect)="selectItem($event)"
+    ></avam-common-wrapper-table>
+</div>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableConfig.data">
+        <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="printColumns" [config]="printConfig"></avam-common-wrapper-table>
+    </avam-generic-table-print>
+</ng-template>

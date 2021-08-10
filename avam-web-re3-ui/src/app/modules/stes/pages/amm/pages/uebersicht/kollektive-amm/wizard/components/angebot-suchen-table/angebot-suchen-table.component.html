@@ -1,0 +1,37 @@
+<avam-generic-table [dataSource]="dataSource" [headers]="displayedColumns" sortField="vollzugsregion" [sortOrder]="1" [initialSort]="false">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <div class="table-btns">
+                    <button
+                        *ngIf="!row.skipRow"
+                        ngbTooltip="{{ 'common.button.uebernehmen' | translate }}"
+                        (primaryButtonClick)="itemSelected({ massnahmenId: row.massnahmenId, massnahmeCode: row.massnahmeCode })"
+                        avamPrimaryButtonDirective
+                        class="fa fa-check btn btn-success btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                    <button
+                        ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                        (click)="itemOpened({ massnahmenId: row.massnahmenId, massnahmeCode: row.massnahmeCode })"
+                        class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'datum'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="row.datumView" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ row.datumView }}
+                </span>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

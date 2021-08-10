@@ -1,0 +1,35 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-planung-suchen-form #planungSuchenForm (onEnter)="submit()" [planungData]="planungData"></avam-planung-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary" (click)="submit()">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-planung-anzeigen-tree-table #treeTable [dataSource]="tableData" [tableOptions]="tableOptions" [startDate]="startDate"></avam-planung-anzeigen-tree-table>
+        <avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-planung-anzeigen-tree-table [dataSource]="tableData"></avam-planung-anzeigen-tree-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button *ngIf="displayViewModeButton" class="btn btn-secondary" type="button" (click)="toggleViewMode()">
+        {{ (isUebersicht ? 'common.button.standartsicht' : 'common.button.uebersicht') | translate }}
+    </button>
+</ng-template>

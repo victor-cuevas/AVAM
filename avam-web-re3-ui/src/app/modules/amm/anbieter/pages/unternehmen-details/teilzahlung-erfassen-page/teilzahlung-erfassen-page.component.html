@@ -1,0 +1,27 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-teilzahlung-form #tzform [data]="teilzahlungData"></avam-teilzahlung-form>
+    <hr class="hr-thick mt-2" />
+    <div class="avam-panel  avam-panel-extra-lighter mb-0">
+        <strong class="mb-0">{{ 'amm.zahlungen.label.teilzahlungswerte' | translate }}</strong>
+    </div>
+    <avam-anbieter-teilzahlungswerte-table
+        [dataSource]="tableDataSource"
+        [summeTotal]="summeTotal"
+        [tableType]="teilzahlungswerteTableType.ERFASSEN"
+    ></avam-anbieter-teilzahlungswerte-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="tzformComponent.reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-primary ml-1" type="button" (click)="submit()">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>

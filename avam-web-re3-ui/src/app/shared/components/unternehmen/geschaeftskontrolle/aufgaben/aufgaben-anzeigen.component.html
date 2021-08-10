@@ -1,0 +1,35 @@
+<div>
+    <or-spinner channel="{{ resultSpinnerChannel }}"></or-spinner>
+    <avam-aufgaben-table
+        #aufgabenTable
+        [sourceData]="resultsData"
+        [showName]="false"
+        [stateKey]="stateKey"
+        (onCheck)="onCheck($event)"
+        (onPrimaryAction)="openAufgabe($event)"
+        (onDeleteSingleRow)="onDeleteSingleRow($event)"
+    ></avam-aufgaben-table>
+</div>
+<ng-template #footerButtons>
+    <button
+        class="btn btn-secondary ml-1 keepDisabled"
+        type="button"
+        (click)="onDeleteButton()"
+        [permissions]="[permissions.GEKO_AUFGABEN_LOESCHEN]"
+        [disabled]="aufgabeLoeschenDisabled"
+    >
+        {{ 'geko.button.aufgabeLoeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="aufgabeErfassen()" [permissions]="[permissions.GEKO_AUFGABEN_ERFASSEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'geko.button.aufgabeErfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="resultsData">
+        <avam-aufgaben-table [sourceData]="resultsData" [stateKey]="stateKey" [forPrinting]="true" [showName]="true"></avam-aufgaben-table>
+    </avam-generic-table-print>
+</ng-template>

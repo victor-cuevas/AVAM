@@ -1,0 +1,213 @@
+<div class="modal-header pb-0">
+    <h4 class="modal-title">{{ 'benutzerverwaltung.label.benutzerstellensuchen' | translate }}</h4>
+    <div class="mr-3">
+        <app-toolbox [configuration]="toolboxConfig" [id]="benutzerstelleSucheToolboxId" [formNumber]="getFormNr()"></app-toolbox>
+    </div>
+</div>
+<div class="row main-container">
+    <div class="col-l-6 col-xl-3 no-left-padding">
+        <or-spinner [channel]="benutzerstelleSucheChannel"></or-spinner>
+        <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" autocomplete="off">
+            <div class="avam-panel avam-panel-extra-lighter p-3">
+                <h3>
+                    <span class="fa fa-search mr-2"></span>
+                    <span>{{ 'benutzerverwaltung.label.benutzerstelle' | translate }}</span>
+                </h3>
+                <br />
+                <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+
+                <avam-prepend-dropdown
+                    id="statusId"
+                    controlName="statusId"
+                    [parentForm]="searchForm"
+                    selectLabel="common.label.status"
+                    [options]="statusOptionsLabels"
+                    inputClass="input-group-prepend"
+                    hideEmptyOption="true"
+                    [isDisabled]="!isMultiSelect && uebergebeneDaten.status && uebergebeneDaten.status.length !== 0"
+                ></avam-prepend-dropdown>
+
+                <avam-label-input
+                    inputClass="col"
+                    controlName="benutzerstelle"
+                    id="nachname"
+                    placeholder="benutzerverwaltung.label.benutzerstelle"
+                    (keyup.enter)="onSubmit()"
+                    [parentForm]="searchForm"
+                ></avam-label-input>
+                <div class="form-group row">
+                    <div class="col-lg-7 col-md-7 text-control">
+                        <input
+                            formControlName="strasse"
+                            type="text"
+                            class="form-control"
+                            id="strassenr-input"
+                            #strInputElement
+                            placeholder="{{ 'benutzerverwaltung.label.strasse' | translate }}"
+                        />
+                        <button
+                            type="button"
+                            role="button"
+                            class="text-control-clear"
+                            [orTextControlClear]="strInputElement"
+                            id="strasse-input-btn"
+                            (onClear)="onTextClear('strasse')"
+                        >
+                            <span class="fa fa-times-circle fa-fw"></span>
+                            <span class="sr-only">Clear text content.</span>
+                        </button>
+                    </div>
+                    <div class="col-lg-5 col-md-5 text-control">
+                        <input formControlName="strasseNr" type="text" class="form-control" #strNrInputElement placeholder="{{ 'benutzerverwaltung.label.nr' | translate }}" />
+                        <button
+                            type="button"
+                            role="button"
+                            class="text-control-clear"
+                            [orTextControlClear]="strNrInputElement"
+                            id="strassenr-input-btn"
+                            (onClear)="onTextClear('strasseNr')"
+                        >
+                            <span class="fa fa-times-circle fa-fw"></span>
+                            <span class="sr-only">Clear text content.</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <avam-plz-autosuggest
+                        [parentForm]="searchForm"
+                        plzControl="postleitzahl"
+                        ortControl="ort"
+                        placeholderPlz="{{ 'unternehmen.label.plz' | translate }}"
+                        placeholderOrt="{{ 'unternehmen.label.ort' | translate }}"
+                    ></avam-plz-autosuggest>
+                </div>
+                <div orFormControlState>
+                    <select
+                        class="form-control col-lg-12 col-md-12"
+                        id="kantonwaehlen-dropdown-id"
+                        formControlName="kantonId"
+                        (focusin)="kantonWaehlenSelectIsFocused = !kantonWaehlenSelectIsFocused"
+                        (focusout)="kantonWaehlenSelectIsFocused = !kantonWaehlenSelectIsFocused"
+                    >
+                        <option value="null" selected *ngIf="!kantonWaehlenSelectIsFocused">{{ 'common.label.kantonwaehlen' | translate }}</option>
+                        <option value=""></option>
+                        <option *ngFor="let option of kantonOptionsLabels" value="{{ option.kantonsKuerzel }}">{{ option | dbTranslate: 'name' }}</option>
+                    </select>
+                    <or-error-messages></or-error-messages>
+                </div>
+                <br />
+                <br />
+                <ng-container *ngIf="!isMultiSelect">
+                    <avam-label-input
+                        inputClass="col"
+                        controlName="benutzerstelleIdVon"
+                        id="benutzerstelleIdVon"
+                        placeholder="benutzerverwaltung.label.benutzerstelle_von"
+                        (keyup.enter)="onSubmit()"
+                        [parentForm]="searchForm"
+                    ></avam-label-input>
+                    <avam-label-input
+                        inputClass="col"
+                        controlName="benutzerstelleIdBis"
+                        id="benutzerstelleIdBis"
+                        placeholder="benutzerverwaltung.label.benutzerstelle_bis"
+                        (keyup.enter)="onSubmit()"
+                        [parentForm]="searchForm"
+                    ></avam-label-input>
+                </ng-container>
+                <ng-container *ngIf="isMultiSelect">
+                    <avam-benutzerstelle-autosuggest
+                        id="benutzerstellenASVon"
+                        [parentForm]="searchForm"
+                        controlName="benutzerstellenASVon"
+                        [benutzerstelleSuchenTokens]="benutzerstelleSuchenTokens"
+                        placeholder="{{ 'informationen.placeholder.benutzerstellenIdVon' | translate }}"
+                        [type]="benutzerstelleAutosuggestType"
+                        container="body"
+                        [scrollIntoView]="false"
+                    ></avam-benutzerstelle-autosuggest>
+                    <avam-benutzerstelle-autosuggest
+                        id="benutzerstellenASBis"
+                        [parentForm]="searchForm"
+                        controlName="benutzerstellenASBis"
+                        [benutzerstelleSuchenTokens]="benutzerstelleSuchenTokens"
+                        placeholder="{{ 'informationen.placeholder.benutzerstellenIdBis' | translate }}"
+                        [type]="benutzerstelleAutosuggestType"
+                        container="body"
+                        [scrollIntoView]="false"
+                    ></avam-benutzerstelle-autosuggest>
+                </ng-container>
+                <div orFormControlState>
+                    <select
+                        class="form-control col-lg-12 col-md-12"
+                        id="benutzerstelletyp-dropdown-id"
+                        formControlName="benutzerstelleTypId"
+                        [disableControl]="uebergebeneDaten.benutzerstellentyp && uebergebeneDaten.benutzerstellentyp.length !== 0"
+                    >
+                        <option value="null" disabled hidden>
+                            {{ 'benutzerverwaltung.label.benutzerstellentypwaehlen' | translate }}
+                        </option>
+                        <option *ngFor="let option of benutzerstelletypOptionsLasbels" value="{{ option.codeId }}">{{ option | dbTranslate: 'label' }}</option>
+                    </select>
+                    <or-error-messages></or-error-messages>
+                </div>
+                <br />
+                <br />
+                <div customFormControlState>
+                    <app-vollzugsregion-autosuggest
+                        placeholder="{{ 'benutzerverwaltung.label.vollzugsregion' }}"
+                        formControlName="vollzugsregion"
+                        id="vollzugsregion"
+                        [disabledInput]="!isMultiSelect"
+                    ></app-vollzugsregion-autosuggest>
+                </div>
+                <div orFormControlState>
+                    <select
+                        class="form-control col-lg-12 col-md-12"
+                        id="vollzugsregion-dropdown-id"
+                        formControlName="vollzugsregionTypeId"
+                        [disableControl]="uebergebeneDaten.vollzugsregiontyp && uebergebeneDaten.vollzugsregiontyp.length !== 0"
+                    >
+                        <option value="null" disabled hidden>
+                            {{ 'benutzerverwaltung.label.vollzugsregiontypwaehlen' | translate }}
+                        </option>
+                        <option *ngFor="let option of vollzugsregiontypLabels" value="{{ option.codeId }}">{{ option | dbTranslate: 'label' }}</option>
+                    </select>
+                    <or-error-messages></or-error-messages>
+                </div>
+                <br />
+                <br />
+            </div>
+            <div class="sticky-actions form-buttons">
+                <button type="button" (click)="reset()" class="btn btn-link">
+                    {{ 'common.button.zuruecksetzen' | translate }}
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+    <div class="col-l-6 col-xl-9 table-padding">
+        <or-spinner [channel]="benutzerstelleResultChannel"></or-spinner>
+        <app-benutzerstelle-auswaehlen-tabelle
+            #benutzerstelleAuswaehlenTabelle
+            [benutzerstellenData]="benutzerstellenData"
+            [isMultiselect]="isMultiSelect"
+            [selectedBenutzerstellen]="vollzugsregionBenutzerstellen"
+            [showBadge]="searchDone"
+            (benutzerstelleIdEmitter)="receiveData($event)"
+        ></app-benutzerstelle-auswaehlen-tabelle>
+    </div>
+</div>
+<div class="modal-footer justify-content-between">
+    <span>{{ getFormNr() }}</span>
+    <div class="sticky-actions">
+        <button type="button" class="btn btn-link" (click)="close()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+        <button *ngIf="isMultiSelect" type="button" class="btn btn-primary" [disabled]="!enableUebernehmen" (click)="onUebernehmen()">
+            {{ 'common.button.uebernehmen' | translate }}
+        </button>
+    </div>
+</div>

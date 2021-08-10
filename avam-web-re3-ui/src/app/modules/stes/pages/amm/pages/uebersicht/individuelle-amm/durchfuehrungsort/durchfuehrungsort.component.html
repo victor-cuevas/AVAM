@@ -1,0 +1,152 @@
+<form [formGroup]="durchfuehrungsortForm" #ngForm="ngForm" closeBrowserTab [form]="durchfuehrungsortForm">
+    <div class="row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <h3>
+                    {{ 'amm.nutzung.label.durchfuehrungsort' | translate }}
+                </h3>
+                <div>
+                    <avam-label-input
+                        controlName="name1"
+                        selectLabel="{{ 'amm.nutzung.label.name' }}"
+                        [parentForm]="durchfuehrungsortForm"
+                        [readOnly]="isReadOnly"
+                        avamAutofocus
+                    ></avam-label-input>
+                    <avam-label-input controlName="name2" selectLabel="{{ ' ' }}" [parentForm]="durchfuehrungsortForm" [readOnly]="isReadOnly"></avam-label-input>
+                    <avam-label-input controlName="name3" selectLabel="{{ ' ' }}" [parentForm]="durchfuehrungsortForm" [readOnly]="isReadOnly"></avam-label-input>
+                </div>
+                <div class="mt-5">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label for="strasse" class="col-form-label"> {{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 text-right ">
+                            <avam-label-input [readOnly]="isReadOnly" inputClass="col-lg-12" [parentForm]="durchfuehrungsortForm" controlName="strasse"> </avam-label-input>
+                        </div>
+                        <div class="col-lg-2 col-md-2 text-right ">
+                            <avam-label-input [readOnly]="isReadOnly" inputClass="col-lg-12" [parentForm]="durchfuehrungsortForm" controlName="strasseNr"> </avam-label-input>
+                        </div>
+                    </div>
+                    <avam-label-input
+                        controlName="raum"
+                        selectLabel="{{ 'amm.massnahmen.label.raum' }}"
+                        [parentForm]="durchfuehrungsortForm"
+                        [readOnly]="isReadOnly"
+                    ></avam-label-input>
+                    <avam-plz-autosuggest
+                        plzControl="postleitzahl"
+                        ortControl="ort"
+                        [landControl]="durchfuehrungsortForm.controls.land"
+                        [parentForm]="durchfuehrungsortForm.get('plz')"
+                        label="{{ 'amm.massnahmen.label.plzort' }}"
+                        [supportsSimpleInput]="true"
+                        [readOnly]="isReadOnly"
+                    ></avam-plz-autosuggest>
+                    <avam-land-autosuggest
+                        controlName="land"
+                        componentLabel="{{ 'stes.label.land' }}"
+                        [parentForm]="durchfuehrungsortForm"
+                        [readOnly]="isReadOnly"
+                    ></avam-land-autosuggest>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label>{{ 'amm.massnahmen.label.bemerkung' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center">
+                        <app-textarea customFormControlState id="ergaenzendeAngaben" formControlName="ergaenzendeAngaben" [readonly]="isReadOnly" [fullWidth]="true"></app-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-kontaktperson-input-wrapper
+                    controlName="kontaktperson"
+                    componentLabel="{{ 'amm.nutzung.label.kontaktperson' }}"
+                    [parentForm]="durchfuehrungsortForm"
+                    [unternehmenId]="unternehmenId"
+                    (onClear)="onKontaktpersonClear()"
+                    (kontaktpersonSelected)="kontaktpersonSelected($event)"
+                    [readonly]="isReadOnly"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-input
+                    controlName="name"
+                    selectLabel="{{ 'amm.nutzung.label.name' }}"
+                    [parentForm]="durchfuehrungsortForm"
+                    [readOnly]="isKontaktpersonSelected || isReadOnly"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="vorname"
+                    selectLabel="{{ 'amm.nutzung.label.vorname' }}"
+                    [parentForm]="durchfuehrungsortForm"
+                    [readOnly]="isKontaktpersonSelected || isReadOnly"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    controlName="telefon"
+                    selectLabel="{{ 'amm.massnahmen.label.telefon' }}"
+                    [parentForm]="durchfuehrungsortForm"
+                    [readOnly]="isKontaktpersonSelected || isReadOnly"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.mobile' }}"
+                    controlName="mobile"
+                    selectLabel="{{ 'amm.massnahmen.label.mobile' }}"
+                    [parentForm]="durchfuehrungsortForm"
+                    [readOnly]="isKontaktpersonSelected || isReadOnly"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.fax' }}"
+                    controlName="fax"
+                    selectLabel="{{ 'amm.massnahmen.label.fax' }}"
+                    [parentForm]="durchfuehrungsortForm"
+                    [readOnly]="isKontaktpersonSelected || isReadOnly"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="durchfuehrungsortForm"
+                    controlName="email"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    [readOnly]="isKontaktpersonSelected || isReadOnly"
+                ></app-email-input>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button *ngIf="isWizard" class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button *ngIf="isWizard || (buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-link ml-1" type="button" (click)="onReset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="!isWizard && (buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="anbieterdatenUebernehmen()"
+    >
+        {{ 'amm.massnahmen.button.datenuebernehmenvoll' | translate }}
+    </button>
+    <button *ngIf="isWizard" class="btn btn-secondary ml-1" type="button" (click)="back()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button *ngIf="isWizard" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.fertigstellen' | translate }}
+    </button>
+    <button *ngIf="!this.isWizard && (buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarBasisNr>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+</ng-template>

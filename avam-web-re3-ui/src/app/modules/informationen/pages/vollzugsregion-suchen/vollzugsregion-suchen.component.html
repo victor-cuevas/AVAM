@@ -1,0 +1,34 @@
+<or-column-layout [right]="false">
+    <div column-left-content class="sticky-main" (keyup.enter)="search()">
+        <avam-vollzugsregion-suchen-form #vollzugsregionSuchenForm (restoreCache)="restoreCache()"></avam-vollzugsregion-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [permissions]="[permissions.INFORMATIONEN_VERZEICHNISSE_ZAHLSTELLEN_SUCHEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4 infoleiste">{{ 'verzeichnisse.label.vollzugsregionen' | translate }}</h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="responseData.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <avam-alert></avam-alert>
+        <avam-vollzugsregion-suchen-table #vollzugsregionSuchenTableComponent [dataSource]="responseData"> </avam-vollzugsregion-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print>
+        <avam-vollzugsregion-suchen-table [isPrintModal]="true" [dataSource]="responseData"> </avam-vollzugsregion-suchen-table>
+    </avam-generic-table-print>
+</ng-template>

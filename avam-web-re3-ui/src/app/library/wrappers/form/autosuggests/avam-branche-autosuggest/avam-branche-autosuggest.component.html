@@ -1,0 +1,40 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="form-group row">
+    <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel ? 'col-lg-8 col-md-8' : 'col-lg-12 col-md-12'" class="align-self-center">
+        <div [hidden]="readOnly" orFormControlState>
+            <core-autosuggest
+                arrow-scrolling
+                #inputElement
+                dynamicControlName
+                [formControlName]="controlName"
+                [placeholder]="placeholder"
+                [inputFormatter]="inputFormatter"
+                [template]="resultTerm"
+                [searchFunction]="searchBranche"
+                [disableControl]="isDisabled"
+                ngbTooltip="{{ tooltip | translate }}"
+                triggers="{{ tooltip ? 'hover' : 'click' }}"
+                style="width: inherit;"
+                (onInput)="input($event)"
+                (onChange)="change($event)"
+                (onKeyup)="keyup($event)"
+                (onBlur)="blur($event)"
+                (onSelect)="select($event)"
+            >
+            </core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="readOnly">
+            <p class="mb-2 p-value-left-12">
+                {{ inputValue }}
+            </p>
+        </div>
+    </div>
+    <ng-template #resultTerm let-r="result" let-t="term">
+        <button class="d-inline-block w-100 pl-1 pr-1 tooltip-btn" avamAlignPopupTemplateAndInput [ngbTooltip]="r.nogaCodeUp + ' / ' + r.translatedTextlang">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.nogaCodeUp + ' / ' + r.translatedTextlang" [term]="t"></ngb-highlight>
+        </button>
+    </ng-template>
+</div>

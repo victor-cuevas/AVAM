@@ -1,0 +1,19 @@
+<div *ngIf="showHeader" class="modal-header">
+    <h3 class="modal-title" id="modal-basic-title">
+        <span>{{ 'benutzerverwaltung.label.benutzerstellen' | translate }} </span>
+        <app-result-count *ngIf="showBadge" [dataLength]="benutzerstellenTableData.length"></app-result-count>
+    </h3>
+    <div class="mr-3" style="margin-bottom: 0.5rem"></div>
+</div>
+<avam-benu-auswaehlen-table
+    #benuAuswaehlenTable
+    *ngIf="benutzerstellenTableData"
+    [dataSource]="benutzerstellenTableData"
+    [isMultiselect]="isMultiselect"
+    [inputBenutzerstellen]="selectedBenutzerstellen"
+    (onItemSelected)="itemSelected($event)"
+></avam-benu-auswaehlen-table>
+
+<ng-template #modalPrint>
+    <avam-benu-auswaehlen-table *ngIf="benutzerstellenTableData" [dataSource]="benutzerstellenTableData" [withAction]="false"></avam-benu-auswaehlen-table>
+</ng-template>

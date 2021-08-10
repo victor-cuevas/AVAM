@@ -1,0 +1,12 @@
+.margin-bottom {
+    margin-bottom: 0.5rem;
+}
+.negative-mb {
+    margin-bottom: -0.3rem;
+}
+
+:host ::ng-deep avam-label-checkbox {
+    .row {
+        display: block;
+    }
+}

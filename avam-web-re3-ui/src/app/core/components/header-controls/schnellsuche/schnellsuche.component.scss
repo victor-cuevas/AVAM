@@ -1,0 +1,54 @@
+.tableRow {
+    display: flex;
+}
+
+.tableCell, .tableCellPlz, .tableCellDate, .tableCellEMail, .tableCellTel, .tableCellName {
+    flex: 0 0 120px;
+    margin: 0 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tableCellEMail {
+    flex: 0 0 160px;
+}
+
+.tableCellPlz {
+    flex: 0 0 40px;
+}
+
+.tableCellDate {
+    flex: 0 0 90px;
+}
+
+.tableCellTel {
+    flex: 0 0 140px;
+}
+
+.tableCellName {
+    flex: 0 0 250px;
+}
+
+.form-control {
+    width: inherit;
+}
+
+// by-pass view scope, descendants of schnellsuche
+::ng-deep app-schnellsuche .form-group .dropdown .dropdown-menu {
+    padding: 0;
+    width: 1200px;
+    max-width: 1200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .dropdown-item {
+        &:focus, &:hover, &.active {
+            background-color: #dde7ff;
+        }
+    }
+}
+
+.btn-schnellsuche {
+    margin-right: 15px;
+    border: none;
+    border-radius: 0 0.25rem 0.25rem 0;
+}

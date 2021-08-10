@@ -1,0 +1,47 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="form-group row">
+    <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8'" class="d-flex">
+        <div class="input-group" [hidden]="_readOnly" orFormControlState>
+            <core-autosuggest
+                arrow-scrolling
+                #inputElement
+                dynamicControlName
+                [formControlName]="controlName"
+                [placeholder]="placeholder"
+                [inputFormatter]="inputFormatter"
+                [template]="rt"
+                [searchFunction]="searchLand"
+                [disableControl]="isDisabled"
+                [container]="container"
+                [scrollIntoView]="scrollIntoView"
+                ngbTooltip="{{ tooltip | translate }}"
+                triggers="{{ tooltip ? 'hover' : 'click' }}"
+                style="width: inherit;"
+                (onInput)="input($event)"
+                (onChange)="change($event)"
+                (onKeyup)="keyup($event)"
+                (onBlur)="blur($event)"
+                (onSelect)="select($event)"
+            >
+            </core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="_readOnly">
+            <p class="mb-2">
+                {{ inputValue }}
+            </p>
+        </div>
+    </div>
+</div>
+<ng-template #rt let-r="result" let-t="term">
+    <div class="row flex-nowrap" avamAlignPopupTemplateAndInput>
+        <div class="d-inline-block w-10 pl-1 pr-1 min-width-45px">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.iso2Code" [term]="t"></ngb-highlight>
+        </div>
+        <div class="d-inline-block w-90 pl-1 pr-1 min-width-0">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.translatedName" [term]="t"></ngb-highlight>
+        </div>
+    </div>
+</ng-template>

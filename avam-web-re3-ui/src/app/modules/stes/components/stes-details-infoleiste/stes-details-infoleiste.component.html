@@ -1,0 +1,15 @@
+<div class="row" [ngClass]="additionalClass">
+    <div class="col-8 d-flex align-items-center">
+        <h1 class="pr-4" *ngIf="hasNameHeader && stesHeader">{{ stesHeader.name }}, {{ stesHeader.vorname }}</h1>
+        <h2 class="nowrap" [ngClass]="{ 'pl-4': hasNameHeader }" *ngIf="ueberschriftTooltip; else longUeberschrift" ngbTooltip="{{ ueberschriftTooltip }}">{{ ueberschrift }}</h2>
+        <ng-template #longUeberschrift>
+            <h2 [ngClass]="{ 'pl-4': hasNameHeader }">{{ ueberschrift }}</h2>
+        </ng-template>
+        <app-result-count *ngIf="contentNumber != null" [dataLength]="contentNumber" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right" *ngIf="showToolbox">
+        <app-toolbox [additionalStyleClass]="additionalToolboxClass"></app-toolbox>
+    </div>
+</div>
+<hr class="nm-t-6" />
+<app-stes-details-infoleiste-panel [stesHeader]="stesHeader" [hasName]="hasNamePanel"></app-stes-details-infoleiste-panel>

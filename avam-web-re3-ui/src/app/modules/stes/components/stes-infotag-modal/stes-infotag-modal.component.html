@@ -1,0 +1,58 @@
+<div class="modal-header pb-0">
+    <h4 class="modal-title" id="infotagBuchenModalTitle">{{ 'common.button.infotagBuchen' | translate }}</h4>
+    <app-toolbox [configuration]="modalToolboxConfiguration" [id]="getToolboxId()" [formNumber]="getFormNr()" [additionalStyleClass]="{ removeStyle: true }"></app-toolbox>
+</div>
+<div class="modal-body p-0" style="height: 87vh;" id="infotag-modal">
+    <or-column-layout [right]="false">
+        <div column-left-content class="sticky-main avam-panel-extra-lighter" (keyup.enter)="infotagSearchFormComponent.onSubmit()">
+            <div style="overflow: hidden;">
+                <or-spinner [channel]="spinnerChannel"></or-spinner>
+                <app-infotag-search-form #infotagSearchFormComponent [stesId]="stesId"></app-infotag-search-form>
+            </div>
+        </div>
+        <div column-left-content class="modal-footer justify-content-between">
+            <div>{{ getFormNr() }}</div>
+            <div class="sticky-actions">
+                <button type="reset" class="btn btn-link" (click)="infotagSearchFormComponent.onReset()" [disabled]="infotagSearchFormComponent.isFormEmpty()">
+                    {{ 'common.button.zuruecksetzen' | translate }}
+                </button>
+                <button
+                    type="submit"
+                    class="btn btn-primary text-nowrap"
+                    [disabled]="infotagSearchFormComponent.isFormEmpty()"
+                    (click)="infotagSearchFormComponent.onSubmit()"
+                    ngbAutofocus
+                >
+                    <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+                </button>
+            </div>
+        </div>
+        <div column-main-content class="sticky-main default-layout pb-0 pt-0">
+            <div style="overflow-x: hidden">
+                <app-stes-details-infoleiste
+                    [showToolbox]="false"
+                    [contentNumber]="resultCountInfoleiste"
+                    [ueberschrift]="('common.button.infotagBuchen' | translate) + ' - ' + ('stes.label.infotag.angebotWaehlen' | translate)"
+                ></app-stes-details-infoleiste>
+                <app-infotag-search-result
+                    #searchResult
+                    [hasInfoleiste]="true"
+                    (resultCount)="handleResultCount($event)"
+                    (eventEmitter)="handleInfotagSearchResultEvent($event)"
+                ></app-infotag-search-result>
+            </div>
+        </div>
+        <div column-main-content class="sticky-footer sticky-actions">
+            <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+        </div>
+    </or-column-layout>
+</div>
+
+<ng-template #modalPrint>
+    <avam-infotag-search-result-table
+        [dataSource]="infotagSearchResult.dataSource"
+        [displayedColumns]="infotagSearchResult.displayedColumns"
+        [sortField]="infotagSearchResult.sortField"
+        [columns]="infotagSearchResult.columns"
+    ></avam-infotag-search-result-table>
+</ng-template>

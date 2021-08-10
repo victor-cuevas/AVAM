@@ -1,0 +1,140 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    [parentForm]="formGroup"
+                    controlName="erfassungssprache"
+                    id="erfassungssprache"
+                    [options]="spracheOptions"
+                    selectLabel="amm.massnahmen.label.erfassungssprache"
+                    [hideEmptyOption]="true"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel" *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.DEUTSCH">
+                <div>
+                    <label>{{ 'amm.massnahmen.label.inhaltde' | translate }}</label>
+                    <app-textarea id="inhaltDe" formControlName="inhaltDe" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.methodikde' | translate }}</label>
+                    <app-textarea id="methodikDe" formControlName="methodikDe" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.massnahmenzielde' | translate }}</label>
+                    <app-textarea id="massnahmenzielDe" formControlName="massnahmenzielDe" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel" *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.FRANZOESISCH">
+                <div>
+                    <label>{{ 'amm.massnahmen.label.inhaltfr' | translate }}</label>
+                    <app-textarea id="inhaltFr" formControlName="inhaltFr" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.methodikfr' | translate }}</label>
+                    <app-textarea id="methodikFr" formControlName="methodikFr" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.massnahmenzielfr' | translate }}</label>
+                    <app-textarea id="massnahmenzielFr" formControlName="massnahmenzielFr" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel" *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.ITALIENISCH">
+                <div>
+                    <label>{{ 'amm.massnahmen.label.inhaltit' | translate }}</label>
+                    <app-textarea id="inhaltIt" formControlName="inhaltIt" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.methodikit' | translate }}</label>
+                    <app-textarea id="methodikIt" formControlName="methodikIt" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.massnahmenzielit' | translate }}</label>
+                    <app-textarea id="massnahmenzielIt" formControlName="massnahmenzielIt" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <h4>
+                    {{ 'amm.nutzung.label.durchfuehrungsort' | translate }}
+                </h4>
+                <div>
+                    <avam-label-input
+                        [isDisabled]="hasBookings"
+                        controlName="name1"
+                        selectLabel="{{ 'amm.massnahmen.label.unternehmensname' }}"
+                        [parentForm]="formGroup"
+                    ></avam-label-input>
+                    <avam-label-input [isDisabled]="hasBookings" controlName="name2" selectLabel="{{ ' ' }}" [parentForm]="formGroup"></avam-label-input>
+                    <avam-label-input [isDisabled]="hasBookings" controlName="name3" selectLabel="{{ ' ' }}" [parentForm]="formGroup"></avam-label-input>
+                </div>
+                <div class="mt-5">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label for="strasse" class="col-form-label"> {{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 text-right ">
+                            <avam-label-input [isDisabled]="hasBookings" inputClass="col-lg-12" [parentForm]="formGroup" controlName="strasse"> </avam-label-input>
+                        </div>
+                        <div class="col-lg-2 col-md-2 text-right ">
+                            <avam-label-input [isDisabled]="hasBookings" inputClass="col-lg-12" [parentForm]="formGroup" controlName="strasseNr"> </avam-label-input>
+                        </div>
+                    </div>
+                    <avam-label-input [isDisabled]="hasBookings" controlName="raum" selectLabel="{{ 'amm.massnahmen.label.raum' }}" [parentForm]="formGroup"></avam-label-input>
+                    <avam-plz-autosuggest
+                        [disabled]="hasBookings"
+                        plzControl="postleitzahl"
+                        ortControl="ort"
+                        [landControl]="formGroup.controls.land"
+                        [parentForm]="formGroup.get('plz')"
+                        label="{{ 'amm.massnahmen.label.plzort' }}"
+                        [supportsSimpleInput]="true"
+                    ></avam-plz-autosuggest>
+                    <avam-land-autosuggest [isDisabled]="hasBookings" controlName="land" componentLabel="{{ 'stes.label.land' }}" [parentForm]="formGroup"></avam-land-autosuggest>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-kontaktperson-input-wrapper
+                    controlName="kontaktperson"
+                    componentLabel="{{ 'amm.nutzung.label.kontaktperson' }}"
+                    [parentForm]="formGroup"
+                    [unternehmenId]="unternehmenId"
+                    (onClear)="onKontaktpersonClear()"
+                    (kontaktpersonSelected)="kontaktpersonSelected($event)"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-input controlName="name" selectLabel="{{ 'amm.nutzung.label.name' }}" [parentForm]="formGroup" [readOnly]="isKontaktpersonSelected"></avam-label-input>
+                <avam-label-input
+                    controlName="vorname"
+                    selectLabel="{{ 'amm.nutzung.label.vorname' }}"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    controlName="telefon"
+                    selectLabel="{{ 'amm.massnahmen.label.telefon' }}"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.mobile' }}"
+                    controlName="mobile"
+                    selectLabel="{{ 'amm.massnahmen.label.mobile' }}"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.fax' }}"
+                    controlName="fax"
+                    selectLabel="{{ 'amm.massnahmen.label.fax' }}"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected"
+                ></avam-label-input>
+                <app-email-input [parentForm]="formGroup" controlName="email" placeholder="{{ 'stes.placeholder.email' }}" [readOnly]="isKontaktpersonSelected"></app-email-input>
+            </div>
+        </div>
+    </div>
+</form>

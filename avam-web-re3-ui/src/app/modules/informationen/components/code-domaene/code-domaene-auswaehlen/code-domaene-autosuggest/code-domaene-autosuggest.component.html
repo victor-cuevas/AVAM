@@ -1,0 +1,60 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="form-group row">
+    <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8'" class="d-flex">
+        <div class="input-group" [hidden]="readOnly" orFormControlState>
+            <core-autosuggest
+                arrow-scrolling
+                #inputElement
+                dynamicControlName
+                [formControlName]="controlName"
+                [placeholder]="placeholder"
+                [inputFormatter]="inputFormatter"
+                [template]="rt"
+                [searchFunction]="searchRegion"
+                [disableControl]="isDisabled"
+                [coreReadOnly]="readOnly"
+                [container]="container"
+                [scrollIntoView]="scrollIntoView"
+                ngbTooltip="{{ tooltip | translate }}"
+                triggers="{{ tooltip ? 'hover' : 'click' }}"
+                style="width: inherit;"
+                (onInput)="input($event)"
+                (onChange)="change($event)"
+                (onKeyup)="keyup($event)"
+                (onBlur)="blur($event)"
+                (onSelect)="select($event)"
+            >
+            </core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="readOnly">
+            <p class="mb-2 ml-2">
+                {{ selectedItem?.domain }}
+            </p>
+        </div>
+        <div class="'d-none'">
+            <button
+                type="button"
+                class="btn btn-secondary rounded-0 d-block"
+                [hidden]="readOnly"
+                [disabled]="isDisabled"
+                (click)="open(codeModal)"
+                ngbTooltip="{{ 'informationen.label.codeauswaehlen' | translate }}"
+            >
+                <span class="fa fa-clone"></span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng-template #codeModal>
+    <avam-code-domaene-auswaehlen [codeDomain]="selectedItem" (onDomainWaehlen)="fillData($event)"></avam-code-domaene-auswaehlen>
+</ng-template>
+
+<ng-template #rt let-r="result" let-t="term">
+    <div class="d-inline-block w-100 pl-1 pr-1 tooltip-btn" avamAlignPopupTemplateAndInput>
+        <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.domain" [term]="[t]"></ngb-highlight>
+    </div>
+</ng-template>

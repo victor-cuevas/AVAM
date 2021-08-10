@@ -1,0 +1,112 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup">
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <h3>
+                    {{ 'amm.nutzung.label.durchfuehrungsort' | translate }}
+                </h3>
+                <div>
+                    <avam-label-input
+                        controlName="uGName1"
+                        selectLabel="amm.nutzung.label.name"
+                        [parentForm]="formGroup"
+                        [readOnly]="isReadonlyIndividuell"
+                        avamAutofocus
+                    ></avam-label-input>
+                    <avam-label-input controlName="uGName2" selectLabel=" " [parentForm]="formGroup" [readOnly]="isReadonlyIndividuell"></avam-label-input>
+                    <avam-label-input controlName="uGName3" selectLabel=" " [parentForm]="formGroup" [readOnly]="isReadonlyIndividuell"></avam-label-input>
+                </div>
+                <div class="mt-5">
+                    <div class="form-group row">
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label for="strasse" class="col-form-label"> {{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}</label>
+                        </div>
+                        <div class="col-lg-6 col-md-6 text-right ">
+                            <avam-label-input inputClass="col-lg-12" [parentForm]="formGroup" controlName="strasse" [readOnly]="isReadonlyIndividuell"> </avam-label-input>
+                        </div>
+                        <div class="col-lg-2 col-md-2 text-right ">
+                            <avam-label-input inputClass="col-lg-12" [parentForm]="formGroup" controlName="strasseNr" [readOnly]="isReadonlyIndividuell"> </avam-label-input>
+                        </div>
+                    </div>
+                    <avam-label-input controlName="raum" selectLabel="amm.massnahmen.label.raum" [parentForm]="formGroup" [readOnly]="isReadonlyIndividuell"></avam-label-input>
+                    <avam-plz-autosuggest
+                        plzControl="postleitzahl"
+                        ortControl="ort"
+                        [landControl]="formGroup.controls.land"
+                        [parentForm]="formGroup.controls.plz"
+                        label="amm.massnahmen.label.plzort"
+                        [supportsSimpleInput]="true"
+                        [readOnly]="isReadonlyIndividuell"
+                    ></avam-plz-autosuggest>
+                    <avam-land-autosuggest controlName="land" componentLabel="stes.label.land" [parentForm]="formGroup" [readOnly]="isReadonlyIndividuell"></avam-land-autosuggest>
+                </div>
+                <div class="row mt-5">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label>{{ 'amm.massnahmen.label.bemerkung' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center">
+                        <app-textarea
+                            customFormControlState
+                            id="ergaenzendeAngaben"
+                            formControlName="ergaenzendeAngaben"
+                            [fullWidth]="true"
+                            [readonly]="isReadonlyIndividuell"
+                        ></app-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-kontaktperson-input-wrapper
+                    controlName="kontaktperson"
+                    componentLabel="amm.nutzung.label.kontaktperson"
+                    [parentForm]="formGroup"
+                    [unternehmenId]="unternehmenId"
+                    (onClear)="onKontaktpersonClear()"
+                    (kontaktpersonSelected)="kontaktpersonSelected($event)"
+                    [readonly]="isReadonlyIndividuell"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-input
+                    controlName="name"
+                    selectLabel="amm.nutzung.label.name"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected || isReadonlyIndividuell"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="vorname"
+                    selectLabel="amm.nutzung.label.vorname"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected || isReadonlyIndividuell"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="stes.placeholder.telefonprivat"
+                    controlName="telefon"
+                    selectLabel="amm.massnahmen.label.telefon"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected || isReadonlyIndividuell"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="stes.placeholder.mobile"
+                    controlName="mobile"
+                    selectLabel="amm.massnahmen.label.mobile"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected || isReadonlyIndividuell"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="stes.placeholder.fax"
+                    controlName="fax"
+                    selectLabel="amm.massnahmen.label.fax"
+                    [parentForm]="formGroup"
+                    [readOnly]="isKontaktpersonSelected || isReadonlyIndividuell"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="formGroup"
+                    controlName="email"
+                    placeholder="stes.placeholder.email"
+                    [readOnly]="isKontaktpersonSelected || isReadonlyIndividuell"
+                ></app-email-input>
+            </div>
+        </div>
+    </div>
+</form>

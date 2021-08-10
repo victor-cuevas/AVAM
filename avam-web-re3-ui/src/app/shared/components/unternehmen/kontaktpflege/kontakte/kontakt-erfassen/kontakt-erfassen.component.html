@@ -1,0 +1,153 @@
+<form [formGroup]="kontaktErfassenForm" #ngForm="ngForm" closeBrowserTab autocomplete="off" [form]="kontaktErfassenForm">
+    <div class="row">
+        <or-spinner [channel]="kontaktErfassenSpinner"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <avam-label-calendar
+                    avamAutofocus
+                    controlName="datum"
+                    id="datum"
+                    [readOnly]="formDisabled"
+                    inputClass="col"
+                    calendarLabel="{{ 'unternehmen.label.kontaktdatum' }}"
+                    [parentForm]="kontaktErfassenForm"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label class="col-form-label"> {{ 'common.label.zeit' | translate }}</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <avam-label-input
+                            id="zeitVon"
+                            inputClass="col"
+                            placeholder="common.label.von"
+                            controlName="zeitVon"
+                            [parentForm]="kontaktErfassenForm"
+                            [readOnly]="formDisabled"
+                            (onBlur)="formatTime(kontaktErfassenForm.controls['zeitVon'])"
+                        ></avam-label-input>
+                    </div>
+                    <div class="col-lg-1 col-md-1 text-right">
+                        <label class="col-form-label"> {{ 'common.label.bis' | translate }}</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <avam-label-input
+                            controlName="zeitBis"
+                            id="zeitBis"
+                            inputClass="col"
+                            placeholder="common.label.bis"
+                            [parentForm]="kontaktErfassenForm"
+                            [readOnly]="formDisabled"
+                            (onBlur)="formatTime(kontaktErfassenForm.controls['zeitBis'])"
+                        ></avam-label-input>
+                    </div>
+                </div>
+                <avam-label-input
+                    controlName="ort"
+                    selectLabel="unternehmen.label.termin.ort"
+                    id="ort"
+                    [parentForm]="kontaktErfassenForm"
+                    [readOnly]="formDisabled"
+                ></avam-label-input>
+                <avam-label-dropdown
+                    [parentForm]="kontaktErfassenForm"
+                    controlName="kontaktGrundID"
+                    id="kontaktGrundID"
+                    [options]="kontaktGrundOptions"
+                    selectLabel="unternehmen.label.termin.grundkontakt"
+                    [placeholder]="'common.label.waehlen'"
+                    hideEmptyOption="true"
+                    [readOnly]="formDisabled"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="kontaktErfassenForm"
+                    controlName="kontaktArtID"
+                    id="kontaktArtID"
+                    [options]="kontaktArtOptions"
+                    selectLabel="unternehmen.label.termin.artkontakt"
+                    [placeholder]="'common.label.waehlen'"
+                    hideEmptyOption="true"
+                    [readOnly]="formDisabled"
+                ></avam-label-dropdown>
+                <avam-multiselect
+                    [parentForm]="kontaktErfassenForm"
+                    controlName="schlagwortList"
+                    [options]="schlagworteOptions"
+                    label="unternehmen.label.termin.schlagworte"
+                    placeholder="common.label.waehlen"
+                    [isDisabled]="formDisabled"
+                ></avam-multiselect>
+                <avam-label-dropdown
+                    [parentForm]="kontaktErfassenForm"
+                    controlName="statusID"
+                    id="statusID"
+                    [options]="statusOptions"
+                    selectLabel="unternehmen.label.termin.status"
+                    hideEmptyOption="true"
+                    [readOnly]="formDisabled"
+                ></avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'unternehmen.label.kundenberatung' | translate }}</h3>
+                </label>
+                <avam-generic-dynamic-autosuggest
+                    [autosuggestSelected]="autosuggestType"
+                    [type]="personalberaterAutosuggestType"
+                    [readOnly]="false"
+                    [isDisabled]="false"
+                    [parentForm]="kontaktErfassenForm"
+                    [showEmail]="true"
+                    placeholder="{{ 'geko.placeholder.zustandig' | translate }}"
+                    controlArrayName="kundenberaterList"
+                    controlName="kundenberater"
+                ></avam-generic-dynamic-autosuggest>
+            </div>
+
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'unternehmen.label.termin.kontaktpersonen' | translate }}</h3>
+                </label>
+                <avam-kontaktperson-dynamic-array
+                    [parentForm]="kontaktErfassenForm"
+                    controlArrayName="kontaktpersonList"
+                    controlName="kontaktperson"
+                    [unternehmenId]="unternehmenId"
+                    placeholder="common.button.waehlenKontaktperson"
+                    [isDisabled]="false"
+                    [readOnly]="false"
+                    [showEmail]="true"
+                ></avam-kontaktperson-dynamic-array>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'unternehmen.label.termin.notizen' | translate }}</h3>
+                </label>
+                <app-textarea [fullWidth]="angabenFullWith" customFormControlState id="angaben" formControlName="angaben" [readonly]="formDisabled" [maxLength]="angabenMaxLength">
+                </app-textarea>
+            </div>
+        </div>
+    </div>
+</form>
+<ng-template #modalTerminUebertragen>
+    <avam-termin-uebertragen [id]="unternehmenId" [terminId]="kontaktId" [isUnternehmenTermin]="true"></avam-termin-uebertragen>
+</ng-template>
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">{{ 'common.button.zuruecksetzen' | translate }}</button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="openDeleteModal()" *ngIf="isBearbeiten" [permissions]="[permissions.ARBEITGEBER_KONTAKTE_BEARBEITEN]">
+        {{ 'unternehmen.label.termin.kontaktLoeschen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="terminUebertragen()" *ngIf="isBearbeiten" [permissions]="[permissions.ARBEITGEBER_KONTAKTE_BEARBEITEN]">
+        {{ 'common.button.termin.uebertragen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.ARBEITGEBER_KONTAKTE_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

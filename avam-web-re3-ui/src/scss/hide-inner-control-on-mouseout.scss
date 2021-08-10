@@ -1,0 +1,29 @@
+input {
+    &.show-clear-button:not([disabled]) {
+        + button.text-control-clear {
+            display: block !important;
+
+            span.fa-times-circle {
+                opacity: 1 !important;
+            }
+        }    
+    }
+
+    + button.text-control-clear {
+        span.fa-times-circle {
+            opacity: 0;
+        }
+
+        &:hover, &:focus {
+            span.fa-times-circle {
+                opacity: 1;
+            }
+        }
+    }
+    
+    &:hover {
+        + button.text-control-clear span.fa-times-circle {
+            opacity: 1 !important;
+        }
+    }
+}

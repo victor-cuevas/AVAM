@@ -1,0 +1,18 @@
+<div class="form-group">
+    <app-autosuggest-input
+        arrow-scrolling
+        [readOnly]="readOnly"
+        [searchFunction]="searchVollzugsregionen"
+        [typingFormatter]="typingFormatter"
+        [resultFormatter]="resultFormatter"
+        [inputFormatter]="inputFormatter"
+        [model]="value ? value.value : ''"
+        style="width: inherit;"
+        (selectItem)="itemSelected($event)"
+        (writeItem)="itemSelected($event)"
+        [placeholder]="placeholder"
+        [disabled]="disabledInput"
+        #inputElement
+    >
+    </app-autosuggest-input>
+</div>

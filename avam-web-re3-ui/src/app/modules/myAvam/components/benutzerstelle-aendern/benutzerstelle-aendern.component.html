@@ -1,0 +1,4 @@
+<ng-template #benutzerstellenModal>
+    <or-spinner [channel]="channel"></or-spinner>
+    <app-benutzerstellen (emitBenutzerstelleSelected)="benutzerstelleSelected($event)" (closeBenutzerstelle)="closeBenutzerstelle()"></app-benutzerstellen>
+</ng-template>

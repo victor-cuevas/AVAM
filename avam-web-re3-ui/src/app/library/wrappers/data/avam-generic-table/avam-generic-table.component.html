@@ -1,0 +1,30 @@
+<div class="avam-generic-table-wrapper" [ngStyle]="{ fontSize: '1rem' }">
+    <div #scrollableTable class="scrollable-header-box">
+        <table #cdkTableHeaders cdk-table class="scrollable-table table table-hover table-bordered">
+            <tr class="table-row-header" cdk-header-row [resizable-handle]="genericTable" *cdkHeaderRowDef="headers"></tr>
+        </table>
+    </div>
+
+    <div #genericTable class="avam-generic-table" [ngStyle]="{ 'max-height': maxHeight + 'px', 'min-height': minHeight + 'px' }">
+        <table
+            #cdkTable
+            cdk-table
+            class="table table-hover table-bordered table-striped"
+            [dataSource]="_dataSource"
+            [trackBy]="customTrackByFn ? customTrackByFn : trackByFn"
+            [style.margin-top]="marginTop ? marginTop : ''"
+            [avamNavigationDirective]="selection"
+            [shouldFocusInitialRow]="shouldFocusFirstRow"
+        >
+            <ng-content></ng-content>
+            <tr class="table-row-header" cdk-header-row *cdkHeaderRowDef="headers"></tr>
+            <tr class="table-row" cdk-row *cdkRowDef="let row; columns: headers"></tr>
+            <ng-container *ngIf="footer">
+                <tr cdk-footer-row *cdkFooterRowDef="headers; sticky: true"></tr>
+            </ng-container>
+            <ng-container *ngIf="footer2">
+                <tr cdk-footer-row *cdkFooterRowDef="footers; sticky: true"></tr>
+            </ng-container>
+        </table>
+    </div>
+</div>

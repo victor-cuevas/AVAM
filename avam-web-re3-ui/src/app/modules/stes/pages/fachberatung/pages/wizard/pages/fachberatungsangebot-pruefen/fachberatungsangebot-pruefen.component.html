@@ -1,0 +1,59 @@
+<form [formGroup]="fachberatungsangebotForm" #ngForm="ngForm" autocomplete="off">
+    <or-spinner [channel]="fachberatungsangebotChannel"></or-spinner>
+    <avam-stes-info-bar *ngIf="stesHeader" [data]="stesHeader"></avam-stes-info-bar>
+    <div class="avam-panel">
+        <div class="row print-block">
+            <div class="rechts col-xl-6">
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.fachberatungsangebote.angebotnr' | translate }}"
+                    controlName="angebotsNr"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.fachberatungsangebote.beratungsbereich' | translate }}"
+                    controlName="beratungsbereich"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.fachberatungsangebote.bezeichnung' | translate }}"
+                    controlName="bezeichnung"
+                ></avam-label-input>
+                <br />
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.fachberatung.zielpublikum' | translate }}"
+                    controlName="zielpublikum"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.fachberatung.initialisierung' | translate }}"
+                    controlName="initialisierung"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.fachberatung.leistung' | translate }}"
+                    controlName="leistung"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+</form>
+<ng-template #footerBtns>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="back()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="next()">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>

@@ -1,0 +1,60 @@
+<form class="outer-panel-height no-overflow h-100" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter inner-panel-height p-3 sticky">
+        <div [formGroup]="searchForm" class="no-overflow h-100 ">
+            <h3>
+                <span class="fa fa-search mr-2"></span>
+                {{ 'benutzerverwaltung.label.vollzugsregion' | translate }}
+            </h3>
+            <avam-label-input avamAutofocus controlName="bezeichnung" inputClass="col" [parentForm]="searchForm" placeholder="common.label.bezeichnung"></avam-label-input>
+            <avam-label-dropdown
+                controlName="vollzugsregionenTyp"
+                [parentForm]="searchForm"
+                [placeholder]="'benutzerverwaltung.label.vollzugsregiontypwaehlen'"
+                [options]="vollzugsregionenTypDropdown"
+                inputClass="col"
+            ></avam-label-dropdown>
+            <br />
+            <avam-gemeinde-autosuggest
+                inputClass="col"
+                controlName="gemeinde"
+                [parentForm]="searchForm"
+                [placeholder]="'verzeichnisse.label.gemeindenrname'"
+            ></avam-gemeinde-autosuggest>
+            <avam-label-dropdown
+                controlName="kanton"
+                inputClass="col"
+                [parentForm]="searchForm"
+                [options]="kantonDropdown"
+                [placeholder]="'common.label.kantonwaehlen'"
+            ></avam-label-dropdown>
+            <br />
+            <div class="d-inline-flex w-100">
+                <div class="w-100">
+                    <avam-benutzerstelle-autosuggest
+                        [parentForm]="searchForm"
+                        controlName="benutzerstelle"
+                        placeholder="{{ 'verzeichnisse.label.code' | translate }}"
+                        [type]="benutzerstelleAutosuggestType"
+                    ></avam-benutzerstelle-autosuggest>
+                </div>
+                <div class="form-group">
+                    <button
+                        type="button"
+                        class="btn btn-secondary rounded-0"
+                        ngbTooltip="{{ 'benutzerverwaltung.label.benutzerstellensuchen' | translate }}"
+                        (click)="openBenutzerstelleSuche(benutzerstellenSuche)"
+                    >
+                        <span class="fa fa-search-plus"></span>
+                    </button>
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <avam-label-input controlName="vollzugsregion" inputClass="col" [parentForm]="searchForm" placeholder="benutzerverwaltung.label.vregid"></avam-label-input>
+        </div>
+    </div>
+</form>
+<ng-template #benutzerstellenSuche>
+    <app-benutzerstelle-suche [uebergebeneDaten]="benutzerstelleSucheParams" (emitBenutzerstelle)="updateBenutzerstelleSuche($event)"></app-benutzerstelle-suche>
+</ng-template>

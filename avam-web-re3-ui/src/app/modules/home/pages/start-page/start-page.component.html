@@ -1,0 +1,23 @@
+<div
+    class="sticky-main default-layout startpage"
+    [ngClass]="{ coverBackground: showBackgroundImage, noCoverBackground: !showBackgroundImage, screenSize: !showBackgroundImage }"
+    *ngIf="isLoggedIn()"
+>
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-5">
+            <div class="shadow-lg" *ngIf="showMessages()">
+                <div class="alert alert-card alert-success" role="alert">
+                    <div>{{ this.erfolgreichAngemeldetMsg() }} {{ this.lastloginMsg() }}</div>
+                    <div>{{ this.siteChangedMsg() }} {{ this.benutzerstelleMsg() }}</div>
+                </div>
+            </div>
+            <app-info-message></app-info-message>
+            <!-- Kalendar -->
+        </div>
+        <div class="col-lg-5">
+            <!-- Schnellzugriffe & Favoriten -->
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>

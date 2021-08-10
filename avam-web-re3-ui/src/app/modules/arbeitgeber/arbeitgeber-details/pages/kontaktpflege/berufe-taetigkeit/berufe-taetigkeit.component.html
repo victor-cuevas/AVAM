@@ -1,0 +1,17 @@
+<div class="overflow-hidden mh-100 pt-3">
+    <or-spinner [channel]="channel"> </or-spinner>
+    <avam-common-wrapper-table
+        [dataSource]="tableConfig.data"
+        [columns]="tableConfig.columns"
+        [config]="tableConfig.config"
+        (onRowSelect)="selectItem($event)"
+    ></avam-common-wrapper-table>
+</div>
+<ng-template #buttons>
+    <button class="btn btn-primary ml-1" type="button" (click)="berufErfassen()" [permissions]="[permissions.KEY_AG_ARBEITGEBERDATEN_BEARBEITEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'arbeitgeber.oste.label.beruftaetigkeiterfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>

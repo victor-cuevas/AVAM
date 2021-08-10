@@ -1,0 +1,22 @@
+<div>
+    <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+    <avam-date-range-form #suchenFormComponent [data]="data" (onEnter)="onRefresh()" (onDataRefresh)="onRefresh()"></avam-date-range-form>
+    <avam-leistungsvereinbarungen-table
+        [dataSource]="dataSource"
+        #tableComponent
+        (onItemSelected)="onRowSelected($event)"
+        [forUebersicht]="true"
+    ></avam-leistungsvereinbarungen-table>
+</div>
+<ng-template #modalPrint>
+    <avam-leistungsvereinbarungen-table *ngIf="dataSource" [dataSource]="dataSource" [hideTableButton]="true"></avam-leistungsvereinbarungen-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="leistungsvereinbarungErfassen()" [permissions]="[permissions.AMM_AKQUISITION_BEARBEITEN]">
+        <span class="fa fa-plus"></span>
+        {{ 'amm.akquisition.kopfzeile.leistungsvereinbarungerfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

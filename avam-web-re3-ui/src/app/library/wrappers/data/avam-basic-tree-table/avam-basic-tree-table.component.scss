@@ -1,0 +1,118 @@
+.core-tree-table {
+    .far {
+        display: inline-block;
+        font: normal normal normal 1rem FontAwesome;
+        color: #005e8e;
+        cursor: pointer;
+        padding-right: 10px;
+    }
+
+    .element-label {
+        overflow: hidden;
+        white-space: nowrap;
+        -moz-text-overflow: ellipsis;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+
+        span {
+            overflow: hidden;
+            display: block;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .value-cell {
+        display: flex;
+    }
+
+    tbody {
+        tr {
+            &:hover,
+            &:focus {
+                background: #dde7ff !important;
+                .buttonOnHover {
+                    display: flex;
+                    visibility: visible;
+                }
+            }
+
+            &.hover {
+                background: #dde7ff !important;
+
+                .buttonOnHover {
+                    display: flex;
+                    visibility: visible;
+                }
+            }
+        }
+    }
+
+    .buttonOnHover {
+        width: 32px;
+        visibility: hidden;
+        margin: 0 auto;
+    }
+
+    .resize-container {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        width: 8px;
+        height: 100%;
+        padding: 0;
+        cursor: col-resize;
+        border: 1px solid transparent;
+
+        &:hover {
+            background: #f8f8f8;
+        }
+    }
+
+    table {
+        table-layout: fixed;
+
+        td,
+        th {
+            overflow: hidden;
+            white-space: nowrap;
+            -moz-text-overflow: ellipsis;
+            -ms-text-overflow: ellipsis;
+            -o-text-overflow: ellipsis;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+
+            span {
+                overflow: hidden;
+                display: block;
+                text-overflow: ellipsis;
+            }
+        }
+
+        th {
+            position: relative;
+
+            &.cdk-column-action {
+                width: 60px;
+            }
+        }
+
+        tr th:nth-child(1) {
+            width: 330px;
+        }
+
+        .selected-row {
+            td {
+                background-color: #dde7ff !important;
+            }
+        }
+    }
+}
+
+.core-tree-table table th {
+    position: sticky !important;
+    top: 0 !important;
+    background: white !important;
+    z-index: 1;
+}

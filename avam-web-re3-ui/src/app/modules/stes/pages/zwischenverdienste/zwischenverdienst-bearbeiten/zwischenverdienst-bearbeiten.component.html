@@ -1,0 +1,117 @@
+<form [formGroup]="zwischenverdienstForm" #ngForm="ngForm" closeBrowserTab [form]="zwischenverdienstForm" autocomplete="off">
+    <div class="row">
+        <or-spinner [channel]="zwischenverdienstChannel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <avam-date-range-picker
+                    avamAutofocusTwoFields
+                    class="form-group"
+                    label="{{ 'stes.label.zwischenverdienst' }}"
+                    [parentForm]="zwischenverdienstForm"
+                    formControlNameFrom="zvDatumVon"
+                    formControlNameTo="zvDatumBis"
+                    [isResponsive]="true"
+                >
+                </avam-date-range-picker>
+
+                <div class="col-lg-12 col-md-1 text-right">
+                    <avam-label-checkbox
+                        componentId="isSelbststaendigerZV"
+                        controlName="isSelbststaendigerZV"
+                        [parentForm]="zwischenverdienstForm"
+                        selectLabel="{{ 'stes.label.selbstaendigerZwischenverdienst' }}"
+                        (onChange)="onSelbstZvChecked()"
+                    ></avam-label-checkbox>
+                </div>
+
+                <div class="col-lg-12 col-md-1 text-right">
+                    <avam-label-checkbox
+                        componentId="isAufgrundZuweisung"
+                        controlName="isAufgrundZuweisung"
+                        [parentForm]="zwischenverdienstForm"
+                        selectLabel="{{ 'stes.label.zwischenverdienst.aufgrundzuweisung' }}"
+                        (onChange)="onVermittlungChecked()"
+                    ></avam-label-checkbox>
+                </div>
+
+                <app-vermittlung-select
+                    customFormControlState
+                    formControlName="vermittlungsnummer"
+                    (vermittlungSelectedEventEmitter)="setVermittlung($event)"
+                    (modalClosed)="modalClosed($event)"
+                ></app-vermittlung-select>
+                <div>
+                    <avam-label-calendar
+                        controlName="vermittlungvom"
+                        id="zuweisungsdatum"
+                        calendarLabel="{{ 'stes.label.zuweisungstes.zuweisungsdatum' }}"
+                        [parentForm]="zwischenverdienstForm"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                        [readOnly]="true"
+                    ></avam-label-calendar>
+                    <avam-label-input
+                        [parentForm]="zwischenverdienstForm"
+                        controlName="stellenBezeichnung"
+                        selectLabel="stes.label.vermittlung.stellenbezeichnung"
+                        [readOnly]="true"
+                    >
+                    </avam-label-input>
+                    <avam-beruf-autosuggest [parentForm]="zwischenverdienstForm" controlName="berufTaetigkeit" componentLabel="stes.label.beruf"></avam-beruf-autosuggest>
+                    <avam-unternehmen-autosuggest
+                        [parentForm]="zwischenverdienstForm"
+                        controlName="name1"
+                        componentLabel="stes.label.arbeitgeber"
+                        suchePlusLabel="stes.label.arbeitgeber"
+                        [readOnly]="this.isAufgrundZuweisung() || this.isSelbststaendigerZV()"
+                        (onSelect)="selectedArbeitgeber($event)"
+                        (onClear)="clearUnternehmenForm()"
+                    ></avam-unternehmen-autosuggest>
+                    <avam-label-input [parentForm]="zwischenverdienstForm" controlName="name2" selectLabel=" " [readOnly]="true"> </avam-label-input>
+                    <avam-label-input [parentForm]="zwischenverdienstForm" controlName="name3" selectLabel=" " [readOnly]="true"> </avam-label-input>
+                    <avam-label-input [parentForm]="zwischenverdienstForm" controlName="plz" selectLabel="stes.label.fachberatung.plzort" [readOnly]="true"> </avam-label-input>
+                    <avam-label-input [parentForm]="zwischenverdienstForm" controlName="land" selectLabel="stes.label.fachberatung.land" [readOnly]="true"> </avam-label-input>
+                    <avam-label-input [parentForm]="zwischenverdienstForm" controlName="bur" selectLabel="stes.label.burnummer" [readOnly]="true"> </avam-label-input>
+                    <avam-label-input [parentForm]="zwischenverdienstForm" controlName="branche" selectLabel="stes.label.branche" [readOnly]="true"> </avam-label-input>
+                </div>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [parentForm]="zwischenverdienstForm"
+                    controlName="initialisiertDurchId"
+                    selectLabel="{{ 'stes.label.zwischenverdienst.initialisiertdurch' }}"
+                    id="initialisiertdurch"
+                    [options]="initOptions"
+                ></avam-label-dropdown>
+
+                <avam-label-dropdown
+                    [parentForm]="zwischenverdienstForm"
+                    controlName="quelleId"
+                    selectLabel="{{ 'stes.label.zwischenverdienst.quelle' }}"
+                    id="quelle"
+                    [options]="quelleOptions"
+                ></avam-label-dropdown>
+
+                <app-textarea customFormControlState id="bemerkung" formControlName="bemerkung" selectLabel="{{ 'stes.label.bemerkungen' }}" [maxLength]="255"></app-textarea>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" type="button" (click)="reset()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="zwischenverdienstId" class="btn btn-secondary ml-1" type="button" (click)="openDeleteDialog()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.zwischenverdienstLoeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

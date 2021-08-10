@@ -1,0 +1,52 @@
+<avam-bew-durchfuehrungsort-form
+    #durchsfuerungsortFormComponent
+    [durchfuehrungsortData]="durchfuehrungsortData"
+    (onKpersonSelected)="onKpersonSelected($event)"
+></avam-bew-durchfuehrungsort-form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="durchsfuerungsortFormComponent.reset()" [permissions]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="wizardService.movePrev()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="submit()" [permissions]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'common.button.fertigstellen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ organisationInfoBar }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.durchfuehrungsnr' | translate }} ({{ 'amm.massnahmen.label.standort' | translate }}) </b>
+        <span>{{ dfeId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+        <span>{{ standortTitel }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+        <span>{{ zulassungstyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ unternehmensname }}</span>
+    </div>
+    <div class="item">
+        <b> {{ provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }} </b>
+        <span>{{ burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.status' | translate }} </b>
+        <span>{{ unternehmenStatus }}</span>
+    </div>
+</ng-template>

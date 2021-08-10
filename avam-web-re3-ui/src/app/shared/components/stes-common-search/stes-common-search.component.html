@@ -1,0 +1,55 @@
+<or-column-layout class="h-100" [right]="false">
+    <div column-left-content class="sticky-main" (keyup.enter)="search()">
+        <or-spinner channel="formSpinner"></or-spinner>
+        <form class="outer-panel-height" #ngForm="ngForm" autocomplete="off" class="no-overflow h-100">
+            <div class="avam-panel avam-panel-extra-lighter inner-panel-height p-3 sticky">
+                <ng-content></ng-content>
+            </div>
+        </form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [disabled]="searchButtonDisabled">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner channel="tableSpinner"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 *ngIf="infoleisteTranslationKey" class="pl-4 infoleiste">
+                    {{ infoleisteTranslationKey | translate }}
+                </h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="dataSource?.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <avam-alert></avam-alert>
+        <div class="mh-82">
+            <avam-stes-common-search-table
+                [dataSource]="dataSource"
+                [displayedColumns]="displayedColumns"
+                [sortField]="sortField"
+                [columns]="columns"
+                [stateKey]="stateKey"
+                (onItemSelected)="navigate($event)"
+            ></avam-stes-common-search-table>
+        </div>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-stes-common-search-table
+            [dataSource]="dataSource"
+            [displayedColumns]="displayedColumns"
+            [sortField]="sortField"
+            [columns]="columns"
+            [forPrinting]="forPrinting"
+        ></avam-stes-common-search-table>
+    </avam-generic-table-print>
+</ng-template>

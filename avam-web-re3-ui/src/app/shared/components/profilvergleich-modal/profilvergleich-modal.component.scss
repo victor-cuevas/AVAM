@@ -1,0 +1,15 @@
+@media (min-resolution: 120dpi) {
+    .page-style {
+        height: 77vh !important;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }
+}
+
+@media (max-resolution: 96dpi) {
+    .page-style {
+        height: 82vh !important;
+        overflow-x: hidden;
+        overflow-y: auto;
+    }   
+}

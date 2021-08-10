@@ -1,0 +1,53 @@
+<div #ngForm="ngForm" [formGroup]="parentForm" class="row mb-2 form-group">
+    <div *ngIf="componentLabel" class="col-lg-4 col-md-4 text-right col-form-label">
+        <label class="mb-2" for="{{ formName }}">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8 align-self-center'">
+        <div [hidden]="readonly" orFormControlState>
+            <div class="d-flex">
+                <core-input
+                    #coreInput
+                    negateInput
+                    (onInput)="input($event)"
+                    (onChange)="change($event.target.value)"
+                    [coreReadOnly]="true"
+                    [coreReadOnlyClearButton]="true"
+                    [disableControl]="disabled"
+                    class="input-group"
+                    dynamicControlName
+                    [formControlName]="controlName"
+                    placeholder="{{ placeholder | translate }}"
+                ></core-input>
+                <div *ngIf="!readonly && showEmail" class="input-group-append d-block">
+                    <a #emailUrl href="mailto:email@not.set" (click)="updateEmailUrl()" [ngClass]="{ disable: disabled || !selectedKontaktperson || !selectedKontaktperson.email }">
+                        <button class="btn btn-secondary rounded-0" type="button" role="button" ngbTooltip="{{ 'common.button.emailSenden' | translate }}" [disabled]="disabled">
+                            <span class="fa fa-envelope"></span>
+                        </button>
+                    </a>
+                </div>
+                <div class="input-group-append d-block">
+                    <button
+                        #kontaktpersonBtn
+                        type="button"
+                        ngbTooltip="{{ 'common.button.waehlenKontaktperson' | translate }}"
+                        (click)="openKontaktperson()"
+                        class="btn btn-secondary rounded-0"
+                        [disabled]="disabled"
+                    >
+                        <span class="fa fa-clone"></span>
+                    </button>
+                </div>
+            </div>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="readonly">
+            <p class="mb-2">
+                {{ selectedValue }}
+            </p>
+        </div>
+    </div>
+
+    <ng-template #kontaktpersonModal>
+        <avam-kontaktperson-waehlen-modal [unternehmenId]="unternehmenId" (kontaktpersonSelected)="onKontaktpersonSelected($event)"></avam-kontaktperson-waehlen-modal>
+    </ng-template>
+</div>

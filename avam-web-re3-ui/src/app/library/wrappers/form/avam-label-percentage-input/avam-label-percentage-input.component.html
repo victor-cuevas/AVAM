@@ -1,0 +1,36 @@
+<div [formGroup]="parentForm" #ngForm="ngForm">
+    <div
+        class="row mb-2"
+        [ngClass]="{
+            'form-group': !readOnly
+        }"
+    >
+        <div *ngIf="selectLabel" class="col-lg-4 col-md-4 text-right col-form-label">
+            <label class="mb-2" for="{{ id }}InputLable"> {{ selectLabel | translate }}</label>
+        </div>
+        <div class="{{ inputClass ? inputClass : 'col-lg-8 col-md-8' }} align-self-center">
+            <div [hidden]="readOnly" orFormControlState>
+                <div class="d-flex">
+                    <core-input
+                        (onBlur)="blur($event)"
+                        (keypress)="keypress($event)"
+                        (onInput)="input($event)"
+                        dynamicControlName
+                        [formControlName]="controlName"
+                        [disableControl]="isDisabled"
+                    ></core-input>
+                    <div class="sign">
+                        %
+                    </div>
+                </div>
+                <or-error-messages></or-error-messages>
+            </div>
+            <div *ngIf="readOnly" class="d-flex pt-2">
+                <p class="mr-2 p-value-left-12">{{ inputValue }}</p>
+                <div class="sign readOnly">
+                    %
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

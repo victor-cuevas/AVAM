@@ -1,0 +1,189 @@
+<div class="print-block row has-overlay pl-3 pr-3">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="avam-panel col-xl-12 d-flex">
+        <div class="col-xl-12" [formGroup]="searchForm">
+            <avam-date-range-picker
+                id="zeitraumVonBis"
+                class="form-group"
+                label="{{ 'amm.nutzung.label.zeitraum' }}"
+                [parentForm]="searchForm"
+                formControlNameFrom="zeitraumVon"
+                formControlNameTo="zeitraumBis"
+                [hasVerticalLayout]="false"
+                [isDisabled]="false"
+                [readOnly]="false"
+                labelClass="col-xl-2"
+                inputClass="col-xl-6"
+                wrapperClass="col-xl-6"
+            ></avam-date-range-picker>
+        </div>
+    </div>
+    <div class="col-xl-12 p-0 d-flex w-100" [formGroup]="statisticsForm">
+        <div class="rechts col-xl-6 d-flex pl-0">
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <avam-label-input
+                    controlName="stellenangebot"
+                    selectLabel="arbeitgeber.label.stellenangebot"
+                    [parentForm]="statisticsForm"
+                    [isDisabled]="true"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                ></avam-label-input>
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    selectLabel="{{ 'arbeitgeber.label.stellenangebotRAV' | translate }}"
+                    [parentForm]="statisticsForm"
+                    [controlName]="'stellenangebotRAV'"
+                    [formNr]="formNr.stellenangebotRav"
+                    modalHeader="{{ 'arbeitgeber.label.stellenangebotRAV' | translate }}"
+                    [tableConfig]="tableConfigs.rav"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                    (modalClosed)="openWindow($event, 'stellenangebotRAV')"
+                    [isDisabled]="!+statisticsForm.controls.stellenangebotRAV.value"
+                    [modalToolboxConfiguration]="tableConfigs.rav.toolboxConfig"
+                    [toolTip]="'arbeitgeber.label.stellenagebotRAVModal'"
+                ></avam-data-table-modal>
+                <avam-label-input
+                    controlName="arbeitEntschaedigung"
+                    selectLabel="kaeswe.constanten.kae"
+                    [parentForm]="statisticsForm"
+                    [isDisabled]="true"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="schlechtWetter"
+                    selectLabel="kaeswe.constanten.swe"
+                    [parentForm]="statisticsForm"
+                    [isDisabled]="true"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                ></avam-label-input>
+                <br />
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    selectLabel="{{ 'unternehmen.label.zv' | translate }}"
+                    [parentForm]="statisticsForm"
+                    [controlName]="'zwischenVerdienst'"
+                    [formNr]="formNr.zwischenVerdienst"
+                    modalHeader="{{ 'arbeitgeber.label.zwischenverdienstag' | translate }}"
+                    [tableConfig]="tableConfigs.zv"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                    (modalClosed)="openWindow($event, 'zwischenVerdienst')"
+                    [isDisabled]="!+statisticsForm.controls.zwischenVerdienst.value"
+                    [modalToolboxConfiguration]="tableConfigs.rav.toolboxConfig"
+                    [toolTip]="'unternehmen.label.zvModal'"
+                ></avam-data-table-modal>
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    selectLabel="{{ 'stes.label.neuerArbeitgeber' | translate }}"
+                    [parentForm]="statisticsForm"
+                    [controlName]="'neuerArbeitgeber'"
+                    [formNr]="formNr.neuerArbeitgeber"
+                    modalHeader="{{ 'arbeitgeber.label.neuerag' | translate }}"
+                    [tableConfig]="tableConfigs.neuerArbeitgeber"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                    (modalClosed)="openWindow($event, 'neuerArbeitgeber')"
+                    [isDisabled]="!+statisticsForm.controls.neuerArbeitgeber.value"
+                    [modalToolboxConfiguration]="tableConfigs.rav.toolboxConfig"
+                    [toolTip]="'stes.label.neuerArbeitgeberModal'"
+                ></avam-data-table-modal>
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    selectLabel="{{ 'stes.label.letzterArbeitgeber' | translate }}"
+                    [parentForm]="statisticsForm"
+                    [controlName]="'letzterArbeitgeber'"
+                    [formNr]="formNr.letzterArbeitgeber"
+                    modalHeader="{{ 'arbeitgeber.label.letztag' | translate }}"
+                    [tableConfig]="tableConfigs.letztArbeitgeber"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                    (modalClosed)="openWindow($event, 'letzterArbeitgeber')"
+                    [isDisabled]="!+statisticsForm.controls.letzterArbeitgeber.value"
+                    [modalToolboxConfiguration]="tableConfigs.rav.toolboxConfig"
+                    [toolTip]="'stes.label.letzterArbeitgeberModal'"
+                ></avam-data-table-modal>
+            </div>
+        </div>
+        <div class="links col-xl-6 pr-0">
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    selectLabel="{{ 'arbeitgeber.label.einarbeitungzuschuss' | translate }}"
+                    [parentForm]="statisticsForm"
+                    [controlName]="'einarbeitungZuschuss'"
+                    [formNr]="formNr.einarbeitungZuschuss"
+                    modalHeader="{{ 'arbeitgeber.label.stesEinarbeitungZuschuss' | translate }}"
+                    [tableConfig]="tableConfigs.einarbeitungZuschuss"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                    (modalClosed)="openWindow($event, 'einarbeitungZuschuss')"
+                    [isDisabled]="!+statisticsForm.controls.einarbeitungZuschuss.value"
+                    [modalToolboxConfiguration]="tableConfigs.rav.toolboxConfig"
+                    [toolTip]="'arbeitgeber.label.einarbeitungzuschussModal'"
+                ></avam-data-table-modal>
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    selectLabel="{{ 'stes.asal.label.ausbildungszuschuss' | translate }}"
+                    [parentForm]="statisticsForm"
+                    [controlName]="'ausbildungsZuschuss'"
+                    [formNr]="formNr.ausbildungsZuschuss"
+                    modalHeader="{{ 'arbeitgeber.label.ausbildungszuschuss' | translate }}"
+                    [tableConfig]="tableConfigs.ausbildungsZuschuss"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                    (modalClosed)="openWindow($event, 'ausbildungsZuschuss')"
+                    [isDisabled]="!+statisticsForm.controls.ausbildungsZuschuss.value"
+                    [modalToolboxConfiguration]="tableConfigs.rav.toolboxConfig"
+                    [toolTip]="'stes.asal.label.ausbildungszuschuss'"
+                ></avam-data-table-modal>
+                <br />
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    selectLabel="{{ 'arbeitgeber.label.berufspratikatitle' | translate }}"
+                    [parentForm]="statisticsForm"
+                    [controlName]="'berufspratika'"
+                    [formNr]="formNr.berufspratika"
+                    modalHeader="{{ 'arbeitgeber.label.berufspratikamodaltitle' | translate }}"
+                    [tableConfig]="tableConfigs.berufspratika"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                    (modalClosed)="openWindow($event, 'berufspratika')"
+                    [isDisabled]="!+statisticsForm.controls.berufspratika.value"
+                    [modalToolboxConfiguration]="tableConfigs.rav.toolboxConfig"
+                    [toolTip]="'arbeitgeber.label.berufspratikatitleModal'"
+                ></avam-data-table-modal>
+                <br />
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    selectLabel="{{ 'arbeitgeber.label.ausbildungspraktikatitle' | translate }}"
+                    [parentForm]="statisticsForm"
+                    [controlName]="'ausbildungspraktika'"
+                    [formNr]="formNr.ausbildungsPraktika"
+                    modalHeader="{{ 'arbeitgeber.label.ausbildungspraktikamodaltitle' | translate }}"
+                    [tableConfig]="tableConfigs.ausbildungsPraktika"
+                    inputClass="col-xl-3"
+                    labelClass="col-xl-6"
+                    (modalClosed)="openWindow($event, 'ausbildungspraktika')"
+                    [isDisabled]="!+statisticsForm.controls.ausbildungspraktika.value"
+                    [modalToolboxConfiguration]="tableConfigs.rav.toolboxConfig"
+                    [toolTip]="'arbeitgeber.label.ausbildungspraktikatitleModal'"
+                ></avam-data-table-modal>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="getData(true)" [permissions]="[permissions.KEY_AG_GRUNDDATEN_BEARBEITEN]">
+        {{ 'common.button.aktualisieren' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

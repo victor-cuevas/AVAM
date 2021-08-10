@@ -1,0 +1,30 @@
+<div class="d-block">
+    <avam-date-range-form #searchForm [data]="data" label="amm.abrechnungen.label.ausfuehrungsdatum" (onEnter)="onRefresh()" (onDataRefresh)="onRefresh()"></avam-date-range-form>
+</div>
+<div>
+    <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+    <avam-teilzahlungen-uebersicht-table
+        #tableComponent
+        [dataSource]="dataSource"
+        [tableType]="tableType.UEBERSICHT"
+        (onItemSelected)="onItemSelected($event)"
+    ></avam-teilzahlungen-uebersicht-table>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="teilzahlungErfassen()" [permissions]="[permissions.AMM_ZAHLUNG_ABRECHNUNG_KOPF_BEARBEITEN]">
+        <span class="fa fa-plus"></span>
+        {{ 'amm.zahlungen.button.teilzahlungerfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #modalPrint>
+    <avam-teilzahlungen-uebersicht-table
+        #tableComponent
+        [dataSource]="dataSource"
+        [tableType]="tableType.UEBERSICHT"
+        [hideTableButton]="true"
+    ></avam-teilzahlungen-uebersicht-table>
+</ng-template>

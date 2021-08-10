@@ -1,0 +1,14 @@
+.calendar-padding-top{
+    ::ng-deep  avam-label-calendar .row .align-self-center .align-self-center {
+        padding-top: 7px;
+        display: flex;
+    }
+}
+
+:host ::ng-deep avam-range-valued-wrapper .space-between-input-fields {
+    width: calc(100% - 2 * 190px);
+}
+
+:host ::ng-deep avam-input-slider .col-lg-9 {
+    max-width: 72%;
+}

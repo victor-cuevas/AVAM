@@ -1,0 +1,86 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-bew-kurs-grunddaten-form #grunddatenFormComponent [grunddatenData]="grunddatenData"></avam-bew-kurs-grunddaten-form>
+</div>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="isMassnahmeKollektiv"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="reset()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="isMassnahmeKollektiv && durchfuehrungsEntscheideErstellbar"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openEntscheideErstellenModal()"
+        [permissionContext]="[permissions.AMM_NUTZUNG_MASSNAHME_BEWIRTSCHAFTEN]"
+    >
+        {{ 'amm.massnahmen.button.entscheideerstellen' | translate }}
+    </button>
+    <div *ngIf="isMassnahmeKollektiv" #aktionen="ngbDropdown" ngbDropdown placement="top-right" (mouseleave)="aktionen.close()">
+        <button class="btn btn-secondary ml-1" ngbDropdownToggle (mouseenter)="aktionen.open()">
+            {{ 'i18n.common.actions' | translate }}
+        </button>
+        <div class="dropdown-menu mb-0" ngbDropdownMenu (mouseenter)="aktionen.open()" (mouseleave)="aktionen.close()">
+            <button *ngIf="showDeleteKursButton" class="dropdown-item" (click)="openDeleteModal()" [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+                {{ 'amm.massnahmen.button.kursloeschen' | translate }}
+            </button>
+            <button *ngIf="durchfuehrungAbsagbar" class="dropdown-item" (click)="openAbsagenModal()" [permissionContext]="[permissions.AMM_NUTZUNG_MASSNAHME_BEWIRTSCHAFTEN]">
+                {{ 'amm.massnahmen.button.kursabsagen' | translate }}
+            </button>
+            <button class="dropdown-item" (click)="kursKopieren()" [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+                {{ 'amm.massnahmen.button.kurskopieren' | translate }}
+            </button>
+        </div>
+    </div>
+    <button *ngIf="inPlanungAkquisitionSichtbar" class="btn btn-secondary ml-1" type="button" (click)="zurKursplanung()" [permissions]="[permissions.AMM_PLANUNG_LESEN]">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.massnahmen.button.zurkursplanung' | translate }}
+    </button>
+    <button
+        *ngIf="isMassnahmeKollektiv"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="submit()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ organisationInfoBar }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.massnahmennr' | translate }} </b>
+        <span>{{ massnahmeId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+        <span>{{ massnahmeTitel }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+        <span>{{ zulassungstyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ unternehmensname }}</span>
+    </div>
+    <div class="item">
+        <b> {{ provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }} </b>
+        <span>{{ burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.status' | translate }} </b>
+        <span>{{ unternehmenStatus }}</span>
+    </div>
+</ng-template>

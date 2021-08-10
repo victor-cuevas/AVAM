@@ -1,0 +1,196 @@
+<form [formGroup]="kostenForm" #ngForm="ngForm" closeBrowserTab [form]="kostenForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.arbeitgeberanteilberufspraktika' | translate }}</h3>
+                </label>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.asal.label.versicherterVerdienst' | translate }}</label>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-4 text-right">
+                        <p>{{ bpKostenData?.versicherterVerdienst | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.taggeldsatz' | translate }}</label>
+                    </div>
+                    <div class="col-md-3 ">
+                        <p>{{ bpKostenData?.taggeldsatz | formatNumber: '2' }} %</p>
+                    </div>
+                    <div></div>
+                </div>
+                <hr class="hr-thin" />
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.monatlichesBruttoTaggeld' | translate }}</label>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-4 text-right">
+                        <p>{{ bpKostenData?.taggelder | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.beschaeftigungsgradvermittlung' | translate }}</label>
+                    </div>
+                    <div class="col-md-3 ">
+                        <p>{{ bpKostenData?.vermittlungsgradProzent | formatNumber: '2' }} %</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.beschaeftigungsgradinbp' | translate }}</label>
+                    </div>
+                    <div class="col-md-3 ">
+                        <p>{{ bpKostenData?.beschaeftigungsgrad | formatNumber: '2' }} %</p>
+                    </div>
+                </div>
+                <hr class="hr-thin" />
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.berechnungsGrundlage' | translate }}</label>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div *ngIf="bpKostenData?.berechnungsgrundlage > 0" class="col-md-4 text-right">
+                        <p>{{ bpKostenData?.berechnungsgrundlage | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-right align-self-center">
+                        <label>{{ 'amm.nutzung.label.monatlicherarbeitgeberanteil' | translate }}</label>
+                    </div>
+                    <div *ngIf="!isTheFirstEntscheidFreigabebereitFreigegebenOrErsetzt" class="col-md-3 d-flex">
+                        <div class="col no-padding" orFormControlState>
+                            <core-input
+                                formControlName="monatlicherArbeitgeberanteilProzent"
+                                (onKeyup)="updateMonatlicherArbeitgeberanteilProzentValidators(bpKostenData?.berechnungsgrundlage)"
+                                (onInput)="updateMonatlicherArbeitgeberanteilProzentValidators(bpKostenData?.berechnungsgrundlage)"
+                                (onChange)="updateMonatlicherArbeitgeberanteilProzentValidators(bpKostenData?.berechnungsgrundlage)"
+                            ></core-input>
+                            <or-error-messages></or-error-messages>
+                        </div>
+                        <p class="align-self-center ml-2 mb-2">%</p>
+                    </div>
+                    <div *ngIf="isTheFirstEntscheidFreigabebereitFreigegebenOrErsetzt" class="col-md-3">
+                        <div id="arbeitgeberbeitragProzent">{{ bpKostenData?.arbeitgeberbeitragProzent }} %</div>
+                    </div>
+                    <div class="col-md-4 pr-1">
+                        <avam-currency-input
+                            controlName="monatlicherArbeitgeberanteilCHF"
+                            [parentForm]="kostenForm"
+                            id="monatlicherArbeitgeberanteilCHF"
+                            secondaryLabel="common.label.chf"
+                            [customInputClass]="!isTheFirstEntscheidFreigabebereitFreigegebenOrErsetzt ? 'col-md-9 pr-0' : 'col-md-9 pr-0 flex-row-reverse'"
+                            customSecondaryLabelClass="col-md-3 pl-2"
+                            [readOnly]="isTheFirstEntscheidFreigabebereitFreigegebenOrErsetzt"
+                            (onKeyup)="updateMonatlicherArbeitgeberanteilChfValidators(bpKostenData?.berechnungsgrundlage)"
+                            (onInput)="updateMonatlicherArbeitgeberanteilChfValidators(bpKostenData?.berechnungsgrundlage)"
+                            (onChange)="updateMonatlicherArbeitgeberanteilChfValidators(bpKostenData?.berechnungsgrundlage)"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <hr class="hr-thin" />
+                <div class="row mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.dauerdermassnahme' | translate }}</label>
+                    </div>
+                    <div class="col-md-1">
+                        <p>{{ bpKostenData?.ausrichtungszeitraumInMonaten | formatNumber: '1' }}</p>
+                    </div>
+                    <div class="col-md-2">
+                        <p>{{ 'stes.label.monate' | translate }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.totalarbeitgeberanteil' | translate }}</label>
+                    </div>
+                    <div class="col-md-3"></div>
+                    <div class="col-md-4 text-right">
+                        <p>{{ bpKostenData?.betrag | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <hr class="hr-thick" />
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.aktuelleanspruchsdaten' | translate }}</h3>
+                </label>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.asal.label.versicherterVerdienst' | translate }}</label>
+                    </div>
+                    <div class="col-md-8">
+                        <p>{{ bpKostenData?.versicherterVerdienstAsal | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.taggeldsatz' | translate }}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ bpKostenData?.taggeldsatzAsal | formatNumber: '2' }} %</p>
+                    </div>
+                </div>
+                <hr class="hr-thin" />
+                <div class="row mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.beschaeftigungsgradvermittlung' | translate }}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{ bpKostenData?.vermittlungsgradProzentAsal | formatNumber: '2' }} %</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(bpKostenButtons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR, ammButtonTypesEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="(bpKostenButtons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR])"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="onAsalDatenUebernehmen()"
+    >
+        {{ 'common.button.ammAsalDatenUebernehmen' | translate }}
+    </button>
+    <button *ngIf="(bpKostenButtons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR])" class="btn btn-secondary ml-1" type="button" (click)="onCalculate()">
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button *ngIf="(bpKostenButtons | async | buttonDisplayPipe: [ammButtonTypesEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'common.label.entscheidnr' | translate }} </b>
+        <span>{{ entscheidNr }}</span>
+    </div>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

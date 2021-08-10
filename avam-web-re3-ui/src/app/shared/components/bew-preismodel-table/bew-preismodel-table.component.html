@@ -1,0 +1,94 @@
+<avam-generic-table *ngIf="dataSource && planwertType" [dataSource]="dataSource" [headers]="displayedColumns" [recalculateMaxHeight]="false">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'chf'">
+            <td cdk-cell *cdkCellDef="let row; let i = index">
+                <avam-currency-input
+                    *ngIf="!i && planwertType.code !== planwerttypEnum?.PRODUKT"
+                    controlName="chfPreismodel"
+                    [parentForm]="parentForm"
+                    [readOnly]="true"
+                    [max]="9"
+                    customReadOnlyClass="ml-auto mr-0"
+                ></avam-currency-input>
+                <avam-currency-input
+                    *ngIf="!i && planwertType.code === planwerttypEnum?.PRODUKT"
+                    controlName="chfPreismodel"
+                    [parentForm]="parentForm"
+                    [readOnly]="false"
+                    [max]="9"
+                ></avam-currency-input>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'teilnehmerTage'">
+            <td cdk-cell *cdkCellDef="let row; let i = index">
+                <avam-currency-input
+                    *ngIf="!i"
+                    controlName="tntagePreismodelRow1"
+                    [parentForm]="parentForm"
+                    [readOnly]="isRowDisabled || isTnDisabled"
+                    [max]="9"
+                    [integerOnly]="true"
+                    customReadOnlyClass="ml-auto mr-0"
+                ></avam-currency-input>
+                <avam-currency-input
+                    *ngIf="i"
+                    label="{{ 'common.label.durchschnittzeichen' | translate }}&nbsp;{{ 'common.label.chf' | translate }}"
+                    controlName="tntagePreismodelRow2"
+                    [parentForm]="parentForm"
+                    [readOnly]="true"
+                    customReadOnlyClass="ml-auto mr-0"
+                ></avam-currency-input>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'teilnehmer'">
+            <td cdk-cell *cdkCellDef="let row; let i = index">
+                <avam-currency-input
+                    *ngIf="!i"
+                    controlName="tnPreismodelRow1"
+                    [parentForm]="parentForm"
+                    [readOnly]="isRowDisabled || isTnDisabled"
+                    [max]="9"
+                    [integerOnly]="true"
+                    customReadOnlyClass="ml-auto mr-0"
+                ></avam-currency-input>
+                <avam-currency-input
+                    *ngIf="i"
+                    label="{{ 'common.label.durchschnittzeichen' | translate }}&nbsp;{{ 'common.label.chf' | translate }}"
+                    controlName="tnPreismodelRow2"
+                    [parentForm]="parentForm"
+                    [readOnly]="true"
+                    customReadOnlyClass="ml-auto mr-0"
+                ></avam-currency-input>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'de'">
+            <td cdk-cell *cdkCellDef="let row; let i = index">
+                <avam-currency-input
+                    *ngIf="!i"
+                    controlName="dePreismodel"
+                    [parentForm]="parentForm"
+                    [max]="4"
+                    [readOnly]="isRowDisabled || isDeDisabled"
+                    [integerOnly]="true"
+                    customReadOnlyClass="ml-auto mr-0"
+                ></avam-currency-input>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'lektionen'">
+            <td cdk-cell *cdkCellDef="let row; let i = index">
+                <avam-currency-input
+                    *ngIf="!i"
+                    controlName="lektionenPreismodel"
+                    [parentForm]="parentForm"
+                    [max]="4"
+                    [integerOnly]="true"
+                    [readOnly]="isRowDisabled || isLektionenDisabled"
+                    customReadOnlyClass="ml-auto mr-0"
+                ></avam-currency-input>
+            </td>
+        </ng-container>
+    </ng-container>
+</avam-generic-table>

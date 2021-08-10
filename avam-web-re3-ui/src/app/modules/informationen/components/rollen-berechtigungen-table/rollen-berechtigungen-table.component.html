@@ -1,0 +1,38 @@
+<avam-generic-table [dataSource]="dataSource" [headers]="columnsDefs" marginTop="-95px">
+    <ng-container *ngFor="let column of tableColumns" [cdkColumnDef]="column?.columnDef">
+        <th cdk-header-cell *cdkHeaderCellDef>
+            <div class="header-container">
+                <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t" [disableTooltip]="disableTooltip">
+                    {{ column.header | translate }}
+                </span>
+                <avam-label-dropdown
+                    *ngIf="options[column.columnDef]"
+                    [parentForm]="filterForm"
+                    [controlName]="column.columnDef"
+                    [options]="options[column.columnDef]"
+                    placeholder="common.label.waehlen"
+                    (onChange)="onFilterChange()"
+                    inputClass="col-lg col-md"
+                ></avam-label-dropdown>
+            </div>
+        </th>
+
+        <ng-container *ngIf="column.columnDef !== 'berechtigung'">
+            <td cdk-cell *cdkCellDef="let row">
+                <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'berechtigung'">
+            <td cdk-cell *cdkCellDef="let row; let rowIndex = index">
+                <avam-label-dropdown
+                    [parentForm]="scopeForm.controls[rowIndex]"
+                    [controlName]="'scopeId'"
+                    [options]="berechtigungScopes"
+                    hideEmptyOption="true"
+                    inputClass="col-lg col-md"
+                ></avam-label-dropdown>
+            </td>
+        </ng-container>
+    </ng-container>
+</avam-generic-table>

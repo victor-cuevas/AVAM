@@ -1,0 +1,28 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-bew-produkt-grunddaten-form #grunddatenFormComponent [grunddatenData]="grunddatenData"></avam-bew-produkt-grunddaten-form>
+</div>
+
+<ng-template #footerButtons>
+    <button *ngIf="!isIndividuelleAmm" class="btn btn-link ml-1" type="button" (click)="reset()" [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="showDelete" class="btn btn-secondary ml-1" type="button" (click)="openDeleteModal()" [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'amm.massnahmen.button.produktloeschen' | translate }}
+    </button>
+    <button *ngIf="isInPlanungSichtbar" class="btn btn-secondary ml-1" type="button" (click)="zurProduktplanung()" [permissions]="[permissions.AMM_PLANUNG_LESEN]">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.massnahmen.button.zurproduktplanung' | translate }}
+    </button>
+    <button *ngIf="!isIndividuelleAmm" class="btn btn-primary ml-1" type="button" (click)="submit()" [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ organisationInfoBar }}</span>
+    </div>
+</ng-template>

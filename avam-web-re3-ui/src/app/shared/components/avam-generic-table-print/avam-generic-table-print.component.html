@@ -1,0 +1,26 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ 'benutzerverwaltung.topnavmenuitem.liste.drucken' | translate }}</h4>
+        <app-result-count *ngIf="dataSource" [dataLength]="dataSource.length"></app-result-count>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="scrollable-modal-body pre-scrollable mh-100">
+            <div class="preview-container">
+                <ng-container *ngIf="content">
+                    <ng-template *ngTemplateOutlet="content"></ng-template>
+                </ng-container>
+                <ng-content></ng-content>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ modalNumber }}</span>
+        <div class="sticky-actions">
+            <button ngbAutofocus type="button" class="btn btn-link" data-dismiss="modal" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+            <button type="button" class="btn btn-primary ml-2" (click)="print()">{{ 'common.button.drucken' | translate }}</button>
+        </div>
+    </div>
+</div>

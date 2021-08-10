@@ -1,0 +1,27 @@
+<div class="modal-header pb-0">
+    <h4 class="modal-title">
+        {{ 'benutzerverwaltung.label.benutzerstelleauswaehlen' | translate }}
+        <app-result-count [dataLength]="benutzerstellenData.length"></app-result-count>
+    </h4>
+    <div class="mr-3">
+        <app-toolbox [configuration]="toolboxConfig" [id]="benutzerstelleAnzeigenToolboxId" [formNumber]="getFormNr()"></app-toolbox>
+    </div>
+</div>
+<div class="modal-body">
+    <or-spinner [channel]="benutzerstelleResultChannel"></or-spinner>
+    <app-benutzerstelle-auswaehlen-tabelle
+        ngbAutofocus
+        [benutzerstellenData]="benutzerstellenData"
+        (benutzerstelleIdEmitter)="receiveData($event)"
+        [showHeader]="false"
+        [showBadge]="true"
+    ></app-benutzerstelle-auswaehlen-tabelle>
+</div>
+<div class="modal-footer justify-content-between">
+    <span>{{ getFormNr() }}</span>
+    <div class="sticky-actions">
+        <button type="button" class="btn btn-link" (click)="close()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+    </div>
+</div>

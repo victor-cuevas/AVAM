@@ -1,0 +1,31 @@
+<div *ngIf="hasTitle && receivedData" class="info-bar-container">
+    <div class="col-8 d-flex align-items-center p-0">
+        <h1
+            #elementName
+            #tName="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="showTooltip(elementName, tName)"
+            (mouseleave)="tName.close()"
+            [ngbTooltip]="receivedData?.name + ', ' + receivedData?.vorname"
+            class="pr-5"
+        >
+            {{ receivedData?.name }}, {{ receivedData?.vorname }}
+        </h1>
+        <h2
+            #elementTitle
+            #tTitle="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="showTooltip(elementTitle, tTitle)"
+            (mouseleave)="tTitle.close()"
+            [ngbTooltip]="maskData?.title | translate"
+        >
+            {{ maskData?.title | translate }}
+        </h2>
+        <app-result-count *ngIf="maskData" [dataLength]="maskData.tableCount" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right p-0">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<hr class="nm-t-6" />
+<core-info-bar-panel [data]="receivedData"></core-info-bar-panel>

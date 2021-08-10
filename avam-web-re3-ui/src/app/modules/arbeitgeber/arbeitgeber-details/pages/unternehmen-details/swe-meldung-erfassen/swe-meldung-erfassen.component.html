@@ -1,0 +1,169 @@
+<form [formGroup]="sweMeldungErfassenForm" #ngForm="ngForm" closeBrowserTab autocomplete="off" [form]="sweMeldungErfassenForm">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="row">
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <avam-label-calendar
+                    avamAutofocus
+                    controlName="ausfallDatum"
+                    id="ausfallDatum"
+                    calendarLabel="{{ 'kaeswe.label.ausfallmonatjahr' }}"
+                    [parentForm]="sweMeldungErfassenForm"
+                    [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                    [inputPlaceholder]="'stes.placeholder.monatjahr'"
+                    [readOnly]="isReadOnly()"
+                ></avam-label-calendar>
+                <avam-label-dropdown
+                    [parentForm]="sweMeldungErfassenForm"
+                    controlName="betriebsabteilung"
+                    selectLabel="{{ 'kaeswe.label.betriebsabteilung' }}"
+                    id="betriebsabteilung"
+                    [options]="betriebsabteilungOptions"
+                    (onChange)="onAbteilungChange($event)"
+                    [readOnly]="isReadOnly()"
+                    hideEmptyOption="true"
+                ></avam-label-dropdown>
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'kaeswe.label.alvanerkannt' | translate }}</label>
+                    </div>
+                    <div class="text-control col">
+                        <avam-label-checkbox
+                            inputClass="d-none"
+                            componentId="alvanerkannt"
+                            controlName="alvanerkannt"
+                            [parentForm]="sweMeldungErfassenForm"
+                            [readOnly]="true"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    #entscheidDurch
+                    id="entscheiddurch"
+                    controlName="entscheiddurch"
+                    [parentForm]="sweMeldungErfassenForm"
+                    componentLabel="{{ 'kaeswe.label.entscheiddurch' }}"
+                    placeholder="{{ 'stes.label.vermittlung.vermittlungsverantwortung' | translate }}"
+                    [benutzerSuchenTokens]="entscheiddurchSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [readOnly]="isReadOnly()"
+                ></avam-personalberater-autosuggest>
+                <avam-personalberater-autosuggest
+                    id="freigabedurch"
+                    controlName="freigabedurch"
+                    [parentForm]="sweMeldungErfassenForm"
+                    componentLabel="{{ 'kaeswe.label.freigabedurch' }}"
+                    placeholder="{{ 'stes.label.vermittlung.vermittlungsverantwortung' | translate }}"
+                    [benutzerSuchenTokens]="freigabedurchSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [readOnly]="isFreigabeDurchReadOnly()"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    [parentForm]="sweMeldungErfassenForm"
+                    readOnly="true"
+                    selectLabel="{{ 'kaeswe.label.entscheidnr' | translate }}"
+                    id="entscheidnr"
+                    controlName="entscheidnr"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'kaeswe.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a [routerLink]="" *ngIf="loadedMeldung?.verweiserVorgaenger" id="vorgaengerLink" (click)="onVorgaengerClicked()"> {{ vorgaenger.entscheidNr }}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'kaeswe.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="loadedMeldung?.verweiserNachfolger"
+                            id="nachfolgerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ sweMeldungId: loadedMeldung?.verweiserNachfolger }"
+                        >
+                            {{ nachfolger.entscheidNr }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <div class="form-group">
+                    <avam-alk-zahlstelle-autosuggest
+                        label="stes.label.alkZahlstelle"
+                        [parentForm]="sweMeldungErfassenForm"
+                        dynamicControlName
+                        alkControl="alkControl"
+                        zahlstelleControl="zahlstelleControl"
+                        alkPlaceholder="{{ 'stes.label.alk' | translate }}"
+                        zahlstellePlaceholder="{{ 'stes.label.ort' | translate }}"
+                        [readOnly]="isReadOnly()"
+                    ></avam-alk-zahlstelle-autosuggest>
+                </div>
+                <avam-label-dropdown
+                    [parentForm]="sweMeldungErfassenForm"
+                    controlName="status"
+                    id="status"
+                    [options]="statusOptions"
+                    selectLabel="{{ 'common.label.status' }}"
+                    (onChange)="onStatusChange($event)"
+                    [readOnly]="isReadOnly()"
+                    hideEmptyOption="true"
+                    #status
+                ></avam-label-dropdown>
+                <avam-label-calendar
+                    controlName="mahnfristende"
+                    [parentForm]="sweMeldungErfassenForm"
+                    id="mahnfristende"
+                    calendarLabel="{{ 'kaeswe.label.mahnfristende' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="isMahnfristendeReadOnly()"
+                ></avam-label-calendar>
+                <avam-label-input
+                    [parentForm]="sweMeldungErfassenForm"
+                    readOnly="true"
+                    selectLabel="{{ 'kaeswe.label.freigabedatum' }}"
+                    id="freigabedatum"
+                    controlName="freigabedatum"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="sweMeldungErfassenForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.transferanalk' }}"
+                    id="transferanalk"
+                    controlName="transferanalk"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <or-spinner [channel]="tableChannel"></or-spinner>
+            <avam-swe-meldung-arbeitsstellen-table
+                #arbeitsstellenTable
+                [parentForm]="sweMeldungErfassenForm"
+                [arbeitsstellen]="arbeitsstellenList"
+                [entscheidSweOptions]="entscheidSweOptions"
+                [readOnly]="isReadOnly()"
+                [required]="isArbeitsstellenMandatory"
+            ></avam-swe-meldung-arbeitsstellen-table>
+        </div>
+    </div>
+</form>
+<ng-template #modalZahlstelleSuchen>
+    <app-zahlstelle-suchen (emitAlkZahlstelle)="fillZahlstelle(sweMeldungErfassenForm, $event)"></app-zahlstelle-suchen>
+</ng-template>
+<ng-template #buttons>
+    <button *ngFor="let button of actionButtons" class="{{ button.cssClasses }}" (click)="button.onButtonClicked()">
+        {{ button.title | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>

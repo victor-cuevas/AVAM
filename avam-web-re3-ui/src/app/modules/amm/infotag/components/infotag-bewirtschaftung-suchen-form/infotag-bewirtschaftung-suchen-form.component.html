@@ -1,0 +1,74 @@
+<form (keydown.enter)="onEnter.emit($event)" [formGroup]="infotagSuchenForm" #ngForm="ngForm" autocomplete="off">
+    <div class="mt-3 search-padding">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.infotag.label.infotag' | translate }}</span>
+        </h3>
+        <h4>
+            <span>{{ 'amm.infotag.label.massnahmeartStruktur' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            controlName="strukturCategories"
+            [inputClass]="'col'"
+            [parentForm]="infotagSuchenForm"
+            [options]="categoriesOptions"
+            [isDisabled]="disableInputs"
+        ></avam-label-dropdown>
+        <avam-label-input
+            avamAutofocus
+            controlName="durchfuehrungsNr"
+            [inputClass]="'col'"
+            [parentForm]="infotagSuchenForm"
+            placeholder="{{ 'amm.infotag.label.durchfuehrungsnr' | translate }}"
+            (onInput)="toggleEnabledInputs($event)"
+            (onChange)="toggleEnabledInputs($event)"
+        ></avam-label-input>
+        <avam-label-input
+            controlName="titel"
+            [inputClass]="'col'"
+            [parentForm]="infotagSuchenForm"
+            placeholder="{{ 'amm.massnahmen.label.titel' | translate }}"
+            [isDisabled]="disableInputs"
+        ></avam-label-input>
+        <avam-unternehmen-autosuggest
+            id="anbieter"
+            controlName="anbieter"
+            isAvamOnly="true"
+            [parentForm]="infotagSuchenForm"
+            placeholder="{{ 'amm.massnahmen.label.anbieter' | translate }}"
+            [readOnly]="disableInputs"
+            container="body"
+            [scrollIntoView]="false"
+            suchePlusLabel="amm.massnahmen.label.anbieter"
+        ></avam-unternehmen-autosuggest>
+        <br />
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="durchfuehrungVon"
+            [parentForm]="infotagSuchenForm"
+            id="durchfuehrungVon"
+            inputPlaceholder="{{ 'amm.infotag.label.durchfuehrungvon' }}"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            [isDisabled]="disableInputs"
+        ></avam-label-calendar>
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="durchfuehrungBis"
+            [parentForm]="infotagSuchenForm"
+            id="durchfuehrungBis"
+            inputPlaceholder="{{ 'amm.infotag.label.durchfuehrungbis' }}"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            [isDisabled]="disableInputs"
+        ></avam-label-calendar>
+        <avam-plz-autosuggest
+            plzControl="postleitzahl"
+            ortControl="ort"
+            [parentForm]="infotagSuchenForm.get('plz')"
+            placeholderPlz="{{ 'stes.label.plz' | translate }}"
+            placeholderOrt="{{ 'stes.label.ort' | translate }}"
+            [disabled]="disableInputs"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-plz-autosuggest>
+    </div>
+</form>

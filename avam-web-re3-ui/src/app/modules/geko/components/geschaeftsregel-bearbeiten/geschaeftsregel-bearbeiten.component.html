@@ -1,0 +1,24 @@
+<avam-amm-infopanel [hasTitle]="false" [hidden]="false"></avam-amm-infopanel>
+<avam-geschaeftsregel-erfassen-form #form (initForm)="fillForm()" editMode="true"></avam-geschaeftsregel-erfassen-form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="abbrechen()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="zuerecksetzen()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="delete()">
+        {{ 'geko.label.geschaetsregelloeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+<ng-template #spacer>
+    <div>
+        &nbsp;<!-- This div exists only to ensure the height of the Infoleiste. Without this div, the Infoleiste collapses, and the i icon at the end will be in the wrong place. -->
+    </div>
+</ng-template>

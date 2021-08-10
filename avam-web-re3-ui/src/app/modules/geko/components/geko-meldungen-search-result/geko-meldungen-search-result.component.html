@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h2 class="pl-4">{{ 'geko.pfad.meldungen.uebersicht' | translate }}&nbsp;&nbsp;</h2>
+        <app-result-count *ngIf="searchDone" [dataLength]="resultsData.length" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<avam-alert></avam-alert>
+<div>
+    <div class="scrollable-modal-body pre-scrollable mh-100">
+        <avam-meldungen-table
+            #meldungenTable
+            [sourceData]="resultsData"
+            (onPrimaryAction)="openCallback($event)"
+            (onCheck)="onCheck($event)"
+            (onDeleteSingleRow)="onDeleteSingleRow($event)"
+            [showName]="true"
+            [stateKey]="stateKey"
+        ></avam-meldungen-table>
+    </div>
+</div>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="resultsData">
+        <avam-meldungen-table [sourceData]="resultsData" [forPrinting]="true" [stateKey]="stateKey"></avam-meldungen-table>
+    </avam-generic-table-print>
+</ng-template>

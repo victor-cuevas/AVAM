@@ -1,0 +1,49 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" [ngClass]="customWrapperClass ? customWrapperClass : ''" class="row form-group">
+    <div *ngIf="label" [ngClass]="customLabelClass ? customLabelClass : 'col-lg-4 col-md-4'" class="text-right">
+        <label class="col-form-label">{{ label | translate }}</label>
+    </div>
+    <div class="d-flex align-items-center" [ngClass]="customInputClass ? customInputClass : label ? 'col-lg-8 col-md-8' : 'col-lg-12 col-md-12'">
+        <div [hidden]="!isReadOnly" [class]="customReadOnlyClass">
+            <span>
+                {{ readOnlyValue }}
+            </span>
+        </div>
+        <div [hidden]="isReadOnly" orFormControlState class="max-width-100 w-100 {{ customInputContainerClass }}">
+            <div class="d-flex">
+                <div class="w-100">
+                    <core-input
+                        #coreInput
+                        dynamicControlName
+                        [placeholder]="placeholder"
+                        [formControlName]="controlName"
+                        [disableControl]="false"
+                        [coreReadOnly]="true"
+                        [coreReadOnlyClearButton]="coreReadOnlyClearButton"
+                        (onInput)="onHandleInput($event)"
+                        (onClear)="onClearField($event)"
+                        (onChange)="onHandleChange($event)"
+                        (onKeyup)="onHandleKeyUp($event)"
+                        (onBlur)="onHandleBlur($event)"
+                    ></core-input>
+                </div>
+                <div class="input-group-append">
+                    <button
+                        class="btn btn-secondary rounded-0"
+                        type="button"
+                        role="button"
+                        (click)="openModal(beurteilungskriteriumModal)"
+                        [disabled]="isDisabled"
+                        ngbTooltip="{{ 'common.button.waehlenBeurteilungskriterium' | translate }}"
+                    >
+                        <span class="fa fa-clone fa-fw"></span>
+                    </button>
+                </div>
+            </div>
+            <or-error-messages></or-error-messages>
+        </div>
+    </div>
+</div>
+
+<ng-template #beurteilungskriteriumModal>
+    <avam-beurteilungskriterium-auswaehlen-modal (emitBeurteilungskriterium)="selectFromModal($event)"></avam-beurteilungskriterium-auswaehlen-modal>
+</ng-template>

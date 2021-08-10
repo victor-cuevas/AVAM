@@ -1,0 +1,9 @@
+export enum UnternehmenStatusCodeEnum {
+    STATUS_AKTIV = '1',
+    STATUS_INAKTIV_DOPPELT = '2',
+    STATUS_INAKTIV_FUSION = '3',
+    STATUS_INAKTIV_KONKURS = '4',
+    STATUS_INAKTIV = '5',
+    STATUS_GELOESCHT_BFS = '6',
+    STATUS_INAKTIV_AVAM = '8'
+}

@@ -1,0 +1,71 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <form class="search-scroll" autocomplete="off" (keyup.enter)="search()">
+            <div [formGroup]="searchForm">
+                <h3>
+                    <span class="fa fa-search mr-2"></span>
+                    {{ 'verzeichnisse.topnavmenuitem.informationsmeldung' | translate }}
+                </h3>
+                <br />
+                <avam-label-input
+                    controlName="meldungstext"
+                    inputClass="col-12"
+                    [parentForm]="searchForm"
+                    placeholder="geko.label.meldungstext"
+                    [coreAutofocus]="true"
+                ></avam-label-input>
+            </div>
+            <avam-label-calendar
+                controlName="gueltigVon"
+                [parentForm]="searchForm"
+                id="gueltigVon"
+                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                inputClass="col"
+                inputPlaceholder="{{ 'common.label.gueltig_von' | translate }}"
+            ></avam-label-calendar>
+            <avam-label-calendar
+                controlName="gueltigBis"
+                [parentForm]="searchForm"
+                id="gueltigBis"
+                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                inputClass="col"
+                inputPlaceholder="{{ 'common.label.gueltig_bis' | translate }}"
+            ></avam-label-calendar>
+        </form>
+    </div>
+
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="!searchForm.valid" (click)="search()" [permissions]="[permissions.INFORMATIONEN_INFORMATIONSMELDUNGEN_SUCHEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="default-layout h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4 infoleiste">{{ 'verzeichnisse.topnavmenuitem.informationsmeldungen' | translate }}</h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="responseData.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <avam-alert></avam-alert>
+        <avam-common-wrapper-table
+            [dataSource]="tableConfig.data"
+            [columns]="tableConfig.columns"
+            [config]="tableConfig.config"
+            (onRowSelect)="selectItem($event)"
+            stateKey="informationsmeldungen-suchen"
+        ></avam-common-wrapper-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableConfig.data">
+        <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="tableConfig.columns" [config]="printConfig"></avam-common-wrapper-table>
+    </avam-generic-table-print>
+</ng-template>

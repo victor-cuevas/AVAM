@@ -1,0 +1,29 @@
+<div class="overflow-hidden mh-100 pt-3">
+    <or-spinner [channel]="mitteilungenAnzeigenChannel"></or-spinner>
+    <avam-mutationsantraege-anzeigen-table
+        [dataSource]="tableConfig.data"
+        [columns]="tableConfig.columns"
+        [config]="tableConfig.config"
+        (onRowSelect)="selectItem($event)"
+        (sortEvent)="applySort($event)"
+    ></avam-mutationsantraege-anzeigen-table>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="openMitteilungSenden()" [permissions]="[permissions.ARBEITGEBER_BURDATEN_BFSMITTEILUNG]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'unternehmen.label.mitteilungerfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #mitteilungSenden>
+    <avam-mitteilung-senden [unternehmenId]="unternehmenId"></avam-mitteilung-senden>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableConfig.data">
+        <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="printColumns" [config]="printConfig"></avam-common-wrapper-table>
+    </avam-generic-table-print>
+</ng-template>

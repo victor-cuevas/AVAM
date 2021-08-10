@@ -1,0 +1,21 @@
+.col-left {
+    position: absolute;
+    left: 0px;
+    text-align: right;
+}
+
+.col-right {
+    position: absolute;
+    right: 0px;
+    text-align: right;
+}
+
+.page-scroll{
+    height: calc(100vh - 226px);
+    overflow-y: auto;
+}
+
+.suchen-table {
+    height: 58vh;
+    overflow-y: auto;
+}

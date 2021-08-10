@@ -1,0 +1,40 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main" (keyup.enter)="gekoMeldungenSearchForm.onSubmit()">
+        <or-spinner channel="gekoMeldungenSearch"></or-spinner>
+        <avam-geko-meldungen-search-form #gekoMeldungenSearchForm class="sticky-main"></avam-geko-meldungen-search-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="onSubmit()" [disabled]="isSubmitDisabled()">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner channel="gekoMeldungenSearchResult-modal"></or-spinner>
+        <avam-geko-meldungen-search-result
+            #gekoMeldungenSearchResult
+            [stateKey]="stateKey"
+            [geschaeftsbereichCode]="geschaeftsbereichCode.GESCHAEFTSBEREICH_GEKO"
+            class="sticky-main"
+        ></avam-geko-meldungen-search-result>
+        <ng-template #buttons>
+            <button class="btn btn-secondary ml-1 keepDisabled" type="button" (click)="gekoMeldungenSearchResult.delete()" [disabled]="gekoMeldungenSearchResult.footerDisabled">
+                {{ 'geko.button.loeschen' | translate }}
+            </button>
+            <button
+                class="btn btn-secondary ml-1 keepDisabled"
+                type="button"
+                (click)="gekoMeldungenSearchResult.markNotRead()"
+                [disabled]="gekoMeldungenSearchResult.footerDisabled"
+            >
+                {{ 'common.button.ungelesen' | translate }}
+            </button>
+            <button class="btn btn-secondary ml-1 keepDisabled" type="button" (click)="gekoMeldungenSearchResult.markRead()" [disabled]="gekoMeldungenSearchResult.footerDisabled">
+                {{ 'common.button.gelesen' | translate }}
+            </button>
+        </ng-template>
+        <avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>
+    </div>
+</or-column-layout>

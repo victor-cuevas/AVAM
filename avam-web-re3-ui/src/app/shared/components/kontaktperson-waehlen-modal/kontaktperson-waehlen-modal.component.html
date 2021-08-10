@@ -1,0 +1,21 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-basic-title">
+            <span>{{ 'stes.label.kontaktpersonAuswaehlen' | translate }} </span>
+            <app-result-count [dataLength]="data ? data.length : 0"></app-result-count>
+        </h3>
+        <div class="mr-3">
+            <app-toolbox [configuration]="modalToolboxConfiguration"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="scrollable-modal-body pre-scrollable mh-100">
+            <avam-alert></avam-alert>
+            <avam-kontaktperson-waehlen-table [dataSource]="data" (onItemSelected)="itemSelected($event)"> </avam-kontaktperson-waehlen-table>
+        </div>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button ngbAutofocus type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

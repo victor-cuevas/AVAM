@@ -1,0 +1,46 @@
+<form [formGroup]="angabenForm" #ngForm="ngForm" autocomplete="off">
+    <h4>{{ 'stes.label.termin.angabenZum' | translate }}</h4>
+    <avam-label-calendar
+        avamAutofocus
+        #calendarComponent
+        controlName="datum"
+        id="terminDatum"
+        [readOnly]="false"
+        inputClass="col"
+        calendarLabel="{{ 'common.label.datum' }}"
+        [parentForm]="angabenForm"
+        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+    ></avam-label-calendar>
+    <div class="form-group row">
+        <div class="col-lg-4 col-md-4 text-right">
+            <label class="col-form-label"> {{ 'common.label.zeit' | translate }}</label>
+        </div>
+        <div class="col-lg-3 col-md-3">
+            <avam-label-input controlName="zeitVon" id="zeitVon" inputClass="col" placeholder="hh:mm" [parentForm]="angabenForm"></avam-label-input>
+        </div>
+        <div class="col-lg-1 col-md-1 text-right">
+            <label class="col-form-label"> {{ 'common.label.bis' | translate }}</label>
+        </div>
+        <div class="col-lg-3 col-md-3">
+            <avam-label-input controlName="zeitBis" id="zeitBis" inputClass="col" placeholder="hh:mm" [parentForm]="angabenForm"></avam-label-input>
+        </div>
+    </div>
+    <avam-label-input controlName="ort" selectLabel="stes.label.termin.ort" id="ort" [parentForm]="angabenForm"></avam-label-input>
+    <avam-label-dropdown
+        [parentForm]="angabenForm"
+        controlName="art"
+        id="artDropdown"
+        [options]="artDropDownOptions"
+        selectLabel="stes.label.termin.art"
+        hideEmptyOption="true"
+    ></avam-label-dropdown>
+    <avam-label-input controlName="betreff" selectLabel="common.label.betreff" id="betreff" [parentForm]="angabenForm"></avam-label-input>
+    <avam-label-dropdown
+        [parentForm]="angabenForm"
+        controlName="status"
+        id="statusTerminDropdown"
+        [options]="statusDropDownOptions"
+        selectLabel="stes.label.termin.status"
+        hideEmptyOption="true"
+    ></avam-label-dropdown>
+</form>

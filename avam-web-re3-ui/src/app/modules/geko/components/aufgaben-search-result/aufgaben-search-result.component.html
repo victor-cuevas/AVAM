@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h2 class="pl-4">{{ 'geko.pfad.aufgaben.uebersicht' | translate }}&nbsp;&nbsp;</h2>
+        <app-result-count *ngIf="searchDone" [dataLength]="resultsData.length" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<avam-alert></avam-alert>
+<div>
+    <avam-aufgaben-table
+        #aufgabenTable
+        [sourceData]="resultsData"
+        [showName]="true"
+        [stateKey]="stateKey"
+        (onCheck)="onCheck($event)"
+        (onPrimaryAction)="openAufgabe($event)"
+        (onDeleteSingleRow)="onDeleteSingleRow($event)"
+    ></avam-aufgaben-table>
+</div>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="resultsData">
+        <avam-aufgaben-table [sourceData]="resultsData" [stateKey]="stateKey" [forPrinting]="true" [showName]="true"></avam-aufgaben-table>
+    </avam-generic-table-print>
+</ng-template>

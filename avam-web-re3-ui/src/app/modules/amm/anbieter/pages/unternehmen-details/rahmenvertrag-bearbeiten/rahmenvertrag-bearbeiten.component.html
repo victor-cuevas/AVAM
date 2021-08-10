@@ -1,0 +1,79 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-rahmenvertrag-form #rahmenvertragForm [rahmenvertragData]="rahmenvertragData"></avam-rahmenvertrag-form>
+    <div class="avam-panel  avam-panel-extra-lighter mb-0">
+        <strong class="mb-0">{{ 'amm.anbieter.subnavmenuitem.leistungsvereinbarungen' | translate }}</strong>
+    </div>
+    <avam-leistungsvereinbarungen-table [dataSource]="tableDataSource" (onItemSelected)="lvSelected($event)"></avam-leistungsvereinbarungen-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [buttonsEnum.FKT_SPEICHERBAR])" class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [buttonsEnum.FKT_UEBERARBEITBAR])"
+        avamDisableOnSpinner
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="update(action.UEBERARBEITEN)"
+    >
+        {{ 'common.button.ueberarbeiten' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [buttonsEnum.FKT_FREIGEBBAR])"
+        avamDisableOnSpinner
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="update(action.FREIGEBEN)"
+    >
+        {{ 'common.button.freigeben' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [buttonsEnum.FKT_LOESCHBAR])"
+        avamDisableOnSpinner
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openDeleteDialog(action.DELETE)"
+    >
+        {{ 'amm.akquisition.alttext.rvloeschen' | translate }}
+    </button>
+    <button
+        *ngIf="rahmenvertragData?.rahmenvertragDto?.nachfolgerList?.length === 0 && rahmenvertragData?.rahmenvertragDto?.gueltigB"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="leistungsvereinbarungErfassen()"
+    >
+        <span class="fa fa-plus"></span>
+        {{ 'amm.akquisition.kopfzeile.leistungsvereinbarungerfassen' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [buttonsEnum.FKT_ZURUECKNEHMBAR])"
+        avamDisableOnSpinner
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="update(action.ZURUECKNEHMEN)"
+    >
+        {{ 'common.button.zuruecknehmen' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [buttonsEnum.FKT_ERSETZBAR])"
+        avamDisableOnSpinner
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="update(action.ERSETZEN)"
+    >
+        {{ 'amm.akquisition.button.rversetzen' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [buttonsEnum.FKT_SPEICHERBAR])"
+        avamDisableOnSpinner
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="update(action.SAVE)"
+    >
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>

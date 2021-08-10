@@ -1,0 +1,26 @@
+<div class="d-block">
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-infotag-massnahme-grunddaten-form #grunddatenForm [grunddatenData]="grunddatenData"></avam-infotag-massnahme-grunddaten-form>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button avamDisableOnSpinner class="btn btn-primary ml-1" type="button" (click)="next()">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <span>{{ wizardService?.infobarKurzel }}{{ 'amm.infotag.label.listeinfotage' | translate }}</span>
+        </div>
+    </ng-container>
+</ng-template>

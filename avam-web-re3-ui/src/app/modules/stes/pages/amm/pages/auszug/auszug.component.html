@@ -1,0 +1,175 @@
+<form #ngForm="ngForm" closeBrowserTab autocomplete="off" [formGroup]="auszugForm">
+    <div class="row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'common.label.rahmenfrist' | translate }}</h3>
+                </label>
+                <app-double-paragraph
+                    id="alkZahlstelle"
+                    label="{{ 'stes.asal.label.alkZahlstelle' }}"
+                    [value1]="auszugData ? auszugData.alkZahlstelleNr : ''"
+                    [value2]="auszugData ? auszugData.alkZahlstelleOrt : ''"
+                ></app-double-paragraph>
+                <app-paragraph id="dauerVon" label="{{ 'stes.asal.label.dauerVon' }}" [value]="auszugData?.rahmenfristVon | date: 'dd.MM.yyyy'"></app-paragraph>
+                <app-paragraph id="bis" label="{{ 'stes.asal.label.bis' }}" [value]="auszugData?.rahmenfristBis | date: 'dd.MM.yyyy'"></app-paragraph>
+                <app-paragraph id="anspruch" label="{{ 'stes.asal.label.anspruch' }}" [value]="auszugData ? auszugData.anspruch : ''"></app-paragraph>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.asal.label.beschaeftigungsgrade' | translate }}</h3>
+                </label>
+                <div class="row mt-3">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'stes.asal.label.versicherterVerdienst' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 d-flex">
+                        <p class="w-20 text-right pr-0 text-nowrap">{{ auszugData ? auszugData.versicherterVerdienst : '' }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'stes.asal.label.vermittlung' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 d-flex">
+                        <p class="w-20 text-right pr-0 text-nowrap">{{ auszugData ? auszugData.vermittlung : '' }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.asal.label.zahlungsstopp' | translate }}</h3>
+                </label>
+                <app-paragraph id="zahlungsstop" label="{{ 'stes.asal.label.zahlungsstopp' }}" [value]="auszugData?.zahlungsstop | translate"></app-paragraph>
+                <app-paragraph id="zahlungsstoppBis" label="{{ 'stes.asal.label.zahlungsstoppBis' }}" [value]="auszugData?.zahlungsstoppBis | date: 'dd.MM.yyyy'"></app-paragraph>
+                <app-paragraph id="grund" label="{{ 'stes.asal.label.grund' }}" [value]="auszugData ? auszugData.zahlungsstoppGrund : ''"></app-paragraph>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.asal.label.anseatze' | translate }}</h3>
+                </label>
+                <app-double-paragraph
+                    id="versicherterVerdienst"
+                    label="{{ 'stes.asal.label.versicherterVerdienst' }}"
+                    [value1]="auszugData?.versicherterVerdienstCHF | formatSwissFranc"
+                    [value2]="'common.label.chf' | translate"
+                ></app-double-paragraph>
+                <app-double-paragraph
+                    id="taggeldsatz"
+                    label="{{ 'stes.asal.label.taggeldsatz' }}"
+                    [value1]="auszugData ? (auszugData.taggeldsatzInProzent | formatNumber: '2') : ''"
+                    value2="%"
+                ></app-double-paragraph>
+                <app-paragraph id="ivCode" label="{{ 'stes.asal.label.ivCode' }}" [value]="auszugData ? auszugData.ivCode : ''"></app-paragraph>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.asal.label.taggelder' | translate }}</h3>
+                </label>
+                <div class="row mt-3">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.anspruch' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="col-lg-2 col-md-2 p-0 text-right">
+                            {{ auszugData?.taggelderGesamt | formatNumber: 1 }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.bezogen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="col-lg-2 col-md-2 p-0 text-right">
+                            {{ auszugData?.taggelderAbgerechnet | formatNumber: 1 }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.offen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="col-lg-2 col-md-2 p-0 text-right">
+                            {{ auszugData?.taggelderOffen | formatNumber: 1 }}
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="wartetageOffenparagraphLable">{{ 'stes.asal.label.wartetageOffen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 d-flex">
+                        <p class="col-lg-2 col-md-2 p-0 text-right">
+                            {{ auszugData?.wartetageOffen | formatNumber: 1 }}
+                        </p>
+                        <div class="col-lg-3 col-md-3 text-right pr-0">
+                            <label id="getigltWartetageparagraphLable">{{ 'stes.asal.label.getilgt_klein' | translate }}</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 p-0 text-right">
+                            <p>{{ auszugData?.wartetageGetilgt | formatNumber: 1 }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="einstelltageOffenparagraphLable">{{ 'stes.asal.label.einstelltageOffen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 d-flex">
+                        <p class="col-lg-2 col-md-2 p-0 text-right">
+                            {{ auszugData?.einstelltageOffen | formatNumber: 1 }}
+                        </p>
+                        <div class="col-lg-3 col-md-3 text-right pr-0">
+                            <label id="getigltEinstelltageparagraphLable">{{ 'stes.asal.label.getilgt_klein' | translate }}</label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 p-0 text-right">
+                            <p class="p-value-left-12" id="getigltWartetageparagraph">{{ auszugData?.einstelltageGetilgt | formatNumber: 1 }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <app-paragraph id="letzteKontrollPeriode" label="{{ 'amm.nutzung.label.letztekontrollperiode' }}" [value]="auszugData?.letzteKontrollperiode"></app-paragraph>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.asal.label.berufsdaten' | translate }}</h3>
+                </label>
+                <div class="row mt-3 mb-3">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="erlernteBerufeLabel">{{ 'amm.nutzung.label.erlernteberufe' | translate }}</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <p class="p-value-left-12" *ngFor="let beruf of auszugData?.erlernterBeruf" id="erlernteBerufe">
+                            {{ beruf }}
+                        </p>
+                    </div>
+                </div>
+                <app-paragraph id="letzteTaetigkeit" label="{{ 'amm.nutzung.label.letztetaetigkeit' }}" [value]="auszugData ? auszugData.letzteTaetigkeit : ''"></app-paragraph>
+                <avam-unternehmen-autosuggest
+                    id="letzerArbeitgeber"
+                    controlName="letzerArbeitgeber"
+                    [parentForm]="auszugForm"
+                    [readOnly]="true"
+                    componentLabel="{{ 'amm.nutzung.label.letzterarbeitgeber' }}"
+                ></avam-unternehmen-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <app-paragraph id="personenNr" label="{{ 'amm.nutzung.label.personennr' }}" [value]="auszugData ? auszugData.personenNr : ''"></app-paragraph>
+                <app-paragraph id="svNr" label="{{ 'amm.nutzung.label.svnr' }}" [value]="auszugData ? auszugData.svNr : ''"></app-paragraph>
+                <avam-personalberater-autosuggest
+                    id="personalberater"
+                    controlName="personalberater"
+                    [parentForm]="auszugForm"
+                    [readOnly]="true"
+                    componentLabel="{{ 'stes.label.personalberater' }}"
+                    [type]="personalberaterAutosuggestType"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+    </div>
+</form>

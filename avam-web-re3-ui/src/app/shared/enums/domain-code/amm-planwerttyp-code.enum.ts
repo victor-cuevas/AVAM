@@ -1,0 +1,6 @@
+export enum AmmPlanwerttypEnum {
+    AMM_PLANWERTTYP_PRODUKT = '1',
+    AMM_PLANWERTTYP_MASSNAHME = '2',
+    AMM_PLANWERTTYP_KURS = '3',
+    AMM_PLANWERTTYP_STANDORT = '4'
+}

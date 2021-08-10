@@ -1,0 +1,27 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <avam-leistungsvereinbarung-suchen-form (onEnter)="search()" [data]="data" #suchenFormComponent></avam-leistungsvereinbarung-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button type="reset" class="btn btn-link" (click)="reset()" [permissions]="[permissions.AMM_AKQUISITION_LESEN]">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary" (click)="search()" [permissions]="[permissions.AMM_AKQUISITION_LESEN]">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <avam-leistungsvereinbarung-suchen-table #tableComponent [dataSource]="dataSource" (onItemSelected)="onItemSelected($event)"></avam-leistungsvereinbarung-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-leistungsvereinbarung-suchen-table *ngIf="dataSource" [hideTableButton]="true" [dataSource]="dataSource"></avam-leistungsvereinbarung-suchen-table>
+</ng-template>

@@ -1,0 +1,30 @@
+<div [formGroup]="parentForm">
+    <div formArrayName="personalberatern" *ngFor="let item of parentForm.controls.personalberatern['controls']; let i = index">
+        <div [formGroupName]="i">
+            <div class="d-flex">
+                <div *ngIf="hasRadioButtons" class="w-25 d-flex justify-content-center align-items-center form-control bg-transparent border-0" [formGroup]="item">
+                    <input name="isSelected" type="radio" [value]="i" (click)="clickRadioButton(i)" #radiobuttons />
+                </div>
+                <div class="{{ hasRadioButtons ? 'w-50' : 'w-75' }}">
+                    <avam-personalberater-autosuggest
+                        [coreAutofocus]="autoFocus && i === 0"
+                        [parentForm]="item"
+                        controlName="personalberater"
+                        [placeholder]="placeholder"
+                        [readOnly]="isReadOnly"
+                        [type]="personalberaterAutosuggestType"
+                        [benutzerSuchenTokens]="benutzerSuchenTokens"
+                    ></avam-personalberater-autosuggest>
+                </div>
+                <div class="input-group-append d-block mb-2">
+                    <button type="button" [disabled]="isReadOnly" (click)="removeItem(i)" class="btn btn-secondary ml-1">
+                        <span class="fa fa-trash"></span>
+                    </button>
+                    <button type="button" *ngIf="i == personalberatern?.length - 1 && !isReadOnly" (click)="addItem()" class="btn btn-secondary ml-1">
+                        <span class="fa fa-plus"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

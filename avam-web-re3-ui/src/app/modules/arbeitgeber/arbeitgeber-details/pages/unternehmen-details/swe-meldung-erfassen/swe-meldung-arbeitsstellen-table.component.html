@@ -1,0 +1,105 @@
+<form [formGroup]="parentForm" #ngForm="ngForm">
+    <avam-generic-table
+        [dataSource]="arbeitsstellen"
+        [headers]="headers"
+        [minHeight]="300"
+        class="swe-meldung-table"
+        sortField="anmeldeDatum"
+        sortOrder="1"
+        [customSort]="true"
+        (sortFunction)="sortFunction($event)"
+    >
+        <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
+            <ng-container *ngIf="column.columnDef === 'anmeldeDatum'">
+                <th cdk-header-cell [sortable-column]="column.columnDef" *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'arbeitsstelle'">
+                <th cdk-header-cell [sortable-column]="column.columnDef" *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'anzahlBetroffene'">
+                <th cdk-header-cell [sortable-column]="column.columnDef" *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'entscheidSweId'">
+                <th cdk-header-cell [sortable-column]="column.columnDef" *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'actions'">
+                <th cdk-header-cell class="actions-column" *cdkHeaderCellDef>
+                    <div class="button-wrapper">
+                        <button
+                            type="button"
+                            class="fa fa-plus btn btn-secondary btn-sm buttonOnHover"
+                            (click)="addRow()"
+                            [ngbTooltip]="'common.button.add' | translate"
+                            [disabled]="isReadOnly()"
+                        ></button>
+                    </div>
+                </th>
+            </ng-container>
+
+            <td cdk-cell *cdkCellDef="let row; let rowIndex = index">
+                <ng-container *ngIf="column.columnDef === 'anmeldeDatum'">
+                    <avam-label-calendar
+                        id="anmeldeDatum{{ rowIndex }}"
+                        [controlName]="column.columnDef"
+                        [parentForm]="formArray.controls[rowIndex]"
+                        [readOnly]="isReadOnly()"
+                        [inputClass]="'col-12'"
+                        (dateChange)="onValueChange(rowIndex, column.columnDef, $event)"
+                    ></avam-label-calendar>
+                </ng-container>
+
+                <ng-container *ngIf="column.columnDef === 'arbeitsstelle'">
+                    <avam-label-input
+                        [controlName]="column.columnDef"
+                        [parentForm]="formArray.controls[rowIndex]"
+                        [readOnly]="isReadOnly()"
+                        [inputClass]="'col-12'"
+                        placeholder="{{ 'kaeswe.label.arbeitsstelle' | translate }}"
+                        (onChange)="onValueChange(rowIndex, column.columnDef)"
+                    ></avam-label-input>
+                </ng-container>
+
+                <ng-container *ngIf="column.columnDef === 'anzahlBetroffene'">
+                    <avam-label-input
+                        [controlName]="column.columnDef"
+                        [parentForm]="formArray.controls[rowIndex]"
+                        [readOnly]="isReadOnly()"
+                        [inputClass]="'col-12'"
+                        (onChange)="onValueChange(rowIndex, column.columnDef)"
+                    ></avam-label-input>
+                </ng-container>
+
+                <ng-container *ngIf="column.columnDef === 'entscheidSweId'">
+                    <avam-label-dropdown
+                        [inputClass]="'col-12'"
+                        [parentForm]="formArray.controls[rowIndex]"
+                        [controlName]="column.columnDef"
+                        [options]="entscheidSweOptions"
+                        placeholder="common.label.waehlen"
+                        [readOnly]="isReadOnly()"
+                        (onChange)="onValueChange(rowIndex, column.columnDef, $event)"
+                    ></avam-label-dropdown>
+                </ng-container>
+                <ng-container *ngIf="column.columnDef === 'actions'">
+                    <div class="button-wrapper">
+                        <button
+                            type="button"
+                            class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                            (click)="deleteRow(rowIndex)"
+                            [ngbTooltip]="'common.button.loeschen' | translate"
+                            [disabled]="isReadOnly()"
+                        ></button>
+                    </div>
+                </ng-container>
+            </td>
+        </ng-container>
+    </avam-generic-table>
+</form>

@@ -1,0 +1,116 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row" *ngIf="(fields | async) as enabledFields">
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <label>{{ 'amm.abrechnungen.label.titel' | translate }}</label>
+                <avam-label-input
+                    avamAutofocus
+                    id="titel"
+                    [parentForm]="formGroup"
+                    controlName="titel"
+                    inputClass="col-lg-12"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.ABRECHNUNGTITEL)"
+                ></avam-label-input>
+                <label>{{ 'amm.abrechnungen.label.ergaenzendeangaben' | translate }}</label>
+                <app-textarea
+                    id="bemerkung"
+                    formControlName="bemerkung"
+                    [fullWidth]="true"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="!(enabledFields | fieldEnablePipe: fieldsEnum.ABRECHNUNGBEMERKUNG)"
+                ></app-textarea>
+            </div>
+            <div class="avam-panel">
+                <avam-label-calendar
+                    controlName="ausfuehrungsdatum"
+                    [parentForm]="formGroup"
+                    id="ausfuehrungsdatum"
+                    calendarLabel="amm.abrechnungen.label.ausfuehrungsdatum"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.AUSFUEHRUNGSDATUM)"
+                ></avam-label-calendar>
+                <avam-personalberater-autosuggest
+                    #bearbeitung
+                    id="bearbeitungDurch"
+                    [parentForm]="formGroup"
+                    controlName="bearbeitungDurch"
+                    componentLabel="amm.abrechnungen.label.bearbeitungdurch"
+                    [benutzerSuchenTokens]="bearbeiterSuchenTokens"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.BEARBEITERID)"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    id="abrechnungNr"
+                    [parentForm]="formGroup"
+                    controlName="abrechnungNr"
+                    selectLabel="amm.abrechnungen.label.abrechnungsnr"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'amm.abrechnungen.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="abrechnungParam?.abrechnung?.vorgaengerObject?.abrechnungId"
+                            id="vorgaengerLabel"
+                            [routerLink]="['./']"
+                            [queryParams]="{ abrechnungId: abrechnungParam?.abrechnung?.vorgaengerObject?.abrechnungId }"
+                        >
+                            {{ abrechnungParam?.abrechnung?.vorgaengerObject?.abrechnungNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'amm.abrechnungen.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="abrechnungParam?.abrechnung?.nachfolgerObject?.abrechnungId"
+                            id="nachfolgerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ abrechnungId: abrechnungParam?.abrechnung?.nachfolgerObject?.abrechnungId }"
+                        >
+                            {{ abrechnungParam?.abrechnung?.nachfolgerObject?.abrechnungNr }}</a
+                        >
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    id="status"
+                    [parentForm]="formGroup"
+                    controlName="status"
+                    selectLabel="common.label.status"
+                    [hideEmptyOption]="true"
+                    [options]="statusDropdownLabels"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.ABRECHNUNGSTATUS) || statusDropdownLabels.length === 1"
+                >
+                </avam-label-dropdown>
+                <avam-personalberater-autosuggest
+                    id="freigabeDurch"
+                    [parentForm]="formGroup"
+                    controlName="freigabeDurch"
+                    componentLabel="amm.abrechnungen.label.freigabedurch"
+                    [benutzerSuchenTokens]="freigeberSuchenTokens"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.FREIGEBERID)"
+                ></avam-personalberater-autosuggest>
+                <avam-label-calendar
+                    controlName="freigabedatum"
+                    [parentForm]="formGroup"
+                    id="freigabedatum"
+                    calendarLabel="amm.abrechnungen.label.freigabedatum"
+                    [readOnly]="true"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+            </div>
+        </div>
+    </div>
+</form>

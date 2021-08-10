@@ -1,0 +1,65 @@
+<div>
+    <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+    <avam-date-range-form #suchenFormComponent [data]="data" (onEnter)="onRefresh()" (onDataRefresh)="onRefresh()"></avam-date-range-form>
+    <avam-bew-dfe-uebersicht-table [dataSource]="datasource" #tableComponent (onItemSelected)="onRowSelected($event)"></avam-bew-dfe-uebersicht-table>
+</div>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="datasource">
+        <avam-bew-dfe-uebersicht-table *ngIf="datasource" [hideTableButton]="true" [dataSource]="datasource"></avam-bew-dfe-uebersicht-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ organisationInfoBar }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.massnahmennr' | translate }} </b>
+        <span>{{ massnahmeId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+        <span>{{ zulassungstyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ unternehmensName }}</span>
+    </div>
+    <div class="item">
+        <b> {{ provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }} </b>
+        <span>{{ burNummer }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.status' | translate }} </b>
+        <span>{{ unternehmensStatus }}</span>
+    </div>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button *ngIf="inPlanungAkquisitionSichtbar" class="btn btn-secondary ml-1" type="button" (click)="zurMassnahmenplanung()" [permissions]="[permissions.AMM_PLANUNG_LESEN]">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.massnahmen.button.zurmassnahmenplanung' | translate }}
+    </button>
+    <button
+        *ngIf="isKurse && isMassnahmeKollektiv"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="kursErfassen()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]"
+    >
+        <span class="fa fa-plus"></span>
+        {{ 'amm.massnahmen.button.kurserfassen' | translate }}
+    </button>
+    <button
+        *ngIf="isStandort && isMassnahmeKollektiv"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="standortErfassen()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]"
+    >
+        <span class="fa fa-plus"></span>
+        {{ 'amm.massnahmen.button.standorterfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

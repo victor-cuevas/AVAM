@@ -1,0 +1,63 @@
+<form [formGroup]="form" #ngForm="ngForm" class="no-overflow h-100" autocomplete="off">
+    <div class="row">
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [options]="geschaeftsbereichOptions"
+                    selectLabel="geko.label.geschaeftsbereich"
+                    [parentForm]="form"
+                    controlName="geschaeftsbereich"
+                    [placeholder]="'common.label.waehlen'"
+                    (onChange)="onGeschaeftsbereitChanged($event)"
+                    [readOnly]="editMode"
+                ></avam-label-dropdown>
+
+                <avam-label-dropdown
+                    [options]="geschaeftsartOptions"
+                    selectLabel="geko.label.geschaeftsart"
+                    [parentForm]="form"
+                    controlName="geschaeftsart"
+                    [placeholder]="'common.label.waehlen'"
+                    [readOnly]="isGeschaeftArtDropdownReadOnly || editMode"
+                    (onChange)="onGeschaeftArtChanged($event)"
+                ></avam-label-dropdown>
+
+                <avam-label-dropdown
+                    [options]="sachstandOptions"
+                    readOnly="true"
+                    selectLabel="geko.label.aktsachstand"
+                    [parentForm]="form"
+                    controlName="sachstandBeginn"
+                    hideEmptyOption="true"
+                ></avam-label-dropdown>
+
+                <avam-label-dropdown
+                    [options]="sachstandOptions"
+                    readOnly="true"
+                    selectLabel="geko.label.folgeschritt"
+                    [parentForm]="form"
+                    controlName="sachstandEnde"
+                    hideEmptyOption="true"
+                ></avam-label-dropdown>
+
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label class="col-form-label"> {{ 'geko.label.durchlaufzeit' | translate }}</label>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+                        <avam-label-input [parentForm]="form" inputClass="col-lg-12 col-md-12" controlName="durchlaufzeit"></avam-label-input>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        {{ 'geko.label.tage' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <app-textarea id="ergaenzendeangaben" selectLabel="common.label.ergaenzendeangaben" formControlName="ergaenzendeangaben" customFormControlState></app-textarea>
+            </div>
+        </div>
+    </div>
+</form>

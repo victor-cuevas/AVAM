@@ -1,0 +1,15 @@
+::ng-deep{ 
+    .sign {
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+
+        &.readOnly {
+            align-items: flex-start;
+        }
+    }
+}
+
+core-input {
+    width: 80px;
+}

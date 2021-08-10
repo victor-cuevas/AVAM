@@ -1,0 +1,28 @@
+<div class="sticky">
+    <div class="sticky-main">
+        <or-spinner [channel]="wizardService.channel"></or-spinner>
+        <or-column-layout orColumnLayoutExtension [left]="true" [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="default-layout">
+                <p class="wizard-back-link">
+                    <span class="mouse-pointer" (click)="back()">
+                        <span class="fa fa-caret-left" aria-hidden="true"></span>
+                        {{ 'amm.abrechnungen.label.zuvertragswert' | translate }}
+                    </span>
+                </p>
+                <hr class="nm-t-6" />
+                <label>
+                    {{ 'amm.abrechnungen.subnavmenuitem.abrechnungswerterfassen' | translate }}
+                </label>
+                <avam-wizard service="abrechnungswertErfassenWizardService">
+                    <avam-wizard-step stepId="1" text="{{ 'amm.abrechnungen.subnavmenuitem.grunddaten' | translate }}" navigate="grunddaten"></avam-wizard-step>
+                    <avam-wizard-step stepId="2" text="{{ 'amm.abrechnungen.subnavmenuitem.kosten' | translate }}" navigate="kosten"></avam-wizard-step>
+                </avam-wizard>
+            </div>
+            <div column-main-content class="default-layout h-100">
+                <avam-amm-infopanel></avam-amm-infopanel>
+                <avam-alert></avam-alert>
+                <router-outlet></router-outlet>
+            </div>
+        </or-column-layout>
+    </div>
+</div>

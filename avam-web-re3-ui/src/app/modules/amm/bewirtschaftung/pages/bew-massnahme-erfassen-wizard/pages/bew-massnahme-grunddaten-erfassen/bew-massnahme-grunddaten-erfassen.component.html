@@ -1,0 +1,31 @@
+<avam-bew-massnahme-grunddaten-form #grunddatenFormComponent [grunddatenData]="grunddatenData"></avam-bew-massnahme-grunddaten-form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()" [permissions]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="moveNext()" [permissions]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <ng-container>
+        <div class="item">
+            <span>{{ organisationInfoBar }}</span>
+        </div>
+        <div class="item">
+            <strong>{{ 'amm.massnahmen.label.produktnr' | translate }}</strong>
+            <span> {{ produktNrInfoBar }}</span>
+        </div>
+        <div class="item">
+            <strong>{{ 'amm.massnahmen.label.titel' | translate }}</strong>
+            <span> {{ produktTitelInfoBar }}</span>
+        </div>
+    </ng-container>
+</ng-template>

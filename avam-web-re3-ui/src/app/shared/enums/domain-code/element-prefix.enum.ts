@@ -1,0 +1,9 @@
+export enum ElementPrefixEnum {
+    STRUKTUR_PREFIX = 'S',
+    PRODUKT_PREFIX = 'P',
+    MASSNAHME_PREFIX = 'M',
+    DURCHFUEHRUNGSEINHEIT_PREFIX = 'D',
+    PLANWERT_PREFIX = 'A',
+    VERTRAGSWERT_PREFIX = 'V',
+    PLATZHALTER_PREFIX = 'X'
+}

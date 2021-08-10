@@ -1,0 +1,288 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="erfassungssprache"
+                    id="erfassungssprache"
+                    [options]="erfassungsspracheOptions"
+                    selectLabel="amm.massnahmen.label.erfassungssprache"
+                    (onChange)="onLanguageDropdownChange($event)"
+                    [readOnly]="!isMassnahmeKollektiv"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <div *ngIf="displayGermanElements">
+                    <label>{{ 'amm.massnahmen.label.titelde' | translate }}</label>
+                    <app-textarea
+                        id="titelDe"
+                        formControlName="titelDe"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungD' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenDe"
+                        formControlName="ergaenzendeAngabenDe"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayFrenchElements">
+                    <label>{{ 'amm.massnahmen.label.titelfr' | translate }}</label>
+                    <app-textarea
+                        id="titelFr"
+                        formControlName="titelFr"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungF' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenFr"
+                        formControlName="ergaenzendeAngabenFr"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayItalianElements">
+                    <label>{{ 'amm.massnahmen.label.titelit' | translate }}</label>
+                    <app-textarea
+                        id="titelIt"
+                        formControlName="titelIt"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungI' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenIt"
+                        formControlName="ergaenzendeAngabenIt"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.massnahmen.label.durchfuehrung' | translate }}</h3>
+                </label>
+                <avam-date-range-picker
+                    id="durchfuehrungVonBis"
+                    class="form-group"
+                    label="amm.massnahmen.label.durchfuehrung"
+                    [parentForm]="formGroup"
+                    formControlNameFrom="durchfuehrungVon"
+                    formControlNameTo="durchfuehrungBis"
+                    [isResponsive]="true"
+                    [readOnly]="!isMassnahmeKollektiv || hasBuchungen || statusBeendetAbgesagtAbgeschlossen ? 'all' : '' || statusLaeuft ? 'von' : ''"
+                ></avam-date-range-picker>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label> {{ 'amm.massnahmen.label.stichtag' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <avam-prepend-calendar
+                            controlName="stichtagAm"
+                            [parentForm]="formGroup"
+                            id="stichtagAm"
+                            label="{{ 'common.label.am' | translate }}"
+                            [readOnly]="!isMassnahmeKollektiv || statusBeendetAbgesagtAbgeschlossen || statusFreigegebenLaeuft"
+                        ></avam-prepend-calendar>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label> {{ 'amm.massnahmen.label.eintrittfrist' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <avam-prepend-calendar
+                            controlName="eintrittsfristBis"
+                            [parentForm]="formGroup"
+                            id="eintrittsfristBis"
+                            label="{{ 'common.label.bis' | translate }}"
+                            [readOnly]="!isMassnahmeKollektiv"
+                        ></avam-prepend-calendar>
+                    </div>
+                </div>
+                <avam-label-input
+                    [inputClass]="'col-lg-3 col-md-3'"
+                    [parentForm]="formGroup"
+                    controlName="anzahlKurstage"
+                    selectLabel="{{ 'amm.massnahmen.label.anzahlkurstage' | translate }}"
+                    [readOnly]="!isMassnahmeKollektiv"
+                >
+                </avam-label-input>
+                <avam-label-input
+                    [inputClass]="'col-lg-3 col-md-3'"
+                    [parentForm]="formGroup"
+                    controlName="anzahlLektionen"
+                    selectLabel="{{ 'amm.massnahmen.label.anzahllektionen' | translate }}"
+                    [readOnly]="!isMassnahmeKollektiv"
+                >
+                </avam-label-input>
+                <avam-select-week-availability
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    vormittagsControlName="vormittags"
+                    nachmittagsControlName="nachmittags"
+                    [dropdownOptions]="verfuegbarkeitOptions"
+                    [clearCheckboxes]="clearCheckboxes"
+                    verfuegbarkeitControl="verfuegbarkeit"
+                    selectLabel="{{ 'amm.massnahmen.label.verfuegbarkeit' }}"
+                    [readOnly]="!isMassnahmeKollektiv"
+                ></avam-select-week-availability>
+                <div *ngIf="displayGermanElements">
+                    <app-textarea
+                        id="kurszeitenDe"
+                        formControlName="kurszeitenDe"
+                        selectLabel="amm.massnahmen.label.kurszeitenD"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayFrenchElements">
+                    <app-textarea
+                        id="kurszeitenFr"
+                        formControlName="kurszeitenFr"
+                        selectLabel="amm.massnahmen.label.kurszeitenF"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayItalianElements">
+                    <app-textarea
+                        id="kurszeitenIt"
+                        formControlName="kurszeitenIt"
+                        selectLabel="amm.massnahmen.label.kurszeitenI"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="!isMassnahmeKollektiv"
+                    ></app-textarea>
+                </div>
+                <avam-label-dropdown
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="durchfuehrungskriterium"
+                    id="durchfuehrungskriterium"
+                    [options]="durchfuehrungskriteriumOptions"
+                    selectLabel="amm.massnahmen.label.durchfuehrungskriterium"
+                    [readOnly]="!isMassnahmeKollektiv || statusNotPendent"
+                >
+                </avam-label-dropdown>
+                <hr />
+                <avam-label-checkbox
+                    inputClass="''"
+                    selectLabel="amm.massnahmen.label.vorstellungsgespraechTest"
+                    componentId="vorstellungsgespraechTest"
+                    [parentForm]="formGroup"
+                    controlName="vorstellungsgespraechTest"
+                    [isDisabled]="!isMassnahmeKollektiv"
+                ></avam-label-checkbox>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <app-paragraph
+                    id="durchfuehrungsNr"
+                    label="amm.massnahmen.label.durchfuehrungsnr"
+                    [value]="grunddatenData?.grunddatenDto?.durchfuehrungsId ? grunddatenData.grunddatenDto.durchfuehrungsId : ''"
+                ></app-paragraph>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="status"
+                    id="status"
+                    [options]="statusOptions"
+                    selectLabel="amm.massnahmen.label.status"
+                    [readOnly]="!isMassnahmeKollektiv || statusFreigegebenLaeuft || statusAbgeschlossen"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div *ngIf="isMassnahmeKollektiv" class="avam-panel">
+                <avam-label-checkbox
+                    inputClass="''"
+                    selectLabel="{{ 'amm.massnahmen.label.kurs' | translate }} {{ 'amm.massnahmen.label.planungakquisition' | translate }}"
+                    componentId="inPlanungAkquisitionSichtbar"
+                    [parentForm]="formGroup"
+                    controlName="inPlanungAkquisitionSichtbar"
+                    [isDisabled]="!isMassnahmeKollektiv || isKursInPlanungAkquisitionSichtbarReadonly"
+                >
+                </avam-label-checkbox>
+                <avam-label-checkbox
+                    inputClass="''"
+                    selectLabel="{{ 'amm.massnahmen.label.kurs' | translate }} {{ 'amm.massnahmen.label.imangebotsichtbar' | translate }}"
+                    componentId="imAngebotSichtbar"
+                    [parentForm]="formGroup"
+                    controlName="imAngebotSichtbar"
+                    [isDisabled]="!isMassnahmeKollektiv"
+                >
+                </avam-label-checkbox>
+                <avam-label-checkbox
+                    inputClass="''"
+                    selectLabel="{{ 'amm.massnahmen.label.lamentscheide' | translate }}"
+                    componentId="lamErstelltEntscheide"
+                    [parentForm]="formGroup"
+                    controlName="lamErstelltEntscheide"
+                    [isDisabled]="!isMassnahmeKollektiv"
+                >
+                </avam-label-checkbox>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.massnahmen.label.platzverwaltung' | translate }}</h3>
+                </label>
+                <avam-range-numeric-input
+                    label="amm.massnahmen.label.teilnehmer"
+                    minLabel="amm.nutzung.label.min"
+                    maxLabel="amm.nutzung.label.max"
+                    componentId="teilnehmer"
+                    [parentForm]="formGroup"
+                    minInputControlName="teilnehmerMin"
+                    maxInputControlName="teilnehmerMax"
+                    [readOnly]="!isMassnahmeKollektiv"
+                ></avam-range-numeric-input>
+                <avam-prepend-numeric-input
+                    [customInputClass]="'w-30 min-width-135px'"
+                    selectLabel="amm.massnahmen.label.ueberbuchung"
+                    prependLabel="amm.nutzung.label.max"
+                    componentId="ueberbuchungMax"
+                    [parentForm]="formGroup"
+                    controlName="ueberbuchungMax"
+                    [readOnly]="!isMassnahmeKollektiv"
+                ></avam-prepend-numeric-input>
+                <avam-label-input
+                    [inputClass]="'col-lg-3 col-md-3'"
+                    [parentForm]="formGroup"
+                    controlName="wartelisteplaetze"
+                    selectLabel="{{ 'amm.massnahmen.label.wartelisteplaetze' | translate }}"
+                    [readOnly]="!isMassnahmeKollektiv"
+                >
+                </avam-label-input>
+                <app-paragraph
+                    id="reserviertePlaetze"
+                    label="amm.massnahmen.label.reservierteplaetze"
+                    [value]="grunddatenData?.grunddatenDto?.reservationenList ? grunddatenData.grunddatenDto.reservationenList.length : 0"
+                ></app-paragraph>
+            </div>
+        </div>
+    </div>
+</form>

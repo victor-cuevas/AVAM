@@ -1,0 +1,91 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" [stateKey]="stateKey" sortField="nichtGeeignet" [sortOrder]="1" [maxHeight]="500">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'nichtGeeignet'">
+            <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <div class="header-container">
+                    <span [ngbTooltip]="column.header | translate">
+                        <sort-icon [column]="column.columnDef"></sort-icon>
+                        <i class="fa fa-exclamation fa-lg"></i>
+                    </span>
+                </div>
+            </th>
+
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="column.cell(row) === suitableEnum.NICHT_GEEIGNET" [ngbTooltip]="row.nichtGeeignetTooltip">
+                    <i class="full-centered fa fa-exclamation fa-lg"></i>
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'meldepflicht'">
+            <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <div class="header-container">
+                    <span [ngbTooltip]="column.header | translate">
+                        <sort-icon [column]="column.columnDef"></sort-icon>
+                        <i class="fa fa-flag fa-lg"></i>
+                    </span>
+                </div>
+            </th>
+
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="column.cell(row) === meldepflichtEnum.UNTERLIEGT_LAUFEND" [ngbTooltip]="'stes.tooltip.stellenmeldepflicht' | translate">
+                    <i class="full-centered fa fa-flag fa-lg"></i>
+                </span>
+                <span *ngIf="column.cell(row) === meldepflichtEnum.UNTERLIEGT_ABGELAUFEN" [ngbTooltip]="'stes.tooltip.stellenmeldepflichtAbgelaufendeSperrfrist' | translate">
+                    <i class="full-centered fa fa-flag-o fa-lg"></i>
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'taetigkeit'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="row.stellenbezeichnung" [ngbTooltip]="row.stellenbezeichnung">
+                    {{ column.cell(row) | translate }}
+                </span>
+                <span *ngIf="!row.stellenbezeichnung" [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | translate }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'qualifikation'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="row.erfahrung" [ngbTooltip]="row.erfahrung | translate">
+                    {{ column.cell(row) | translate }}
+                </span>
+                <span *ngIf="!row.erfahrung" [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | translate }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <div class="table-btns">
+                    <button
+                        ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                        (primaryButtonClick)="itemSelected(row.osteId, row.stesMatchingProfilId)"
+                        avamPrimaryButtonDirective
+                        class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                    <button
+                        *ngIf="row.nichtGeeignet"
+                        ngbTooltip="{{ 'stes.vermittlung.button.markeriungentfernen' | translate }}"
+                        (click)="removeMarking(row.osteId)"
+                        class="fa fa-exclamation btn btn-light btn-sm exclamation-btn-padding buttonOnHover"
+                        type="button"
+                    ></button>
+                </div>
+            </td>
+        </ng-container>
+
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

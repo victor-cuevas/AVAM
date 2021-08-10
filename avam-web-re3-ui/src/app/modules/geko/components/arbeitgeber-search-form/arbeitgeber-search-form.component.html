@@ -1,0 +1,115 @@
+<form [formGroup]="searchFormGroup" #ngForm="ngForm" autocomplete="off" class="no-overflow h-100">
+    <div class="avam-panel avam-panel-extra-lighter p-3 sticky">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span *ngIf="!isAmm">{{ 'geko.pfad.geschaefte.arbeitgeber.suchen' | translate }}</span>
+            <span *ngIf="isAmm">{{ 'geko.pfad.geschaefte.amm.suchen' | translate }}</span>
+        </h3>
+        <label class="col-form-label">{{ 'geko.label.geschaeftsart' | translate }}</label>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="searchFormGroup"
+            controlName="geschaeftsartId"
+            id="geschaeftsartId"
+            placeholder="geko.placeholder.select.waehlen"
+            (onChange)="onChangeGeschaeftsartId($event)"
+            [options]="geschaeftsartOptions"
+        ></avam-label-dropdown>
+        <label class="col-form-label">{{ 'geko.label.sachstand' | translate }}</label>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="searchFormGroup"
+            controlName="sachstandId"
+            id="sachstandId"
+            placeholder="geko.placeholder.select.waehlen"
+            [options]="sachstandOptions"
+        ></avam-label-dropdown>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <label class="col-form-label">{{ 'geko.label.termin' | translate }}</label>
+            </div>
+        </div>
+        <avam-date-range-picker
+            class="form-group"
+            [hasVerticalLayout]="true"
+            [labelClass]="'col-lg-12 col-md-12'"
+            [inputClass]="' '"
+            [wrapperClass]="'col-lg-12 col-md-12'"
+            [parentForm]="searchFormGroup"
+            placeholderFrom="{{ 'common.label.von' | translate }}"
+            placeholderTo="{{ 'common.label.bis' | translate }}"
+            formControlNameFrom="geschaeftsterminVon"
+            formControlNameTo="geschaeftsterminBis"
+        ></avam-date-range-picker>
+        <label class="col-form-label">{{ 'geko.label.erstelltAm' | translate }}</label>
+        <avam-date-range-picker
+            class="form-group"
+            [hasVerticalLayout]="true"
+            [labelClass]="'col-lg-12 col-md-12'"
+            [inputClass]="' '"
+            [wrapperClass]="'col-lg-12 col-md-12'"
+            [parentForm]="searchFormGroup"
+            placeholderFrom="{{ 'common.label.von' | translate }}"
+            placeholderTo="{{ 'common.label.bis' | translate }}"
+            formControlNameFrom="erstelltAmVon"
+            formControlNameTo="erstelltAmBis"
+        ></avam-date-range-picker>
+        <label class="col-form-label">{{ 'geko.label.fallbearbeitung' | translate }}</label>
+        <avam-personalberater-autosuggest
+            #fallbearbeiter
+            id="fallbearbeiterId"
+            controlName="fallbearbeiterId"
+            [parentForm]="searchFormGroup"
+            placeholder="{{ 'geko.placeholder.zustandig' | translate }}"
+            (onSelect)="onSelectFallbearbeiter($event)"
+            (onInput)="onChangeFallbearbeiterInput($event)"
+            [showFilter]="true"
+            [type]="reactiveForms.personalberaterAutosuggestType"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-personalberater-autosuggest>
+        <div class="d-flex mt-3">
+            <div class="w-100">
+                <avam-benutzerstelle-autosuggest
+                    #benutzerstelle
+                    id="benutzerstellenId"
+                    [parentForm]="searchFormGroup"
+                    controlName="benutzerstellenId"
+                    [benutzerstelleSuchenTokens]="reactiveForms.benutzerstelleSuchenTokens"
+                    placeholder="{{ 'geko.placeholder.benutzerstellenId' | translate }}"
+                    [type]="reactiveForms.benutzerstelleAutosuggestType"
+                    container="body"
+                    [scrollIntoView]="false"
+                ></avam-benutzerstelle-autosuggest>
+            </div>
+            <div class="form-group input-group-append d-block">
+                <button
+                    type="button"
+                    class="btn btn-secondary rounded-0"
+                    ngbTooltip="{{ 'benutzerverwaltung.label.benutzerstellensuchen' | translate }}"
+                    (click)="openBenutzerstelleSuche(benutzerstellenSuche)"
+                >
+                    <span class="fa fa-search-plus fa-fw"></span>
+                </button>
+            </div>
+        </div>
+        <avam-label-checkbox
+            componentId="isBearbeiter"
+            controlName="isBearbeiter"
+            [parentForm]="searchFormGroup"
+            selectLabel="{{ 'geko.label.istBearbeiter' }}"
+            inputClass="'col-lg-12'"
+        ></avam-label-checkbox>
+        <avam-label-checkbox
+            componentId="isFreigeber"
+            controlName="isFreigeber"
+            [parentForm]="searchFormGroup"
+            selectLabel="{{ 'geko.label.istFreigeber' }}"
+            inputClass="'col-lg-12'"
+        ></avam-label-checkbox>
+    </div>
+</form>
+
+<ng-template #benutzerstellenSuche>
+    <app-benutzerstelle-suche [uebergebeneDaten]="reactiveForms.benutzerstelleSucheParams" (emitBenutzerstelle)="updateBenutzerstelle($event)"> </app-benutzerstelle-suche>
+</ng-template>

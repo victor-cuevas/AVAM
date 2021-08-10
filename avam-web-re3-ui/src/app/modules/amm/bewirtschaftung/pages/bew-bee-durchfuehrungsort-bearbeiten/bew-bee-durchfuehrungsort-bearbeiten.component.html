@@ -1,0 +1,52 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-bew-durchfuehrungsort-form
+        #durchfuehrungsortFormComponent
+        [durchfuehrungsortData]="durchfuehrungsortData"
+        (onKpersonSelected)="onKpersonSelected($event)"
+    ></avam-bew-durchfuehrungsort-form>
+</div>
+
+<ng-template #footerButtons>
+    <button *ngIf="!isIndividuelleAmm" class="btn btn-link ml-1" type="button" (click)="durchfuehrungsortFormComponent.reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="!isIndividuelleAmm"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="anbieterdatenUebernehmen()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]"
+    >
+        {{ 'amm.infotag.button.anbieterdatenuebernehmen' | translate }}
+    </button>
+    <button *ngIf="!isIndividuelleAmm" class="btn btn-primary ml-1" type="button" (click)="submit()" [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ organisationInfoBar }}</span>
+    </div>
+    <div class="item">
+        <b>
+            {{ isPraktikumsstelle ? ('amm.massnahmen.label.praktikumsstelle.nummer' | translate) : ('amm.massnahmen.label.arbeitsplatzkategorie.nummer' | translate) }}
+        </b>
+        <span>{{ beId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ unternehmensname }}</span>
+    </div>
+    <div class="item">
+        <b> {{ provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }} </b>
+        <span>{{ burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.status' | translate }} </b>
+        <span>{{ unternehmenStatus }}</span>
+    </div>
+</ng-template>

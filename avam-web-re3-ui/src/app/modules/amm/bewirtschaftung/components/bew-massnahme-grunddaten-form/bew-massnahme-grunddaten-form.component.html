@@ -1,0 +1,160 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="erfassungssprache"
+                    id="erfassungssprache"
+                    [options]="erfassungsspracheOptions"
+                    selectLabel="amm.massnahmen.label.erfassungssprache"
+                    (onChange)="onLanguageDropdownChange($event)"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <div *ngIf="displayGermanElements">
+                    <label>{{ 'amm.massnahmen.label.titelde' | translate }}</label>
+                    <app-textarea id="titelDe" formControlName="titelDe" [fullWidth]="true" customFormControlState maxLength="255" [readonly]="isIndividuell"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungD' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenDe"
+                        formControlName="ergaenzendeAngabenDe"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="isIndividuell"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayFrenchElements">
+                    <label>{{ 'amm.massnahmen.label.titelfr' | translate }}</label>
+                    <app-textarea id="titelFr" formControlName="titelFr" [fullWidth]="true" customFormControlState maxLength="255" [readonly]="isIndividuell"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungF' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenFr"
+                        formControlName="ergaenzendeAngabenFr"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="isIndividuell"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayItalianElements">
+                    <label>{{ 'amm.massnahmen.label.titelit' | translate }}</label>
+                    <app-textarea id="titelIt" formControlName="titelIt" [fullWidth]="true" customFormControlState maxLength="255" [readonly]="isIndividuell"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungI' | translate }}</label>
+                    <app-textarea
+                        id="ergaenzendeAngabenIt"
+                        formControlName="ergaenzendeAngabenIt"
+                        [fullWidth]="true"
+                        customFormControlState
+                        maxLength="255"
+                        [readonly]="isIndividuell"
+                    ></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-date-range-picker
+                    id="gueltigVonBis"
+                    class="form-group"
+                    label="amm.massnahmen.label.gueltig"
+                    [parentForm]="formGroup"
+                    formControlNameFrom="gueltigVon"
+                    formControlNameTo="gueltigBis"
+                    [isResponsive]="true"
+                    [readOnly]="isIndividuell ? 'all' : ''"
+                ></avam-date-range-picker>
+            </div>
+            <div class="avam-panel">
+                <avam-unternehmen-autosuggest
+                    id="anbieter"
+                    [parentForm]="formGroup"
+                    controlName="anbieter"
+                    componentLabel="amm.massnahmen.label.anbieter"
+                    suchePlusLabel="amm.massnahmen.label.anbieter"
+                    [isAvamOnly]="true"
+                    [readOnly]="isAnbieterReadonly"
+                ></avam-unternehmen-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    id="massnahmenverantwortung"
+                    [parentForm]="formGroup"
+                    controlName="massnahmenverantwortung"
+                    placeholder="{{ 'amm.massnahmen.label.benutzer' | translate }}"
+                    componentLabel="amm.massnahmen.label.massnahmenverantwortung"
+                    [benutzerSuchenTokens]="massnahmenverantwortungTokens"
+                    [type]="massnahmenverantwortungType"
+                    #massnahmenverantwortung
+                    [readOnly]="isIndividuell"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <app-paragraph
+                    id="massnahmennr"
+                    label="amm.massnahmen.label.massnahmennr"
+                    [value]="grunddatenData?.grunddatenDto?.massnahmeId ? grunddatenData?.grunddatenDto?.massnahmeId : ''"
+                ></app-paragraph>
+            </div>
+            <div class="avam-panel">
+                <avam-label-checkbox
+                    inputClass="''"
+                    selectLabel="{{ 'amm.nutzung.label.massnahme' | translate }} {{ 'amm.massnahmen.label.planungakquisition' | translate }}"
+                    componentId="inPlanungAkquisitionSichtbar"
+                    [parentForm]="formGroup"
+                    controlName="inPlanungAkquisitionSichtbar"
+                    [readOnly]="isMassnahmeInPlanungAkquisitionSichtbarReadonly"
+                >
+                </avam-label-checkbox>
+            </div>
+            <div class="avam-panel">
+                <label>{{ 'amm.massnahmen.label.lamcode' | translate }}</label>
+                <avam-label-input inputClass="col-md-12" [parentForm]="formGroup" controlName="lamCode" [readOnly]="isIndividuell"></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="zulassungstyp"
+                    id="zulassungstyp"
+                    [options]="zulassungstypOptions"
+                    selectLabel="amm.massnahmen.label.zulassungstyp"
+                    (onChange)="onZulassungstypDropdownChange($event)"
+                    [readOnly]="isZulassungstypReadonly"
+                >
+                </avam-label-dropdown>
+                <avam-label-checkbox
+                    *ngIf="shouldDisplayCheckboxes"
+                    selectLabel="{{ 'amm.nutzung.label.massnahme' | translate }} {{ 'amm.massnahmen.label.imangebotsichtbar' | translate }}"
+                    componentId="imAngebotSichtbar"
+                    [parentForm]="formGroup"
+                    controlName="imAngebotSichtbar"
+                >
+                </avam-label-checkbox>
+                <avam-label-checkbox
+                    *ngIf="shouldDisplayCheckboxes"
+                    selectLabel="{{ 'amm.massnahmen.label.kurseDurchLam' | translate }}"
+                    componentId="kurseDurchLamZuPruefen"
+                    [parentForm]="formGroup"
+                    controlName="kurseDurchLamZuPruefen"
+                >
+                </avam-label-checkbox>
+            </div>
+            <div class="avam-panel">
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.massnahmen.label.durchfuehrungsregionen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <app-stes-gesuchte-arbeitsregionen [formGroupDirective]="ngForm" [data]="durchfuehrungsregionenData" [parentForm]="formGroup.controls.regionen">
+                        </app-stes-gesuchte-arbeitsregionen>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

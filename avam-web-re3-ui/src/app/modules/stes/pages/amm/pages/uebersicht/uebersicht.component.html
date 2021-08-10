@@ -1,0 +1,43 @@
+<avam-amm-uebersicht-tree-table></avam-amm-uebersicht-tree-table>
+<ng-template #footerBtns>
+    <button class="btn btn-secondary" type="submit" [permissions]="[permissions.AMM_NUTZUNG_MASSNAHME_ERFASSEN]" (click)="onKolektiveAMMClick()">
+        {{ 'common.button.ammKollektive' | translate }}
+    </button>
+    <div
+        #individuelle="ngbDropdown"
+        ngbDropdown
+        placement="top-right"
+        class="dropdown"
+        [permissions]="[permissions.AMM_NUTZUNG_MASSNAHME_ERFASSEN]"
+        (mouseleave)="individuelle.close()"
+    >
+        <button class="btn btn-secondary ml-1" ngbDropdownToggle (mouseenter)="individuelle.open()">
+            <span class="fa fa-plus"></span>
+            {{ 'common.button.ammIndividuelleErfassen' | translate }}
+        </button>
+        <div class="dropdown-menu mb-0" ngbDropdownMenu (mouseenter)="individuelle.open()" (mouseleave)="individuelle.close()">
+            <button class="dropdown-item" *ngFor="let option of individuelleOptions" (click)="onDropdownOptionClick(option)">
+                {{ option | dbTranslate: 'text' }}
+            </button>
+        </div>
+    </div>
+    <div #spezielle="ngbDropdown" ngbDropdown placement="top-right" [permissions]="[permissions.AMM_NUTZUNG_MASSNAHME_ERFASSEN]" (mouseleave)="spezielle.close()">
+        <button class="btn btn-primary ml-1" ngbDropdownToggle (mouseenter)="spezielle.open()">
+            <span class="fa fa-plus"></span>
+            {{ 'common.button.ammSpezielleErfassen' | translate }}
+        </button>
+        <div class="dropdown-menu mb-0" ngbDropdownMenu (mouseenter)="spezielle.open()" (mouseleave)="spezielle.close()">
+            <button class="dropdown-item" *ngFor="let option of spezielleOptions" (click)="spezielleAmmErfassen(option)">
+                {{ option | dbTranslate: 'text' }}
+            </button>
+        </div>
+    </div>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>
+
+<ng-template #modalPrint>
+    <avam-tree-table-print-modal>
+        <avam-amm-uebersicht-tree-table></avam-amm-uebersicht-tree-table>
+    </avam-tree-table-print-modal>
+</ng-template>

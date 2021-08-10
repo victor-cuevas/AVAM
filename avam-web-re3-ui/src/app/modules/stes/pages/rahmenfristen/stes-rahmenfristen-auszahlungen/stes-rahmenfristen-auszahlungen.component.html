@@ -1,0 +1,49 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+        {{ 'stes.asal.label.auszahlungenProRahmenfrist' | translate }}
+        <app-result-count [dataLength]="rahmenfristenAuszahlungData.length"></app-result-count>
+    </h4>
+    <div class="mr-3">
+        <app-toolbox [configuration]="modalToolboxConfiguration" [id]="auszahlungToolboxId"></app-toolbox>
+    </div>
+</div>
+<div class="modal-body scrollable-modal-body pre-scrollable max-height-none">
+    <or-spinner [channel]="auszahlungProRahmenfristChannel"></or-spinner>
+    <div class="row mb-4">
+        <div class="links col-xl-6">
+            <div class="avam-panel h-100">
+                <app-paragraph id="name" label="{{ 'stes.label.name' }}" [value]="data ? data.namePersReg : ''"></app-paragraph>
+                <app-paragraph id="vorname" label="{{ 'stes.label.vorname' }}" [value]="data ? data.vornamePersReg : ''"></app-paragraph>
+                <app-paragraph id="personennr" label="{{ 'stes.label.personennr' }}" [value]="data ? data.personenNr : ''"> </app-paragraph>
+                <app-paragraph id="svnr" label="{{ 'stes.label.svnr' }}" [value]="data ? data.versichertenNr : ''"></app-paragraph>
+            </div>
+        </div>
+
+        <div class="rechts col-xl-6">
+            <div class="avam-panel h-100">
+                <app-paragraph id="alkZahlstelle" label="{{ 'stes.label.alkZahlstelle' }}" [value]="data ? data.rahmenfristZahlstelle : ''"></app-paragraph>
+                <app-paragraph id="rahmenfrist" label="{{ 'common.label.rahmenfrist' }}" [value]="data ? data.rahmenfrist : ''"></app-paragraph>
+            </div>
+        </div>
+    </div>
+    <avam-rahmenfristen-auszahlungen-table
+        *ngIf="rahmenfristenAuszahlungData"
+        [dataSource]="rahmenfristenAuszahlungData"
+        [bezugstageFooter]="bezugstageFooter"
+        [auszahlungFooter]="auszahlungFooter"
+    ></avam-rahmenfristen-auszahlungen-table>
+</div>
+<div class="modal-footer justify-content-between">
+    <span>{{ modalNumber }}</span>
+    <button class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+</div>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="rahmenfristenAuszahlungData">
+        <avam-rahmenfristen-auszahlungen-table
+            *ngIf="rahmenfristenAuszahlungData"
+            [dataSource]="rahmenfristenAuszahlungData"
+            [bezugstageFooter]="bezugstageFooter"
+            [auszahlungFooter]="auszahlungFooter"
+        ></avam-rahmenfristen-auszahlungen-table>
+    </avam-generic-table-print>
+</ng-template>

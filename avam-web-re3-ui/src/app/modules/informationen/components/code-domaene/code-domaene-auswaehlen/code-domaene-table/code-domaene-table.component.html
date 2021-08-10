@@ -1,0 +1,28 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" sortField="domain" [sortOrder]="1">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <div class="header-container">
+                <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.header | translate }}
+                    <sort-icon [column]="column.columnDef"></sort-icon>
+                </span>
+            </div>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    ngbTooltip="{{ 'common.button.uebernehmen' | translate }}"
+                    (primaryButtonClick)="itemSelected(row)"
+                    avamPrimaryButtonDirective
+                    class="fa fa-check btn btn-success btn-sm buttonOnHover"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <span [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                {{ column.cell(row) | translate }}
+            </span>
+        </td>
+    </ng-container>
+</avam-generic-table>

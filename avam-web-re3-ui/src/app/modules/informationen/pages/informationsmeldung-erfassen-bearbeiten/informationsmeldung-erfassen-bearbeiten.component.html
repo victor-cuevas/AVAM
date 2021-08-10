@@ -1,0 +1,126 @@
+<div class="sticky">
+    <div class="sticky-main">
+        <or-column-layout orColumnLayoutExtension [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="navigation-container sticky">
+                <div class="navigation-resizable" sideNavigationResize>
+                    <ul class="nav nav-tree expanded nav-bordered nav-hover" role="tree">
+                        <li class="side-nav-tree nav-item fit-width">
+                            <div class="nav-link display-flex active">
+                                <a class="avam-nav-link active" aria-selected="false">
+                                    <span class="no-word-wrap padding-left-15 d-inline-block" triggers="manual">{{
+                                        (isBearbeiten ? 'informationen.topmenuitem.informationsmekdungenbearbeiten' : 'verzeichnisse.topnavmenuitem.informationsmeldungerfassen')
+                                            | translate
+                                    }}</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div column-main-content class="col-12 default-layout">
+                <avam-amm-infopanel></avam-amm-infopanel>
+                <avam-alert></avam-alert>
+                <or-spinner [channel]="channel"></or-spinner>
+                <form [formGroup]="meldungForm" #ngForm="ngForm">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="avam-panel">
+                                <div class="row">
+                                    <div class="col-md-2 col-lg-2 text-right">
+                                        <label for="meldungstextdeutsch">{{ 'informationsmeldungen.label.meldungstextdeutsch' | translate }}</label>
+                                    </div>
+                                    <div class="col-md-8 col-lg-8">
+                                        <app-textarea id="meldungstextdeutsch" formControlName="meldungstextdeutsch" customFormControlState [fullWidth]="true"></app-textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="avam-panel">
+                                <div class="row">
+                                    <div class="col-md-2 col-lg-2 text-right">
+                                        <label for="meldungstextfranzoesisch">{{ 'informationsmeldungen.label.meldungstextfranzoesisch' | translate }}</label>
+                                    </div>
+                                    <div class="col-md-8 col-lg-8">
+                                        <app-textarea
+                                            id="meldungstextfranzoesisch"
+                                            formControlName="meldungstextfranzoesisch"
+                                            customFormControlState
+                                            [fullWidth]="true"
+                                        ></app-textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="avam-panel">
+                                <div class="row">
+                                    <div class="col-md-2 col-lg-2 text-right">
+                                        <label for="meldungstextitalienisch">{{ 'informationsmeldungen.label.meldungstextitalienisch' | translate }}</label>
+                                    </div>
+                                    <div class="col-md-8 col-lg-8">
+                                        <app-textarea
+                                            id="meldungstextitalienisch"
+                                            formControlName="meldungstextitalienisch"
+                                            customFormControlState
+                                            [fullWidth]="true"
+                                        ></app-textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="avam-panel">
+                                <div class="row">
+                                    <div class="col-md-6 col-lg-6">
+                                        <avam-date-range-picker
+                                            [parentForm]="meldungForm"
+                                            formControlNameFrom="gueltigVon"
+                                            formControlNameTo="gueltigBis"
+                                            label="amm.abrechnungen.label.gueltig"
+                                            placeholderFrom="dd.mm.yyyy"
+                                            placeholderTo="dd.mm.yyyy"
+                                            inputClass="col-md-12 pl-0 pr-0 mb-2"
+                                        >
+                                        </avam-date-range-picker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </or-column-layout>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="navigateHome()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+
+    <button *ngIf="isBearbeiten" class="btn btn-secondary ml-1" type="button" (click)="openDeleteModalConfirmation()">
+        {{ 'informationen.button.loeschen' | translate }}
+    </button>
+
+    <button class="btn btn-primary ml-1" type="button" (click)="save()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemplate>
+    <div class="info-bar-template"></div>
+</ng-template>

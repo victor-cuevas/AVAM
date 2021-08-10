@@ -1,0 +1,151 @@
+<div class="row pl-3 pt-3 pr-3">
+    <div class="col-l-6 col-xl-3 mh-100">
+        <or-spinner [channel]="unternehmenSucheChannel"></or-spinner>
+        <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" autocomplete="off" style="height: 99%;">
+            <div class="avam-panel avam-panel-extra-lighter p-3" style="height: inherit;">
+                <h3>
+                    <span class="fa fa-search mr-2"></span>
+                    <span>{{ label | translate }}</span>
+                </h3>
+                <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+                <avam-prepend-dropdown
+                    controlName="statusId"
+                    [parentForm]="searchForm"
+                    [readOnly]="false"
+                    [selectLabel]="'common.label.status'"
+                    [options]="statusDropdownLabels"
+                    [isDisabled]="burSelected"
+                ></avam-prepend-dropdown>
+                <br />
+                <avam-label-input
+                    avamAutofocus
+                    controlName="name"
+                    [parentForm]="searchForm"
+                    placeholder="{{ 'common.label.unternehmensname' | translate }}"
+                    [inputClass]="'col-lg-12 col-md-12'"
+                    (keyup.enter)="onSubmit()"
+                ></avam-label-input>
+                <avam-label-checkbox
+                    componentId="irgendeinemWortId"
+                    controlName="irgendeinemWort"
+                    [parentForm]="searchForm"
+                    selectLabel="{{ 'unternehmen.label.irgendeinwort' }}"
+                    ngbTooltip="{{ 'tooltip.einzelnenwoertern' | translate }}"
+                    inputClass="'col-lg-12 col-md-12'"
+                ></avam-label-checkbox>
+                <br />
+                <div class="form-group row">
+                    <div class="col-lg-8 col-md-8">
+                        <avam-label-input
+                            controlName="strasse"
+                            [parentForm]="searchForm"
+                            placeholder="{{ 'common.label.strasse' }}"
+                            [inputClass]="'col-lg-12 col-md-12'"
+                            (keyup.enter)="onSubmit()"
+                        ></avam-label-input>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <avam-label-input
+                            placeholder="{{ 'common.label.nr' }}"
+                            inputClass="col-lg-12"
+                            [parentForm]="searchForm"
+                            controlName="strassenNr"
+                            (keyup.enter)="onSubmit()"
+                        ></avam-label-input>
+                    </div>
+                </div>
+                <avam-plz-autosuggest
+                    [parentForm]="searchForm"
+                    [landControl]="searchForm.controls.land"
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    placeholderPlz="{{ 'unternehmen.label.plz' | translate }}"
+                    placeholderOrt="{{ 'unternehmen.label.ort' | translate }}"
+                ></avam-plz-autosuggest>
+                <avam-label-checkbox
+                    componentId="umliegendeOrteId"
+                    controlName="umliegendeOrte"
+                    [parentForm]="searchForm"
+                    selectLabel="{{ 'unternehmen.label.umliegendeorte' }}"
+                    ngbTooltip="{{ 'tooltip.umliegendeorte' | translate }}"
+                    inputClass="'col-lg-12 col-md-12'"
+                ></avam-label-checkbox>
+                <avam-land-autosuggest
+                    [parentForm]="searchForm"
+                    controlName="land"
+                    placeholder="{{ 'unternehmen.label.land' | translate }}"
+                    (keyup.enter)="onSubmit()"
+                ></avam-land-autosuggest>
+                <br />
+                <avam-label-input
+                    controlName="uid"
+                    [parentForm]="searchForm"
+                    placeholder="{{ 'unternehmen.label.uidnummer' | translate }}"
+                    [inputClass]="'col-lg-12 col-md-12'"
+                    (keyup.enter)="onSubmit()"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="burNr"
+                    [parentForm]="searchForm"
+                    placeholder="{{ 'unternehmen.label.burnummer' | translate }}"
+                    [inputClass]="'col-lg-12 col-md-12'"
+                    (keyup.enter)="onSubmit()"
+                ></avam-label-input>
+                <br />
+                <avam-personalberater-autosuggest
+                    controlName="kundenBerater"
+                    [parentForm]="searchForm"
+                    placeholder="{{ 'unternehmen.label.kundenberatung' | translate }}"
+                    (keyup.enter)="onSubmit()"
+                    [type]="personalberaterAutosuggestType"
+                    [isDisabled]="burSelected"
+                ></avam-personalberater-autosuggest>
+
+                <br />
+
+                <div class="row search-button">
+                    <div class="col-lg-3 col-md-3 text-right col-form-label">{{ 'unternehmen.label.suchein' | translate }}</div>
+                    <avam-button-group (onClick)="changeSuche($event)" controlName="sucheAvam" [parentForm]="searchForm" [group]="buttonGroup"> </avam-button-group>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-l-6 col-xl-9">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-basic-title">
+                <span>{{ label | translate }}</span>
+                <app-result-count *ngIf="searchDone" [dataLength]="unternehmenResult.length"></app-result-count>
+            </h3>
+            <app-toolbox [configuration]="modalToolboxConfiguration" [formNumber]="formNr"></app-toolbox>
+        </div>
+        <div class="table-wrapper-height">
+            <or-spinner [channel]="unternehmenResultChannel"></or-spinner>
+            <avam-unternehmen-suche-result-table [dataSource]="dataSource"></avam-unternehmen-suche-result-table>
+        </div>
+    </div>
+</div>
+<div class="row pl-3 pr-3">
+    <div class="col-l-6 col-xl-3">
+        <div class="row pr-3 modal-footer justify-content-between">
+            <span>{{ formNr }}</span>
+            <div class="sticky-actions">
+                <button type="reset" (click)="reset()" class="btn btn-link">
+                    {{ 'common.button.zuruecksetzen' | translate }}
+                </button>
+                <button type="submit" (click)="onSubmit()" class="btn btn-primary" [disabled]="searchNotAvailable">
+                    <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="col-l-6 col-xl-9">
+        <div class="row modal-footer sticky-actions">
+            <button type="button" class="btn btn-link" (click)="activeModal.close()">{{ 'common.button.abbrechen' | translate }}</button>
+        </div>
+    </div>
+</div>
+
+<ng-template #modalPrint>
+    <avam-unternehmen-suche-result-table [dataSource]="dataSource" [printModal]="true"></avam-unternehmen-suche-result-table>
+</ng-template>

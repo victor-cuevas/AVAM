@@ -1,0 +1,24 @@
+<avam-generic-table *ngIf="dataSource && planwertType" [dataSource]="dataSource" [headers]="displayedColumns" [recalculateMaxHeight]="false">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'chfSaldo'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="row.chfSaldo" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t" [ngClass]="row.chfSaldo < 0 ? 'text-danger' : ''"
+                    ><avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell
+                ></span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'prozentSaldo'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="row.prozentSaldo" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t" [ngClass]="row.prozentSaldo < 0 ? 'text-danger' : ''">
+                    <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+                </span>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

@@ -1,0 +1,27 @@
+<ng-form #ngForm="ngForm">
+    <div class="avam-panel avam-panel-extra-lighter p-3" [formGroup]="standOrtAdresseForm">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="rechts col-xl-7">
+            <h3>{{ 'benutzerverwaltung.label.standortadresse' | translate }}</h3>
+            <br />
+            <avam-common-info-fields [form]="standOrtAdresseForm" [requiredFieldValidations]="true" [isFirstField]="true"></avam-common-info-fields>
+            <div class="mt-lg-5">
+                <avam-branche-autosuggest
+                    id="branche"
+                    componentLabel="amm.nutzung.label.branche"
+                    [parentForm]="standOrtAdresseForm"
+                    controlName="branche"
+                    placeholder="{{ 'stes.placeholder.nogacode' | translate }}"
+                ></avam-branche-autosuggest>
+                <app-textarea
+                    [id]="'ergaenzendeAngaben'"
+                    formControlName="ergaenzendeAngaben"
+                    selectLabel="unternehmen.button.mitteilunganbfs"
+                    placeholder="unternehmen.label.bfsplaceholder"
+                    customFormControlState
+                    [maxLength]="255"
+                ></app-textarea>
+            </div>
+        </div>
+    </div>
+</ng-form>

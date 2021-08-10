@@ -1,0 +1,89 @@
+<div class="col-xl-12 p-0 h-100">
+    <form [formGroup]="formGroup" #ngForm="ngForm">
+        <avam-generic-table [dataSource]="dataSource" [customTrackByFn]="customTrackByFunction" [headers]="displayedColumns" [recalculateMaxHeight]="false" formArrayName="rows">
+            <ng-container *ngFor="let column of columns; let colIndex = index" [cdkColumnDef]="column?.columnDef">
+                <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                    <span>
+                        <avam-generic-table-header-cell [content]="column.columnDef === 'action' ? actionButton : null" [column]="column"></avam-generic-table-header-cell>
+                    </span>
+                </th>
+
+                <ng-container *ngIf="column.columnDef === 'institution'">
+                    <td cdk-cell *cdkCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex">
+                        <avam-label-dropdown
+                            id="instituion-{{ row.tableId + rowIndex }}"
+                            [parentForm]="formArray.controls[rowIndex]"
+                            controlName="institution"
+                            [options]="institutionOptions"
+                            [inputClass]="'col-lg-12 col-md-12'"
+                            [readOnly]="!row.statusValue"
+                        ></avam-label-dropdown>
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="column.columnDef === 'kanton'">
+                    <td cdk-cell *cdkCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex">
+                        <avam-label-dropdown
+                            id="kanton-{{ row.tableId + rowIndex }}"
+                            [parentForm]="formArray.controls[rowIndex]"
+                            controlName="kanton"
+                            [options]="kantonOptions"
+                            [inputClass]="'col-lg-12 col-md-12'"
+                            [readOnly]="!row.statusValue"
+                        ></avam-label-dropdown>
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="column.columnDef === 'verfall'">
+                    <td cdk-cell *cdkCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex">
+                        <avam-label-input
+                            id="verfall-{{ row.tableId + rowIndex }}"
+                            [parentForm]="formArray.controls[rowIndex]"
+                            controlName="verfall"
+                            [inputClass]="'col-lg-12 col-md-12'"
+                            [readOnly]="!row.statusValue"
+                        ></avam-label-input>
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="column.columnDef === 'teilnehmer'">
+                    <td cdk-cell *cdkCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex">
+                        <div>
+                            <avam-label-input
+                                id="teilnehmer-{{ row.tableId + rowIndex }}"
+                                [parentForm]="formArray.controls[rowIndex]"
+                                controlName="teilnehmer"
+                                [inputClass]="'col-lg-12 col-md-12'"
+                                [readOnly]="!row.statusValue"
+                            ></avam-label-input>
+                        </div>
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="column.columnDef === 'status'">
+                    <td cdk-cell *cdkCellDef="let row; let rowIndex = index" [formGroupName]="rowIndex">
+                        <label id="status-{{ row.tableId + rowIndex }}">{{ row.status | translate }}</label>
+                    </td>
+                </ng-container>
+                <ng-container *ngIf="column.columnDef === 'action'">
+                    <td cdk-cell *cdkCellDef="let row; let i = index">
+                        <button
+                            type="button"
+                            class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover ml-1"
+                            (click)="deleteRow(row, i)"
+                            [ngbTooltip]="'common.button.loeschen' | translate"
+                        ></button>
+                        <button
+                            type="button"
+                            class="fa fa-plus btn btn-secondary btn-sm buttonOnHover  ml-1"
+                            (click)="onAddRow(i)"
+                            [ngbTooltip]="'common.button.add' | translate"
+                        ></button>
+                    </td>
+                </ng-container>
+                <td cdk-cell *cdkCellDef="let row">
+                    <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+                </td>
+            </ng-container>
+        </avam-generic-table>
+    </form>
+</div>
+<ng-template #actionButton>
+    <button type="button" class="fa fa-plus btn btn-secondary btn-sm buttonOnHover ml-4 headerButton" (click)="onAddRow()" [ngbTooltip]="'common.button.add' | translate"></button>
+</ng-template>

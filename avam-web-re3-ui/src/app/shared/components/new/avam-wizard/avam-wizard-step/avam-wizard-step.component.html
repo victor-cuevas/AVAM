@@ -1,0 +1,13 @@
+<div [ngClass]="{ loading: isLoading }">
+    <li
+        *ngIf="isVisible"
+        [ngClass]="{ active: isActive, valid: isValid, disabled: isDisabled, error: isInvalid }"
+        class="nav-item mouse-pointer"
+        [attr.data-step-label]="isValid ? null : label || stepId"
+        (click)="onClick()"
+        role="presentation"
+    >
+        <a class="nav-link" role="menuitem">{{ text | translate }}</a>
+        <ng-content></ng-content>
+    </li>
+</div>

@@ -1,0 +1,23 @@
+<div class="modal-content d-block">
+    <or-spinner [channel]="spinnerChannel"></or-spinner>
+    <div class="modal-header">
+        <h3 class="modal-title mt-2 ml-1" id="modal-basic-title">
+            <span>{{ 'stes-label-vermittlung-profilvergleich' | translate: { '0': zuweisungsdatum | date: 'dd.MM.yyyy' } }}</span>
+        </h3>
+        <div class="mr-3 mb-2">
+            <app-toolbox [configuration]="modalToolboxConfiguration"></app-toolbox>
+        </div>
+    </div>
+    <div class="scrollable-modal-body pre-scrollable mh-100 page-style">
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <avam-profilvergleich-table *ngIf="dataSource" [dataSource]="dataSource"></avam-profilvergleich-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button ngbAutofocus type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>
+
+<ng-template #modalPrint>
+    <avam-profilvergleich-table *ngIf="dataSource" [dataSource]="dataSource"></avam-profilvergleich-table>
+</ng-template>

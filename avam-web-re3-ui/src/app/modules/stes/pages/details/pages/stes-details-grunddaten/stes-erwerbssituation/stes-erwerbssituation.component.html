@@ -1,0 +1,55 @@
+<div class="modal-content d-block px-2">
+    <or-spinner [channel]="erwerbssituationChannel" class="dont-print"></or-spinner>
+    <div class="modal-body min-height-80-vh">
+        <avam-stes-info-bar *ngIf="stesHeader" [data]="stesHeader"></avam-stes-info-bar>
+        <avam-alert [channel]="alertChannel.MODAL" class="dont-print"></avam-alert>
+        <table id="erwEditableTable" class="table table-striped table-hover table-responsive table-bordered d-sm-table mb-0">
+            <caption class="table-hover table-caption-color-text">
+                {{
+                    'stes.label.erwerbssituationAktuell.bearbeiten.titel' | translate
+                }}
+            </caption>
+        </table>
+        <avam-components-table
+            [sortOrder]="-1"
+            sortField="gueltigAb"
+            #table
+            [dataSource]="dataSource"
+            (onSort)="onSort($event)"
+            [columns]="erwerbssituationAktuellColumns"
+            maxHeight="200"
+        ></avam-components-table>
+        <hr class="dont-print" size="10" noshade />
+        <table id="erwReadonlyTable" class="table table-striped table-hover table-responsive table-bordered d-sm-table mb-0">
+            <caption class="table-hover table-caption-color-text">
+                {{
+                    'stes.label.erwerbssituationBerechnet.bearbeiten.titel' | translate
+                }}
+            </caption>
+        </table>
+        <avam-generic-table [dataSource]="dataBerechnet" [headers]="headersBerechnet" maxHeight="200" [sortOrder]="-1" sortField="gueltigAb">
+            <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+                <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+                <td cdk-cell *cdkCellDef="let row">
+                    <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+                </td>
+            </ng-container>
+        </avam-generic-table>
+    </div>
+    <div class="modal-footer justify-content-between dont-print">
+        <span>{{ modalNumber }}</span>
+        <div class="sticky-actions">
+            <button class="btn btn-link" (click)="close()" type="submit">
+                {{ 'common.button.abbrechen' | translate }}
+            </button>
+            <button class="btn btn-link" (click)="reset()" type="submit" [permissions]="btnPermissions">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+            <button class="btn btn-primary ml-1" throttleClick (throttleClick)="save()" type="submit" [permissions]="btnPermissions">
+                <span class="ng-tns-c22-103">{{ 'i18n.common.save' | translate }}</span>
+            </button>
+        </div>
+    </div>
+</div>

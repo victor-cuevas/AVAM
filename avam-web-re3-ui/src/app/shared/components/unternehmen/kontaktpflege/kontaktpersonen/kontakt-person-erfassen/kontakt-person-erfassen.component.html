@@ -1,0 +1,236 @@
+<form [formGroup]="kontaktpersonErfassenForm" #ngForm="ngForm" closeBrowserTab autocomplete="off" [form]="kontaktpersonErfassenForm">
+    <div class="row">
+        <or-spinner [channel]="kontaktPersonErfassenSpinner"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'common.label.kontaktperson' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    *ngIf="isBearbeiten"
+                    controlName="status"
+                    [parentForm]="kontaktpersonErfassenForm"
+                    [readOnly]="false"
+                    [selectLabel]="'common.label.status'"
+                    [options]="statusDropdownOptions"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    avamAutofocus
+                    [parentForm]="kontaktpersonErfassenForm"
+                    controlName="anredeId"
+                    selectLabel="{{ 'unternehmen.label.anrede' }}"
+                    id="anredeId"
+                    [options]="anredeOptions"
+                    [readOnly]="formDisabled"
+                    [hideEmptyOption]="isBearbeiten"
+                ></avam-label-dropdown>
+                <avam-label-input
+                    id="name"
+                    controlName="name"
+                    selectLabel="common.label.name"
+                    [parentForm]="kontaktpersonErfassenForm"
+                    [readOnly]="formDisabled"
+                    placeholder="common.label.name"
+                ></avam-label-input>
+                <avam-label-input
+                    id="vorname"
+                    controlName="vorname"
+                    selectLabel="common.label.vorname"
+                    [parentForm]="kontaktpersonErfassenForm"
+                    [readOnly]="formDisabled"
+                    placeholder="common.label.vorname"
+                ></avam-label-input>
+                <avam-label-calendar
+                    controlName="geburtsdatum"
+                    [parentForm]="kontaktpersonErfassenForm"
+                    id="geburtsdatum"
+                    calendarLabel="{{ 'unternehmen.label.geburtsdatum' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="formDisabled"
+                ></avam-label-calendar>
+                <avam-dynamic-input
+                    id="inputGroup"
+                    controlName="inputGroup"
+                    label="unternehmen.label.funktion"
+                    [parentForm]="kontaktpersonErfassenForm"
+                    [readOnly]="formDisabled"
+                ></avam-dynamic-input>
+                <app-textarea
+                    customFormControlState
+                    id="ergaenzendeAngaben"
+                    #inputElement
+                    formControlName="ergaenzendeAngaben"
+                    selectLabel="{{ 'unternehmen.label.ergaenzendeangaben' }}"
+                    [readonly]="formDisabled"
+                    [maxLength]="255"
+                >
+                </app-textarea>
+                <avam-label-dropdown
+                    [parentForm]="kontaktpersonErfassenForm"
+                    controlName="korrespondenzspracheId"
+                    selectLabel="{{ 'unternehmen.label.korrespondenzsprache' }}"
+                    id="korrespondenzspracheId"
+                    [options]="korrespondenzspracheOptions"
+                    [readOnly]="formDisabled"
+                >
+                </avam-label-dropdown>
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'unternehmen.label.bewerberbulletin' | translate }}</label>
+                    </div>
+                    <div class="text-control col">
+                        <!--
+                            The avam-label-checkbox prepends a 4 wide column, which
+                            pushes the checkbox right in Internet Explorer. The d-none
+                            Bootstrap class hides that column, therefore Explorer puts the
+                            checkbox in the right place.
+                        -->
+                        <avam-label-checkbox
+                            inputClass="d-none"
+                            componentId="bewerberbulletinJa"
+                            controlName="bewerberbulletinJa"
+                            [parentForm]="kontaktpersonErfassenForm"
+                            selectLabel="{{ 'common.label.ja' }}"
+                            [isDisabled]="formDisabled"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+                <avam-label-checkbox
+                    componentId="bewerberbulletinPerEmail"
+                    controlName="bewerberbulletinPerEmail"
+                    [parentForm]="kontaktpersonErfassenForm"
+                    selectLabel="{{ 'unternehmen.label.peremail' }}"
+                    [isDisabled]="formDisabled"
+                ></avam-label-checkbox>
+            </div>
+            <div class="avam-panel">
+                <avam-label-input
+                    [parentForm]="kontaktpersonErfassenForm"
+                    controlName="telefon"
+                    selectLabel="{{ 'unternehmen.label.telefon' }}"
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    [readOnly]="formDisabled"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="kontaktpersonErfassenForm"
+                    controlName="mobile"
+                    selectLabel="{{ 'unternehmen.label.mobile' }}"
+                    placeholder="{{ 'stes.placeholder.mobile' }}"
+                    [readOnly]="formDisabled"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="kontaktpersonErfassenForm"
+                    controlName="fax"
+                    selectLabel="{{ 'unternehmen.label.fax' }}"
+                    placeholder="{{ 'stes.placeholder.fax' }}"
+                    [readOnly]="formDisabled"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="kontaktpersonErfassenForm"
+                    controlName="email"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    [readOnly]="formDisabled"
+                ></app-email-input>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'benutzerverwaltung.label.standortadresse' | translate }}</h3>
+                </label>
+                <div class="row">
+                    <div class="col" style="position:relative">
+                        <div>
+                            <avam-label-input
+                                [parentForm]="kontaktpersonErfassenForm"
+                                controlName="strasse"
+                                id="strasse"
+                                [inputClass]="'col-lg-5 col-md-5'"
+                                selectLabel="{{ 'common.label.strassenr' | translate }}"
+                                [readOnly]="formDisabled"
+                                placeholder="{{ 'common.label.strasse' }}"
+                            ></avam-label-input>
+                        </div>
+                        <div class="col-lg-3 col-md-3 align-col">
+                            <avam-label-input
+                                [parentForm]="kontaktpersonErfassenForm"
+                                controlName="strasseNr"
+                                id="strasseNr"
+                                [inputClass]="'col-lg-12 col-md-12'"
+                                [readOnly]="formDisabled"
+                                placeholder="{{ 'unternehmen.label.hausnummer' }}"
+                            ></avam-label-input>
+                        </div>
+                    </div>
+                </div>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="kontaktpersonErfassenForm.controls['land']"
+                    [parentForm]="kontaktpersonErfassenForm.get('plz')"
+                    label="unternehmen.label.plzort"
+                    supportsSimpleInput="true"
+                    [readOnly]="formDisabled"
+                    placeholderPlz="{{ 'stes.label.plz' | translate }}"
+                    placeholderOrt="{{ 'stes.label.ort' | translate }}"
+                ></avam-plz-autosuggest>
+                <avam-label-input
+                    [parentForm]="kontaktpersonErfassenForm"
+                    controlName="postfach"
+                    id="postfach"
+                    selectLabel="{{ 'unternehmen.label.postfach' }}"
+                    [readOnly]="formDisabled"
+                    placeholder="{{ 'common.label.postfach' }}"
+                ></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="kontaktpersonErfassenForm.controls['land']"
+                    [parentForm]="kontaktpersonErfassenForm.get('postfachPlz')"
+                    label="arbeitgeber.oste.label.postfachplzortup"
+                    [readOnly]="formDisabled"
+                    supportsSimpleInput="true"
+                    placeholderPlz="{{ 'stes.label.plz' | translate }}"
+                    placeholderOrt="{{ 'common.label.ortpostfach' | translate }}"
+                ></avam-plz-autosuggest>
+                <avam-land-autosuggest
+                    id="land"
+                    controlName="land"
+                    [parentForm]="kontaktpersonErfassenForm"
+                    componentLabel="{{ 'unternehmen.label.land' | translate }}"
+                    [readOnly]="formDisabled"
+                    placeholder="{{ 'unternehmen.label.land' | translate }}"
+                ></avam-land-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label class="col-form-label">{{ 'unternehmen.label.kundenberatung' | translate }}</label>
+                    </div>
+                    <div [ngClass]="'col-lg-8 col-md-8'" class="'col-lg-8 col-md-8 d-flex'">
+                        <avam-personalberater-dynamic-autosuggest
+                            [readOnly]="formDisabled"
+                            [parentForm]="kontaktpersonErfassenForm"
+                            placeholder="{{ 'geko.placeholder.zustandig' | translate }}"
+                        ></avam-personalberater-dynamic-autosuggest>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">{{ 'common.button.zuruecksetzen' | translate }}</button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="openDeleteModal()" [permissions]="[permissions.ARBEITGEBER_KONTAKTPERSON_BEARBEITEN]" *ngIf="isBearbeiten">
+        {{ 'unternehmen.label.kontaktpersonloeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.ARBEITGEBER_KONTAKTPERSON_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

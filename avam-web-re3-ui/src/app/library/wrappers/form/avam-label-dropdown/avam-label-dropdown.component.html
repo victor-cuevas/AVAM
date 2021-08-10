@@ -1,0 +1,36 @@
+<div [formGroup]="parentForm" #ngForm="ngForm">
+    <div
+        class="row mb-2"
+        [ngClass]="{
+            'form-group': !readOnly
+        }"
+    >
+        <div *ngIf="selectLabel" class="{{ labelClass ? labelClass : 'col-md-4 col-lg-4' }} col-xs-4 text-right align-self-center">
+            <label class="mb-2">
+                {{ selectLabel | translate }}
+            </label>
+        </div>
+        <div class="{{ inputClass ? inputClass : 'col-lg-8 col-md-8' }} align-self-center">
+            <div [hidden]="readOnly">
+                <div orFormControlState>
+                    <core-dropdown
+                        [disableControl]="isDisabled"
+                        dynamicControlName
+                        [formControlName]="controlName"
+                        [options]="options"
+                        (onChange)="change($event)"
+                        [placeholder]="placeholder"
+                        [hideEmptyOption]="hideEmptyOption"
+                        [autoDisplayFirst]="autoDisplayFirst"
+                    ></core-dropdown>
+                    <or-error-messages></or-error-messages>
+                </div>
+            </div>
+            <div *ngIf="readOnly">
+                <p class="mb-2 p-value-left-12">
+                    {{ readOnlyValue() }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

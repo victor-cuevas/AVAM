@@ -1,0 +1,165 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row" *ngIf="(fields | async) as enabledFields">
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-currency-input
+                    avamAutofocus
+                    id="gesamtKosten"
+                    controlName="gesamtKosten"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.gesamtkosten"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    [isDisabled]="!(enabledFields | fieldEnablePipe: fieldsEnum.KOSTEN)"
+                ></avam-currency-input>
+                <avam-currency-input
+                    id="nichtAnrechenbareKosten"
+                    controlName="nichtAnrechenbareKosten"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.nichtanrechenbarekosten"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    [isDisabled]="!(enabledFields | fieldEnablePipe: fieldsEnum.KOSTEN)"
+                ></avam-currency-input>
+                <div class="col-8">
+                    <hr />
+                </div>
+                <avam-currency-input
+                    id="projektrelKosten"
+                    controlName="projektrelKosten"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.projektrelkosten"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    [readOnly]="true"
+                    customReadOnlyClass="d-flex justify-content-end w-100"
+                ></avam-currency-input>
+                <avam-currency-input
+                    id="umsatz"
+                    controlName="umsatz"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.erloes"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    [isDisabled]="!(enabledFields | fieldEnablePipe: fieldsEnum.KOSTEN)"
+                ></avam-currency-input>
+                <div class="col-8">
+                    <hr />
+                </div>
+                <avam-currency-input
+                    id="anrechenbareKosten"
+                    controlName="anrechenbareKosten"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.anrechenbarekosten"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    [readOnly]="true"
+                    [customReadOnlyClass]="formData?.abrechnungswert?.anrechenbareKosten < 0 ? 'text-danger d-flex justify-content-end w-100' : 'd-flex justify-content-end w-100'"
+                ></avam-currency-input>
+                <div class="col-8">
+                    <hr class="hr-thick" />
+                </div>
+                <avam-currency-input
+                    id="awAnzahlTeilnehmer"
+                    controlName="awAnzahlTeilnehmer"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.teilnehmer"
+                    [readOnly]="true"
+                    customReadOnlyClass="d-flex justify-content-end w-100"
+                    [ternaryLabel]="true"
+                >
+                    <div class="row justify-content-end">
+                        <span class="col-lg-2 col-md-2">Ø</span>
+                        <span class="col-lg-4 col-md-4" [ngClass]="formData?.abrechnungswert?.durschnittswertTNPreis < 0 ? 'text-danger col-lg-4 col-md-4' : 'col-lg-4 col-md-4'">
+                            {{ formData?.abrechnungswert?.durschnittswertTNPreis | formatSwissFranc: true }}</span
+                        >
+                        <span class="col-lg-3 col-md-3">{{ 'amm.zahlungen.label.chf' | translate }}</span>
+                    </div></avam-currency-input
+                >
+                <avam-currency-input
+                    id="awAnzahlTeilnehmerTage"
+                    controlName="awAnzahlTeilnehmerTage"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.teilnehmertage"
+                    [readOnly]="true"
+                    customReadOnlyClass="d-flex justify-content-end w-100"
+                    [ternaryLabel]="true"
+                >
+                    <div class="row justify-content-end">
+                        <span class="col-lg-2 col-md-2">Ø</span>
+                        <span
+                            class="col-lg-4 col-md-4"
+                            [ngClass]="formData?.abrechnungswert?.durschnittswertTNTagesPreis < 0 ? 'text-danger col-lg-4 col-md-4' : 'col-lg-4 col-md-4'"
+                        >
+                            {{ formData?.abrechnungswert?.durschnittswertTNTagesPreis | formatSwissFranc: true }}</span
+                        >
+                        <span class="col-lg-3 col-md-3">{{ 'amm.zahlungen.label.chf' | translate }}</span>
+                    </div></avam-currency-input
+                >
+                <avam-input-modal
+                    selectLabel="amm.abrechnungen.label.durchfuehrungseinheitenanzahl"
+                    [parentForm]="formGroup"
+                    controlName="anzahlDfe"
+                    [modal]="dfeModal"
+                    inputClass="col-5"
+                    [coreReadOnly]="true"
+                ></avam-input-modal>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-currency-input
+                    id="alvRelevant"
+                    controlName="alvRelevant"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.alvrelevant"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    [readOnly]="true"
+                    [customReadOnlyClass]="formData?.abrechnungswert?.alvRelevanteKosten < 0 ? 'text-danger d-flex justify-content-end w-100' : 'd-flex justify-content-end w-100'"
+                ></avam-currency-input>
+
+                <avam-currency-input
+                    id="summeTeilzahlungswerte"
+                    controlName="summeTeilzahlungswerte"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.summeteilzahlungswerte"
+                    [isDisabled]="true"
+                    [ternaryLabel]="true"
+                >
+                    <div class="justify-content-start">
+                        <span class="col-lg-3 col-md-3 pl-0">{{ 'amm.zahlungen.label.chf' | translate }}</span>
+                        <button class="btn btn-secondary hover-color-change rounded-0" type="button" (click)="openModal()">
+                            <span class="fa fa fa-clone"></span>
+                        </button>
+                    </div>
+                </avam-currency-input>
+                <hr />
+
+                <avam-currency-input
+                    id="saldoALV"
+                    controlName="saldoALV"
+                    [parentForm]="formGroup"
+                    label="amm.abrechnungen.label.saldoalv"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    [readOnly]="true"
+                    [customReadOnlyClass]="formData?.abrechnungswert?.saldoALV < 0 ? 'text-danger d-flex justify-content-end w-100' : 'd-flex justify-content-end w-100'"
+                ></avam-currency-input>
+                <div class="col-8">
+                    <hr class="hr-thick" />
+                </div>
+                <avam-label-calendar
+                    id="faelligAm"
+                    controlName="faelligAm"
+                    calendarLabel="amm.abrechnungen.label.faelligam"
+                    [parentForm]="formGroup"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    inputClass="col-4"
+                    [isDisabled]="!(enabledFields | fieldEnablePipe: fieldsEnum.KOSTEN)"
+                ></avam-label-calendar>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #dfeModal>
+    <avam-durchfuehrungseinheiten-modal *ngIf="formData?.abrechnungswert" [abrechnungswert]="formData?.abrechnungswert"></avam-durchfuehrungseinheiten-modal>
+</ng-template>
+
+<ng-template #tweModal>
+    <avam-teilzahlungswerte-anzeigen-modal [profilNr]="formData?.abrechnungswert?.vertragswertObject?.profilNr"></avam-teilzahlungswerte-anzeigen-modal>
+</ng-template>

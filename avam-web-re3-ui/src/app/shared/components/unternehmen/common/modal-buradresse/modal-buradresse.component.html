@@ -1,0 +1,160 @@
+<div class="modal-content d-block">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="modal-header">
+        <h3 class="modal-title">{{ 'unternehmen.buradresse.title' | translate }}</h3>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="col-xl-12" *ngFor="let alert of alertList; let i = index">
+            <ngb-alert *ngIf="alert.isShown" type="{{ alert.messageType }}" (close)="closeMessage(i)">
+                {{ alert.messageText }}
+            </ngb-alert>
+        </div>
+
+        <div class="pb-2 d-flex w-100">
+            <div class="rechts col-xl-6 d-flex">
+                <div class="avam-panel avam-panel-extra-lighter w-100">
+                    <h3>{{ 'unternehmen.buradresse.aktuelleavamadresse' | translate }}</h3>
+                    <br />
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.label.name' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ unternehmenData.name1 }}
+                            <br />
+                            {{ unternehmenData.name2 }}
+                            <br />
+                            {{ unternehmenData.name3 }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'common.label.strassenr' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ unternehmenData.strasse + ' ' + unternehmenData.strasseNr }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.label.burplzort' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ avamPlz }}
+                            {{ unternehmenData.plzOrt ? (unternehmenData.plzOrt | dbTranslate: 'ort') : unternehmenData.ortAusland }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.label.postfach' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!unternehmenData.postfach && unternehmenData.postfach > 0 ? unternehmenData.postfach : '' }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.burmutationsantrag.plzOrtPostfach' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ avamPlzPost }}
+                            {{ unternehmenData.plzOrtPostfach ? (unternehmenData.plzOrtPostfach | dbTranslate: 'ort') : unternehmenData.postfachOrtAusland }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.label.land' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ unternehmenData.land | dbTranslate: 'name' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rechts col-xl-6 d-flex">
+                <div class="avam-panel avam-panel-extra-lighter w-100">
+                    <h3>{{ 'unternehmen.buradresse.aktuelleburadresse' | translate }}</h3>
+                    <br />
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.label.name' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!buradresse ? buradresse.name1 : '' }}
+                            <br />
+                            {{ !!buradresse ? buradresse.name2 : '' }}
+                            <br />
+                            {{ !!buradresse ? buradresse.name3 : '' }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'common.label.strassenr' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!buradresse ? buradresse.street + ' ' + buradresse.streetNr + '' + (!!buradresse.streetNrAddOn ? buradresse.streetNrAddOn : '') : '' }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.label.burplzort' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ buradresse.plz ? buradresse.plz.postleitzahl : buradresse.zip > 0 ? buradresse.zip : '' }}
+                            {{ buradresse.plz ? (buradresse.plz | dbTranslate: 'ort') : buradresse.town }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.label.postfach' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!buradresse && buradresse.postfachNr > 0 ? buradresse.postfachNr : '' }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.burmutationsantrag.plzOrtPostfach' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ buradresse.postfachplzObject ? buradresse.postfachplzObject.postleitzahl : buradresse.poboxZip > 0 ? buradresse.poboxZip : '' }}
+                            {{ buradresse.postfachplzObject ? (buradresse.postfachplzObject | dbTranslate: 'ort') : buradresse.poboxTownLong }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2">{{ 'unternehmen.label.land' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!buradresse ? (buradresse.staat | dbTranslate: 'name') : '' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer justify-content-between">
+        <span>{{ getFormNr() }}</span>
+        <div>
+            <button class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+            <button *ngIf="!validateBSP5()" class="btn btn-primary ml-1" type="button" (click)="processSave()" [permissions]="[permissions.KEY_AG_ADRESSE_AUS_BUR_UEBERNEHMEN]">
+                {{ 'common.button.jaUebernehmen' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

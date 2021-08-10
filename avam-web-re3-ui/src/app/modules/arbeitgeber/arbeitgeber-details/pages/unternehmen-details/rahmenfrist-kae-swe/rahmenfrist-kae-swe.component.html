@@ -1,0 +1,16 @@
+<div>
+    <or-spinner [channel]="rahmenfirstChannel"></or-spinner>
+    <avam-rahmenfrist-kae-swe-form #formComponent [data]="data" (onOpenRahmenfristDetails)="onOpenRahmenfristDetails()"></avam-rahmenfrist-kae-swe-form>
+</div>
+<ng-template #zahlungenModal>
+    <avam-rahmenfrist-zahlungen [rahmenfristId]="rahmenfristId"></avam-rahmenfrist-zahlungen>
+</ng-template>
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="zahlungenKaeSwe()">
+        {{ 'kaeswe.label.zahlungenKaeSwe' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

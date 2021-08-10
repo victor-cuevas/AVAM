@@ -1,0 +1,28 @@
+<div class="shadow-lg">
+    <or-spinner [channel]="infoMessageChannel"></or-spinner>
+    <div class="alert alert-info alert-card" role="alert">
+        <div class="toggle toggle-down-right" orToggle (click)="toggle()" [ngClass]="{ 'toggle-right-down': infoMessages.length === 0 }">
+            <span class="alert-card-title">{{ 'startpage.informationen' | translate }} </span>
+            <span class="badge badge-pill badge-primary">{{ infoMessages.length }}</span>
+        </div>
+    </div>
+    <div *ngIf="showInfo" class="alert-card-body">
+        <div class="row alert-card-row" *ngFor="let msg of infoMessages">
+            <div class="col-10 col-xl-11">
+                <span class="alert-card-label">{{ 'startpage.information' | translate }} {{ msg.gueltigAb | date: 'dd.MM.yyyy' }}</span>
+                <br />
+                <span>
+                    {{ msg | dbTranslate: 'message' }}
+                </span>
+            </div>
+            <div class="col-2 col-xl-1">
+                <button
+                    type="button"
+                    class="fa fa-trash btn btn-md"
+                    ngbTooltip="{{ 'common.button.loeschen' | translate }}"
+                    (click)="markInfoMessageAsRead(msg.infomessageId)"
+                ></button>
+            </div>
+        </div>
+    </div>
+</div>

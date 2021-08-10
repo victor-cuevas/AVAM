@@ -1,0 +1,28 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" [footer]="true" sortField="kontrollperiode" [sortOrder]="-1">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'bezogeneTaggelder'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ bezugstageFooter }}</td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'betrag'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ auszahlungFooter }}</td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <span
+                *ngIf="column.columnDef === 'kontrollperiode' && !!column.cell(row); else defaultRow"
+                [ngbTooltip]="column.cell(row) | date: 'MM.yyyy'"
+                triggers="manual"
+                #t="ngbTooltip"
+                [avamTableTooltip]="t"
+            >
+                {{ column.cell(row) | date: 'MM.yyyy' }}
+            </span>
+            <ng-template #defaultRow>
+                <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+            </ng-template>
+        </td>
+        <td cdk-footer-cell *cdkFooterCellDef>{{ column.footer | translate }}</td>
+    </ng-container>
+</avam-generic-table>

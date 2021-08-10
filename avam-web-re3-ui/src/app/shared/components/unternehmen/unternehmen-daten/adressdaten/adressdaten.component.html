@@ -1,0 +1,158 @@
+<ng-form #ngForm="ngForm" class="print-block row has-overlay">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="col-xl-12 pl-0 pr-0 pt-3 d-flex w-100">
+        <div class="rechts col-xl-6 d-flex">
+            <div class="avam-panel avam-panel-extra-lighter w-100" [formGroup]="standOrtAdresseForm">
+                <h3>{{ 'benutzerverwaltung.label.standortadresse' | translate }}</h3>
+                <br />
+                <avam-common-info-fields
+                    #standOrtAdresseFormComponent
+                    [form]="standOrtAdresseForm"
+                    [requiredFieldValidations]="true"
+                    [isFirstField]="true"
+                    nummerPlaceholder="stes.label.nummer"
+                    [disableControls]="formsDisabled"
+                ></avam-common-info-fields>
+            </div>
+        </div>
+        <div class="links col-xl-6 d-flex">
+            <div class="avam-panel avam-panel-extra-lighter w-100" [formGroup]="korrespondenzAdresseForm">
+                <h3>{{ 'stes.label.korrespondenzadresse' | translate }}</h3>
+                <br />
+                <avam-common-info-fields
+                    #korrespondenzAdresseFormComponent
+                    [form]="korrespondenzAdresseForm"
+                    nummerPlaceholder="stes.label.nummer"
+                    [disableControls]="formsDisabled"
+                ></avam-common-info-fields>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-12 pl-0 pr-0 pt-3 pb-3 d-flex w-100">
+        <div class="rechts col-xl-6">
+            <div class="avam-panel avam-panel-extra-lighter" [formGroup]="kontaktDatenForm">
+                <h3>{{ 'unternehmen.label.kontaktdaten' | translate }}</h3>
+                <br />
+                <avam-label-input
+                    [parentForm]="kontaktDatenForm"
+                    controlName="telefon"
+                    id="telefon"
+                    selectLabel="unternehmen.label.telefon"
+                    placeholder="{{ 'stes.placeholder.mobile' }}"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="kontaktDatenForm"
+                    controlName="fax"
+                    id="fax"
+                    selectLabel="unternehmen.label.fax"
+                    placeholder="{{ 'stes.placeholder.fax' }}"
+                ></avam-label-input>
+                <app-email-input [parentForm]="kontaktDatenForm" controlName="email" id="email" placeholder="{{ 'stes.placeholder.email' }}"></app-email-input>
+                <div [ngClass]="'form-group row'">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="col-form-label">{{ 'unternehmen.label.webadresse' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center" orFormControlState>
+                        <div class="input-group" *ngIf="isInputVisible; else linkField">
+                            <core-input class="col no-padding" [formControlName]="'url'" dynamicControlName placeholder="{{ 'stes.placeholder.onlineBewerbung' | translate }}">
+                            </core-input>
+                            <div class="input-group-append">
+                                <button
+                                    class="btn btn-secondary rounded-0"
+                                    type="submit"
+                                    [disabled]="!kontaktDatenForm.get('url').value"
+                                    (click)="goToURL()"
+                                    ngbTooltip="{{ 'unternehmen.label.webadresseTooltip' | translate }}"
+                                >
+                                    <span class="fa fa-external-link-square"></span>
+                                </button>
+                            </div>
+                        </div>
+                        <ng-template #linkField>
+                            <a
+                                [href]="kontaktDatenForm.get('url').value"
+                                target="_blank"
+                                aria-hidden="false"
+                                ngbTooltip="{{ 'unternehmen.label.webadresseTooltip' | translate }}"
+                                >{{ kontaktDatenForm.get('url').value }}</a
+                            >
+                        </ng-template>
+                        <or-error-messages extendWithWarnings></or-error-messages>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <div class="avam-panel avam-panel-extra-lighter" [formGroup]="extraInfoForm">
+                <br />
+                <avam-gemeinde-two-fields-autosuggest
+                    dynamicControlName
+                    [parentForm]="extraInfoForm"
+                    label="{{ 'stes.label.gemeinde' }}"
+                    bfsNrControlName="bfsNummer"
+                    nameControlName="gemeindeName"
+                    bfsNrPlaceholder="{{ 'stes.label.nummer' | translate }}"
+                    namePlaceholder="{{ 'stes.label.gemeinde' | translate }}"
+                >
+                </avam-gemeinde-two-fields-autosuggest>
+
+                <avam-branche-autosuggest
+                    id="branche"
+                    componentLabel="amm.nutzung.label.branche"
+                    [parentForm]="extraInfoForm"
+                    controlName="branche"
+                    placeholder="{{ 'stes.placeholder.nogacode' | translate }}"
+                ></avam-branche-autosuggest>
+                <avam-label-dropdown
+                    id="status"
+                    [parentForm]="extraInfoForm"
+                    controlName="status"
+                    selectLabel="{{ 'office.label.status' }}"
+                    inputClass="col-md-8"
+                    [options]="statusOptions"
+                >
+                </avam-label-dropdown>
+
+                <div *ngIf="unternehmenData && BSP15()" class="row">
+                    <div class="col-4">
+                        <label class="pull-right">{{ 'unternehmen.label.verweiser' | translate }}</label>
+                    </div>
+                    <div class="col-8">
+                        <a [href]="getUrl()" target="_blank" aria-hidden="false">{{ unternehmenData.verweiser }}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #modalBurMutationsantrag>
+        <avam-burmutationsantrag [bisherData]="unternehmenData" [neuData]="updatedDTO"></avam-burmutationsantrag>
+    </ng-template>
+
+    <ng-template #modalBurAdresse>
+        <avam-modal-buradresse [unternehmenData]="unternehmenData" [wrapperBuradresse]="wrapperBuradresse"></avam-modal-buradresse>
+    </ng-template>
+</ng-form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="reset()" *ngIf="isZuruecksetzenButtonVisible()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="openDeleteModalConfirmation()" [permissionContext]="[permissions.KEY_AG_GRUNDDATEN_LOESCHEN]">
+        {{ deleteButtonType | translate }}
+    </button>
+    <button
+        class="btn btn-secondary ml-1"
+        *ngIf="isAdresseBurBfsButtonVisible()"
+        type="button"
+        (click)="openAdresseBurModal()"
+        [permissionContext]="[permissions.KEY_AG_ADRESSE_AUS_BUR_UEBERNEHMEN]"
+    >
+        {{ 'common.button.adresseBurBfsUbernehmen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" *ngIf="isSpeichernButtonVisible()" (click)="save()" [permissions]="[permissions.KEY_AG_GRUNDDATEN_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

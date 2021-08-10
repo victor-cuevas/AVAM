@@ -1,0 +1,52 @@
+<div>
+    <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+    <avam-leistungsvereinbarung-form #form [lvData]="lvData"></avam-leistungsvereinbarung-form>
+    <hr class="hr-thick mt-2" />
+    <div class="avam-panel  avam-panel-extra-lighter mb-0">
+        <p class="mb-0">{{ 'amm.akquisition.label.vertragswerte' | translate }}</p>
+    </div>
+    <avam-vertragswerte-table
+        #table
+        [dataSource]="dataSource"
+        [chfTotal]="chfTotal"
+        [tnTotal]="tnTotal"
+        [tnTageTotal]="tnTageTotal"
+        (onItemSelected)="onItemSelected($event)"
+    ></avam-vertragswerte-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: ammButtonsTypeEnum.FKT_ERSETZBAR)" class="btn btn-primary ml-1" type="button" (click)="openErsetzenModal()">
+            {{ 'amm.akquisition.button.leistungsvereinbarungersetzen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: ammButtonsTypeEnum.FKT_UEBERARBEITBAR)" class="btn btn-secondary ml-1" type="button" (click)="ueberarbeiten()">
+            {{ 'common.button.ueberarbeiten' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: ammButtonsTypeEnum.FKT_FREIGEBBAR)" class="btn btn-secondary ml-1" type="button" (click)="freigeben()">
+            {{ 'common.button.freigeben' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: ammButtonsTypeEnum.FKT_ZURUECKNEHMBAR)" class="btn btn-primary ml-1" type="button" (click)="zuruecknehmen()">
+            {{ 'common.button.zuruecknehmen' | translate }}
+        </button>
+        <button *ngIf="pendentOrInUeberarbeitung" class="btn btn-link ml-1" type="button" (click)="lvFormComponent.reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button *ngIf="pendentOrInUeberarbeitung" class="btn btn-secondary ml-1" type="button" (click)="vertragswertErfassen()">
+            <span class="fa fa-plus mr-2"></span>
+            {{ 'amm.akquisition.button.vertragswerterfassen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: ammButtonsTypeEnum.FKT_LOESCHBAR)" class="btn btn-secondary ml-1" type="button" (click)="openDeleteModal()">
+            {{ 'amm.akquisition.button.leistungsvereinbarungloeschen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: ammButtonsTypeEnum.FKT_SPEICHERBAR)" class="btn btn-primary ml-1" type="button" (click)="submit()">
+            {{ 'i18n.common.save' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #auszahlungenModal>
+    <avam-auszahlungen-zur-leistungsvereinbarung-modal [leistungsvereinbarungId]="lvId" [anbieterId]="lvData.anbieterId"></avam-auszahlungen-zur-leistungsvereinbarung-modal>
+</ng-template>

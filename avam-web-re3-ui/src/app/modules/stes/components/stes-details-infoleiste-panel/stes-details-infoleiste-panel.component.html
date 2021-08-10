@@ -1,0 +1,25 @@
+<div class="avam-panel p-2">
+    <div class="row">
+        <div *ngIf="hasName" class="col-xl-2">
+            <b *ngIf="stesHeader">{{ stesHeader.name }}, {{ stesHeader.vorname }}</b>
+        </div>
+        <div class="col-xl-3">
+            <span *ngIf="stesHeader"> {{ setAresse() }}</span>
+        </div>
+        <div class="col-xl-2">
+            <b> {{ 'stes.label.stesid' | translate }} </b>
+            <span *ngIf="stesHeader"> {{ stesHeader.stesId }} {{ (stesHeader.aktiv ? 'common.label.aktiv' : 'common.label.inaktiv') | translate }} </span>
+        </div>
+        <div [ngClass]="{'col-xl-1' : hasName, 'col-xl-2': ! hasName}">
+            <b> {{ 'stes.label.alk' | translate }} </b>
+            <span *ngIf="stesHeader"> {{ stesHeader.alk }} </span>
+        </div>
+        <div [ngClass]="{'col-xl-3' : hasName, 'col-xl-4': ! hasName}">
+            <b> {{ 'stes.label.personalberater' | translate }} </b>
+            <span *ngIf="stesHeader"> {{ setPersonalberater() }} </span>
+        </div>
+        <div class="col-xl-1">
+            <app-stes-details-info-icon [data]="getInfoIconData()" class="pull-right" *ngIf="showInfoIcon"></app-stes-details-info-icon>
+        </div>
+    </div>
+</div>

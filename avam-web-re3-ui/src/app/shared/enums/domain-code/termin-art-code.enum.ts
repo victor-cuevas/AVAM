@@ -1,0 +1,8 @@
+export enum TerminArtCodeEnum {
+    BERATUNGSGESPRRAECH = '1',
+    INFOTAG = '2',
+    TERMINBEIDRITTEN = '3',
+    ANMELDEGESPRAECH = '4',
+    ESRTGESPRAECH = '5',
+    TELEFONGESPRAECH = '6'
+}

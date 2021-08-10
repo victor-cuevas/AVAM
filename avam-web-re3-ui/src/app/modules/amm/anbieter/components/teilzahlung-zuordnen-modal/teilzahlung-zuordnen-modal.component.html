@@ -1,0 +1,26 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'amm.zahlungen.kopfzeile.teilzahlungzuordnen' | translate }}
+            <app-result-count [dataLength]="tableDataSource?.length"></app-result-count>
+        </h4>
+        <div class="mr-3">
+            <app-toolbox [configuration]="toolboxConfiguration" [formNumber]="formNumber"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-spinner [channel]="channel"> </or-spinner>
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <avam-teilzahlungen-uebersicht-table
+            [dataSource]="tableDataSource"
+            [tableType]="tableType.ZUORDNEN"
+            (onItemSelected)="teilzahlungZuordnen($event)"
+        ></avam-teilzahlungen-uebersicht-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <div class="sticky-actions">
+            <button class="btn btn-link" type="button" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+        </div>
+    </div>
+</div>

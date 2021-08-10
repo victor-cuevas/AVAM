@@ -1,0 +1,46 @@
+<avam-generic-tree-table #treeTable [headers]="displayedColumns" [dataSource]="data" [options]="tableOptions">
+    <ng-container *ngFor="let column of columns; first as isFirst" [cdkColumnDef]="column?.columnDef">
+        <th cdk-header-cell *cdkHeaderCellDef [ngStyle]="{ width: column?.width }">
+            <div class="header-container">
+                <span>
+                    {{ column.header | translate }}
+                </span>
+            </div>
+        </th>
+        <ng-container *ngIf="isFirst">
+            <td cdk-cell *cdkCellDef="let row">
+                <tree-table-toggler [element]="row" [column]="column">
+                    <i *ngIf="row.model.data.voIdAttribute === 'produktId'" class="triangle-blue fa fa-play"></i>
+                    <i *ngIf="row.model.data.voIdAttribute === 'massnahmeId'" class="square-green fa fa-stop"></i>
+                    <i *ngIf="row.model.data.voIdAttribute === 'durchfuehrungseinheitId'" class="square-small-yellow fa fa-circle"></i>
+                </tree-table-toggler>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="!isFirst">
+            <ng-container *ngIf="column?.columnDef === 'checkbox'">
+                <td cdk-cell *cdkCellDef="let row; let i = index" class="text-center">
+                    <div *ngIf="row.model.data.voIdAttribute === 'massnahmeId' || row.model.data.inVertragswertVerwaltungAuswaehlbar" class="form-check">
+                        <input
+                            id="{{ i }}_checkbox"
+                            class="form-check-input"
+                            type="checkbox"
+                            (change)="onCheckboxChange($event.target.checked, row.model.data)"
+                            [checked]="row.model.data.isChecked"
+                        />
+                        <label class="form-check-label" for="{{ i }}_checkbox"></label>
+                    </div>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="column?.columnDef === 'gueltigVon'">
+                <td cdk-cell *cdkCellDef="let row">
+                    <span>{{ column.cell(row) | date: 'dd.MM.yyyy' }}</span>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="column?.columnDef === 'gueltigBis'">
+                <td cdk-cell *cdkCellDef="let row">
+                    <span>{{ column.cell(row) | date: 'dd.MM.yyyy' }}</span>
+                </td>
+            </ng-container>
+        </ng-container>
+    </ng-container>
+</avam-generic-tree-table>

@@ -1,0 +1,193 @@
+<form [formGroup]="fachberatungsangebotForm" #ngForm="ngForm" closeBrowserTab autocomplete="off" [form]="fachberatungsangebotForm">
+    <div class="row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'unternehmen.label.fachberatungsangebot.angebotsbeschreibung' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    avamAutofocus
+                    *ngIf="isBearbeiten"
+                    selectLabel="common.label.status"
+                    [parentForm]="fachberatungsangebotForm"
+                    controlName="status"
+                    id="status"
+                    [hideEmptyOption]="true"
+                    [options]="statusOptions"
+                ></avam-label-dropdown>
+                <avam-label-input
+                    *ngIf="isBearbeiten"
+                    id="angebotsNr"
+                    controlName="angebotsNr"
+                    selectLabel="stes.label.fachberatung.angebotnr"
+                    [parentForm]="fachberatungsangebotForm"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-dropdown
+                    avamAutofocus
+                    selectLabel="{{ 'stes.label.fachberatungsangebote.beratungsbereich' }}"
+                    [parentForm]="fachberatungsangebotForm"
+                    controlName="fbBeratungsbereich"
+                    [placeholder]="'common.label.waehlen'"
+                    id="fbBeratungsbereich"
+                    [options]="fbBeratungsbereichOptions"
+                    [readOnly]="formDisabled"
+                ></avam-label-dropdown>
+                <app-textarea
+                    customFormControlState
+                    id="bezeichnung"
+                    formControlName="bezeichnung"
+                    selectLabel="{{ 'stes.label.fachberatungsangebote.bezeichnung' }}"
+                    [maxLength]="textMaxlength"
+                    [readonly]="formDisabled"
+                ></app-textarea>
+                <app-textarea
+                    customFormControlState
+                    id="zielpublikum"
+                    formControlName="zielpublikum"
+                    selectLabel="{{ 'stes.label.fachberatung.zielpublikum' }}"
+                    [maxLength]="textMaxlength"
+                    [readonly]="formDisabled"
+                ></app-textarea>
+                <app-textarea
+                    customFormControlState
+                    id="initialisierung"
+                    formControlName="initialisierung"
+                    selectLabel="{{ 'stes.label.fachberatung.initialisierung' }}"
+                    [maxLength]="textMaxlength"
+                    [readonly]="formDisabled"
+                    [tooltip]="'fh_stes.fachberatung.label.initialisierung'"
+                ></app-textarea>
+                <app-textarea
+                    customFormControlState
+                    id="leistung"
+                    formControlName="leistung"
+                    selectLabel="{{ 'stes.label.fachberatung.leistung' }}"
+                    [maxLength]="textMaxlength"
+                    [readonly]="formDisabled"
+                ></app-textarea>
+                <avam-personalberater-autosuggest
+                    #angebotsverantwortung
+                    [type]="angebotsverantwortungType"
+                    id="angebotsverantwortung"
+                    controlName="angebotsverantwortung"
+                    [parentForm]="fachberatungsangebotForm"
+                    componentLabel="{{ 'common.label.bearbeitungdurch' | translate }}"
+                    placeholder="{{ 'geko.placeholder.zustandig' | translate }}"
+                    [readOnly]="formDisabled"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'unternehmen.label.fachberatungsangebot.durchfuehrungsort' | translate }}</h3>
+                </label>
+                <avam-label-input [parentForm]="fachberatungsangebotForm" controlName="name1" selectLabel="unternehmen.label.name" [readOnly]="formDisabled"></avam-label-input>
+                <avam-label-input [parentForm]="fachberatungsangebotForm" controlName="name2" selectLabel=" " [readOnly]="formDisabled"></avam-label-input>
+                <avam-label-input [parentForm]="fachberatungsangebotForm" controlName="name3" selectLabel=" " [readOnly]="formDisabled"></avam-label-input>
+                <div class="row">
+                    <div class="col" style="position:relative">
+                        <div>
+                            <avam-label-input
+                                [parentForm]="fachberatungsangebotForm"
+                                controlName="strasse"
+                                id="strasse"
+                                [inputClass]="'col-lg-5 col-md-5'"
+                                selectLabel="{{ 'common.label.strassenr' | translate }}"
+                                [readOnly]="formDisabled"
+                            ></avam-label-input>
+                        </div>
+                        <div class="col-lg-3 col-md-2 align-col">
+                            <avam-label-input
+                                [parentForm]="fachberatungsangebotForm"
+                                controlName="hausNr"
+                                id="hausNr"
+                                [inputClass]="'col-lg-12 col-md-12'"
+                                [readOnly]="formDisabled"
+                            ></avam-label-input>
+                        </div>
+                    </div>
+                </div>
+                <avam-plz-autosuggest
+                    plzControl="plz"
+                    ortControl="ort"
+                    [landControl]="fachberatungsangebotForm.controls['land']"
+                    [parentForm]="fachberatungsangebotForm.get('plzOrt')"
+                    label="unternehmen.label.plzort"
+                    supportsSimpleInput="true"
+                    [readOnly]="formDisabled"
+                ></avam-plz-autosuggest>
+                <avam-land-autosuggest
+                    id="land"
+                    controlName="land"
+                    [parentForm]="fachberatungsangebotForm"
+                    componentLabel="{{ 'unternehmen.label.land' | translate }}"
+                    [readOnly]="formDisabled"
+                ></avam-land-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'common.label.kontaktperson' | translate }}</h3>
+                </label>
+                <avam-kontaktperson-input-wrapper
+                    [parentForm]="fachberatungsangebotForm"
+                    controlName="kontaktperson"
+                    componentLabel=" "
+                    [unternehmenId]="unternehmenId"
+                    (kontaktpersonSelected)="onKontaktpersonSelected($event)"
+                    [readonly]="formDisabled"
+                    [placeholder]="'common.button.waehlenKontaktperson'"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-dropdown
+                    selectLabel="unternehmen.label.anrede"
+                    [placeholder]="'common.label.waehlen'"
+                    [parentForm]="fachberatungsangebotForm"
+                    controlName="kpAnrede"
+                    id="kpAnrede"
+                    [options]="anredeOptions"
+                    [readOnly]="formDisabled"
+                ></avam-label-dropdown>
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    controlName="kpName"
+                    id="kpName"
+                    selectLabel="unternehmen.label.name"
+                    placeholder="common.label.name"
+                    (onChange)="setAnredeValidation($event)"
+                    (onKeyup)="setAnredeValidation($event)"
+                    [readOnly]="formDisabled"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    controlName="kpVorname"
+                    id="kpVorname"
+                    selectLabel="unternehmen.label.vorname"
+                    placeholder="common.label.vorname"
+                    [readOnly]="formDisabled"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="fachberatungsangebotForm"
+                    controlName="kpTelefon"
+                    selectLabel="{{ 'unternehmen.label.telefon' }}"
+                    [readOnly]="formDisabled"
+                ></avam-label-input>
+                <app-email-input [parentForm]="fachberatungsangebotForm" controlName="kpEmail" [readOnly]="formDisabled"></app-email-input>
+            </div>
+        </div>
+    </div>
+</form>
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">{{ 'common.button.zuruecksetzen' | translate }}</button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="openDeleteModal()" *ngIf="isBearbeiten" [permissions]="[permissions.STES_FACHBERATUNG_BEARBEITEN]">
+        {{ 'unternehmen.label.fachberatungsangebot.loeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_FACHBERATUNG_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

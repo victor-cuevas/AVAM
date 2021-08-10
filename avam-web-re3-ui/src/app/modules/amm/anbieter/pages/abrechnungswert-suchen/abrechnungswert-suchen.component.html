@@ -1,0 +1,51 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-abrechnungswert-suchen-form #searchForm [abrechnungswertData]="abrechnungswertData" (onEnter)="search()"></avam-abrechnungswert-suchen-form>
+    </div>
+    <div *ngIf="(buttons | async) as availableButtons" column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONZURUECKSETZEN)" type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button
+                *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSUCHEN)"
+                avamDisableOnSpinner
+                type="submit"
+                class="btn btn-primary"
+                (click)="search()"
+            >
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-anbieter-abrechnungswert-table
+            *ngIf="dataSource"
+            [dataSource]="dataSource"
+            [parentForm]="checkboxForm"
+            [tableType]="tableType.SUCHEN"
+            (onItemSelected)="navigateToAbrechnungswert($event)"
+            (onCreate)="createAbrechnung($event)"
+            (onCheckboxChange)="onCheckboxChange($event)"
+        ></avam-anbieter-abrechnungswert-table>
+    </div>
+</or-column-layout>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1 keepDisabled" type="button" (click)="createAbrechnung()" [disabled]="disableErfassen">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'amm.abrechnungen.button.abrechnungerfassen' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-anbieter-abrechnungswert-table *ngIf="dataSource" [dataSource]="dataSource" [tableType]="tableType.SUCHEN" [forPrinting]="true"></avam-anbieter-abrechnungswert-table>
+</ng-template>

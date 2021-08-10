@@ -1,0 +1,40 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="row {{ readOnly ? '' : 'form-group' }}">
+    <div class="col d-flex flex-row flex-nowrap align-items-center {{ inputClass ? inputClass : '' }}">
+        <span class="{{ readOnly ? '' : 'input-group-text input-group-prepend align-self-start' }} label-padding" id="{{ id }}-beaschaeftigungsgrad-select">{{
+            selectLabel | translate
+        }}</span>
+        <div [hidden]="readOnly" orFormControlState class="flex-shrink-1 flex-grow-1 w-1">
+            <div class="d-flex flex-nowrap">
+                <core-dropdown
+                    [ngbTooltip]="tooltipFrom"
+                    placement="top-left"
+                    class="dropdown-width"
+                    [hideEmptyOption]="hideEmptyOptionFrom"
+                    [disableControl]="isDisabled"
+                    dynamicControlName
+                    [formControlName]="controlNameFrom"
+                    [options]="optionsFrom"
+                    (onChange)="changeFrom($event)"
+                    [placeholder]="placeholderFrom"
+                ></core-dropdown>
+                <span class="dropdown-separator">-</span>
+                <core-dropdown
+                    [ngbTooltip]="tooltipTo"
+                    placement="top-left"
+                    class="dropdown-width"
+                    [hideEmptyOption]="hideEmptyOptionTo"
+                    [disableControl]="isDisabled"
+                    dynamicControlName
+                    [formControlName]="controlNameTo"
+                    [options]="optionsTo"
+                    (onChange)="changeTo($event)"
+                    [placeholder]="placeholderTo"
+                ></core-dropdown>
+            </div>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="readOnly" class="flex-shrink-1 flex-grow-1 w-1">
+            <p id="{{ id }}-beshaeftigungsgrad-paragraph" class="m-0">{{ getReadOnlyValue() }}</p>
+        </div>
+    </div>
+</div>

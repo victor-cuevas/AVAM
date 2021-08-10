@@ -1,0 +1,27 @@
+.far {
+    display: inline-block;
+    font: normal normal normal 1rem FontAwesome;
+    color: #005e8e;
+    cursor: pointer;
+    padding-right: 10px;
+}
+
+.element-label {
+    overflow: hidden;
+    white-space: nowrap;
+    -moz-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+
+    span {
+        overflow: hidden;
+        display: block;
+        text-overflow: ellipsis;
+    }
+}
+
+.value-cell {
+    display: flex;
+}

@@ -1,0 +1,20 @@
+<div class="input-group">
+    <input
+        #inputElement
+        type="{{ type }}"
+        placeholder="{{ placeholder }}"
+        maxlength="{{ max }}"
+        [readOnly]="coreReadOnly"
+        class="form-control {{ coreReadOnlyClearButton ? 'show-clear-button' : '' }}"
+        [formControl]="control"
+        (input)="input($event)"
+        (keyup)="keyup($event)"
+        (change)="change($event)"
+        (blur)="blur($event)"
+        (focusout)="focusout($event)"
+    />
+    <button tabindex="-1" type="button" role="button" class="text-control-clear" [orTextControlClear]="inputElement" (click)="clear()">
+        <span class="fa fa-times-circle"></span>
+        <span class="sr-only">Clear text content.</span>
+    </button>
+</div>

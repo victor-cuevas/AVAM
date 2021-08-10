@@ -1,0 +1,19 @@
+<div class="overflow-hidden pre-scrollable mh-100">
+    <or-spinner channel="stesTermineResult"></or-spinner>
+    <avam-stes-termine-table *ngIf="tableData" [dataSource]="tableData" (onItemSelected)="editTerminData($event)"></avam-stes-termine-table>
+</div>
+<ng-template #modalPrint>
+    <avam-stes-termine-table *ngIf="tableData" [dataSource]="tableData"></avam-stes-termine-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-secondary ml-1" type="button" (click)="infotagBuchen()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.infotagBuchen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="termineErfassen()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'common.button.terminErfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

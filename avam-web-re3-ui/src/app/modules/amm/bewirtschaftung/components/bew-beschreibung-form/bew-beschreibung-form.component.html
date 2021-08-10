@@ -1,0 +1,208 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    id="erfassungssprache"
+                    [parentForm]="formGroup"
+                    controlName="erfassungssprache"
+                    [options]="erfassungsspracheOptions"
+                    selectLabel="amm.massnahmen.label.erfassungssprache"
+                    [hideEmptyOption]="true"
+                    (onChange)="onLanguageDropdownChange($event)"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <div *ngIf="displayGermanElements">
+                    <label>{{ 'amm.massnahmen.label.inhaltde' | translate }}</label>
+                    <app-textarea id="inhaltDe" formControlName="inhaltDe" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.methodikde' | translate }}</label>
+                    <app-textarea id="methodikDe" formControlName="methodikDe" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.massnahmenzielde' | translate }}</label>
+                    <app-textarea
+                        id="massnahmenzielDe"
+                        formControlName="massnahmenzielDe"
+                        [fullWidth]="true"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="isReadonly"
+                    ></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.abschlussde' | translate }}</label>
+                    <app-textarea id="abschlussDe" formControlName="abschlussDe" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                </div>
+                <div *ngIf="displayFrenchElements">
+                    <label>{{ 'amm.massnahmen.label.inhaltfr' | translate }}</label>
+                    <app-textarea id="inhaltFr" formControlName="inhaltFr" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.methodikfr' | translate }}</label>
+                    <app-textarea id="methodikFr" formControlName="methodikFr" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.massnahmenzielfr' | translate }}</label>
+                    <app-textarea
+                        id="massnahmenzielFr"
+                        formControlName="massnahmenzielFr"
+                        [fullWidth]="true"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="isReadonly"
+                    ></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.abschlussfr' | translate }}</label>
+                    <app-textarea id="abschlussFr" formControlName="abschlussFr" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                </div>
+                <div *ngIf="displayItalianElements">
+                    <label>{{ 'amm.massnahmen.label.inhaltit' | translate }}</label>
+                    <app-textarea id="inhaltIt" formControlName="inhaltIt" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.methodikit' | translate }}</label>
+                    <app-textarea id="methodikIt" formControlName="methodikIt" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.massnahmenzielit' | translate }}</label>
+                    <app-textarea
+                        id="massnahmenzielIt"
+                        formControlName="massnahmenzielIt"
+                        [fullWidth]="true"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="isReadonly"
+                    ></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.abschlussit' | translate }}</label>
+                    <app-textarea id="abschlussIt" formControlName="abschlussIt" [fullWidth]="true" customFormControlState [maxLength]="255" [readonly]="isReadonly"></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>
+                        {{ 'amm.massnahmen.label.mindestvoraussetzungen' | translate }}
+                    </h3>
+                </label>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>{{ 'amm.massnahmen.label.sprache' | translate }}</label>
+                        <avam-label-dropdown
+                            [parentForm]="formGroup"
+                            controlName="sprache"
+                            id="sprache"
+                            [options]="spracheOptions"
+                            inputClass="col-md-12"
+                            [readOnly]="isReadonly"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="col-md-4">
+                        <label>{{ 'amm.massnahmen.label.muendlich' | translate }}</label>
+                        <avam-label-dropdown
+                            id="muendlich"
+                            [parentForm]="formGroup"
+                            controlName="muendlich"
+                            [options]="muendlichOptions"
+                            inputClass="col-md-12"
+                            [readOnly]="isReadonly"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="col-md-4">
+                        <label>{{ 'amm.massnahmen.label.schriftlich' | translate }}</label>
+                        <avam-label-dropdown
+                            id="schriftlich"
+                            [parentForm]="formGroup"
+                            controlName="schriftlich"
+                            [options]="schriftlichOptions"
+                            inputClass="col-md-12"
+                            [readOnly]="isReadonly"
+                        ></avam-label-dropdown>
+                    </div>
+                </div>
+                <hr class="hr-thin mt-2" />
+                <avam-label-dropdown
+                    id="ausbildungsniveau"
+                    [parentForm]="formGroup"
+                    controlName="ausbildungsniveau"
+                    [options]="ausbildungsniveauOptions"
+                    selectLabel="{{ 'amm.massnahmen.label.ausbildungsniveau' }}"
+                    [readOnly]="isReadonly"
+                ></avam-label-dropdown>
+                <hr class="hr-thin mt-2" />
+                <div *ngIf="displayGermanElements">
+                    <app-textarea
+                        id="sonstigesDe"
+                        formControlName="sonstigesDe"
+                        selectLabel="amm.massnahmen.label.sonstigesde"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="isReadonly"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayFrenchElements">
+                    <app-textarea
+                        id="sonstigesFr"
+                        formControlName="sonstigesFr"
+                        selectLabel="amm.massnahmen.label.sonstigesfr"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="isReadonly"
+                    ></app-textarea>
+                </div>
+                <div *ngIf="displayItalianElements">
+                    <app-textarea
+                        id="sonstigesIt"
+                        formControlName="sonstigesIt"
+                        selectLabel="amm.massnahmen.label.sonstigesit"
+                        customFormControlState
+                        [maxLength]="255"
+                        [readonly]="isReadonly"
+                    ></app-textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>
+                        {{ 'amm.massnahmen.label.zielgruppe' | translate }}
+                    </h3>
+                </label>
+                <avam-range-valued-wrapper
+                    id="zielgruppe"
+                    fromInputControlName="altersgruppeVon"
+                    toInputControlName="altersgruppeBis"
+                    rangeSliderControlName="slider"
+                    [parentForm]="formGroup.controls.rangeSlider"
+                    selectLabel="amm.massnahmen.label.alter"
+                    [minVal]="1"
+                    [maxVal]="100"
+                    [isDisabled]="isReadonly"
+                ></avam-range-valued-wrapper>
+                <hr class="hr-thin mt-2" />
+                <avam-berufsgruppe-dynamic-autosuggest
+                    label="amm.massnahmen.label.berufsgruppen"
+                    [parentForm]="formGroup"
+                    controlName="berufsgruppen"
+                    [readOnly]="isReadonly"
+                ></avam-berufsgruppe-dynamic-autosuggest>
+                <hr class="hr-thin mt-2" />
+                <avam-multiselect
+                    id="funktionStatusId"
+                    controlName="funktionen"
+                    [parentForm]="formGroup"
+                    [options]="funktionOptions"
+                    label="amm.massnahmen.label.funktionen"
+                    [isDisabled]="isReadonly"
+                ></avam-multiselect>
+                <hr class="hr-thin mt-2" />
+                <div class="form-group row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.massnahmen.label.branchen' | translate }}</label>
+                    </div>
+                    <div class="col-md-8 text-right">
+                        <avam-branche-dynamic-autosuggest [parentForm]="formGroup" controlName="branchen" [readOnly]="isReadonly"></avam-branche-dynamic-autosuggest>
+                    </div>
+                </div>
+                <hr class="hr-thin mt-2" />
+                <avam-multiselect-tree
+                    id="beurteilungskriterien"
+                    [parentForm]="formGroup"
+                    controlName="beurteilungskriterien"
+                    [options]="beurteilungskriterienOptions"
+                    label="amm.massnahmen.label.beurteilungskriterien"
+                    [isDisabled]="isReadonly"
+                ></avam-multiselect-tree>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,29 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <or-spinner [channel]="searchPanelChannel"></or-spinner>
+        <avam-teilzahlungen-suchen-form (onEnter)="search()" [data]="data" #suchenFormComponent></avam-teilzahlungen-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary" (click)="search()" [disabled]="searchNotAvailable">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <avam-teilzahlungen-suchen-table #tableComponent (onItemSelected)="onItemSelected($event)" [dataSource]="dataSource"></avam-teilzahlungen-suchen-table>
+    </div>
+</or-column-layout>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-teilzahlungen-suchen-table *ngIf="dataSource" [dataSource]="dataSource" [hideTableButton]="true"></avam-teilzahlungen-suchen-table>
+    </avam-generic-table-print>
+</ng-template>

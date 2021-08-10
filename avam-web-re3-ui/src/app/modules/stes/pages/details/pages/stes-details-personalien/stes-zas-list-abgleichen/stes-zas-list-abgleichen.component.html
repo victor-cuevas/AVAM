@@ -1,0 +1,36 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ 'stes.label.zas.trefferliste' | translate }}</h4>
+        <div class="mr-3">
+            <div class="sticky-actions">
+                <app-toolbox [configuration]="modalToolboxConfiguration" [id]="getToolboxId()" [formNumber]="getFormNr()"></app-toolbox>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="links col-xl-12">
+                <p class="alert alert-warning">
+                    {{ 'stes.message.anmeldung.zas.ntreffer' | translate: { numberOfPersons: numberOfPersons() } }}
+                </p>
+            </div>
+        </div>
+        <div class="scrollable-modal-body pre-scrollable mh-80">
+            <or-spinner [channel]="getSpinnerChannel()"></or-spinner>
+            <avam-stes-zas-abgleichen-table *ngIf="tableData" [dataSource]="tableData"></avam-stes-zas-abgleichen-table>
+        </div>
+        <div class="modal-footer justify-content-between">
+            <span ngbAutofocus>{{ getFormNr() }}</span>
+            <div class="sticky-actions">
+                <button type="button" class="btn btn-link" (click)="close()">
+                    {{ 'common.button.abbrechen' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableData">
+        <avam-stes-zas-abgleichen-table *ngIf="tableData" [dataSource]="tableData"></avam-stes-zas-abgleichen-table>
+    </avam-generic-table-print>
+</ng-template>

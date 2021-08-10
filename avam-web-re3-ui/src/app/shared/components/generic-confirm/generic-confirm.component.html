@@ -1,0 +1,50 @@
+<div class="modal-content">
+    <div class="modal-header" *ngIf="titleLabel">
+        <h4 class="modal-title">{{ titleLabel | translate }}</h4>
+        <button
+            type="button"
+            class="close"
+            (click)="modalService.dismissAll()"
+            data-dismiss="modal"
+            aria-label="Close"
+            (keydown.enter)="onEnterDown($event)"
+            (keyup.enter)="onEnterUp($event, dismiss)"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-10 col-md-10">{{ promptLabel | translate }}</div>
+        </div>
+    </div>
+    <!-- two button -->
+    <div class="modal-footer" *ngIf="!singleButtonCenter">
+        <button
+            type="button"
+            class="btn btn-secondary"
+            data-dismiss="modal"
+            (click)="secondaryAction()"
+            (keydown.enter)="onEnterDown($event)"
+            (keyup.enter)="onEnterUp($event, secondaryAction)"
+        >
+            {{ secondaryButton | translate }}
+        </button>
+        <button ngbAutofocus type="button" class="btn btn-primary" (click)="primaryAction()" (keydown.enter)="onEnterDown($event)" (keyup.enter)="onEnterUp($event, primaryAction)">
+            {{ primaryButton | translate }}
+        </button>
+    </div>
+    <!-- single button center -->
+    <div class="full-centered" style="border-top: 1px solid #dee2e6; padding: 1rem;" *ngIf="singleButtonCenter">
+        <button
+            ngbAutofocus
+            type="button"
+            class="btn btn-primary btn-sm"
+            (click)="primaryAction()"
+            (keydown.enter)="onEnterDown($event)"
+            (keyup.enter)="onEnterUp($event, primaryAction)"
+        >
+            {{ primaryButton | translate }}
+        </button>
+    </div>
+</div>

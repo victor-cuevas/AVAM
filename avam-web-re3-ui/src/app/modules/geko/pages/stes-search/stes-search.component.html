@@ -1,0 +1,18 @@
+<or-column-layout [left]="true" [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main" (keyup.enter)="submit()">
+        <or-spinner channel="gekoStesForm-modal"></or-spinner>
+        <avam-geko-stes-search-form #gekoSearchForm class="sticky-main"></avam-geko-stes-search-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="submit()" [disabled]="isSubmitDisabled()">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner channel="gekoSearchResult-modal"></or-spinner>
+        <avam-geko-stes-search-result #gekoSearchResult class="sticky-main"></avam-geko-stes-search-result>
+    </div>
+</or-column-layout>

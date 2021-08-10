@@ -1,0 +1,51 @@
+.step2-oste-beruf-table .button-wrapper {
+    display: flex;
+
+    button {
+        display: flex;
+        margin: 0 auto;
+    }
+}
+
+.step2-oste-beruf-table .align-top {
+    vertical-align: top;
+}
+
+.step2-oste-beruf-table .verwandteBerufe {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: space-between;
+}
+
+.step2-oste-beruf-table .align-info-btn {
+    font-size: 1.5rem;
+    margin-top: -24px;
+    margin-left: -12px;
+}
+
+.oste-beruf-table-info-icon-height {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.step2-oste-beruf-table .readonly-btn {
+    cursor: default;
+    background-color: transparent;
+    color: #b4b4b4;
+    border: none;
+}
+
+.info-button {
+    margin-left: -12px;
+}
+
+.anmerkungen {
+    width: 38px;
+    height: 38px;
+    padding: 8px;
+
+    span {
+        color: black;
+    }
+}

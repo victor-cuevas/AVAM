@@ -1,0 +1,181 @@
+<form [formGroup]="formGroup" #ngForm="ngForm">
+    <div class="avam-panel d-flex flex-nowrap pl-5 pb-1">
+        <avam-label-dropdown
+            id="kostenverteilschluessel"
+            class="pr-5"
+            [parentForm]="formGroup"
+            controlName="kostenverteilschluessel"
+            [options]="kostenverteilschluesselOptions"
+            selectLabel="amm.ctrlwerte.label.kostenverteilschluessel"
+            [hideEmptyOption]="true"
+            inputClass="col-lg-auto col-md-auto"
+            labelClass="col-lg-auto col-md-auto"
+            [isDisabled]="!tableData?.enabledFields || forPrint"
+        ></avam-label-dropdown>
+        <avam-currency-input
+            *ngIf="tableData?.panelFormData?.showAWKosten"
+            id="anrechenbareKosten"
+            class="pr-5"
+            [parentForm]="formGroup"
+            controlName="anrechenbareKosten"
+            label="amm.abrechnungen.label.anrechenbarekosten"
+            [readOnly]="true"
+            customInputClass="col-auto"
+            customLabelClass="col-auto"
+        ></avam-currency-input>
+        <avam-currency-input
+            *ngIf="tableData?.panelFormData?.showAWKosten"
+            id="alvRelevanteKosten"
+            [parentForm]="formGroup"
+            controlName="alvRelevanteKosten"
+            label="amm.abrechnungen.label.alvrelevant"
+            [readOnly]="true"
+            customInputClass="col-auto"
+            customLabelClass="col-auto"
+        ></avam-currency-input>
+    </div>
+    <avam-generic-table [dataSource]="dataSource" [customTrackByFn]="customTrackByFunction" [headers]="displayedColumns" [recalculateMaxHeight]="false">
+        <ng-container *ngFor="let column of columns; let colIndex = index" [cdkColumnDef]="column?.columnDef">
+            <ng-container *ngIf="column.columnDef === 'jahrOrGeldgeber'">
+                <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef [attr.colSpan]="2">
+                    <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                        <sort-icon [column]="column.columnDef"></sort-icon>
+                        {{ column.header | translate }}
+                    </span>
+                </th>
+                <td cdk-cell *cdkCellDef="let row; let index = index" [attr.colspan]="row.rowType === rowTypes.JAHR ? 2 : 1">
+                    <avam-label-dropdown
+                        id="instituion-{{ row.tableId + index }}"
+                        *ngIf="row.rowType !== rowTypes.JAHR"
+                        [parentForm]="formArray.controls[index]"
+                        controlName="jahrOrGeldgeber"
+                        [options]="institutionOptions"
+                        [inputClass]="'col-lg-12 col-md-4'"
+                        [readOnly]="!row.editable"
+                        [isDisabled]="!tableData?.enabledFields || forPrint"
+                        [hideEmptyOption]="tableData?.geldgeberRequired"
+                    ></avam-label-dropdown>
+
+                    <avam-generic-table-cell *ngIf="row.rowType === rowTypes.JAHR" [column]="column" [row]="row"></avam-generic-table-cell>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'kanton'">
+                <th cdk-header-cell *cdkHeaderCellDef style="display: none;"></th>
+                <td
+                    cdk-cell
+                    *cdkCellDef="let row; let index = index"
+                    [attr.colspan]="1"
+                    [ngStyle]="{
+                        display: row.rowType === rowTypes.JAHR ? 'none' : ''
+                    }"
+                >
+                    <avam-label-dropdown
+                        id="kanton-{{ row.tableId + index }}"
+                        [parentForm]="formArray.controls[index]"
+                        controlName="kanton"
+                        [options]="kantonOptions"
+                        [inputClass]="'col-lg-12 col-md-4'"
+                        [readOnly]="!row.editable"
+                        [isDisabled]="!tableData?.enabledFields || forPrint"
+                        [hideEmptyOption]="tableData?.geldgeberRequired"
+                    ></avam-label-dropdown>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'chf'">
+                <td cdk-cell *cdkCellDef="let row; let index = index" [ngClass]="row.rowType !== rowTypes.JAHR ? 'validations-format' : ''">
+                    <avam-currency-input
+                        id="chf-{{ row.tableId + index }}"
+                        avamAutofocus
+                        [readOnly]="row.rowType === rowTypes.JAHR"
+                        controlName="chf"
+                        [parentForm]="formArray.controls[index]"
+                        [customReadOnlyClass]="row.rowType === rowTypes.JAHR ? 'd-flex justify-content-end w-100' : ''"
+                        [highlightNegative]="true"
+                        [integralPartLen]="15"
+                        [isDisabled]="
+                            !tableData?.enabledFields ||
+                            (!tableData?.disableKostenverteilschluesselChecks && +formGroup.controls.kostenverteilschluessel.value !== manuellId) ||
+                            forPrint
+                        "
+                    ></avam-currency-input>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'tnTage'">
+                <td cdk-cell *cdkCellDef="let row; let index = index" class="validations-format">
+                    <avam-label-input
+                        id="tntage-{{ row.tableId + index }}"
+                        [readOnly]="row.rowType === rowTypes.JAHR"
+                        [parentForm]="formArray.controls[index]"
+                        controlName="tnTage"
+                        [isDisabled]="!tableData?.enabledFields || forPrint"
+                        textDirection="rtl"
+                        inputClass="col-lg-8 col-md-8 justify-content-end"
+                        selectLabel=" "
+                        customClassReadOnlyTextContainer="justify-content-end"
+                    ></avam-label-input>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'teilnehmer'">
+                <td cdk-cell *cdkCellDef="let row; let index = index" class="validations-format">
+                    <avam-label-input
+                        id="tn-{{ row.tableId + index }}"
+                        [readOnly]="row.rowType === rowTypes.JAHR"
+                        [parentForm]="formArray.controls[index]"
+                        controlName="teilnehmer"
+                        [isDisabled]="!tableData?.enabledFields || forPrint"
+                        textDirection="rtl"
+                        inputClass="col-lg-8 col-md-8 justify-content-end"
+                        selectLabel=" "
+                        customClassReadOnlyTextContainer="justify-content-end"
+                    ></avam-label-input>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'prozent'">
+                <td cdk-cell *cdkCellDef="let row; let index = index" class="validations-format">
+                    <avam-label-input
+                        id="prozent-{{ row.tableId + index }}"
+                        [readOnly]="row.rowType === rowTypes.JAHR"
+                        [parentForm]="formArray.controls[index]"
+                        controlName="prozent"
+                        [isDisabled]="
+                            !tableData?.enabledFields ||
+                            (!tableData?.disableKostenverteilschluesselChecks && +formGroup.controls.kostenverteilschluessel.value !== prozentualId) ||
+                            forPrint
+                        "
+                        textDirection="rtl"
+                        inputClass="col-lg-8 col-md-8 justify-content-end"
+                        selectLabel=" "
+                        customClassReadOnlyTextContainer="justify-content-end"
+                    ></avam-label-input>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'action'">
+                <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                    <button
+                        *ngIf="tableData?.enabledFields"
+                        type="button"
+                        class="fa fa-plus btn btn-secondary btn-sm buttonOnHover"
+                        (click)="onAddRow()"
+                        [ngbTooltip]="'common.button.add' | translate"
+                    ></button>
+                </th>
+                <td cdk-cell *cdkCellDef="let row; let i = index">
+                    <button
+                        *ngIf="row.editable && tableData?.enabledFields"
+                        type="button"
+                        class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                        (click)="deleteRow(row, i)"
+                        [ngbTooltip]="'common.button.loeschen' | translate"
+                    ></button>
+                </td>
+            </ng-container>
+
+            <th [ngStyle]="{ width: column?.width, 'text-align': 'right' }" cdk-header-cell *cdkHeaderCellDef>
+                <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+            </td>
+        </ng-container>
+    </avam-generic-table>
+</form>

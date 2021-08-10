@@ -1,0 +1,101 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-anbieter-abrechnung-form #abrechnungForm [abrechnungParam]="abrechnungParam"></avam-anbieter-abrechnung-form>
+    <hr class="hr-thick mt-2" />
+    <div class="avam-panel  avam-panel-extra-lighter mb-0">
+        <p class="mb-0">{{ 'amm.abrechnungen.label.abrechnungswerte' | translate }}</p>
+    </div>
+    <avam-anbieter-abrechnungswert-table
+        *ngIf="dataSource"
+        [dataSource]="dataSource"
+        [summeTotal]="summeTotal"
+        [tableType]="tableType.BEARBEITEN"
+        (onItemSelected)="navigateToAbrechnungswert($event)"
+        (onRemove)="openDeleteDialog(action.REMOVEZUORDNUNG, $event)"
+    ></avam-anbieter-abrechnungswert-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONUEBERARBEITEN)"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="update(action.UEBERARBEITEN)"
+        >
+            {{ 'common.button.ueberarbeiten' | translate }}
+        </button>
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONFREIGEBEN)"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="update(action.FREIGEBEN)"
+        >
+            {{ 'common.button.freigeben' | translate }}
+        </button>
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONZURUECKNEHMEN)"
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="update(action.ZURUECKNEHMEN)"
+        >
+            {{ 'common.button.zuruecknehmen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONBERECHNEN)"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="openAbrechnungswertModal()"
+        >
+            {{ 'amm.abrechnungen.button.abrechnungswertzuordnen' | translate }}
+        </button>
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONLOESCHEN)"
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="openDeleteDialog(action.DELETE)"
+        >
+            {{ 'amm.abrechnungen.button.abrechnungloeschen' | translate }}
+        </button>
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONERSETZEN)"
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="update(action.ERSETZEN)"
+        >
+            {{ 'amm.abrechnungen.button.abrechnungersetzen' | translate }}
+        </button>
+        <button
+            avamDisableOnSpinner
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)"
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="update(action.SAVE)"
+        >
+            {{ 'i18n.common.save' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #abrechnungswertModal>
+    <avam-abrechnungswerte-zuordnen-modal
+        [abrechnungId]="abrechnungId"
+        [abrechnungswerte]="abrechnungswerte"
+        (onAssignAbrechnungswerte)="assignAbrechnungswerte($event)"
+    ></avam-abrechnungswerte-zuordnen-modal>
+</ng-template>
+
+<ng-template #auszahlungenModal>
+    <avam-auszahlungen-zur-abrechnung-modal [abrechnungId]="abrechnungId" [anbieterId]="anbieterId"></avam-auszahlungen-zur-abrechnung-modal>
+</ng-template>

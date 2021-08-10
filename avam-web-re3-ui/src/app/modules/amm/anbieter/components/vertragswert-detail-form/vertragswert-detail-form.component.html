@@ -1,0 +1,163 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>
+                        {{ 'amm.planundakqui.label.restwert' | translate }}
+                    </h3>
+                </label>
+                <avam-label-input
+                    controlName="budgetposition"
+                    [parentForm]="formGroup"
+                    selectLabel="amm.budgetierung.label.budgetposition"
+                    [readOnly]="true"
+                    [inputClass]="'col-lg-10 col-md-10'"
+                    [labelClass]="'col-lg-2 col-md-2'"
+                ></avam-label-input>
+                <avam-bew-restwert-table [dataSource]="restwertDataSource" [planwertType]="planwertType" [isVertragswert]="true"></avam-bew-restwert-table>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    id="gueltig"
+                    [parentForm]="formGroup"
+                    controlName="gueltig"
+                    selectLabel="amm.administration.label.gueltig"
+                    [hideEmptyOption]="true"
+                    [options]="gueltigOptions"
+                    [readOnly]="isGueltigReadonly"
+                    (onChange)="onChangeGueltig($event)"
+                >
+                </avam-label-dropdown>
+                <avam-date-range-picker
+                    id="gueltigVonBis"
+                    label=""
+                    [parentForm]="formGroup"
+                    formControlNameFrom="gueltigVon"
+                    formControlNameTo="gueltigBis"
+                    [isResponsive]="true"
+                    [readOnly]="isVertragswerttypKurs || (isPreismodellTypReadonly && currentFormMode === formModeEnum.EDIT) ? 'all' : ''"
+                ></avam-date-range-picker>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    inputClass="col-lg-4"
+                    id="preismodellTyp"
+                    [parentForm]="formGroup"
+                    controlName="preismodellTyp"
+                    selectLabel="amm.planundakqui.label.preismodelltyp"
+                    [hideEmptyOption]="true"
+                    [options]="preismodellTypOptions"
+                    [readOnly]="isPreismodellTypReadonly && currentFormMode === formModeEnum.EDIT"
+                >
+                </avam-label-dropdown>
+                <div class="row mb-3">
+                    <avam-label-dropdown
+                        inputClass="col-lg-6 col-md-6"
+                        class="col-lg-8"
+                        [parentForm]="formGroup"
+                        controlName="preismodell"
+                        id="preismodell"
+                        [options]="preismodellOptions"
+                        selectLabel="amm.planundakqui.label.preismodell"
+                        [hideEmptyOption]="true"
+                        labelClass="col-lg-6 col-md-6"
+                        (onChange)="onPreismodellChange($event)"
+                        [readOnly]="
+                            vertragswertDetailData?.planwertUebernommen ||
+                            (isPreismodellTypReadonly && currentFormMode === formModeEnum.EDIT) ||
+                            (isPreismodellReadonly && currentFormMode === formModeEnum.CREATE)
+                        "
+                    ></avam-label-dropdown>
+                    <div class="col-md-4 pr-1">
+                        <avam-currency-input
+                            controlName="chf"
+                            [parentForm]="formGroup"
+                            id="chf"
+                            secondaryLabel="common.label.chf"
+                            [customInputClass]="'col-md-8 flex-row-reverse'"
+                            customSecondaryLabelClass="col-md-3 pl-2"
+                            [readOnly]="vertragswertDetailData?.planwertUebernommen || (isChfReadOnly && currentFormMode === formModeEnum.EDIT)"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <avam-bew-preismodel-table
+                    [planwertType]="planwertType"
+                    [parentForm]="formGroup"
+                    [isDeDisabled]="
+                        vertragswertDetailData?.planwertUebernommen ||
+                        (isPreismodellTypReadonly && currentFormMode === formModeEnum.EDIT) ||
+                        isVertragswerttypKurs ||
+                        isVertragswerttypStandort
+                    "
+                    [isTnDisabled]="vertragswertDetailData?.planwertUebernommen || (isTnReadOnly && currentFormMode === formModeEnum.EDIT)"
+                    [isLektionenDisabled]="vertragswertDetailData?.planwertUebernommen || (isPreismodellTypReadonly && currentFormMode === formModeEnum.EDIT)"
+                ></avam-bew-preismodel-table>
+            </div>
+            <div class="avam-panel">
+                <label>{{ 'amm.massnahmen.label.bemerkung' | translate }}</label>
+                <app-textarea
+                    id="ergaenzendeAngaben"
+                    formControlName="ergaenzendeAngaben"
+                    [fullWidth]="true"
+                    customFormControlState
+                    maxLength="255"
+                    [readonly]="isPreismodellTypReadonly && currentFormMode === formModeEnum.EDIT"
+                ></app-textarea>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <app-paragraph id="profilnr" label="amm.akquisition.label.profilnr" [value]="vertragswertDto?.profilNr ? vertragswertDto.profilNr : ''"> </app-paragraph>
+                <app-paragraph id="vertragswertnr" label="amm.akquisition.label.vertragswertnr" [value]="vertragswertDto?.vertragswertNr ? vertragswertDto.vertragswertNr : ''">
+                </app-paragraph>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'amm.akquisition.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="vertragswertDto?.vorgaengerObject?.vertragswertId"
+                            id="vorgaengerLabel"
+                            [routerLink]="[]"
+                            [queryParams]="{
+                                vertragswertId: vertragswertDto?.vorgaengerObject?.vertragswertId,
+                                lvId: vertragswertDto?.vorgaengerObject?.leistungsvereinbarungObject?.leistungsvereinbarungId
+                            }"
+                        >
+                            {{ vertragswertDto?.vorgaengerObject?.vertragswertNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'amm.akquisition.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="vertragswertDto?.nachfolgerObject?.vertragswertId"
+                            id="vorgaengerLabel"
+                            [routerLink]="[]"
+                            [queryParams]="{
+                                vertragswertId: vertragswertDto?.nachfolgerObject?.vertragswertId,
+                                lvId: vertragswertDto?.nachfolgerObject?.leistungsvereinbarungObject?.leistungsvereinbarungId
+                            }"
+                        >
+                            {{ vertragswertDto?.nachfolgerObject?.vertragswertNr }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <app-paragraph
+                    id="leistungsvereinbarungsnr"
+                    label="amm.akquisition.label.aktuelleleistungsvereinbarungsnr"
+                    [value]="vertragswertDto?.leistungsvereinbarungObject?.leistungsvereinbarungNr ? vertragswertDto.leistungsvereinbarungObject.leistungsvereinbarungNr : ''"
+                >
+                </app-paragraph>
+                <avam-label-input controlName="status" [parentForm]="formGroup" selectLabel="amm.zahlungen.label.status" [readOnly]="true"></avam-label-input>
+                <app-paragraph id="freigegebeneAbrechnung" label="amm.akquisition.label.freigegebeneabrechnung" [value]="freigegebeneAbrechnung | translate"> </app-paragraph>
+            </div>
+        </div>
+    </div>
+</form>

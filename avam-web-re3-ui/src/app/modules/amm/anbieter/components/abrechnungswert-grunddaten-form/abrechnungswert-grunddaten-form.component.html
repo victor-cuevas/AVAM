@@ -1,0 +1,139 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row" *ngIf="(fields | async) as enabledFields">
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    id="gueltig"
+                    [parentForm]="formGroup"
+                    controlName="gueltig"
+                    selectLabel="amm.abrechnungen.label.gueltig"
+                    [hideEmptyOption]="true"
+                    [options]="yesNoDropdownLabels"
+                    [isDisabled]="!(enabledFields | fieldEnablePipe: fieldsEnum.ISABRECHNUNGSWERTGUELTIG)"
+                ></avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <h4>{{ 'amm.abrechnungen.label.abrechnungorg' | translate }}</h4>
+                <br />
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label> {{ 'amm.abrechnungen.label.eingang' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <avam-prepend-calendar
+                            controlName="eingangam"
+                            [parentForm]="formGroup"
+                            id="eingangam"
+                            label="{{ 'common.label.am' | translate }}"
+                            [isDisabled]="!(enabledFields | fieldEnablePipe: fieldsEnum.GRUNDDATEN)"
+                        ></avam-prepend-calendar>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label> {{ 'amm.abrechnungen.label.geprueft' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <avam-prepend-calendar
+                            controlName="geprueft"
+                            [parentForm]="formGroup"
+                            id="geprueft"
+                            label="{{ 'common.label.am' | translate }}"
+                            [isDisabled]="!(enabledFields | fieldEnablePipe: fieldsEnum.GRUNDDATEN)"
+                        ></avam-prepend-calendar>
+                    </div>
+                </div>
+                <avam-personalberater-autosuggest
+                    #pruefung
+                    id="pruefungDurch"
+                    [parentForm]="formGroup"
+                    controlName="pruefungDurch"
+                    componentLabel="stes.label.pruefungDurch"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [isDisabled]="!(enabledFields | fieldEnablePipe: fieldsEnum.GRUNDDATEN)"
+                ></avam-personalberater-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <label>{{ 'amm.abrechnungen.label.ergaenzendeangaben' | translate }}</label>
+                <app-textarea
+                    id="bemerkung"
+                    formControlName="bemerkung"
+                    [fullWidth]="true"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="!(enabledFields | fieldEnablePipe: fieldsEnum.ABRECHNUNGSWERTBEMERKUNG)"
+                ></app-textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    id="abrechnungswertNr"
+                    [parentForm]="formGroup"
+                    controlName="abrechnungswertNr"
+                    selectLabel="amm.abrechnungen.label.abrechnungswertnr"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'amm.abrechnungen.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="abrechnungswert?.vorgaengerObject?.abrechnungswertId"
+                            id="vorgaengerLabel"
+                            [routerLink]=""
+                            (click)="vorgaengerNachvolgerSelected(abrechnungswert?.vorgaengerObject?.abrechnungswertId)"
+                        >
+                            {{ abrechnungswert?.vorgaengerObject?.abrechnungswertNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'amm.abrechnungen.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="abrechnungswert?.nachfolgerObject?.abrechnungswertId"
+                            id="nachfolgerLink"
+                            [routerLink]=""
+                            (click)="vorgaengerNachvolgerSelected(abrechnungswert?.nachfolgerObject?.abrechnungswertId)"
+                        >
+                            {{ abrechnungswert?.nachfolgerObject?.abrechnungswertNr }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-input-modal
+                    selectLabel="amm.abrechnungen.label.abrechnungsnr"
+                    [parentForm]="formGroup"
+                    controlName="abrechnungNr"
+                    placeholder="{{ 'common.label.waehlen' }}"
+                    [coreReadOnly]="true"
+                    [coreReadOnlyClearButton]="true"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.ABRECHNUNGNR)"
+                    [modal]="abrechnungModal"
+                    (onChange)="handleAbrechnungClear($event)"
+                ></avam-input-modal>
+                <avam-label-input id="status" [parentForm]="formGroup" controlName="status" selectLabel="amm.abrechnungen.label.status" [readOnly]="true"></avam-label-input>
+                <avam-label-input
+                    id="transferAlk"
+                    [parentForm]="formGroup"
+                    controlName="transferAlk"
+                    selectLabel="amm.abrechnungen.label.transferanalk"
+                    [readOnly]="true"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #abrechnungModal>
+    <avam-abrechnung-zuordnen-modal
+        [vertragswertId]="abrechnungswert?.vertragswertObject?.vertragswertId"
+        (onAbrechnungZuordnen)="abrechnungZuordnen($event)"
+    ></avam-abrechnung-zuordnen-modal>
+</ng-template>

@@ -1,0 +1,237 @@
+<form [formGroup]="stellensucheForm" #ngForm="ngForm" closeBrowserTab [form]="stellensucheForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="stellensucheChannel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <div formGroupName="arbeitsForm">
+                    <label>
+                        <h3>
+                            {{ 'stes.label.arbeitszeit' | translate }} /
+                            {{ 'erweitertesuche.label.arbeitsform' | translate }}
+                        </h3>
+                    </label>
+                    <div class="form-group row" orFormControlState>
+                        <div class="col-lg-4 col-md-4 text-right">
+                            <label for="sliderValue">{{ 'stes.label.beschaeftigungsgrad' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8">
+                            <div class="row" style="align-items: center">
+                                <div class="d-flex align-items-baseline col-lg-4 col-md-3" orFormControlState avamAutofocus>
+                                    <input
+                                        style="width: 75px"
+                                        formControlName="vermittlungsGrad"
+                                        id="sliderValue"
+                                        (blur)="onBlurSliderValue($event.target)"
+                                        class="form-control"
+                                        min="1"
+                                        max="100"
+                                        step="1"
+                                        positiveIntegerOnly
+                                    />
+                                    <p class="ml-1 mb-1">%</p>
+                                </div>
+                                <div class="col-lg-7 col-md-8">
+                                    <core-slider [min]="1" [max]="100" [step]="1" (onChangeSlide)="onChangeSlider($event.target)" formControlName="vermittlungsGrad"></core-slider>
+                                </div>
+                            </div>
+                            <or-error-messages></or-error-messages>
+                        </div>
+                    </div>
+
+                    <avam-label-dropdown
+                        [parentForm]="stellensucheForm.get('arbeitsForm')"
+                        controlName="arbeitszeitId"
+                        selectLabel="{{ 'stes.label.arbeitszeit' }}"
+                        id="arbeitszeitId"
+                        [options]="arbeitSelectOptions"
+                    ></avam-label-dropdown>
+
+                    <app-textarea
+                        customFormControlState
+                        id="arbeitszeitDetail"
+                        formControlName="arbeitszeitDetail"
+                        selectLabel="{{ 'stes.label.arbeitszeitDetail' }}"
+                        [maxLength]="255"
+                    >
+                    </app-textarea>
+                </div>
+
+                <div [formGroup]="stellensucheForm.get('besondereArbeitsform').get('checkboxes')">
+                    <ng-template ngFor let-item [ngForOf]="besondereArbeitsformenArray.controls" let-i="index">
+                        <div class="row">
+                            <div class="col-md-4 text-right">
+                                <label *ngIf="!i">{{ 'stes.label.besonderearbeitsformen' | translate }}</label>
+                            </div>
+                            <div class="text-control col">
+                                <div class="form-check form-check-inline checkbox-item__label-text" orFormControlState>
+                                    <core-checkbox [componentId]="i" dynamicControlName [formControlName]="i" [isChecked]="item">
+                                        <label class="form-check-label form-check-label-padding-left font-weight-600" for="{{ i }}"> {{ translatedLabels[i] }} </label>
+                                    </core-checkbox>
+                                    <or-error-messages></or-error-messages>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </div>
+            </div>
+            <div class="avam-panel" formGroupName="arbeitsOrtForm">
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4  text-right">
+                        <label for="arbeit-text-area">{{ 'arbeitgeber.label.gesuchtearbeitsorte' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <app-stes-gesuchte-arbeitsregionen [formGroupDirective]="ngForm" [data]="autosuggestData" [parentForm]="stellensucheForm.controls.arbeitsOrtForm">
+                        </app-stes-gesuchte-arbeitsregionen>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel" formGroupName="mobiliteatForm">
+                <label>
+                    <h3>{{ 'stes.label.angabenZurMobilitaet' | translate }}</h3>
+                </label>
+
+                <avam-label-dropdown
+                    [parentForm]="stellensucheForm.get('mobiliteatForm')"
+                    controlName="mobilitaetId"
+                    selectLabel="{{ 'stes.label.mobilitaet' }}"
+                    id="mobilitaetId"
+                    [options]="mobiliteatSelectOptions"
+                ></avam-label-dropdown>
+
+                <app-paragraph id="wohnortwechsel" label="{{ 'stes.label.wohnortwechsel' }}" [value]="isMobile"></app-paragraph>
+
+                <avam-multiselect
+                    id="fuehrerausweisKategorie"
+                    controlName="fuehrerausweisKategorieList"
+                    [parentForm]="mobiliteatForm"
+                    [options]="fuehrerAusweisKatList"
+                    label="stes.label.fuehrerausweisKategorie"
+                ></avam-multiselect>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 text-right">
+                        <avam-label-checkbox
+                            componentId="fahrzeugVerfuegbar"
+                            controlName="fahrzeugVerfuegbar"
+                            [parentForm]="stellensucheForm.get('mobiliteatForm')"
+                            selectLabel="{{ 'stes.label.fahrzeugVerfuegbar' }}"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel" formGroupName="anstellungFrom">
+                <label>
+                    <h3>{{ 'stes.label.befristeteAnstellung' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    controlName="stellenAntrittAbDatum"
+                    id="stellenAntrittAbDatum"
+                    calendarLabel="{{ 'stes.label.stellenantrittAb' }}"
+                    [parentForm]="anstellungFrom"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="anstellungBisDatum"
+                    id="anstellungBisDatum"
+                    calendarLabel="{{ 'stes.label.anstellungBis' }}"
+                    [parentForm]="anstellungFrom"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+            </div>
+            <div class="avam-panel" formGroupName="arbeitgeberForm">
+                <label>
+                    <h3>
+                        {{ 'stes.label.letzterArbeitgeber' | translate }}
+                    </h3>
+                </label>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 text-right">
+                        <avam-label-checkbox
+                            componentId="letzterAGBekannt"
+                            controlName="letzterAGBekannt"
+                            [parentForm]="stellensucheForm.get('arbeitgeberForm')"
+                            selectLabel="{{ 'stes.label.letzterArbeitgeberBekant' }}"
+                            (onChange)="checkBekanntUnternehmen()"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+
+                <div class="row form-group">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'stes.label.sachverhaltunternehmensname' | translate }}</label>
+                    </div>
+                    <div [hidden]="!arbeitgeberForm.controls.letzterAGBekannt.value" class="col-lg-8 col-md-8" style="display:flex; padding-right: 0; padding-left: 0">
+                        <avam-unternehmen-autosuggest
+                            #avamUnternehmenAutosuggest
+                            id="name1"
+                            controlName="name1"
+                            [isAvamOnly]="false"
+                            [parentForm]="arbeitgeberForm"
+                            readonly="true"
+                            suchePlusLabel="stes.label.arbeitgeber"
+                            (onSelect)="selectedUnternehmen($event)"
+                            [inputClass]="'col-lg-12 col-md-12'"
+                            ngClass="col-lg-12 col-md-12"
+                            (onClear)="clearUnternehmen()"
+                        ></avam-unternehmen-autosuggest>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <label class="p-value-left-12" id="name2">{{ arbeitgeberForm.controls.name2.value }}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <label class="p-value-left-12" id="name3">{{ arbeitgeberForm.controls.name3.value }}</label>
+                    </div>
+                </div>
+
+                <app-paragraph id="plzort" label="{{ 'stes.label.fachberatung.plzort' }}" [value]="arbeitgeberForm.controls.plz.value"></app-paragraph>
+                <app-paragraph id="land" label="{{ 'stes.label.fachberatung.land' }}" [value]="arbeitgeberForm.controls.land.value"></app-paragraph>
+                <app-paragraph id="burnummer" label="{{ 'stes.label.burnummer' }}" [value]="arbeitgeberForm.controls.bur.value"></app-paragraph>
+                <app-paragraph id="branche" label="{{ 'stes.label.branche' }}" [value]="arbeitgeberForm.controls.branche.value"></app-paragraph>
+
+                <div class="form-group row">
+                    <div class="col-lg-12 col-md-12">
+                        <avam-branche-autosuggest
+                            id="teatigkeitBranche"
+                            componentLabel="stes.label.branchezuletzt"
+                            [parentForm]="stellensucheForm.controls.arbeitgeberForm"
+                            controlName="teatigkeitBranche"
+                            placeholder="{{ 'stes.placeholder.nogacode' | translate }}"
+                        ></avam-branche-autosuggest>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button *ngIf="isAnmeldung" class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="!isAnmeldung" class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung && prev" class="btn btn-secondary ml-1" type="button" (click)="prev()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung" class="btn btn-secondary ml-1" type="button" (click)="save()">
+        {{ 'common.button.zwischenspeichern' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung && next" class="btn btn-primary ml-1" type="button" (click)="next()">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

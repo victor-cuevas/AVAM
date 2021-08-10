@@ -1,0 +1,31 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'amm.abrechnungen.label.abrechnungswertezuordnen' | translate }}
+            <app-result-count [dataLength]="dataSource?.length"></app-result-count>
+        </h4>
+        <div class="mr-3">
+            <app-toolbox [configuration]="toolboxConfiguration" [formNumber]="formNumber"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-spinner [channel]="channel"> </or-spinner>
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <avam-anbieter-abrechnungswert-table
+            *ngIf="dataSource"
+            [dataSource]="dataSource"
+            [parentForm]="formGroup"
+            [tableType]="tableType.ZUORDNEN"
+            (onItemSelected)="assignAbrechnungswerte($event)"
+        ></avam-anbieter-abrechnungswert-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <div class="sticky-actions">
+            <button class="btn btn-link" type="button" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+            <button class="btn btn-primary ml-1 keepDisabled" type="button" [disabled]="disableButton" (click)="assignAbrechnungswerte()">
+                {{ 'amm.abrechnungen.label.abrechnungswertezuordnen' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

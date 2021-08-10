@@ -1,0 +1,17 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-ausgangslage-form #formComponent [formData]="formData"></avam-ausgangslage-form>
+</div>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>

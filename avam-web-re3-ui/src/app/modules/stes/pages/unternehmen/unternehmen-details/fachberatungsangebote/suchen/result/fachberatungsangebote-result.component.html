@@ -1,0 +1,22 @@
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h2>{{ 'stes.label.fachberatungsangebote' | translate }}</h2>
+        <app-result-count *ngIf="searchDone" [dataLength]="results.length" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<avam-alert></avam-alert>
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-fachberatungsangebote-table
+        [showFachberatungsstelle]="true"
+        [sourceData]="results"
+        [stateKey]="stateKey"
+        (onPrimaryAction)="open($event)"
+    ></avam-fachberatungsangebote-table>
+    <ng-template #modalPrint>
+        <avam-fachberatungsangebote-table [showFachberatungsstelle]="true" [sourceData]="results" [stateKey]="stateKey" [forPrinting]="true"></avam-fachberatungsangebote-table>
+    </ng-template>
+</div>

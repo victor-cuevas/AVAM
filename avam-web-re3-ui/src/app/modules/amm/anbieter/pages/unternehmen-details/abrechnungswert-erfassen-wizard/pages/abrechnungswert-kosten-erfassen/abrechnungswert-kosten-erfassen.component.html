@@ -1,0 +1,21 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-abrechnungswert-kosten-form #abrechnungswertForm [formData]="formData"></avam-abrechnungswert-kosten-form>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button avamDisableOnSpinner class="btn btn-secondary ml-1" type="button" (click)="berechnen()">
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button avamDisableOnSpinner class="btn btn-primary ml-1" type="button" (click)="save()">
+        {{ 'common.button.fertigstellen' | translate }}
+    </button>
+</ng-template>

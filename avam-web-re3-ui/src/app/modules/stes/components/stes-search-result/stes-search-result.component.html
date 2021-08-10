@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h2 class="pl-4">{{ 'i18n.routes.stes-search.title' | translate }}&nbsp;&nbsp;</h2>
+        <app-result-count *ngIf="searchDone" [dataLength]="dataSource.length" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<avam-alert></avam-alert>
+<avam-stes-search-table [dataSource]="dataSource"></avam-stes-search-table>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-stes-search-table *ngIf="dataSource" [dataSource]="dataSource"></avam-stes-search-table>
+    </avam-generic-table-print>
+</ng-template>

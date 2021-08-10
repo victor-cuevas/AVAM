@@ -1,0 +1,68 @@
+<form class="inline-components-table" [formGroup]="tableForm">
+    <or-spinner [channel]="spinnerChannel" *ngIf="visible"></or-spinner>
+    <avam-generic-table
+        *ngIf="visible"
+        [dataSource]="dataSource"
+        [headers]="displayedColumns"
+        [customSort]="true"
+        [initialSort]="false"
+        [sortOrder]="sortOrder"
+        [sortField]="sortField"
+        [maxHeight]="1000"
+        [recalculateMaxHeight]="false"
+        [shouldFocusInitialRow]="false"
+        (sortFunction)="sortFunction($event)"
+    >
+        <ng-container *ngFor="let c of columns" [cdkColumnDef]="c?.columnDef">
+            <th [ngStyle]="{ width: c?.width }" [sortable-column]="c.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <ng-container *ngIf="c.columnDef !== refs.ACTION_BUTTON" class="header-container">
+                    <span>
+                        <sort-icon [column]="c.columnDef"></sort-icon>
+                        {{ c.header | translate }}
+                    </span>
+                </ng-container>
+                <ng-container *ngIf="c.columnDef === refs.ACTION_BUTTON" class="header-container">
+                    <div class="button-wrapper">
+                        <button
+                            type="button"
+                            class="fa fa-plus btn btn-secondary btn-sm buttonOnHover"
+                            (click)="onAddRowOnTop()"
+                            [ngbTooltip]="'common.button.add' | translate"
+                            [disabled]="disableForm"
+                        ></button>
+                    </div>
+                </ng-container>
+            </th>
+            <td cdk-cell class="align-top" *cdkCellDef="let row" [ngSwitch]="true" formArrayName="array">
+                <avam-sprache-autosuggest
+                    *ngSwitchCase="c.columnDef === refs.SPRACHE"
+                    placeholder="{{ 'arbeitgeber.oste.label.sprache' }}"
+                    [parentForm]="getFormGroupAt(row.index)"
+                    controlName="sprache"
+                    scrollIntoView="true"
+                    container="body"
+                    [readOnly]="disableForm"
+                ></avam-sprache-autosuggest>
+                <avam-label-dropdown
+                    *ngSwitchCase="
+                        c.columnDef === refs.MUENDLICH || c.columnDef === refs.SCHRIFTLICH || c.columnDef === refs.MUTTERSPRACHE || c.columnDef === refs.SPRACHENAUFENTHALT
+                    "
+                    [options]="c.columnDef === refs.MUENDLICH || c.columnDef === refs.SCHRIFTLICH ? sprachkenntnisseOptions : jaNeinOptions"
+                    [parentForm]="getFormGroupAt(row.index)"
+                    [controlName]="c.columnDef"
+                    inputClass="col-lg-12 col-md-4"
+                    [isDisabled]="disableForm"
+                ></avam-label-dropdown>
+                <div *ngSwitchDefault class="button-wrapper">
+                    <button
+                        type="button"
+                        class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                        (click)="openDeleteDialog(row.index)"
+                        [ngbTooltip]="'common.button.loeschen' | translate"
+                        [disabled]="disableForm"
+                    ></button>
+                </div>
+            </td>
+        </ng-container>
+    </avam-generic-table>
+</form>

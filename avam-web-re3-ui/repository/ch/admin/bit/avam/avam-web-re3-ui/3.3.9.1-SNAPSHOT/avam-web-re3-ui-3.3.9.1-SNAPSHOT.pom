@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>avam</artifactId>
+		<groupId>ch.admin.bit.avam</groupId>
+		<version>3.3.9.1-SNAPSHOT</version>
+	</parent>
+
+  <artifactId>avam-web-re3-ui</artifactId>
+  <name>${project.artifactId}</name>
+  <packaging>war</packaging>
+
+  <!-- *********************************************** Properties ************************************************ -->
+  <properties>
+    <generated.models.base.path>${project.basedir}/src/app/shared/models</generated.models.base.path>
+    <generated.models.dir.name>dtos-generated</generated.models.dir.name>
+    <skip-npm-install>false</skip-npm-install>
+    <skip-build>false</skip-build>
+    <skip-test>false</skip-test>
+    <skip-integration-test>true</skip-integration-test>
+    <npmrc>.npmrc.bit</npmrc>
+    <npm-build-arguments>run build</npm-build-arguments>
+    <nodeDownloadRoot>http://nodejs.org/dist</nodeDownloadRoot>
+    <sonar.sources>./src/</sonar.sources>
+    <sonar.tests>./src/</sonar.tests>
+    <sonar.language>ts</sonar.language>
+    <sonar.typescript.lcov.reportPaths>coverage/lcov.info</sonar.typescript.lcov.reportPaths>
+    <sonar.exclusions>**/*.spec.ts, **/*.scss, **/*.html, **/*.json, **/*.jpg, **/*.png, **/${generated.models.dir.name}/*.ts</sonar.exclusions>
+    <sonar.test.inclusions>**/*.spec.ts</sonar.test.inclusions>
+    <sonar.testExecutionReportPaths>coverage/sonarQube/sqr.xml</sonar.testExecutionReportPaths>
+    <sonar.scm.disabled>true</sonar.scm.disabled>
+  </properties>
+
+  <!-- *********************************************** Dependencies ********************************************** -->
+  <dependencies>
+      <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.1.0</version>
+          <scope>provided</scope>
+      </dependency>
+  </dependencies>
+
+  <!-- ******************************************* Build configuration ******************************************* -->
+  <build>
+    <finalName>avam-web-re3-ui</finalName>
+    <plugins>
+		<plugin>
+			<groupId>com.google.code.maven-replacer-plugin</groupId>
+			<artifactId>replacer</artifactId>
+			<executions>
+				<execution>
+					<id>npmrc-profile</id>
+					<phase>initialize</phase>
+					<goals>
+						<goal>replace</goal>
+					</goals>
+					<configuration>
+						<file>${project.basedir}/${npmrc}</file>
+						<outputFile>${project.basedir}/.npmrc</outputFile>
+						<regex>false</regex>
+						<token>@directory@</token>
+						<value>${project.basedir}</value>
+					</configuration>
+				</execution>
+				<execution>
+					<id>npmrc-original</id>
+					<phase>post-integration-test</phase>
+					<goals>
+						<goal>replace</goal>
+					</goals>
+					<configuration>
+						<file>${project.basedir}/.npmrc.original</file>
+						<outputFile>${project.basedir}/.npmrc</outputFile>
+						<regex>false</regex>
+						<token>@directory@</token>
+						<value>${project.basedir}</value>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+        <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <version>3.1.0</version>
+            <configuration>
+                <filesets>
+                    <fileset>
+                        <directory>${generated.models.base.path}</directory>
+                        <includes>
+                            <include>${generated.models.dir.name}/**</include>
+                        </includes>
+                        <followSymlinks>false</followSymlinks>
+                    </fileset>
+                </filesets>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-codegen-maven-plugin</artifactId>
+            <version>2.3.1</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                        <inputSpec>${project.basedir}/../avam-web-re3/target/avam-rest-swagger.json</inputSpec>
+                        <language>typescript-angular</language>
+                        <generateApis>false</generateApis>
+                        <generateApiTests>false</generateApiTests>
+                        <generateApiDocumentation>false</generateApiDocumentation>
+                        <generateModelDocumentation>false</generateModelDocumentation>
+                        <generateSupportingFiles>false</generateSupportingFiles>
+                        <supportingFilesToGenerate>models.ts</supportingFilesToGenerate>
+                        <modelPackage>${generated.models.dir.name}</modelPackage>
+                        <generateModelTests>false</generateModelTests>
+                        <output>${generated.models.base.path}</output>
+                        <skip>${skip-build}</skip>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+      <plugin>
+        <groupId>com.github.eirslett</groupId>
+        <artifactId>frontend-maven-plugin</artifactId>
+        <version>1.6</version>
+        <executions>
+          <execution>
+            <!-- optional: you don't really need execution ids,
+            but it looks nice in your build log. -->
+            <id>install node and npm</id>
+            <goals>
+              <goal>install-node-and-npm</goal>
+            </goals>
+            <!-- optional: default phase is "generate-resources" -->
+            <phase>initialize</phase>
+            <configuration>
+              <skip>${skip-npm-install}</skip>
+              <nodeVersion>v10.12.0</nodeVersion>
+              <nodeDownloadRoot>${nodeDownloadRoot}</nodeDownloadRoot>
+			</configuration>
+          </execution>
+
+          <execution>
+            <id>npm install</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <!-- optional: default phase is "generate-resources" -->
+            <phase>initialize</phase>
+            <configuration>
+              <skip>${skip-npm-install}</skip>
+              <!-- optional: The default argument is actually
+              "install", so unless you need to run some other npm command,
+              you can remove this whole <configuration> section.
+              -->
+              <arguments>install</arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>npm run build</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <!-- optional: default phase is "generate-resources" -->
+            <phase>generate-resources</phase>
+            <configuration>
+              <skip>${skip-build}</skip>
+              <arguments>${npm-build-arguments}</arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>npm run unit tests</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <!-- optional: default phase is "generate-resources" -->
+            <phase>test</phase>
+            <configuration>
+              <skip>${skip-test}</skip>
+              <arguments>run test:coverage</arguments>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>npm run end to end tests</id>
+            <goals>
+              <goal>npm</goal>
+            </goals>
+            <!-- optional: default phase is "generate-resources" -->
+            <phase>integration-test</phase>
+            <configuration>
+              <skip>${skip-integration-test}</skip>
+              <arguments>run e2e</arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.2.0</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+          <webResources>
+            <resource>
+              <!-- this is relative to the pom.xml directory -->
+              <directory>dist</directory>
+            </resource>
+            <resource>
+              <!-- this is relative to the pom.xml directory -->
+              <!-- contains Websphere specific configuration of context root-->
+              <directory>websphere</directory>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>adesso</id>
+      <properties>
+        <skip-integration-test>false</skip-integration-test>
+        <npmrc>.npmrc.adesso</npmrc>
+        <nodeDownloadRoot>https://adch-nexus.adesso.local/repository/raw-nodejs/</nodeDownloadRoot>
+      </properties>
+    </profile>
+      <profile>
+          <id>adesso-build-fast</id>
+          <properties>
+              <npm-build-arguments>run build:fast</npm-build-arguments>
+          </properties>
+      </profile>
+  </profiles>
+</project>

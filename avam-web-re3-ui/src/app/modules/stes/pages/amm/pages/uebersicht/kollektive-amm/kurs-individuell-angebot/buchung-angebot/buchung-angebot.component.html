@@ -1,0 +1,287 @@
+<form [formGroup]="buchungForm" #ngForm="ngForm" closeBrowserTab [form]="buchungForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="links-upper col-xl-6">
+            <div class="avam-panel">
+                <label>{{ 'amm.nutzung.label.ergaenzendeAngaben' | translate }}</label>
+                <app-textarea
+                    [id]="'ergaenzendeAngaben'"
+                    [readonly]="isReadonly"
+                    formControlName="ergaenzendeAngaben"
+                    [fullWidth]="true"
+                    customFormControlState
+                    [maxLength]="255"
+                ></app-textarea>
+            </div>
+            <div class="avam-panel">
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'amm.abrechnungen.label.gueltig' | translate }}"
+                    [parentForm]="buchungForm"
+                    formControlNameFrom="gueltigVon"
+                    formControlNameTo="gueltigBis"
+                    [isResponsive]="true"
+                    [isDisabled]="true"
+                ></avam-date-range-picker>
+                <div class="links-upper col-xl-6">
+                    <avam-label-checkbox
+                        [isDisabled]="true"
+                        componentId="durchLamId"
+                        [parentForm]="buchungForm"
+                        controlName="durchLamPrufen"
+                        selectLabel="{{ 'amm.abrechnungen.label.kurseDurchLam' }}"
+                    ></avam-label-checkbox>
+                </div>
+            </div>
+        </div>
+        <div class="rechts-upper col-xl-6">
+            <div class="avam-panel">
+                <div class="col-lg-4 col-md-4 text-right d-inline-block">
+                    <label id="massnahmenNr">{{ 'amm.massnahmen.label.massnahmennr' | translate }}</label>
+                </div>
+                <div class="col-lg-1 col-md-1 d-inline-block">
+                    <p id="massnahmenNrparagraph">
+                        {{ buchungForm.controls.massnahmenNr.value }}
+                    </p>
+                </div>
+                <div class="col-lg-7 col-md-7 d-inline-block">
+                    <button type="button" class="btn btn-secondary ml-1" (click)="onDmsClick()">{{ 'dokmanager.label.dms' | translate }}</button>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-unternehmen-autosuggest
+                    id="unternehmen"
+                    controlName="unternehmen"
+                    isAvamOnly="true"
+                    [parentForm]="buchungForm"
+                    [readOnly]="true"
+                    componentLabel="{{ 'amm.massnahmen.label.anbieter' | translate }}"
+                ></avam-unternehmen-autosuggest>
+            </div>
+            <div class="avam-panel pb-1">
+                <avam-personalberater-autosuggest
+                    [parentForm]="buchungForm"
+                    controlName="verantwortlichePerson"
+                    placeholder="{{ 'amm.massnahmen.label.benutzer' | translate }}"
+                    componentLabel="{{ 'amm.massnahmen.label.massnahmenverantwortung' }}"
+                    [benutzerSuchenTokens]="massnahmenverantwortungSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [isDisabled]="true"
+                ></avam-personalberater-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.belegtePlaetze' | translate }}</h3>
+                </label>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-3 text-right col-form-label">
+                        <label class="mb-2">{{ 'amm.massnahmen.label.teilnehmer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                        <core-input [disableControl]="true" formControlName="teilnehmer"></core-input>
+                    </div>
+                    <div class="col-lg-1 col-md-3 text-right col-form-label">
+                        <label>{{ 'amm.abrechnungen.label.von' | translate }}</label>
+                    </div>
+                    <div class="col-lg-2 col-md-3">
+                        <core-input [disableControl]="true" formControlName="teilnehmerVon"></core-input>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12 separation-line"></div>
+        <div class="links-bottom col-xl-6">
+            <div class="avam-panel">
+                <avam-label-calendar
+                    controlName="gesuchseingang"
+                    [parentForm]="buchungForm"
+                    id="gesuchseingang"
+                    calendarLabel="{{ 'stes.label.eingangsdatumGesuch' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="isReadonly"
+                ></avam-label-calendar>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'amm.infotag.label.durchfuehrungbuchung' | translate }}"
+                    [parentForm]="buchungForm"
+                    formControlNameFrom="durchfuehrungVon"
+                    formControlNameTo="durchfuehrungBis"
+                    [isResponsive]="true"
+                    [isDisabled]="isReadonly"
+                ></avam-date-range-picker>
+                <avam-label-input
+                    [inputClass]="'col-lg-2 col-md-2'"
+                    [parentForm]="buchungForm"
+                    controlName="anzahlKurstage"
+                    selectLabel="{{ 'amm.massnahmen.label.anzahlkurstage' | translate }}"
+                    [readOnly]="isReadonly"
+                >
+                </avam-label-input>
+                <avam-label-input
+                    [inputClass]="'col-lg-2 col-md-2'"
+                    [parentForm]="buchungForm"
+                    controlName="anzahlLektionen"
+                    selectLabel="{{ 'amm.massnahmen.label.anzahllektionen' | translate }}"
+                    [readOnly]="isReadonly"
+                >
+                </avam-label-input>
+                <avam-select-week-availability
+                    [parentForm]="buchungForm"
+                    vormittagsControlName="vormittags"
+                    nachmittagsControlName="nachmittags"
+                    [dropdownOptions]="verfuegbarkeitOptions"
+                    [clearCheckboxes]="clearCheckboxes"
+                    verfuegbarkeitControl="verfuegbarkeit"
+                    [isDisabled]="isReadonly"
+                    selectLabel="{{ 'amm.massnahmen.label.verfuegbarkeitAnwesenheit' }}"
+                    [hideEmptyOption]="true"
+                ></avam-select-week-availability>
+                <app-textarea
+                    [id]="'kurszeiten'"
+                    [selectLabel]="'amm.massnahmen.label.kurszeiten'"
+                    formControlName="kurszeiten"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="isReadonly"
+                ></app-textarea>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    [parentForm]="buchungForm"
+                    controlName="benutzer"
+                    placeholder="{{ 'stes.label.bearbeitung' | translate }}"
+                    componentLabel="{{ 'stes.label.bearbeitung' }}"
+                    [benutzerSuchenTokens]="bearbeiterSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [isDisabled]="isReadonly"
+                    #bearbeitung
+                >
+                </avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="rechts-bottom col-xl-6">
+            <div class="avam-panel">
+                <div class="row paragraph-margins">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="vorgaengerLabel">{{ 'amm.massnahmen.label.durchfuehrungsnr' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="p-value-left-12" id="vorgaengerParagraph">
+                            <a> {{ buchungForm.controls.durchfuehrungsNr.value }} </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row paragraph-margins">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="vorgaengerLabel">{{ 'amm.nutzung.label.buchungsnr' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="p-value-left-12" id="vorgaengerParagraph">
+                            <a> {{ buchungForm.controls.buchungsNr.value }} </a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row paragraph-margins">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="vorgaengerLabel">{{ 'amm.nutzung.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="p-value-left-12" id="vorgaengerParagraph">
+                            <a id="vorgaengerNummer" *ngIf="vorgaengerGfId" [routerLink]="['./']" [queryParams]="{ gfId: vorgaengerGfId, entscheidId: vorgaengerEntscheidId }">
+                                {{ buchungData?.ammBuchungSession?.ammGeschaeftsfallObject?.vorgaengerObject?.ammBuchungSession?.buchungsNr }}</a
+                            >
+                        </p>
+                    </div>
+                </div>
+                <div class="row paragraph-margins">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="nachfolgerLabel">{{ 'amm.nutzung.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="p-value-left-12" id="nachfolgerParagraph">
+                            <a id="nachfolgerNummer" *ngIf="nachvolgerGfId" [routerLink]="['./']" [queryParams]="{ gfId: nachvolgerGfId, entscheidId: nachfolgerEntscheidId }">
+                                {{ buchungData?.ammBuchungSession?.ammGeschaeftsfallObject?.nachfolgerObject?.ammBuchungSession?.buchungsNr }}</a
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [parentForm]="buchungForm"
+                    controlName="buchungsStatus"
+                    id="buchungsStatusId"
+                    [options]="buchungsStatusOptions"
+                    selectLabel="{{ 'amm.massnahmen.label.status' }}"
+                    [isDisabled]="isReadonly"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    *ngIf="showZustimmungLam"
+                    [parentForm]="buchungForm"
+                    controlName="zustimmungLam"
+                    id="zustimmungLamId"
+                    [options]="yesNoOptions"
+                    selectLabel="{{ 'amm.massnahmen.label.zustimmungLam' }}"
+                    [isDisabled]="(!isWizard && disabledValueBewirtschafter) || isWizard"
+                ></avam-label-dropdown>
+            </div>
+        </div>
+    </div>
+</form>
+<ng-template #footerButtons>
+    <button *ngIf="isWizard" class="btn btn-link ml-1" type="button" (click)="cancelWizard()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button
+        class="btn btn-link"
+        (click)="onReset()"
+        *ngIf="this.isWizard || (buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR, ammButtonsTypeEnum.FKT_BUCHBAR])"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="isWizard" class="btn btn-secondary ml-1" type="button" (click)="back()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button
+        *ngIf="isWizard && showButtonWeiter"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="next()"
+        [permissions]="[permissions.AMM_NUTZUNG_BUCHUNG_BEARBEITEN, permissions.AMM_NUTZUNG_MASSNAHME_BEWIRTSCHAFTEN]"
+    >
+        {{ 'common.button.weiter' | translate }}
+    </button>
+    <button
+        *ngIf="!this.isWizard && (buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_ZURUECKNEHMBAR])"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="onZuruecknehmen()"
+    >
+        {{ 'common.button.zuruecknehmen' | translate }}
+    </button>
+    <button
+        *ngIf="!this.isWizard && (buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_LOESCHBAR])"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openModalLoeschen()"
+    >
+        {{ 'common.button.geschaeftsfallLoeschen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_ERSETZBAR])" class="btn btn-primary ml-1" type="button" (click)="onGeschaeftsfallErsetzen()">
+        {{ 'common.button.geschaeftsfallErsetzen' | translate }}
+    </button>
+    <button *ngIf="!this.isWizard && (buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarBasisNr>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+</ng-template>

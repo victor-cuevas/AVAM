@@ -1,0 +1,136 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    [parentForm]="formGroup"
+                    controlName="erfassungssprache"
+                    id="erfassungssprache"
+                    [options]="spracheOptions"
+                    selectLabel="amm.massnahmen.label.erfassungssprache"
+                    [hideEmptyOption]="true"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel" *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.DEUTSCH">
+                <div>
+                    <label>{{ 'amm.massnahmen.label.titelde' | translate }}</label>
+                    <app-textarea id="titelDe" formControlName="titelDe" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.bemerkungD' | translate }}</label>
+                    <app-textarea id="ergaenzendeAngabenDe" formControlName="ergaenzendeAngabenDe" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel" *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.FRANZOESISCH">
+                <div>
+                    <label>{{ 'amm.massnahmen.label.titelfr' | translate }}</label>
+                    <app-textarea id="titelFr" formControlName="titelFr" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.bemerkungF' | translate }}</label>
+                    <app-textarea id="ergaenzendeAngabenFr" formControlName="ergaenzendeAngabenFr" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel" *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.ITALIENISCH">
+                <div>
+                    <label>{{ 'amm.massnahmen.label.titelit' | translate }}</label>
+                    <app-textarea id="titelIt" formControlName="titelIt" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+                <div>
+                    <label>{{ 'amm.massnahmen.label.bemerkungI' | translate }}</label>
+                    <app-textarea id="ergaenzendeAngabenIt" formControlName="ergaenzendeAngabenIt" [fullWidth]="true" customFormControlState [maxLength]="255"></app-textarea>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>{{ 'amm.infotag.label.durchfuehrung' | translate }}</label>
+                <avam-date-range-picker
+                    id="durchfuehrungVonBis"
+                    class="form-group"
+                    label="amm.infotag.label.durchfuehrung"
+                    [parentForm]="formGroup"
+                    formControlNameFrom="durchfuehrungVon"
+                    formControlNameTo="durchfuehrungBis"
+                    [isResponsive]="true"
+                    [isDisabled]="grunddatenData?.hasBookings"
+                ></avam-date-range-picker>
+                <avam-select-week-availability
+                    [parentForm]="formGroup"
+                    vormittagsControlName="vormittags"
+                    nachmittagsControlName="nachmittags"
+                    [dropdownOptions]="verfuegbarkeitOptions"
+                    [clearCheckboxes]="clearCheckboxes"
+                    verfuegbarkeitControl="verfuegbarkeit"
+                    selectLabel="{{ 'amm.massnahmen.label.verfuegbarkeit' | translate }}"
+                ></avam-select-week-availability>
+
+                <app-textarea
+                    *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.DEUTSCH"
+                    id="kurszeitenDe"
+                    formControlName="kurszeitenDe"
+                    selectLabel="{{ 'amm.infotag.label.kurszeitenD' }}"
+                    customFormControlState
+                    [maxLength]="255"
+                ></app-textarea>
+                <app-textarea
+                    *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.FRANZOESISCH"
+                    id="kurszeitenFr"
+                    formControlName="kurszeitenFr"
+                    selectLabel="{{ 'amm.infotag.label.kurszeitenF' }}"
+                    customFormControlState
+                    [maxLength]="255"
+                ></app-textarea>
+                <app-textarea
+                    *ngIf="this.formGroup.value.erfassungssprache === spracheEnum.ITALIENISCH"
+                    id="kurszeitenIt"
+                    formControlName="kurszeitenIt"
+                    selectLabel="{{ 'amm.infotag.label.kurszeitenI' }}"
+                    customFormControlState
+                    [maxLength]="255"
+                ></app-textarea>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    id="durchfuehrungsNr"
+                    selectLabel="amm.infotag.label.durchfuehrungsnr"
+                    [parentForm]="formGroup"
+                    controlName="durchfuehrungsNr"
+                    [readOnly]="true"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <avam-label-checkbox
+                    inputClass="''"
+                    selectLabel="amm.infotag.label.infotagimangebot"
+                    componentId="isInfotagSichtbar"
+                    [parentForm]="formGroup"
+                    controlName="isInfotagSichtbar"
+                    >amm.massnahmen.label.platzverwaltung
+                </avam-label-checkbox>
+            </div>
+            <div class="avam-panel">
+                <label>{{ 'amm.massnahmen.label.platzverwaltung' | translate }}</label>
+                <avam-prepend-numeric-input
+                    [customInputClass]="'w-30 min-width-135px'"
+                    selectLabel="amm.infotag.label.teilnehmer"
+                    prependLabel="amm.nutzung.label.max"
+                    componentId="teilnehmerMax"
+                    [parentForm]="formGroup"
+                    controlName="teilnehmerMax"
+                ></avam-prepend-numeric-input>
+                <avam-prepend-numeric-input
+                    [customInputClass]="'w-30 min-width-135px'"
+                    selectLabel="amm.infotag.label.ueberbuchung"
+                    prependLabel="amm.nutzung.label.max"
+                    componentId="ueberbuchungMax"
+                    [parentForm]="formGroup"
+                    controlName="ueberbuchungMax"
+                ></avam-prepend-numeric-input>
+            </div>
+        </div>
+    </div>
+</form>

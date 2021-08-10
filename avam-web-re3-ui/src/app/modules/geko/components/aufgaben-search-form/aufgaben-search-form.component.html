@@ -1,0 +1,105 @@
+<form [formGroup]="searchFormGroup" #ngForm="ngForm" class="no-overflow h-100" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter p-3 sticky">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'geko.pfad.aufgaben.suchen' | translate }}</span>
+        </h3>
+        <avam-prepend-dropdown
+            avamAutofocus
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="searchFormGroup"
+            controlName="status"
+            id="status"
+            [selectLabel]="'geko.label.status'"
+            [placeholder]="'geko.placeholder.select.waehlen'"
+            [options]="statusDropdownLabels"
+        ></avam-prepend-dropdown>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [placeholder]="'geko.placeholder.select.geschaeftsartWaehlen'"
+            [parentForm]="searchFormGroup"
+            controlName="geschaeftsart"
+            id="geschaeftsart"
+            [options]="geschaeftsArtDropdownLabels"
+        ></avam-label-dropdown>
+        <avam-label-input
+            avamAutofocus
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="searchFormGroup"
+            controlName="aufgabenText"
+            id="aufgabenText"
+            placeholder="{{ 'geko.label.aufgabenText' }}"
+        ></avam-label-input>
+        <label class="col-form-label">{{ 'geko.label.zustandig' | translate }}</label>
+        <div class="d-flex">
+            <div class="w-100">
+                <avam-benutzerstelle-autosuggest
+                    #benutzerstellenId
+                    id="benutzerstellenId"
+                    [parentForm]="searchFormGroup"
+                    controlName="benutzerstellenId"
+                    [benutzerstelleSuchenTokens]="benutzerstelleSuchenTokens"
+                    placeholder="{{ 'geko.placeholder.benutzerstellenId' | translate }}"
+                    [type]="benutzerstelleAutosuggestType"
+                    container="body"
+                    [scrollIntoView]="false"
+                ></avam-benutzerstelle-autosuggest>
+            </div>
+            <div class="form-group">
+                <button
+                    type="button"
+                    class="btn btn-secondary rounded-0"
+                    ngbTooltip="{{ 'benutzerverwaltung.label.benutzerstellensuchen' | translate }}"
+                    (click)="gekoSearchHelper.openBenutzerstelleSuche(benutzerstellenSuche)"
+                >
+                    <span class="fa fa-search-plus"></span>
+                </button>
+            </div>
+        </div>
+        <avam-personalberater-autosuggest
+            #benutzerVerantwortlich
+            id="benutzerVerantwortlich"
+            controlName="benutzerVerantwortlich"
+            [parentForm]="searchFormGroup"
+            (onInput)="onInputBenutzerVerantwortlich($event)"
+            [showFilter]="true"
+            [benutzerSuchenTokens]="benutzerSuchenTokens"
+            [type]="personalberaterAutosuggestType"
+            placeholder="{{ 'geko.placeholder.zustandig' | translate }}"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-personalberater-autosuggest>
+        <label class="col-form-label">{{ 'geko.label.initialisiert' | translate }}</label>
+        <avam-personalberater-autosuggest
+            #benutzerInitialisiert
+            id="benutzerInitialisiert"
+            controlName="benutzerInitialisiert"
+            [parentForm]="searchFormGroup"
+            (onInput)="gekoSearchHelper.onInputBenutzerInitialisiert(searchFormGroup, $event)"
+            [showFilter]="true"
+            [benutzerSuchenTokens]="benutzerSuchenTokens"
+            [type]="personalberaterAutosuggestType"
+            placeholder="{{ 'geko.placeholder.zustandig' | translate }}"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-personalberater-autosuggest>
+        <label class="col-form-label">{{ 'geko.label.faellig' | translate }}</label>
+        <avam-date-range-picker
+            [parentForm]="searchFormGroup"
+            formControlNameFrom="datumVon"
+            formControlNameTo="datumBis"
+            [hasVerticalLayout]="true"
+            [isResponsive]="true"
+            wrapperClass="col-lg-12 col-md-12"
+            placeholderFrom="{{ 'common.label.von' | translate }}"
+            placeholderTo="{{ 'common.label.bis' | translate }}"
+        >
+        </avam-date-range-picker>
+    </div>
+</form>
+<ng-template #benutzerstellenSuche>
+    <app-benutzerstelle-suche
+        [uebergebeneDaten]="benutzerstelleSucheParams"
+        (emitBenutzerstelle)="gekoSearchHelper.updateBenutzerstelleSuche(searchFormGroup, $event)"
+    ></app-benutzerstelle-suche>
+</ng-template>

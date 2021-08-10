@@ -1,0 +1,20 @@
+<core-info-bar [data]="stesHeader"></core-info-bar>
+<ng-template #panelTemplate>
+    <ng-container *ngIf="stesHeader">
+        <div class="item">
+            <span> {{ setAresse() }}</span>
+        </div>
+        <div class="item">
+            <b> {{ 'stes.label.stesid' | translate }} </b>
+            <span> {{ stesHeader.stesId }} {{ (stesHeader.aktiv ? 'common.label.aktiv' : 'common.label.inaktiv') | translate }} </span>
+        </div>
+        <div class="item">
+            <b> {{ 'stes.label.alk' | translate }} </b>
+            <span> {{ stesHeader.alk }} </span>
+        </div>
+        <div class="item">
+            <b> {{ 'stes.label.personalberater' | translate }} </b>
+            <span> {{ setPersonalberater() }} </span>
+        </div>
+    </ng-container>
+</ng-template>

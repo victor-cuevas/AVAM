@@ -1,0 +1,73 @@
+<div *ngIf="!readOnly" class="icon-input-inside dropdown" style="width: 100%;">
+    <input
+        textOverflowTooltipInputField
+        type="text"
+        (blur)="dismiss()"
+        class="form-control"
+        [value]="model"
+        (input)="model = $event.target.value"
+        [inputFormatter]="inputFormatter"
+        placeholder="{{ disabled ? '' : (placeholder | translate) }}"
+        [ngbTypeahead]="search"
+        [resultFormatter]="resultFormatter"
+        (selectItem)="emmitSelectItem($event.item)"
+        (keyup)="onKeyup($event)"
+        (keydown.enter)="onEnterDown($event)"
+        [disabled]="disabled"
+        #inputElement
+        #typeAhead="ngbTypeahead"
+    />
+
+    <span [hidden]="model || searching || disabled" class="fa fa-search icon-input"></span>
+    <button tabindex="-1" type="button" [hidden]="!searching || disabled" class="fa fa fa-circle-o-notch fa-spin icon-input" style="outline: none;" [disabled]="disabled"></button>
+    <button
+        tabindex="-1"
+        [hidden]="searching || model === '' || disabled"
+        type="button"
+        role="button"
+        class="text-control-clear"
+        [orTextControlClear]="inputElement"
+        (onClear)="onClear()"
+        [disabled]="disabled"
+    >
+        <span class="fa fa-times-circle"></span>
+        <span class="sr-only">Clear text content.</span>
+    </button>
+    <avam-info-icon-btn
+        [hidden]="!(displayInfoBtn && selectedItem && !searching && model !== '')"
+        [infoIconTemplate]="infoIconTemplate"
+        [disabled]="disabled"
+        [readOnly]="false"
+        (mouseenter)="fetchInfo()"
+    ></avam-info-icon-btn>
+</div>
+<div class="dynamicControlName" *ngIf="readOnly">
+    <div class="mb-0 p-value-left-12" id="{{ id }}Paragraph">
+        <span>{{ model }}</span>
+        <avam-info-icon-btn
+            class="position-absolute"
+            [hidden]="!(displayInfoBtn && selectedItem && !searching && model !== '')"
+            [infoIconTemplate]="infoIconTemplate"
+            [disabled]="true"
+            [readOnly]="true"
+            (mouseenter)="fetchInfo()"
+        ></avam-info-icon-btn>
+    </div>
+</div>
+
+<ng-template #infoIconTemplate>
+    <div id="popover-container" class="modal-body has-overlay" aria-busy="true" aria-live="assertive"></div>
+    <div *ngIf="displayInfoPopoverSpinner" id="modalSpinner" class="overlay overlay-inverse show overlay-in">
+        <div class="spinner-viewport">
+            <span class="spinner fa fa-spinner fa-5x"></span>
+        </div>
+    </div>
+    <div class="row" *ngFor="let entry of (data | objectIterator); let i = index">
+        <div class="col-6">
+            <label class="pull-right">{{ labels[i] | translate }}</label>
+        </div>
+        <div class="col-6">
+            {{ entry.value }}
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,45 @@
+<stes-common-search
+    #baseSearchComponent
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [sortField]="sortField"
+    [stateKey]="stateKey"
+    (searchEvent)="onSearchEvent()"
+    (resetEvent)="onResetEvent()"
+    (navigationEvent)="onNavigationEvent($event)"
+    (changeLanguageEvent)="setTableData()"
+    infoleisteTranslationKey="stes.label.abzumeldendeStellensuchende"
+    stateKey="geko-abzumeldende-table"
+>
+    <div [formGroup]="searchForm" class="no-overflow h-100">
+        <h3 class="title-label">
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'stes.label.abzumeldendeStellensuchende' | translate }}</span>
+        </h3>
+
+        <br />
+        <span>{{ 'stes.label.zuletztbearbeitetam' | translate }}</span>
+        <avam-date-range-picker
+            avamAutofocusTwoFields
+            id="bearbeitetDateRange"
+            formControlNameFrom="bearbeitetVon"
+            formControlNameTo="bearbeitetBis"
+            class="form-group"
+            [placeholderFrom]="'common.label.von' | translate"
+            [placeholderTo]="'common.label.bis' | translate"
+            [hasVerticalLayout]="true"
+            [labelClass]="'col-lg-12 col-md-12'"
+            [inputClass]="' '"
+            [wrapperClass]="'col-lg-12 col-md-12'"
+            [parentForm]="searchForm"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+        ></avam-date-range-picker>
+        <br />
+        <massnahmenverantwortung-benutzerstelle-search
+            #stesAutosuggestSearchComponent
+            [parentForm]="searchForm"
+            [displayBenutzerstellenTitle]="false"
+        ></massnahmenverantwortung-benutzerstelle-search>
+    </div>
+</stes-common-search>

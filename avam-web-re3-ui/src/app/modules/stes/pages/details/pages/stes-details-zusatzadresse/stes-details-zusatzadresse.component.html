@@ -1,0 +1,92 @@
+<form [formGroup]="zusatzadresseForm" #ngForm="ngForm" closeBrowserTab [form]="zusatzadresseForm" autocomplete="off">
+    <or-spinner [channel]="zusatzadresseChannel"></or-spinner>
+    <div class="avam-panel">
+        <div class="rechts col-xl-6">
+            <avam-label-dropdown
+                avamAutofocus
+                [parentForm]="zusatzadresseForm"
+                controlName="zusatzadressenTypID"
+                selectLabel="{{ 'stes.label.zusatzadressentyp' }}"
+                id="zusatzadressenTypID"
+                [options]="zusatzadressTypen"
+                (onChange)="onZusatzadresseTypSelect($event)"
+            ></avam-label-dropdown>
+            <avam-label-input id="name-input" controlName="name" selectLabel="stes.label.name" [readOnly]="aufenthaltsadresse" [parentForm]="zusatzadresseForm"> </avam-label-input>
+            <avam-label-input id="vorname-input" controlName="vorname" selectLabel="stes.label.vorname" [readOnly]="aufenthaltsadresse" [parentForm]="zusatzadresseForm">
+            </avam-label-input>
+
+            <div class="form-group row">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label for="strassenr-input" class="col-form-label">{{ 'common.label.strassenr' | translate }}</label>
+                </div>
+                <div class="col-lg-6 col-md-6 text-control">
+                    <input textOverflowTooltipInputField formControlName="strasse" type="text" class="form-control" id="strassenr-input" #strInputElement />
+                    <button
+                        tabindex="-1"
+                        type="button"
+                        role="button"
+                        class="text-control-clear"
+                        [orTextControlClear]="strInputElement"
+                        id="strasse-input-btn"
+                        (onClear)="onTextClear('strasse')"
+                    >
+                        <span class="fa fa-times-circle"></span>
+                        <span class="sr-only">Clear text content.</span>
+                    </button>
+                </div>
+                <div class="col-lg-2 col-md-2 text-control">
+                    <input textOverflowTooltipInputField formControlName="strasseNr" type="text" class="form-control" #strNrInputElement />
+                    <button
+                        tabindex="-1"
+                        type="button"
+                        role="button"
+                        class="text-control-clear"
+                        [orTextControlClear]="strNrInputElement"
+                        id="strassenr-input-btn"
+                        (onClear)="onTextClear('strasseNr')"
+                    >
+                        <span class="fa fa-times-circle"></span>
+                        <span class="sr-only">Clear text content.</span>
+                    </button>
+                </div>
+            </div>
+            <avam-label-input inputClass="col-md-3" controlName="postfachNr" id="postfach-input" selectLabel="stes.label.postfach" [parentForm]="zusatzadresseForm">
+            </avam-label-input>
+            <avam-plz-autosuggest
+                plzControl="postleitzahl"
+                ortControl="ort"
+                [landControl]="zusatzadresseForm.get('staat')"
+                [parentForm]="zusatzadresseForm.get('plz')"
+                label="common.label.plzort"
+            ></avam-plz-autosuggest>
+            <avam-land-autosuggest id="staat" controlName="staat" [parentForm]="zusatzadresseForm" componentLabel="{{ 'common.label.land' | translate }}"></avam-land-autosuggest>
+            <avam-label-input
+                [parentForm]="zusatzadresseForm"
+                controlName="privatTelefon"
+                selectLabel="{{ 'stes.label.telefonprivat' }}"
+                placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+            ></avam-label-input>
+            <avam-label-checkbox
+                componentId="korrespondenzAdresse"
+                controlName="korrespondenzAdresse"
+                [parentForm]="zusatzadresseForm"
+                selectLabel="{{ 'stes.label.korrespondenzadresse' }}"
+                (onChange)="checkKorrespondenzadresse()"
+            ></avam-label-checkbox>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="onLoeschen()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.zusatzadresseloeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1 keepDisabled" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]" [disabled]="isSaveDisabled">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

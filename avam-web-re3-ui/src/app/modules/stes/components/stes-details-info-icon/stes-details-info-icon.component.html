@@ -1,0 +1,53 @@
+<ng-template #content>
+    <div class="modal-header p-0">
+        <div class="container-fluid">
+            <div class="row align-items-center">
+                <div class="col-6">
+                    <label>{{ 'common.label.letzteaktualisierung' | translate }}</label>
+                </div>
+                <div class="col-6 info-icon-exit">
+                    <button type="button" (click)="close()" class="border-0 bg-transparent">
+                        <span class="fa fa-close"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div class="container-fluid avam-panel">
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'common.label.letzteaktualisierung' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ _data?.datumLetzteAktualisierung | date: 'dd.MM.yyyy' }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'common.label.benutzer' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    <span *ngIf="_data?.stesBenutzerName">{{ _data?.stesBenutzerLogin }} {{ _data?.stesBenutzerName }}, {{ _data?.stesBenutzerVorname }}</span>
+                    <span *ngIf="!_data?.stesBenutzerName">{{ _data?.stesBenutzerLogin }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="row"></div>
+    </div>
+</ng-template>
+
+<i
+    class="fa fa-info"
+    aria-hidden="true"
+    #popover="ngbPopover"
+    [autoClose]="'outside'"
+    id="popover-icon"
+    [ngbPopover]="content"
+    style="cursor: pointer;"
+    container="body"
+    placement="auto"
+    (click)="onClickInfoIcon()"
+></i>

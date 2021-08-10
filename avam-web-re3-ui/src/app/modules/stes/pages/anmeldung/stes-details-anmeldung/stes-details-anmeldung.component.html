@@ -1,0 +1,3 @@
+<app-stes-details-infoleiste [hidden]="!isInfoleisteEnabled" [ueberschrift]="ueberschrift"></app-stes-details-infoleiste>
+<avam-alert [hidden]="!isInfoleisteEnabled"></avam-alert>
+<router-outlet #outlet="outlet" (activate)="onOutletActivate(outlet)" (deactivate)="onOutletDeactivate()"> </router-outlet>

@@ -1,0 +1,29 @@
+<div [formGroup]="formGroup" class="avam-panel">
+    <label>
+        <h3>{{ 'stes.label.zuweisungstes.zuweisungsresultat' | translate }}</h3>
+    </label>
+    <div class="mb-2">
+        <div>
+            <label>{{ 'stes.label.zuweisungstes.vermittlungsstand' | translate }}</label>
+        </div>
+        <avam-label-dropdown [options]="vermittlungsergebnisLabels" [parentForm]="formGroup" controlName="vermittlungsergebnis" id="vermittlungsergebnis"></avam-label-dropdown>
+    </div>
+    <div class="mb-2">
+        <div>
+            <label>{{ 'stes.label.bemerkungen' | translate }}</label>
+        </div>
+        <app-textarea customFormControlState [fullWidth]="true" [maxLength]="255" id="ergaenzendeAngaben" formControlName="ergaenzendeAngaben"></app-textarea>
+    </div>
+    <div class="mb-2">
+        <div>
+            <label>{{ 'stes.label.zuweisungstes.rueckmeldungstes' | translate }}</label>
+        </div>
+        <app-textarea customFormControlState [fullWidth]="true" [maxLength]="255" id="rueckmeldungStes" formControlName="rueckmeldungStes"></app-textarea>
+    </div>
+    <div>
+        <div>
+            <label>{{ 'stes.label.zuweisungstes.rueckmeldungag' | translate }}</label>
+        </div>
+        <app-textarea customFormControlState [fullWidth]="true" [maxLength]="255" id="rueckmeldungArbeitgeber" formControlName="rueckmeldungArbeitgeber"></app-textarea>
+    </div>
+</div>

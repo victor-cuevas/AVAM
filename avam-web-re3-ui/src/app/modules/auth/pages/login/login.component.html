@@ -1,0 +1,41 @@
+<div class="m-0">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="cover-header mt-md-5">
+        <h1 class="mt-md-5 mb-0 ml-md-3">{{ 'login.label.anmeldung' | translate }}</h1>
+    </div>
+    <form [formGroup]="loginForm" class="mr-md-3" autocomplete="off" (keyup.enter)="login()">
+        <avam-label-input
+            avamAutofocus
+            id="username"
+            controlName="username"
+            selectLabel="login.label.j_username"
+            placeholder="login.label.j_username"
+            [parentForm]="loginForm"
+        ></avam-label-input>
+        <avam-label-input
+            id="password"
+            controlName="password"
+            selectLabel="login.label.j_password"
+            placeholder="login.label.j_password"
+            type="password"
+            [parentForm]="loginForm"
+        ></avam-label-input>
+    </form>
+    <div class="row form-group mr-0">
+        <div class="col col-lg-12">
+            <button type="button" [disabled]="loading" class="btn btn-primary ml-2 float-right" id="login" (click)="login()">
+                {{ 'login.label.anmeldung' | translate }}
+            </button>
+            <button type="button" [disabled]="loading" class="btn btn-secondary mr-2 float-right" id="changePasswordButton" (click)="changePassword()">
+                {{ 'login.label.passwortaendern' | translate }}
+            </button>
+        </div>
+    </div>
+    <ng-template #changePasswordModal>
+        <app-change-password (closeChangePassword)="close()" (emitChangePassword)="setNewPassword($event)"> </app-change-password>
+    </ng-template>
+    <ng-template #benutzerstellenModal>
+        <or-spinner [channel]="benutzerstelleAendernChannel"></or-spinner>
+        <app-benutzerstellen (emitBenutzerstelleSelected)="benutzerstelleSelected($event)" (closeBenutzerstelle)="close()"> </app-benutzerstellen>
+    </ng-template>
+</div>

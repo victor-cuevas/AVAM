@@ -1,0 +1,90 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'amm.akquisition.kopfzeile.auszahlungenZurLeistungsvereinbarung' | translate }}
+        </h4>
+        <div class="mr-3">
+            <app-toolbox [configuration]="toolboxConfiguration" [formNumber]="formNumber"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-spinner [channel]="CHANNEL_STATE_KEY"> </or-spinner>
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+
+        <div class="info-bar-container">
+            <div class="col-8 d-flex align-items-center p-0">
+                <h1
+                    #elementTitle
+                    #tTitle="ngbTooltip"
+                    triggers="manual"
+                    (mouseenter)="showTooltip(elementTitle, tTitle)"
+                    (mouseleave)="tTitle.close()"
+                    [ngbTooltip]="unternehmenName"
+                    ngClass="pr-5"
+                >
+                    {{ unternehmenName }}
+                </h1>
+                <h2
+                    #elementSubtitle
+                    #tSubtitle="ngbTooltip"
+                    triggers="manual"
+                    (mouseenter)="showTooltip(elementSubtitle, tSubtitle)"
+                    (mouseleave)="tSubtitle.close()"
+                    [ngbTooltip]="'amm.zahlungen.label.leistungsvereinbarung' | translate"
+                    ngClass="pr-5"
+                >
+                    {{ 'amm.zahlungen.label.leistungsvereinbarung' | translate }}
+                </h2>
+                <h2
+                    #elementSecondSubtitle
+                    #tSecondSubtitle="ngbTooltip"
+                    triggers="manual"
+                    (mouseenter)="showTooltip(elementSecondSubtitle, tSecondSubtitle)"
+                    (mouseleave)="tSecondSubtitle.close()"
+                    [ngbTooltip]="auszahlungen[0] ? auszahlungen[0].leistungsvereinbarungTitel : ''"
+                >
+                    {{ auszahlungen[0]?.leistungsvereinbarungTitel }}
+                </h2>
+            </div>
+        </div>
+        <div class="info-bar-panel-container">
+            <div class="info-panel-template avam-panel p-2">
+                <div class="row">
+                    <div class="item">
+                        <span> {{ strasseInfo }} </span>
+                    </div>
+                    <div class="item" *ngIf="unternehmen?.postfachPlzObject">
+                        <strong>{{ 'arbeitgeber.oste.label.postfach' | translate }}</strong>
+                        <span> {{ postfachInfo }}</span>
+                    </div>
+                    <div class="item">
+                        <strong>{{ 'unternehmen.label.burnummer' | translate }}</strong>
+                        <span> {{ auszahlungen[0]?.burNr }} </span>
+                    </div>
+                    <div class="item">
+                        <strong>{{ 'unternehmen.label.burstatus' | translate }}</strong>
+                        <span> {{ unternehmenStatus }}</span>
+                    </div>
+                    <div class="item">
+                        <strong>{{ 'amm.akquisition.label.leistungsvereinbarungsnr' | translate }}</strong>
+                        <span> {{ auszahlungen[0]?.leistungsvereinbarungNr }} </span>
+                    </div>
+                    <div class="item">
+                        <strong>{{ 'amm.zahlungen.label.freigabedatum' | translate }}</strong>
+                        <span> {{ auszahlungen[0]?.freigabedatum | date: 'dd.MM.yyyy' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <avam-auszahlungen-zur-leistungsvereinbarung-table [dataSource]="dataSource" [summeTotal]="summeTotal"></avam-auszahlungen-zur-leistungsvereinbarung-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button class="btn btn-link" type="button" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>
+
+<ng-template #modalPrint>
+    <avam-auszahlungen-zur-leistungsvereinbarung-table [dataSource]="dataSource" [summeTotal]="summeTotal"></avam-auszahlungen-zur-leistungsvereinbarung-table>
+</ng-template>

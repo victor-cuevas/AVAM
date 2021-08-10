@@ -1,0 +1,18 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <or-spinner [channel]="formChannel"></or-spinner>
+        <avam-rollen-suchen-form #form [formData]="formData" [stateKey]="formStateKey" (onEnter)="search()" (onStateRestore)="searchRollen()"></avam-rollen-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [permissions]="[permissions.INFORMATIONEN_BENUTZERVERWALTUNG_ROLLE_SUCHENSICHTEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner [channel]="resultChannel"></or-spinner>
+        <avam-rollen-suchen-result [resultsData]="rollen" [stateKey]="resultStateKey" [showBadge]="searchDone" (onOpenRolle)="openRolle($event)"></avam-rollen-suchen-result>
+    </div>
+</or-column-layout>

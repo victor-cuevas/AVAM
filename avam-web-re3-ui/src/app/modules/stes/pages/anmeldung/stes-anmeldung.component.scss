@@ -1,0 +1,13 @@
+avam-wizard-substep {
+    outline: none;
+
+    &.active-step {
+        font-weight: bold;
+    }
+}
+
+.stes-anm-title {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: 600;
+}

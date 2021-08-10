@@ -1,0 +1,263 @@
+<form [formGroup]="voranmeldungErfassenForm" #ngForm="ngForm" closeBrowserTab autocomplete="off" [form]="voranmeldungErfassenForm">
+    <div class="row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    [parentForm]="voranmeldungErfassenForm"
+                    controlName="kategorie"
+                    selectLabel="{{ 'kaeswe.label.kategorie' }}"
+                    id="kategorie"
+                    [options]="kategorieOptions"
+                    [readOnly]="isReadOnly()"
+                    hideEmptyOption="true"
+                ></avam-label-dropdown>
+                <avam-label-calendar
+                    controlName="voranmeldedatum"
+                    [parentForm]="voranmeldungErfassenForm"
+                    id="voranmeldedatum"
+                    calendarLabel="{{ 'kaeswe.label.datumvoranmeldung' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="isReadOnly()"
+                ></avam-label-calendar>
+                <avam-label-dropdown
+                    [parentForm]="voranmeldungErfassenForm"
+                    controlName="betriebsabteilung"
+                    selectLabel="{{ 'kaeswe.label.betriebsabteilung' }}"
+                    id="betriebsabteilung"
+                    [options]="betriebsabteilungOptions"
+                    (onChange)="onAbteilungChange($event)"
+                    [readOnly]="isReadOnly()"
+                    hideEmptyOption="true"
+                ></avam-label-dropdown>
+                <div class="row">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'kaeswe.label.alvanerkannt' | translate }}</label>
+                    </div>
+                    <div class="text-control col">
+                        <!--
+                            The avam-label-checkbox prepends a 4 wide column, which
+                            pushes the checkbox right in Internet Explorer. The d-none
+                            Bootstrap class hides that column, therefore Explorer puts the
+                            checkbox in the right place.
+                        -->
+                        <avam-label-checkbox
+                            inputClass="d-none"
+                            componentId="alvanerkannt"
+                            controlName="alvanerkannt"
+                            [parentForm]="voranmeldungErfassenForm"
+                            [readOnly]="true"
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+                <avam-label-input
+                    [parentForm]="voranmeldungErfassenForm"
+                    selectLabel="{{ 'kaeswe.label.personalbestand' | translate }}"
+                    id="personalbestand"
+                    controlName="personalbestand"
+                    [readOnly]="isReadOnly()"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <h3>
+                    <label>
+                        {{ 'kaeswe.label.voraussichtlich' | translate }}
+                    </label>
+                </h3>
+                <avam-label-input
+                    [parentForm]="voranmeldungErfassenForm"
+                    selectLabel="{{ 'kaeswe.label.betroffene' | translate }}"
+                    id="betroffene"
+                    controlName="betroffene"
+                    [readOnly]="isReadOnly()"
+                ></avam-label-input>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label class="col-form-label"> {{ 'stes.label.dauer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <avam-label-input
+                            id="dauerVon"
+                            inputClass="col"
+                            placeholder="common.label.von"
+                            controlName="dauerVon"
+                            [parentForm]="voranmeldungErfassenForm"
+                            [readOnly]="isReadOnly()"
+                        ></avam-label-input>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <avam-label-input
+                            controlName="dauerBis"
+                            id="dauerBis"
+                            inputClass="col"
+                            placeholder="common.label.bis"
+                            [parentForm]="voranmeldungErfassenForm"
+                            [readOnly]="isReadOnly()"
+                        ></avam-label-input>
+                    </div>
+                </div>
+                <avam-label-input
+                    [parentForm]="voranmeldungErfassenForm"
+                    selectLabel="{{ 'kaeswe.label.arbeitsausfallprozent' | translate }}"
+                    id="arbeitsausfall"
+                    controlName="arbeitsausfall"
+                    [readOnly]="isReadOnly()"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    #entscheidDurch
+                    id="entscheiddurch"
+                    controlName="entscheiddurch"
+                    [parentForm]="voranmeldungErfassenForm"
+                    componentLabel="{{ 'kaeswe.label.entscheiddurch' }}"
+                    placeholder="{{ 'stes.label.vermittlung.vermittlungsverantwortung' | translate }}"
+                    [benutzerSuchenTokens]="entscheiddurchSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [readOnly]="isReadOnly()"
+                ></avam-personalberater-autosuggest>
+                <avam-personalberater-autosuggest
+                    id="freigabedurch"
+                    controlName="freigabedurch"
+                    [parentForm]="voranmeldungErfassenForm"
+                    componentLabel="{{ 'kaeswe.label.freigabedurch' }}"
+                    placeholder="{{ 'stes.label.vermittlung.vermittlungsverantwortung' | translate }}"
+                    [benutzerSuchenTokens]="freigabedurchSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [readOnly]="isFreigabeDurchReadOnly()"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    [parentForm]="voranmeldungErfassenForm"
+                    readOnly="true"
+                    selectLabel="{{ 'kaeswe.label.entscheidnr' | translate }}"
+                    id="entscheidnr"
+                    controlName="entscheidnr"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'kaeswe.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a [routerLink]="" *ngIf="voranmeldungKaeDTO?.verweiserVorgaenger" id="vorgaengerLink" (click)="onVorgaengerClicked()"> {{ vorgaenger.entscheidNr }}</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'kaeswe.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="voranmeldungKaeDTO?.verweiserNachfolger"
+                            id="nachfolgerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ voranmeldungKaeId: voranmeldungKaeDTO?.verweiserNachfolger }"
+                        >
+                            {{ nachfolger.entscheidNr }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <div class="form-group">
+                    <avam-alk-zahlstelle-autosuggest
+                        label="stes.label.alkZahlstelle"
+                        [parentForm]="voranmeldungErfassenForm"
+                        dynamicControlName
+                        alkControl="alkControl"
+                        zahlstelleControl="zahlstelleControl"
+                        [readOnly]="isReadOnly()"
+                    ></avam-alk-zahlstelle-autosuggest>
+                </div>
+                <avam-label-dropdown
+                    [parentForm]="voranmeldungErfassenForm"
+                    controlName="begruendungkurzarbeit"
+                    selectLabel="{{ 'kaeswe.label.begruendungkurzarbeit' }}"
+                    id="begruendungkurzarbeit"
+                    [options]="begruendungkurzarbeitOptions"
+                    [placeholder]="'common.label.waehlen'"
+                    [readOnly]="isReadOnly()"
+                    hideEmptyOption="true"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="voranmeldungErfassenForm"
+                    controlName="entscheidkurzarbeit"
+                    selectLabel="{{ 'kaeswe.label.entscheidkurzarbeit' }}"
+                    id="entscheidkurzarbeit"
+                    [options]="entscheidkurzarbeitOptions"
+                    [placeholder]="'common.label.waehlen'"
+                    (onChange)="onEntscheidkurzarbeitChange($event)"
+                    [readOnly]="isReadOnly()"
+                    hideEmptyOption="true"
+                ></avam-label-dropdown>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'unternehmen.subnavmenuitem.kurzarbeit' }}"
+                    [parentForm]="voranmeldungErfassenForm"
+                    formControlNameFrom="kurzarbeitVon"
+                    formControlNameTo="kurzarbeitBis"
+                    [isResponsive]="true"
+                    [readOnly]="getKurzarbeitVonBisReadOnlyState()"
+                >
+                </avam-date-range-picker>
+                <avam-label-dropdown
+                    [parentForm]="voranmeldungErfassenForm"
+                    controlName="status"
+                    id="status"
+                    [options]="statusOptions"
+                    selectLabel="{{ 'common.label.status' }}"
+                    (onChange)="onStatusChange($event)"
+                    [readOnly]="isReadOnly()"
+                    hideEmptyOption="true"
+                    #status
+                ></avam-label-dropdown>
+                <avam-label-calendar
+                    controlName="mahnfristende"
+                    [parentForm]="voranmeldungErfassenForm"
+                    id="mahnfristende"
+                    calendarLabel="{{ 'kaeswe.label.mahnfristende' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="isMahnfristendeReadOnly()"
+                ></avam-label-calendar>
+                <avam-label-input
+                    [parentForm]="voranmeldungErfassenForm"
+                    readOnly="true"
+                    selectLabel="{{ 'kaeswe.label.freigabedatum' }}"
+                    id="freigabedatum"
+                    controlName="freigabedatum"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="voranmeldungErfassenForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.transferanalk' }}"
+                    id="transferanalk"
+                    controlName="transferanalk"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+    <ng-template #modalZahlstelleSuchen>
+        <app-zahlstelle-suchen (emitAlkZahlstelle)="fillZahlstelle(voranmeldungErfassenForm, $event)"></app-zahlstelle-suchen>
+    </ng-template>
+</form>
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">{{ 'common.button.zuruecksetzen' | translate }}</button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.ARBEITGEBER_KAE_VORANMELDUNG_ERFASSEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+<ng-template #bearbeitenFooterButtons>
+    <span *ngFor="let button of buttons">
+        <button *ngIf="button.isVisible" class="btn ml-1" [ngClass]="button.class" type="button" (click)="button.action()" [permissions]="button.permissions">
+            {{ button.key | translate }}
+        </button>
+    </span>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="isBearbeiten ? bearbeitenFooterButtons : footerButtons"></avam-action-footer>

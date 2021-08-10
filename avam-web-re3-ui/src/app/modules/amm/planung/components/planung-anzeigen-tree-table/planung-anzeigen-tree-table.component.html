@@ -1,0 +1,88 @@
+<avam-generic-tree-table *ngIf="displayedColumns && displayedColumns.length > 0" #treeTable [headers]="displayedColumns" [dataSource]="dataSource" [options]="tableOptions">
+    <ng-container [cdkColumnDef]="columns[0]?.columnDef">
+        <th cdk-header-cell *cdkHeaderCellDef [ngStyle]="{ width: columns[0]?.width }">
+            <div class="header-container">
+                <span>
+                    {{ columns[0].header | translate }}
+                </span>
+            </div>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <tree-table-toggler [element]="row" [column]="columns[0]">
+                <i *ngIf="row.model.data.voIdAttribute === 'produktId'" class="triangle-blue fa fa-play"></i>
+                <i *ngIf="row.model.data.voIdAttribute === 'massnahmeId'" class="square-green fa fa-stop"></i>
+                <i *ngIf="row.model.data.voIdAttribute === 'durchfuehrungseinheitId'" class="square-small-yellow fa fa-circle"></i>
+            </tree-table-toggler>
+        </td>
+    </ng-container>
+    <ng-container [cdkColumnDef]="columns[1]?.columnDef">
+        <th cdk-header-cell *cdkHeaderCellDef [ngStyle]="{ width: columns[1]?.width }">
+            <div class="header-container">
+                <span>
+                    {{ columns[1].header | translate }}
+                </span>
+            </div>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <div class="table-btns text-center">
+                <button (click)="onItemSelected(row)" class="fa fa-eye btn btn-primary btn-sm buttonOnHover" type="button"></button>
+                <button type="button" class="fa fa-plus btn btn-secondary btn-sm buttonOnHover ml-1" (click)="onItemSelected()"></button>
+            </div>
+        </td>
+    </ng-container>
+    <ng-container *ngFor="let column of (columns | slice: 2); trackBy: customTrackBy; let monthIndex = index" [cdkColumnDef]="column?.columnDef">
+        <th cdk-header-cell *cdkHeaderCellDef [ngStyle]="{ width: column?.width }">
+            <div class="header-container">
+                <span>
+                    {{ column.header | translate: { '0': column.headerYear } }}
+                </span>
+            </div>
+        </th>
+        <td cdk-cell *cdkCellDef="let row" class="p-0 m-0">
+            <!--Build 4 sections per month-->
+            <div class="row mx-0" style="height: 6vh">
+                <div
+                    *ngFor="let weekIndex of [0, 1, 2, 3]"
+                    id="week{{ weekIndex }}month{{ monthIndex }}"
+                    class="col p-0 m-0"
+                    [ngClass]="
+                        row.model.data.coordinatesToColor?.get(weekIndex + monthIndex * 4)
+                            ? row.model.data.coordinatesToColor.get(weekIndex + monthIndex * 4)['style']
+                            : 'border border-light'
+                    "
+                >
+                    <div
+                        *ngIf="
+                            row.model.data.coordinatesToColor?.get(weekIndex + monthIndex * 4)
+                                ? row.model.data.coordinatesToColor.get(weekIndex + monthIndex * 4)['showBracketLeft']
+                                : false
+                        "
+                        class="pt-3 font-weight-bold"
+                    >
+                        <
+                    </div>
+                    <div
+                        *ngIf="
+                            row.model.data.coordinatesToColor?.get(weekIndex + monthIndex * 4)
+                                ? row.model.data.coordinatesToColor.get(weekIndex + monthIndex * 4)['showBracketRight']
+                                : false
+                        "
+                        class="pt-3 font-weight-bold text-right"
+                    >
+                        >
+                    </div>
+                    <div
+                        *ngIf="
+                            row.model.data.coordinatesToColor?.get(weekIndex + monthIndex * 4)
+                                ? row.model.data.coordinatesToColor.get(weekIndex + monthIndex * 4)['showDoubleBracket']
+                                : false
+                        "
+                        class="pt-3 font-weight-bold text-right"
+                    >
+                        <>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+</avam-generic-tree-table>

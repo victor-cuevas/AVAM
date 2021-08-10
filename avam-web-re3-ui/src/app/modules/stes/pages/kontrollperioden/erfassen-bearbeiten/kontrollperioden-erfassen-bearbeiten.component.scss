@@ -1,0 +1,16 @@
+.avam-panel-light {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-left:1ex ;
+    height: 5.5ex;
+    margin-bottom: 8px;
+
+    h3 {
+        margin: unset !important;
+    }
+}
+
+.sublabel-input {
+    padding-top: 5px;
+}

@@ -1,0 +1,146 @@
+<form class="inline-components-table step2-oste-beruf-table" [formGroup]="tableForm">
+    <or-spinner [channel]="spinnerChannel" *ngIf="visible"></or-spinner>
+    <avam-generic-table
+        *ngIf="visible"
+        [dataSource]="dataSource"
+        [headers]="displayedColumns"
+        [customSort]="true"
+        [initialSort]="false"
+        [sortOrder]="sortOrder"
+        [sortField]="sortField"
+        [maxHeight]="1000"
+        [recalculateMaxHeight]="false"
+        (sortFunction)="sortFunction($event)"
+    >
+        <ng-container *ngFor="let c of columns" [cdkColumnDef]="c?.columnDef">
+            <th [ngStyle]="{ width: c?.width + '%' }" class="align-top" [sortable-column]="c.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <ng-container *ngIf="c.columnDef !== refs.ACTION_BUTTON && c.columnDef !== refs.FLAG">
+                    <avam-generic-table-header-cell [column]="c"></avam-generic-table-header-cell>
+                </ng-container>
+                <em *ngIf="c.columnDef === refs.FLAG" class="pa-2 full-centered fa fa-flag fa-lg flag">
+                    <sort-icon [column]="c.columnDef"></sort-icon>
+                </em>
+                <ng-container *ngIf="c.columnDef === refs.ACTION_BUTTON" class="header-container">
+                    <div class="button-wrapper">
+                        <button
+                            type="button"
+                            class="fa fa-plus btn btn-secondary btn-sm buttonOnHover"
+                            (click)="onAddRowOnTop()"
+                            [ngbTooltip]="'common.button.add' | translate"
+                            [disabled]="disableForm"
+                        ></button>
+                    </div>
+                </ng-container>
+            </th>
+            <td cdk-cell class="align-top" *cdkCellDef="let row" [ngSwitch]="true" formArrayName="array">
+                <span *ngSwitchCase="c.columnDef == refs.FLAG">
+                    <span
+                        *ngIf="getFormGroupAt(row.index).get('meldepflichtKantone').value"
+                        [ngbTooltip]="getKantoneTooltip(getFormGroupAt(row.index).get('meldepflichtKantone').value)"
+                    >
+                        <em class="full-centered fa fa-flag fa-lg"></em>
+                    </span>
+                </span>
+                <avam-beruf-autosuggest
+                    *ngSwitchCase="c.columnDef === refs.BERUF"
+                    [parentForm]="getFormGroupAt(row.index)"
+                    controlName="beruf"
+                    container="body"
+                    scrollIntoView="true"
+                    [isDisabled]="disableForm"
+                ></avam-beruf-autosuggest>
+                <div *ngSwitchCase="c.columnDef === refs.AEHNLICHE_BERUFE" class="verwandteBerufe row">
+                    <div class="rechts col-xl-9">
+                        <avam-label-dropdown
+                            [options]="jaNeinOptions"
+                            [parentForm]="getFormGroupAt(row.index)"
+                            controlName="aehnlicheBerufe"
+                            inputClass="col-lg-12"
+                            hideEmptyOption="true"
+                            [isDisabled]="disableForm"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="links col-xl-3 info-button">
+                        <button *ngIf="!getFormGroupAt(row.index).get('analogBerufe').value?.length" class="fa fa-info-circle align-info-btn readonly-btn"></button>
+                        <avam-info-icon-btn *ngIf="getFormGroupAt(row.index).get('analogBerufe').value?.length" [infoIconTemplate]="infoIconBerufe"></avam-info-icon-btn>
+                        <ng-template #infoIconBerufe>
+                            <div class="oste-beruf-table-info-icon-height">
+                                <h4>{{ 'stes.label.aehnlicheBerufe' | translate }}</h4>
+                                <ul>
+                                    <li *ngFor="let el of getFormGroupAt(row.index).get('analogBerufe').value">{{ el }}</li>
+                                </ul>
+                            </div>
+                        </ng-template>
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    *ngSwitchCase="c.columnDef === refs.ERFAHRUNG || c.columnDef === refs.QUALIFIKATION || c.columnDef === refs.AUSBILDUNG || c.columnDef === refs.ABSCHLUSS"
+                    [options]="optionsMap.get(c.columnDef)"
+                    [parentForm]="getFormGroupAt(row.index)"
+                    [controlName]="c.columnDef"
+                    inputClass="col-lg-12 col-md-4"
+                    [isDisabled]="disableForm"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    *ngSwitchCase="c.columnDef === refs.ABSCHLUSS_INLAENDISCH || c.columnDef === refs.ABSCHLUSS_AUSLAENDISCH"
+                    [options]="jaNeinOptions"
+                    [parentForm]="getFormGroupAt(row.index)"
+                    [controlName]="c.columnDef"
+                    inputClass="col-lg-12 col-md-4"
+                    hideEmptyOption="true"
+                    [isDisabled]="disableForm"
+                ></avam-label-dropdown>
+                <div *ngSwitchCase="c.columnDef === refs.ANMERKUNGEN" class="col-lg-12 align-self-center button-wrapper">
+                    <button (click)="openModal(row.index)" class="btn btn-secondary rounded anmerkungen" type="button">
+                        <span class="fa fa-info fa-fw"></span>
+                    </button>
+                </div>
+                <div *ngSwitchDefault class="button-wrapper">
+                    <button
+                        type="button"
+                        class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                        (click)="openDeleteDialog(row.index)"
+                        [ngbTooltip]="'common.button.loeschen' | translate"
+                        [disabled]="tableForm.get('array')['length'] === 1 || disableForm"
+                    ></button>
+                </div>
+            </td>
+        </ng-container>
+    </avam-generic-table>
+</form>
+
+<ng-template #angabenModal>
+    <div class="modal-content d-block" [formGroup]="modalForm">
+        <div class="modal-header">
+            <h4 class="modal-title" id="modal-basic-title">
+                <span>{{ 'arbeitgeber.oste.label.anmerkungen' | translate }}</span>
+            </h4>
+            <button type="button" class="close" (click)="closeModal()" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <table class="table-bordered w-100">
+                <tr class="content-row">
+                    <td>
+                        <div class="area-text-content p-2">
+                            <app-textarea
+                                avamAutofocus
+                                id="angabenTextarea"
+                                formControlName="angaben"
+                                fullWidth="true"
+                                customFormControlState
+                                [readonly]="disableForm"
+                                maxLength="255"
+                            ></app-textarea>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="closeModal()">{{ 'i18n.common.cancel' | translate }}</button>
+            <button *ngIf="!disableForm" type="button" class="btn btn-primary" (click)="updateAngaben()">{{ 'office.button.uebernehmen' | translate }}</button>
+        </div>
+    </div>
+</ng-template>

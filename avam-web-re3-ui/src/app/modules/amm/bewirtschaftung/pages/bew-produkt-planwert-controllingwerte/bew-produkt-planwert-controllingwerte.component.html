@@ -1,0 +1,41 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-controllingwerte-table #planwertControllingwerteTable [tableData]="tableData" (onDeleteRow)="deleteRow($event)"></avam-controllingwerte-table>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="+planwertControllingwerteTable.formGroup.controls.kostenverteilschluessel.value !== planwertControllingwerteTable.manuellId"
+        avamDisableOnSpinner
+        [permissionContext]="[permissions.AMM_PLANUNG_BEARBEITEN]"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="submit(submitType.BERECHNEN)"
+    >
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="zurProduktplanung()">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.massnahmen.button.zurproduktplanung' | translate }}
+    </button>
+    <button avamDisableOnSpinner [permissionContext]="[permissions.AMM_PLANUNG_BEARBEITEN]" class="btn btn-primary ml-1" type="button" (click)="submit(submitType.SPEICHERN)">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <span>{{ planwertDto?.produktObject?.elementkategorieAmtObject?.organisation }}-{{ planwertDto?.typ | dbTranslate: 'text' }}</span>
+        </div>
+        <div class="item">
+            <b>{{ 'amm.massnahmen.label.produktnr' | translate }}</b>
+            {{ planwertDto?.produktObject?.produktId }}
+        </div>
+    </ng-container>
+</ng-template>

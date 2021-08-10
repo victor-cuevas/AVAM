@@ -1,0 +1,50 @@
+<avam-vertragswert-planwert-table #table [dataSource]="wizardService.planwertTableData" (onItemSelected)="moveNext($event)"></avam-vertragswert-planwert-table>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="wizardService.movePrev()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ strasseInfo }}</span>
+    </div>
+    <div class="item" *ngIf="wizardService?.leistungsvereinbarungDTO?.anbieterObject?.unternehmen?.postfachPlzObject">
+        <strong>{{ 'arbeitgeber.oste.label.postfach' | translate }}</strong>
+        <span> {{ postfachInfo }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }}</strong>
+        <span> {{ burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.massnahmen.label.status' | translate }}</strong>
+        <span> {{ unternehmenStatus }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.leistungsvereinbarungnr' | translate }}</strong>
+        <span> {{ wizardService?.leistungsvereinbarungDTO?.leistungsvereinbarungNr }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.massnahmen.label.status' | translate }}</strong>
+        <span> {{ lvStatus }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ voLabel | translate }}</strong>
+        <span> {{ selectedTreeTableItemNr }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.titel' | translate }}</strong>
+        <span> {{ titel }}</span>
+    </div>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-vertragswert-planwert-table [dataSource]="wizardService.planwertTableData" [printable]="true"></avam-vertragswert-planwert-table>
+</ng-template>

@@ -1,0 +1,91 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title mt-2 ml-1">
+            <span>
+                <ng-container *ngIf="osteHeaderParams">{{ osteHeaderParams.unternehmenName + '-' }}</ng-container>
+                {{ headerLabelKey | translate }}
+            </span>
+        </h3>
+        <div class="mr-3 mb-2">
+            <app-toolbox [configuration]="toolboxConfiguration"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-column-layout [left]="true" [right]="false">
+            <div column-left-content class="default-layout">
+                <ul class="nav nav-indented nav-hover" role="menubar">
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.OSTE_DETAILS_BEWIRTSCHAFTUNG }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.OSTE_DETAILS_BEWIRTSCHAFTUNG)"
+                            ><span class="fa fa-circle"></span> {{ 'arbeitgeber.oste.subnavmenuitem.bewirtschaftung' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.OSTE_DETAILS_BASISANGABEN }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.OSTE_DETAILS_BASISANGABEN)"
+                            ><span class="fa fa-circle"></span> {{ 'arbeitgeber.oste.subnavmenuitem.basisangaben' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.OSTE_DETAILS_ANFORDERUNGEN }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.OSTE_DETAILS_ANFORDERUNGEN)"
+                            ><span class="fa fa-circle"></span> {{ 'arbeitgeber.oste.subnavmenuitem.anforderungen' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.OSTE_DETAILS_BEWERBUNG }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.OSTE_DETAILS_BEWERBUNG)"
+                            ><span class="fa fa-circle"></span> {{ 'arbeitgeber.oste.subnavmenuitem.bewerbung' | translate }}</a
+                        >
+                    </li>
+                </ul>
+            </div>
+            <div column-main-content class="default-layout page-style">
+                <or-spinner [channel]="spinnerChannel"></or-spinner>
+                <div class="info-bar-panel-container">
+                    <div class="info-panel-template avam-panel p-2">
+                        <div class="row">
+                            <ng-container *ngIf="osteHeaderParams">
+                                <div class="item" *ngIf="unternehmenAdresse">
+                                    <span> {{ unternehmenAdresse }}</span>
+                                </div>
+                                <div class="item" *ngIf="unternehmenPostfach">
+                                    <b> {{ 'arbeitgeber.oste.label.postfach' | translate }} </b>
+                                    <span>
+                                        {{ unternehmenPostfach }}
+                                    </span>
+                                </div>
+                                <div class="item">
+                                    <b *ngIf="osteHeaderParams.provisorisch; else provisorisch"> {{ 'arbeitgeber.oste.label.provburnr' | translate }} </b>
+                                    <ng-template #provisorisch>
+                                        <b> {{ 'arbeitgeber.oste.label.burnr' | translate }} </b>
+                                    </ng-template>
+                                    <span> {{ osteHeaderParams.burNummer }} </span>
+                                </div>
+                                <div class="item" *ngIf="osteHeaderParams.statusObject">
+                                    <b> {{ 'arbeitgeber.oste.label.status' | translate }} </b>
+                                    <span> {{ osteHeaderParams.statusObject | dbTranslate: 'kurzText' }} </span>
+                                </div>
+                                <div class="item">
+                                    <b> {{ 'arbeitgeber.label.stellennr' | translate }} </b>
+                                    <span> {{ osteHeaderParams.stellenNr }} </span>
+                                </div>
+                                <div class="item" *ngIf="osteHeaderParams.osteFromJobRoom">
+                                    <b> {{ 'arbeitgeber.oste.label.jobroomnr' | translate }} </b>
+                                    <span> {{ osteHeaderParams.egovStellenNr }} </span>
+                                </div>
+                            </ng-container>
+                        </div>
+                    </div>
+                </div>
+                <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+                <ng-container [ngSwitch]="formNumber">
+                    <avam-oste-details-modal-bewirtschaftung *ngSwitchCase="formNumbers.OSTE_DETAILS_BEWIRTSCHAFTUNG" [osteId]="osteId"></avam-oste-details-modal-bewirtschaftung>
+                    <avam-oste-details-modal-basisangaben *ngSwitchCase="formNumbers.OSTE_DETAILS_BASISANGABEN" [osteId]="osteId"></avam-oste-details-modal-basisangaben>
+                    <avam-oste-details-modal-anforderungen *ngSwitchCase="formNumbers.OSTE_DETAILS_ANFORDERUNGEN" [osteId]="osteId"></avam-oste-details-modal-anforderungen>
+                    <avam-oste-details-modal-bewerbung *ngSwitchCase="formNumbers.OSTE_DETAILS_BEWERBUNG" [osteId]="osteId"></avam-oste-details-modal-bewerbung>
+                </ng-container>
+            </div>
+        </or-column-layout>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button ngbAutofocus type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

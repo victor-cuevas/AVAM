@@ -1,0 +1,211 @@
+<form [formGroup]="grunddatenForm" #ngForm="ngForm" closeBrowserTab [form]="grunddatenForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="grunddatenChannel"></or-spinner>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel" formGroupName="anmeldung">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.anmeldung' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    avamAutofocus
+                    controlName="anmeldedatumgemeinde"
+                    [parentForm]="anmeldungForm"
+                    id="anmeldedatumgemeinde"
+                    calendarLabel="{{ 'stes.label.anmeldedatumGemeinde' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="anmeldedatumrav"
+                    [parentForm]="anmeldungForm"
+                    id="anmeldedatumrav"
+                    calendarLabel="{{ 'stes.label.anmeldedatumRav' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="isAnmeldungsartRavWechsel"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="stellenantrittab"
+                    [parentForm]="anmeldungForm"
+                    id="stellenantrittab"
+                    calendarLabel="{{ 'stes.label.stellenantrittAb' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="ravwechsel"
+                    [parentForm]="anmeldungForm"
+                    id="ravwechsel"
+                    calendarLabel="{{ 'stes.label.ravWechsel' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+            </div>
+            <div class="avam-panel" formGroupName="zustaendigkeit">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.zustaendigkeit' | translate }}</h3>
+                </label>
+                <avam-personalberater-autosuggest
+                    #pBeraterAutosuggest
+                    [parentForm]="grunddatenForm.get('zustaendigkeit')"
+                    controlName="personalberater"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    componentLabel="{{ 'stes.label.personalberater' }}"
+                    [benutzerSuchenTokens]="benutzerSuchenTokens"
+                    [type]="benutzerAutosuggestType"
+                    (onSelect)="fetchBenutzerstelle($event)"
+                    (onChange)="fetchBenutzerstelle($event)"
+                ></avam-personalberater-autosuggest>
+                <avam-benutzerstelle-autosuggest
+                    id="benutzerstelle"
+                    [parentForm]="grunddatenForm.get('zustaendigkeit')"
+                    controlName="benutzerstelle"
+                    componentLabel="{{ 'stes.label.benutzerstelle' | translate }}"
+                    [isDisabled]="true"
+                    [type]="benutzerstelleAutosuggestType"
+                ></avam-benutzerstelle-autosuggest>
+            </div>
+            <div class="avam-panel" formGroupName="erwerbssituationarbeitsmarktsituation">
+                <label>
+                    <h3>{{ 'stes.label.erwerbssituation' | translate }} {{ '/' }} {{ 'stes.label.arbeitsmarktsituation' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    [parentForm]="grunddatenForm.get('erwerbssituationarbeitsmarktsituation')"
+                    controlName="erwerbssituationbeianmeldung"
+                    selectLabel="{{ 'stes.label.erwerbssituationBeiAnmeldung' }}"
+                    id="erwerbssituationbeianmeldung"
+                    [options]="erwerbssituationbeianmeldungOptions"
+                ></avam-label-dropdown>
+                <avam-label-input
+                    id="erwerbssituationaktuell"
+                    controlName="erwerbssituationaktuell"
+                    selectLabel="stes.label.erwerbssituationAktuell"
+                    [parentForm]="grunddatenForm.get('erwerbssituationarbeitsmarktsituation')"
+                    isDisabled="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="erwerbssituationberechnet"
+                    controlName="erwerbssituationberechnet"
+                    selectLabel="stes.label.erwerbssituationBerechnet"
+                    [parentForm]="grunddatenForm.get('erwerbssituationarbeitsmarktsituation')"
+                    isDisabled="true"
+                ></avam-label-input>
+                <avam-label-input
+                    id="arbeitsmarktsituationberechnet"
+                    controlName="arbeitsmarktsituationberechnet"
+                    selectLabel="stes.label.arbeitsmarktsituationBerechnet"
+                    [parentForm]="grunddatenForm.get('erwerbssituationarbeitsmarktsituation')"
+                    isDisabled="true"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel" formGroupName="hoechsteabgeschlosseneausbildung">
+                <app-paragraph id="hoechsteausbildung" label="{{ 'stes.label.hoechsteausbildung' }}" [value]="hoechsteAausbildungForm.controls.hoechsteausbildung.value">
+                </app-paragraph>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <div class="avam-panel" formGroupName="leistungsbezug">
+                <label>
+                    <h3>{{ 'stes.label.leistungsbezug' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    [parentForm]="grunddatenForm.get('leistungsbezug')"
+                    controlName="leistungsbezug"
+                    selectLabel="{{ 'stes.label.leistungsbezug' }}"
+                    id="leistungsbezug"
+                    [options]="leistungsbezugOptions"
+                    (onChange)="onLeistungsbezugSelect($event)"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="grunddatenForm.get('leistungsbezug')"
+                    controlName="kantonalearbeitslosenhilfe"
+                    selectLabel="{{ 'stes.label.kantonaleArbeitslosenhilfe' }}"
+                    id="kantonalearbeitslosenhilfe"
+                    [options]="kantonalearbeitslosenhilfeOptions"
+                    (onChange)="validateAvpProduzieren(null)"
+                ></avam-label-dropdown>
+                <div orFormControlState class="form-group">
+                    <app-alk-zahlstelle-autosuggest
+                        (emitAlkZahlstelle)="fillDataZahlstelle($event)"
+                        dynamicControlName
+                        formControlName="alk"
+                        id="alk"
+                    ></app-alk-zahlstelle-autosuggest>
+                </div>
+                <app-paragraph id="transferanalk" label="{{ 'stes.label.transferanalk' }}" [value]="buildTransferAnAlk()"></app-paragraph>
+            </div>
+            <div class="avam-panel" formGroupName="sachbearbeitungalk">
+                <label>
+                    <h3>{{ 'stes.label.sachbearbeitungAlk' | translate }}</h3>
+                </label>
+                <avam-label-input selectLabel="{{ 'stes.label.name' }}" [readOnly]="true" [parentForm]="sachbearbeitungalkForm" controlName="nameRa"></avam-label-input>
+                <avam-label-input selectLabel="{{ 'stes.label.vorname' }}" [readOnly]="true" [parentForm]="sachbearbeitungalkForm" controlName="vornameRa"></avam-label-input>
+                <avam-label-input selectLabel="{{ 'stes.label.telefon' }}" [readOnly]="true" [parentForm]="sachbearbeitungalkForm" controlName="telefonRa"></avam-label-input>
+                <app-email-input
+                    [parentForm]="sachbearbeitungalkForm"
+                    controlName="emailRa"
+                    id="emailRa"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    toolTip="{{ 'common.button.emailSenden' | translate }}"
+                    [readOnly]="true"
+                ></app-email-input>
+            </div>
+            <div class="avam-panel" formGroupName="zentralerdruckformulare">
+                <label>
+                    <h3>{{ 'stes.label.zentralerdruckformulare' | translate }}</h3>
+                </label>
+                <avam-label-checkbox
+                    componentId="avpproduzieren"
+                    controlName="avpproduzieren"
+                    [parentForm]="grunddatenForm.get('zentralerdruckformulare')"
+                    selectLabel="{{ 'stes.label.avpproduzieren' }}"
+                    [isDisabled]="avpProduzierenDisable"
+                    inputClass="ml-3"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="pabproduzieren"
+                    controlName="pabproduzieren"
+                    [parentForm]="grunddatenForm.get('zentralerdruckformulare')"
+                    selectLabel="{{ 'stes.label.pabProduzieren' }}"
+                    inputClass="ml-3"
+                ></avam-label-checkbox>
+            </div>
+            <div class="avam-panel" formGroupName="vermittlungsstopp">
+                <avam-label-checkbox
+                    componentId="vermittlungsstopp"
+                    controlName="vermittlungsstopp"
+                    [parentForm]="grunddatenForm.get('vermittlungsstopp')"
+                    selectLabel="{{ 'stes.label.zuweisungsstop' }}"
+                    inputClass="ml-3"
+                ></avam-label-checkbox>
+            </div>
+        </div>
+    </div>
+    <ng-template #modalZahlstelleSuchen>
+        <app-zahlstelle-suchen (emitAlkZahlstelle)="fillDataZahlstelle($event)"></app-zahlstelle-suchen>
+    </ng-template>
+</form>
+
+<ng-template #footerButtons>
+    <button *ngIf="isAnmeldung" class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="!isAnmeldung" class="btn btn-secondary ml-1" type="button" (click)="openErwerbssituation()">
+        <span class="fa fa-clone"></span>
+        {{ 'common.button.erwerbssituation' | translate }}
+    </button>
+    <button *ngIf="!isAnmeldung" class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung && prev" class="btn btn-secondary ml-1" type="button" (click)="prev()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung" class="btn btn-secondary ml-1" type="button" (click)="save()">
+        {{ 'common.button.zwischenspeichern' | translate }}
+    </button>
+    <button *ngIf="isAnmeldung && next" class="btn btn-primary ml-1" type="button" (click)="next()">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

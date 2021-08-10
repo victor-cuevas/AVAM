@@ -1,0 +1,246 @@
+<form #ngForm="ngForm" class="print-block row has-overlay">
+    <or-spinner channel="bewerbungChannel"></or-spinner>
+    <div [formGroup]="bewerbungCompleteForm" class="col-xl-12 pt-3 pb-3 pl-0 pr-0 d-flex w-100">
+        <div class="rechts col-xl-6">
+            <div class="avam-panel avam-panel-extra-lighter" [formGroup]="kontakpersonForm">
+                <avam-kontaktperson-input-wrapper
+                    controlName="kontaktperson"
+                    componentLabel="{{ 'arbeitgeber.oste.label.kontaktperson' }}"
+                    [parentForm]="kontakpersonForm"
+                    [unternehmenId]="unternehmenId"
+                    (onClear)="onKontaktpersonClear()"
+                    (kontaktpersonSelected)="kontaktpersonSelected($event)"
+                    placeholder="{{ 'stes.label.kontaktpersonAuswaehlen' }}"
+                    [disabled]="!activeFields"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-dropdown
+                    avamAutofocus
+                    [parentForm]="kontakpersonForm"
+                    controlName="anrede"
+                    id="kontaktpersonAnrede"
+                    selectLabel="{{ 'stes.label.vermittlung.anrede' }}"
+                    [options]="anredeOptions"
+                    [readOnly]="kontakpersonForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-dropdown>
+                <avam-label-input
+                    controlName="name"
+                    selectLabel="{{ 'arbeitgeber.label.name' }}"
+                    [parentForm]="kontakpersonForm"
+                    [readOnly]="kontakpersonForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="vorname"
+                    selectLabel="{{ 'arbeitgeber.label.vorname' }}"
+                    [parentForm]="kontakpersonForm"
+                    [readOnly]="kontakpersonForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    controlName="telefon"
+                    selectLabel="{{ 'amm.massnahmen.label.telefon' }}"
+                    [parentForm]="kontakpersonForm"
+                    [readOnly]="kontakpersonForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="kontakpersonForm"
+                    controlName="email"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    [readOnly]="kontakpersonForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></app-email-input>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter" [formGroup]="fragenZuStelleForm">
+                <avam-kontaktperson-input-wrapper
+                    controlName="kontaktperson"
+                    componentLabel="{{ 'arbeitgeber.oste.label.fragenzurstelle' }}"
+                    [parentForm]="fragenZuStelleForm"
+                    [unternehmenId]="unternehmenId"
+                    (onClear)="onFrageZuStelleClear()"
+                    (kontaktpersonSelected)="frageZuStelleSelected($event)"
+                    placeholder="{{ 'stes.label.kontaktpersonAuswaehlen' }}"
+                    [disabled]="!activeFields"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-dropdown
+                    [parentForm]="fragenZuStelleForm"
+                    controlName="anrede"
+                    id="fragenZuStelleAnrede"
+                    selectLabel="{{ 'stes.label.vermittlung.anrede' }}"
+                    [options]="anredeOptions"
+                    [readOnly]="fragenZuStelleForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-dropdown>
+                <avam-label-input
+                    controlName="name"
+                    selectLabel="{{ 'arbeitgeber.label.name' }}"
+                    [parentForm]="fragenZuStelleForm"
+                    [readOnly]="fragenZuStelleForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-input>
+                <avam-label-input
+                    controlName="vorname"
+                    selectLabel="{{ 'arbeitgeber.label.vorname' }}"
+                    [parentForm]="fragenZuStelleForm"
+                    [readOnly]="fragenZuStelleForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    controlName="telefon"
+                    selectLabel="{{ 'amm.massnahmen.label.telefon' }}"
+                    [parentForm]="fragenZuStelleForm"
+                    [readOnly]="fragenZuStelleForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="fragenZuStelleForm"
+                    controlName="email"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    [readOnly]="fragenZuStelleForm.get('kontaktperson').value"
+                    [isDisabled]="!activeFields"
+                ></app-email-input>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter">
+                <app-textarea
+                    customFormControlState
+                    id="ergaenzendeAngaben"
+                    formControlName="ergaenzendeAngaben"
+                    selectLabel="arbeitgeber.oste.label.ergaenzendeangaben"
+                    [readonly]="!activeFields"
+                ></app-textarea>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <div class="avam-panel avam-panel-extra-lighter" [formGroup]="checkboxForm">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.bewerbungsformen' | translate }}</h3>
+                </label>
+                <hr />
+                <avam-label-checkbox
+                    componentId="schriftlich"
+                    inputClass="mr-2"
+                    [parentForm]="checkboxForm"
+                    controlName="schriftlich"
+                    (onChange)="resetAdresseForm()"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbschriftlich' }}"
+                    [readOnly]="!activeFields"
+                >
+                </avam-label-checkbox>
+                <div class="row mb-1">
+                    <div class="col-lg-4">
+                        <avam-label-checkbox
+                            componentId="persoenlich"
+                            inputClass="mr-2"
+                            [parentForm]="checkboxForm"
+                            controlName="persoenlich"
+                            (onChange)="resetAdresseForm()"
+                            selectLabel="{{ 'arbeitgeber.oste.label.bewerbpersoenlich' }}"
+                            [readOnly]="!activeFields"
+                        >
+                        </avam-label-checkbox>
+                    </div>
+                    <div class="col-lg-8" *ngIf="checkboxForm.controls.schriftlich.value || checkboxForm.controls.persoenlich.value">
+                        <button
+                            id="toolbox-copy-button"
+                            type="button"
+                            ngbTooltip="{{ 'common.button.adressUnternehemenKopieren' | translate }}"
+                            triggers="hover"
+                            class="btn btn-secondary rounded-5"
+                            (click)="setStandortadresse()"
+                            [disabled]="!activeFields"
+                        >
+                            <span class="fa fa-copy"></span>
+                        </button>
+                    </div>
+                </div>
+                <avam-common-info-fields
+                    #adresseFormComponent
+                    [readonlyControls]="!checkboxForm.controls.schriftlich.value && !checkboxForm.controls.persoenlich.value"
+                    [form]="adresseForm"
+                    nummerPlaceholder="unternehmen.label.hausnummer"
+                    [disableControls]="!activeFields"
+                ></avam-common-info-fields>
+                <hr />
+                <div class="row mb-1 ">
+                    <div class="col-lg-4">
+                        <avam-label-checkbox
+                            componentId="elektronisch"
+                            inputClass="mr-2"
+                            [parentForm]="checkboxForm"
+                            controlName="elektronisch"
+                            selectLabel="{{ 'arbeitgeber.oste.label.bewerbelektronisch' }}"
+                            [readOnly]="!activeFields"
+                        >
+                        </avam-label-checkbox>
+                    </div>
+                    <div class="col-lg-8" *ngIf="checkboxForm.controls.elektronisch.value && kontakpersonForm.controls.email.value">
+                        <button
+                            id="copy-button-email"
+                            type="button"
+                            ngbTooltip="{{ 'common.button.emailKontaktpersonKopieren' | translate }}"
+                            triggers="hover"
+                            class="btn btn-secondary rounded-5"
+                            (click)="copyEmailKontaktperson()"
+                            [disabled]="!activeFields"
+                        >
+                            <span class="fa fa-copy"></span>
+                        </button>
+                    </div>
+                </div>
+                <app-email-input
+                    [parentForm]="bewerbungCompleteForm"
+                    controlName="elektronischEmail"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    [readOnly]="!checkboxForm.controls.elektronisch.value"
+                    [isDisabled]="!activeFields"
+                ></app-email-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.onlineBewerbung' }}"
+                    [parentForm]="bewerbungCompleteForm"
+                    controlName="onlineFormular"
+                    selectLabel="{{ 'arbeitgeber.oste.label.onlinebewerbung' }}"
+                    [readOnly]="!checkboxForm.controls.elektronisch.value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-input>
+                <hr />
+                <div class="row mb-1">
+                    <div class="col-lg-4">
+                        <avam-label-checkbox
+                            componentId="telefonisch"
+                            inputClass="mr-2"
+                            [parentForm]="checkboxForm"
+                            controlName="telefonisch"
+                            selectLabel="{{ 'arbeitgeber.oste.label.bewerbtelefonisch' }}"
+                            [readOnly]="!activeFields"
+                        >
+                        </avam-label-checkbox>
+                    </div>
+                    <div class="col-lg-8" *ngIf="checkboxForm.controls.telefonisch.value && kontakpersonForm.controls.telefon.value">
+                        <button
+                            id="copy-button-telefon"
+                            type="button"
+                            ngbTooltip="{{ 'common.button.telefonKontaktpersonKopieren' | translate }}"
+                            triggers="hover"
+                            class="btn btn-secondary rounded-5"
+                            (click)="copyTelefonKontaktperson()"
+                            [disabled]="!activeFields"
+                        >
+                            <span class="fa fa-copy"></span>
+                        </button>
+                    </div>
+                </div>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.mobile' }}"
+                    [parentForm]="bewerbungCompleteForm"
+                    controlName="telefon"
+                    selectLabel="{{ 'common.label.telefon' }}"
+                    [readOnly]="!checkboxForm.controls.telefonisch.value"
+                    [isDisabled]="!activeFields"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+</form>

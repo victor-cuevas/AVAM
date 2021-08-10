@@ -1,0 +1,155 @@
+<form [formGroup]="beschreibungForm" #ngForm="ngForm" closeBrowserTab [form]="beschreibungForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>{{ 'amm.massnahmen.label.inhalt' | translate }}</label>
+                <avam-label-input inputClass="col-lg-12 col-md-12" id="inhaltId" [parentForm]="beschreibungForm" controlName="inhalt" [readOnly]="isReadOnly"> </avam-label-input>
+                <label>{{ 'amm.massnahmen.label.methodik' | translate }}</label>
+                <avam-label-input inputClass="col-lg-12 col-md-12" id="methodikId" [parentForm]="beschreibungForm" controlName="methodik" [readOnly]="isReadOnly">
+                </avam-label-input>
+                <label>{{ 'amm.massnahmen.label.massnahmenziel' | translate }}</label>
+                <avam-label-input inputClass="col-lg-12 col-md-12" id="massnahmenZielId" [parentForm]="beschreibungForm" controlName="massnahmenZiel" [readOnly]="isReadOnly">
+                </avam-label-input>
+                <label>{{ 'amm.massnahmen.label.abschluss' | translate }}</label>
+                <avam-label-input inputClass="col-lg-12 col-md-12" id="abschlussId" [parentForm]="beschreibungForm" controlName="abschluss" [readOnly]="isReadOnly">
+                </avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>
+                        {{ 'amm.massnahmen.label.mindestvoraussetzungen' | translate }}
+                    </h3>
+                </label>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4">
+                        <label>{{ 'amm.massnahmen.label.sprache' | translate }}</label>
+                        <avam-label-dropdown
+                            [parentForm]="beschreibungForm"
+                            controlName="sprache"
+                            id="spracheStatusId"
+                            [options]="spracheOptions"
+                            inputClass="col-lg-12 col-md-12"
+                            [readOnly]="isReadOnly"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <label>{{ 'amm.massnahmen.label.muendlich' | translate }}</label>
+                        <avam-label-dropdown
+                            [parentForm]="beschreibungForm"
+                            controlName="muendlichKenntnisse"
+                            id="muendlichKentnisseStatusId"
+                            [options]="muendlichKenntnisseOptions"
+                            inputClass="col-lg-12 col-md-12"
+                            [readOnly]="isReadOnly"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <label>{{ 'amm.massnahmen.label.schriftlich' | translate }}</label>
+                        <avam-label-dropdown
+                            [parentForm]="beschreibungForm"
+                            controlName="schriftlichKenntnisse"
+                            id="schriftlichKenntnisseStatusId"
+                            [options]="schriftlichKenntnisseOptions"
+                            inputClass="col-lg-12 col-md-12"
+                            [readOnly]="isReadOnly"
+                        ></avam-label-dropdown>
+                    </div>
+                </div>
+                <hr class="hr-thin mt-2" />
+                <avam-label-dropdown
+                    [parentForm]="beschreibungForm"
+                    controlName="mindestesAusbildungsniveau"
+                    id="mindestesAusbildungsniveauStatusId"
+                    [options]="mindestesAusbildungsniveauOptions"
+                    selectLabel="{{ 'amm.massnahmen.label.ausbildungsniveau' }}"
+                    [readOnly]="isReadOnly"
+                ></avam-label-dropdown>
+                <hr class="hr-thin mt-2" />
+                <avam-label-input
+                    id="mindestvoraussetzungSonstigesId"
+                    [parentForm]="beschreibungForm"
+                    controlName="mindestvoraussetzungSonstiges"
+                    selectLabel="{{ 'amm.massnahmen.label.sonstiges' }}"
+                    [readOnly]="isReadOnly"
+                >
+                </avam-label-input>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>
+                        {{ 'amm.massnahmen.label.zielgruppe' | translate }}
+                    </h3>
+                </label>
+                <avam-range-valued-wrapper
+                    id="ziel-gruppe-id"
+                    fromInputControlName="altersgruppeVon"
+                    toInputControlName="altersgruppeBis"
+                    rangeSliderControlName="slider"
+                    [parentForm]="beschreibungForm.controls.rangeSlider"
+                    selectLabel="amm.massnahmen.label.alter"
+                    [minVal]="1"
+                    [maxVal]="100"
+                    [isDisabled]="isReadOnly"
+                ></avam-range-valued-wrapper>
+                <hr class="hr-thin mt-2" />
+                <avam-berufsgruppe-dynamic-autosuggest
+                    label="amm.massnahmen.label.berufsgruppen"
+                    [parentForm]="beschreibungForm"
+                    controlName="berufsgruppe"
+                    [readOnly]="isReadOnly"
+                ></avam-berufsgruppe-dynamic-autosuggest>
+                <hr class="hr-thin mt-2" />
+                <avam-multiselect
+                    id="funktionStatusId"
+                    controlName="funktionList"
+                    [parentForm]="beschreibungForm"
+                    [options]="funktionOptions"
+                    label="amm.massnahmen.label.funktionen"
+                    [isDisabled]="isReadOnly"
+                ></avam-multiselect>
+                <hr class="hr-thin mt-2" />
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.massnahmen.label.branchen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 text-right">
+                        <avam-branche-dynamic-autosuggest [parentForm]="beschreibungForm" controlName="branchen" [readOnly]="isReadOnly"></avam-branche-dynamic-autosuggest>
+                    </div>
+                </div>
+                <hr class="hr-thin mt-2" />
+                <avam-multiselect-tree
+                    [parentForm]="beschreibungForm"
+                    controlName="problemfeldList"
+                    id="problemfeldId"
+                    [options]="problemfeldOptions"
+                    [label]="'amm.massnahmen.label.beurteilungskriterien'"
+                    [isDisabled]="isReadOnly"
+                ></avam-multiselect-tree>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancelWizard()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="onReset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="back()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="next()"
+        [permissions]="[permissions.AMM_NUTZUNG_BUCHUNG_BEARBEITEN, permissions.AMM_NUTZUNG_MASSNAHME_BEWIRTSCHAFTEN]"
+    >
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

@@ -1,0 +1,29 @@
+<div [formGroup]="parentForm" class="form-group row">
+    <div *ngIf="label" class="col-lg-4 col-md-4 text-right">
+        <label for="berufsgruppe" class="col-form-label">{{ label | translate }}</label>
+    </div>
+    <div [ngClass]="label == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8'" class="d-flex flex-wrap">
+        <div formArrayName="berufsgruppen" *ngFor="let item of parentForm.controls.berufsgruppen['controls']; let i = index" class="w-100">
+            <div [formGroupName]="i">
+                <div class="d-flex flex-nowrap">
+                    <div class="w-75">
+                        <avam-berufsgruppe-autosuggest
+                            [parentForm]="item"
+                            controlName="berufsgruppe"
+                            [readOnly]="isReadOnly"
+                            [placeholder]="placeholder"
+                        ></avam-berufsgruppe-autosuggest>
+                    </div>
+                    <div class="input-group-append d-flex flex-nowrap mb-2 flex-shrink-0 flex-grow-0" *ngIf="!isReadOnly">
+                        <button type="button" *ngIf="berufsgruppen?.length > 1" (click)="removeItem(i)" class="btn btn-secondary ml-1">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                        <button type="button" *ngIf="i == berufsgruppen?.length - 1" (click)="addItem()" class="btn btn-secondary ml-1">
+                            <span class="fa fa-plus"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

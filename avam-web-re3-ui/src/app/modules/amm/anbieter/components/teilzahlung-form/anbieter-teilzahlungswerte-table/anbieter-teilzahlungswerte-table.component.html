@@ -1,0 +1,81 @@
+<avam-generic-table
+    *ngIf="dataSource"
+    [dataSource]="dataSource"
+    [headers]="displayedColumns"
+    [footer]="showFooter"
+    sortField="gueltigVon"
+    [sortOrder]="-1"
+    [stateKey]="stateKey"
+    [shouldFocusInitialRow]="shouldFocusInitialRow"
+    [recalculateMaxHeight]="false"
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'selection'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                <avam-label-checkbox *ngIf="dataSource.length > 0" componentId="headerCheckbox" [parentForm]="parentForm" controlName="headerCheckbox"></avam-label-checkbox>
+            </th>
+            <td cdk-cell *cdkCellDef="let row; let index = index">
+                <avam-label-checkbox
+                    *ngIf="!row.teilzahlungNr"
+                    componentId="rowCheckbox{{ index }}"
+                    [parentForm]="parentForm.controls.rowCheckboxes"
+                    controlName="{{ index }}"
+                    (onChange)="checkboxChange(index)"
+                ></avam-label-checkbox>
+            </td>
+        </ng-container>
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'gueltigBis' || column.columnDef === 'gueltigVon' || column.columnDef === 'faelligAm'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <div class="table-btns">
+                    <button
+                        *ngIf="tableType === tableTypes.BEARBEITEN || tableType === tableTypes.SUCHEN"
+                        ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                        avamPrimaryButtonDirective
+                        (click)="itemSelected(row)"
+                        class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                    <button
+                        *ngIf="tableType === tableTypes.ZUORDNEN"
+                        ngbTooltip="{{ 'amm.zahlungen.button.teilzahlungswertzuordnen' | translate }}"
+                        avamPrimaryButtonDirective
+                        (click)="itemSelected(row.teilzahlungswertId)"
+                        class="fa fa-check btn btn-success btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                    <button
+                        *ngIf="row.teilzahlungswertLoeschbar && tableType === tableTypes.BEARBEITEN"
+                        ngbTooltip="{{ 'common.button.loeschen' | translate }}"
+                        (click)="remove(row.teilzahlungswertId)"
+                        class="buttonOnHover fa fa-trash btn btn-secondary btn-sm btn-padding"
+                        type="button"
+                    ></button>
+                    <button
+                        *ngIf="tableType === tableTypes.SUCHEN && !row.teilzahlungNr"
+                        ngbTooltip="{{ 'amm.zahlungen.button.teilzahlungerfassen' | translate }}"
+                        (click)="create(row.teilzahlungswertId)"
+                        class="fa fa-plus btn btn-secondary btn-sm buttonOnHover btn-padding"
+                        type="button"
+                    ></button>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'chf'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ summeTotal }}</td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+        <td cdk-footer-cell *cdkFooterCellDef class="text-right">{{ column.footer | translate }}</td>
+    </ng-container>
+</avam-generic-table>

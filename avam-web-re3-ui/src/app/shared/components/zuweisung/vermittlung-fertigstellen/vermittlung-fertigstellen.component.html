@@ -1,0 +1,102 @@
+<form [formGroup]="vermittlungForm" #ngForm="ngForm" closeBrowserTab [form]="vermittlungForm" autocomplete="off">
+    <or-spinner [channel]="vermittlungChannel"></or-spinner>
+    <div class="avam-panel">
+        <div class="rechts col-xl-6">
+            <avam-label-calendar
+                controlName="vermittlungVom"
+                id="vermittlungVom"
+                calendarLabel="arbeitgeber.label.vermittlungVom"
+                [parentForm]="vermittlungForm"
+                [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                [isFocused]="true"
+            ></avam-label-calendar>
+            <br />
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label for="or-dropdown-theme">{{ 'arbeitgeber.label.vermittlungsart' | translate }}</label>
+                </div>
+
+                <div class="col-lg-8 col-md-8">
+                    <div class="radio-btn">
+                        <div *ngFor="let label of labels; index as i">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus mouse-pointer"
+                                [id]="'vermittlungsArt' + i"
+                                name="vermittlungsArt"
+                                [checked]="checkedRadioButton(i)"
+                                (click)="isRadioWithDateSelected(i)"
+                            />
+                            <label class="form-check-label radio-btn-text mouse-pointer" [for]="'vermittlungsArt' + i"> {{ label }}</label>
+                        </div>
+                    </div>
+                    <div class="p-top">
+                        <avam-label-calendar
+                            controlName="bewerbungBis"
+                            id="bewerbungBis"
+                            calendarLabel="arbeitgeber.label.bewerbungBis"
+                            [parentForm]="vermittlungForm"
+                            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                            [isDisabled]="calendarDisabled"
+                        ></avam-label-calendar>
+                    </div>
+                    <br />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 text-right">
+                    <label class="col-form-label" [ngbTooltip]="vermittlungForm.controls.versanddatum.value ? ('stes.label.zuweisungstes.versanddatumtooltip' | translate) : ''">
+                        {{ 'stes.label.zuweisungstes.versanddatum' | translate }}
+                    </label>
+                </div>
+                <div class="col-8">
+                    <avam-label-calendar
+                        controlName="versanddatum"
+                        id="versanddatum"
+                        [parentForm]="vermittlungForm"
+                        inputClass="col-12"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    ></avam-label-calendar>
+                </div>
+            </div>
+            <avam-personalberater-autosuggest
+                #vmtverantwortung
+                id="vermittlungsverantwortung"
+                controlName="vermittlungsverantwortung"
+                [parentForm]="vermittlungForm"
+                componentLabel="{{ 'common.label.bearbeitungdurch' }}"
+                [type]="personalberaterAutosuggestType"
+            ></avam-personalberater-autosuggest>
+            <avam-label-checkbox
+                componentId="meldungStellenangebot"
+                controlName="meldungStellenangebot"
+                [parentForm]="vermittlungForm"
+                selectLabel="{{ 'arbeitgeber.label.meldungStellenangebot' }}"
+            ></avam-label-checkbox>
+            <avam-label-checkbox
+                componentId="meldungStellensuchender"
+                controlName="meldungStellensuchender"
+                [parentForm]="vermittlungForm"
+                selectLabel="{{ 'arbeitgeber.label.melungStellensuchender' }}"
+            ></avam-label-checkbox>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerBtns>
+    <button class="btn btn-link" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" (click)="movePrevious()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" (click)="processSave()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]" [disabled]="!vermittlungForm.valid">
+        {{ 'common.button.fertigstellen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>

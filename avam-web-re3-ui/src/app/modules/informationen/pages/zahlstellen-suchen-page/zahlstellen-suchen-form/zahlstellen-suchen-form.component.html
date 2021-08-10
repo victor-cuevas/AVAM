@@ -1,0 +1,40 @@
+<form class="outer-panel-height no-overflow h-100" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter inner-panel-height p-3 h-100">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div [formGroup]="searchForm" class="no-overflow h-100">
+            <h3>
+                <span class="fa fa-search mr-2"></span>
+                {{ 'verzeichnisse.label.zahlstelle.resultlist' | translate }}
+            </h3>
+            <avam-prepend-dropdown
+                controlName="gueltigkeit"
+                [parentForm]="searchForm"
+                [selectLabel]="'common.label.status'"
+                [options]="statusDropdownLabels"
+                [hideEmptyOption]="true"
+            ></avam-prepend-dropdown>
+            <h4>
+                {{ 'verzeichnisse.label.zahlstelle.kassenstatus' | translate }}
+            </h4>
+            <avam-label-dropdown
+                controlName="alkStatus"
+                inputClass="col-12"
+                [parentForm]="searchForm"
+                [options]="alkStatusDropdownLabels"
+                [hideEmptyOption]="true"
+            ></avam-label-dropdown>
+            <avam-label-input controlName="alkNr" inputClass="col-12" [parentForm]="searchForm" placeholder="verzeichnisse.label.zahlstelle.alkZahlstelleNr"></avam-label-input>
+            <avam-label-input controlName="kurzName" inputClass="col-12" [parentForm]="searchForm" placeholder="verzeichnisse.label.zahlstelle.kurzname"></avam-label-input>
+            <avam-label-input controlName="strasseNr" inputClass="col-12" [parentForm]="searchForm" placeholder="verzeichnisse.label.zahlstelle.adresse"></avam-label-input>
+            <avam-plz-autosuggest
+                plzControl="postleitzahl"
+                ortControl="ort"
+                [parentForm]="searchForm"
+                placeholderPlz="{{ 'unternehmen.label.plz' | translate }}"
+                placeholderOrt="{{ 'unternehmen.label.ort' | translate }}"
+                container="body"
+                [scrollIntoView]="false"
+            ></avam-plz-autosuggest>
+        </div>
+    </div>
+</form>

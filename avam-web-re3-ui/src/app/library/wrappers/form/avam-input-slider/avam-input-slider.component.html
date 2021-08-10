@@ -1,0 +1,48 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="row mb-2" orFormControlState>
+    <div class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label" for="sliderValue">{{ selectLabel | translate }}</label>
+    </div>
+    <div class="col-lg-8 col-md-8">
+        <div class="d-flex align-items-center">
+            <div class="d-flex align-items-baseline">
+                <span *ngIf="prependLabel" class="input-group-text input-group-prepend align-self-start">{{ prependLabel | translate }}</span>
+                <core-input
+                    style="width: 75px"
+                    (keypress)="keypress($event)"
+                    (onBlur)="onBlur($event?.target)"
+                    (onInput)="onInput($event?.target)"
+                    dynamicControlName
+                    [formControlName]="controlName"
+                    [disableControl]="isDisabled"
+                ></core-input>
+                <p class="ml-1 mb-1"><ng-content></ng-content></p>
+            </div>
+            <span *ngIf="stundenLabel && !showTwoLines" class="pl-1 pr-2">{{ 'arbeitgeber.oste.label.stundenContract' | translate }}</span>
+            <div *ngIf="!showTwoLines" [ngClass]="stundenLabel ? 'col-lg-9 pr-0' : 'col-lg-7'" class="col-md-8">
+                <core-slider
+                    [disableControl]="isDisabled"
+                    [min]="isNullable ? min - step : min"
+                    [max]="max"
+                    [step]="step"
+                    (onChangeSlide)="onChangeSlider($event?.target)"
+                    #sliderControl
+                    [formControlName]="controlName"
+                ></core-slider>
+            </div>
+        </div>
+        <or-error-messages extendWithWarnings></or-error-messages>
+        <div *ngIf="showTwoLines" class="row align-items-center">
+            <div class="col-lg-12 col-md-12">
+                <core-slider
+                    [disableControl]="isDisabled"
+                    [min]="isNullable ? min - step : min"
+                    [max]="max"
+                    [step]="step"
+                    (onChangeSlide)="onChangeSlider($event?.target)"
+                    #sliderControl
+                    [formControlName]="controlName"
+                ></core-slider>
+            </div>
+        </div>
+    </div>
+</div>

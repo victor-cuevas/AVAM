@@ -1,0 +1,50 @@
+<ng-form #ngForm="ngForm" class="print-block row has-overlay">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="col-xl-12 pl-0 pr-0 pt-3 d-flex w-100" [formGroup]="akquisitionForm">
+        <div class="rechts col-xl-6 print-block">
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <avam-label-checkbox
+                    avamAutofocus
+                    componentId="zusammenarbeit"
+                    controlName="zusammenarbeit"
+                    [parentForm]="akquisitionForm"
+                    selectLabel="{{ 'unternehmen.label.zusammenarbeitgewunscht' }}"
+                    inputClass="'col-lg-12'"
+                ></avam-label-checkbox>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <label>{{ 'unternehmen.label.vereinbarung' | translate }}</label>
+                <app-textarea id="vereinbarung" formControlName="vereinbarung" fullWidth="true" customFormControlState></app-textarea>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <label>{{ 'unternehmen.label.geschaeftstaetigkeit' | translate }}</label>
+                <app-textarea formControlName="geschafstatigkeit" fullWidth="true" id="geschafstatigkeit" customFormControlState></app-textarea>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <label>{{ 'unternehmen.label.erreichbarkeit' | translate }}</label>
+                <app-textarea id="erreichbarkeit" formControlName="erreichbarkeit" fullWidth="true" customFormControlState></app-textarea>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter w-100">
+                <label>{{ 'unternehmen.label.angaben' | translate }}</label>
+                <app-textarea id="erganendeAngaben" formControlName="erganendeAngaben" fullWidth="true" customFormControlState></app-textarea>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <div class="col-xl-12 avam-panel avam-panel-extra-lighter d-flex w-100">
+                <label class="col-xl-5 pt-2">{{ 'unternehmen.label.termin.schlagworte' | translate }}</label>
+                <span class="col-xl-7"
+                    ><avam-multiselect inputClass="w-100" [parentForm]="akquisitionForm" controlName="schlagworte" [options]="optionsMultiselect"></avam-multiselect
+                ></span>
+            </div>
+        </div>
+    </div>
+</ng-form>
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="reset()" [permissions]="[permissions.KEY_AG_ARBEITGEBERDATEN_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.KEY_AG_ARBEITGEBERDATEN_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

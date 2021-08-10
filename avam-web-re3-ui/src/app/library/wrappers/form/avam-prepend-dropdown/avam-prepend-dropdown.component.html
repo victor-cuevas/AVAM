@@ -1,0 +1,20 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="row {{ readOnly ? '' : 'form-group' }}">
+    <div class="col d-flex flex-row flex-nowrap align-items-center {{ inputClass ? inputClass : '' }}">
+        <span class="{{ readOnly ? '' : 'input-group-text input-group-prepend align-self-start' }} pl-2 pr-2" id="{{ id }}PrependDropdown">{{ selectLabel | translate }}</span>
+        <div [hidden]="readOnly" orFormControlState class="flex-shrink-1 flex-grow-1 w-1">
+            <core-dropdown
+                [hideEmptyOption]="hideEmptyOption"
+                [disableControl]="isDisabled"
+                dynamicControlName
+                [formControlName]="controlName"
+                [options]="options"
+                (onChange)="change($event)"
+                [placeholder]="placeholder"
+            ></core-dropdown>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="readOnly" class="flex-shrink-1 flex-grow-1 w-1">
+            <p id="{{ id }}DropdownParagraph" class="m-0 p-value-left-12">{{ getReadOnlyValue() }}</p>
+        </div>
+    </div>
+</div>

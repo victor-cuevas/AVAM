@@ -1,0 +1,106 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-bew-standort-grunddaten-form #grunddatenFormComponent [grunddatenData]="grunddatenData"></avam-bew-standort-grunddaten-form>
+</div>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="isMassnahmeKollektiv"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="reset()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="isMassnahmeKollektiv && !apkPraktikumsstelleVerwalten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openDeleteModal()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]"
+    >
+        {{ 'amm.massnahmen.button.standortloeschen' | translate }}
+    </button>
+    <button
+        *ngIf="isMassnahmeKollektiv && !isApBp && apkPraktikumsstelleVerwalten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openAufhebenModal()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]"
+    >
+        {{ 'amm.massnahmen.button.verwaltung.arbeitsplatzkategorieverwaltungaufheben' | translate }}
+    </button>
+    <button
+        *ngIf="isMassnahmeKollektiv && isApBp && apkPraktikumsstelleVerwalten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openAufhebenModal()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]"
+    >
+        {{ 'amm.massnahmen.button.verwaltung.praktikumsstellenverwaltungaufheben' | translate }}
+    </button>
+    <button
+        *ngIf="isMassnahmeKollektiv && !isApBp && !apkPraktikumsstelleVerwalten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openVerwaltenModal()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]"
+    >
+        {{ 'amm.massnahmen.button.verwaltung.arbeitsplatzkategorienverwalten' | translate }}
+    </button>
+    <button
+        *ngIf="isMassnahmeKollektiv && isApBp && !apkPraktikumsstelleVerwalten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openVerwaltenModal()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]"
+    >
+        {{ 'amm.massnahmen.button.verwaltung.praktikumsstellenverwalten' | translate }}
+    </button>
+    <button *ngIf="inPlanungAkquisitionSichtbar" class="btn btn-secondary ml-1" type="button" (click)="zurStandortplanung()">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.massnahmen.button.zurstandortplanung' | translate }}
+    </button>
+    <button
+        *ngIf="isMassnahmeKollektiv"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="submit()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ organisationInfoBar }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.massnahmennr' | translate }} </b>
+        <span>{{ massnahmeId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+        <span>{{ massnahmeTitel }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+        <span>{{ zulassungstyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ unternehmensname }}</span>
+    </div>
+    <div class="item">
+        <b> {{ provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }} </b>
+        <span>{{ burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.status' | translate }} </b>
+        <span>{{ unternehmenStatus }}</span>
+    </div>
+</ng-template>

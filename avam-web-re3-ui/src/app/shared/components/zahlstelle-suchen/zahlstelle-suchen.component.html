@@ -1,0 +1,21 @@
+<div class="modal-content d-block">
+    <or-spinner [channel]="zahlstelleChannel"></or-spinner>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'stes.label.zahlstellenAuswaehlen' | translate }}
+            <app-result-count [dataLength]="dataSource ? dataSource.length : 0"></app-result-count>
+        </h4>
+        <div class="mr-3">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [id]="zahlstelleToolboxId" [formNumber]="getFormNr()"></app-toolbox>
+        </div>
+    </div>
+    <avam-zahlstelle-suchen-table [dataSource]="dataSource" sortField="alkNr" (onItemSelected)="receiveData($event)"></avam-zahlstelle-suchen-table>
+
+    <div class="modal-footer justify-content-between">
+        <span>{{ getFormNr() }}</span>
+        <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+    </div>
+</div>
+<ng-template #modalPrint>
+    <avam-zahlstelle-suchen-table [dataSource]="dataSource" sortField="alkNr" [forPrinting]="true"></avam-zahlstelle-suchen-table>
+</ng-template>

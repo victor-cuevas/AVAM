@@ -1,0 +1,40 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-basic-title">
+            <span>{{ 'stes.wdg.alttext.beurteilungskriteriumauswaehlen' | translate }} </span>
+            <app-result-count [dataLength]="dataSource ? dataSource.length : 0"></app-result-count>
+        </h3>
+        <div class="mr-3" style="margin-bottom: 0.5rem">
+            <app-toolbox [configuration]="modalToolboxConfiguration"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-spinner [channel]="spinnerChannel"></or-spinner>
+        <avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" sortField="code" [sortOrder]="1">
+            <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+                <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+                <ng-container *ngIf="column.columnDef === 'action'">
+                    <td cdk-cell *cdkCellDef="let row">
+                        <button
+                            *ngIf="!row.skipRow"
+                            ngbTooltip="{{ 'common.button.uebernehmen' | translate }}"
+                            (primaryButtonClick)="itemSelected(row.codeDTO)"
+                            avamPrimaryButtonDirective
+                            class="fa fa-check btn btn-success btn-sm buttonOnHover"
+                            type="button"
+                        ></button>
+                    </td>
+                </ng-container>
+                <td [ngClass]="row.skipRow ? 'font-weight-bold' : ''" cdk-cell *cdkCellDef="let row">
+                    <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+                </td>
+            </ng-container>
+        </avam-generic-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

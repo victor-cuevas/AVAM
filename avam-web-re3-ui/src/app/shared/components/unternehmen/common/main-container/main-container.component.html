@@ -1,0 +1,13 @@
+<div class="sticky">
+    <div class="sticky-main">
+        <or-column-layout orColumnLayoutExtension [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="navigation-container sticky">
+                <div class="navigation-resizable" sideNavigationResize></div>
+                <app-navigation [navPath]="navPath" [sideMenu]="sideMenu"></app-navigation>
+            </div>
+            <div column-main-content class="h-100 default-layout">
+                <avam-unternehmen-content></avam-unternehmen-content>
+            </div>
+        </or-column-layout>
+    </div>
+</div>

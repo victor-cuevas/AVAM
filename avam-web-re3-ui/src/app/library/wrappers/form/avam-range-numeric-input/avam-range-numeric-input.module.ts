@@ -1,0 +1,18 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
+import { ObliqueModule } from 'oblique-reactive';
+import { CoreComponentsModule } from '@app/library/core/core-components.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AvamRangeNumericInputComponent } from './avam-range-numeric-input.component';
+
+@NgModule({
+    declarations: [AvamRangeNumericInputComponent],
+    exports: [AvamRangeNumericInputComponent],
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, TranslateModule, CoreComponentsModule, ObliqueModule, NgbModule],
+    providers: []
+})
+export class AvamRangeNumericInputModule {
+    constructor() {}
+}

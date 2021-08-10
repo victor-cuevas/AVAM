@@ -1,0 +1,42 @@
+.avam-generic-tree-table {
+    table-layout: fixed;
+
+    .selected-row {
+        td {
+            background-color: #dde7ff !important;
+        }
+    }
+
+    th {
+        position: relative;
+        overflow: hidden;
+        white-space: nowrap;
+        -moz-text-overflow: ellipsis;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+
+        span {
+            overflow: hidden;
+            display: block;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .resize-container {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        width: 8px;
+        height: 100%;
+        padding: 0;
+        cursor: col-resize;
+        border: 1px solid transparent;
+
+        &:hover {
+            background: #f8f8f8;
+        }
+    }
+}

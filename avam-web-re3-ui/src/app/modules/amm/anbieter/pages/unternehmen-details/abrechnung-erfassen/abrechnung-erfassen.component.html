@@ -1,0 +1,28 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-anbieter-abrechnung-form #abrechnungForm [abrechnungParam]="abrechnungParam"></avam-anbieter-abrechnung-form>
+    <hr class="hr-thick mt-2" />
+    <div class="avam-panel  avam-panel-extra-lighter mb-0">
+        <p class="mb-0">{{ 'amm.abrechnungen.label.abrechnungswerte' | translate }}</p>
+    </div>
+    <avam-anbieter-abrechnungswert-table
+        *ngIf="dataSource"
+        [dataSource]="dataSource"
+        [summeTotal]="summeTotal"
+        [tableType]="tableType.ERFASSEN"
+    ></avam-anbieter-abrechnungswert-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button avamDisableOnSpinner *ngIf="(buttons | async | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-primary ml-1" type="button" (click)="save()">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>

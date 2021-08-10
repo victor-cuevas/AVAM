@@ -1,0 +1,110 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main" (keyup.enter)="search()">
+        <or-spinner channel="avamKontaktpersonSearchChannel"></or-spinner>
+        <form class="outer-panel-height no-overflow h-100" #ngForm="ngForm" autocomplete="off">
+            <div class="avam-panel avam-panel-extra-lighter inner-panel-height p-3 sticky">
+                <div [formGroup]="searchForm" class="no-overflow h-100">
+                    <h3>
+                        <span class="fa fa-search mr-2"></span>
+                        {{ 'common.label.kontaktperson' | translate }}
+                    </h3>
+
+                    <avam-prepend-dropdown
+                        controlName="status"
+                        [parentForm]="searchForm"
+                        [readOnly]="false"
+                        [selectLabel]="'common.label.status'"
+                        [options]="statusDropdownLabels"
+                        [placeholder]="'common.message.keineauswahl'"
+                    ></avam-prepend-dropdown>
+
+                    <avam-label-input avamAutofocus inputClass="col" controlName="name" id="name" placeholder="{{ 'common.label.name' | translate }}" [parentForm]="searchForm">
+                    </avam-label-input>
+
+                    <avam-label-input inputClass="col" controlName="vorname" id="vorname" placeholder="{{ 'common.label.vorname' | translate }}" [parentForm]="searchForm">
+                    </avam-label-input>
+
+                    <avam-label-input
+                        inputClass="col"
+                        controlName="telefon"
+                        id="telefon"
+                        placeholder="{{ 'common.label.telefon' | translate }} / {{ 'common.label.mobile' | translate }}"
+                        [parentForm]="searchForm"
+                    >
+                    </avam-label-input>
+
+                    <avam-label-input inputClass="col" controlName="funktion" id="funktion" placeholder="{{ 'unternehmen.label.funktion' | translate }}" [parentForm]="searchForm">
+                    </avam-label-input>
+
+                    <avam-unternehmen-autosuggest
+                        [parentForm]="searchForm"
+                        controlName="arbeitgeber"
+                        [placeholder]="unternehmenPlaceholder"
+                        suchePlusLabel="unternehmen.label.suchen.arbeitgeber"
+                        [isAvamOnly]="true"
+                        (onSelect)="updateUnternehmenSuche($event)"
+                        (onClear)="clearUnternehmenSuche()"
+                        container="body"
+                        [scrollIntoView]="false"
+                    ></avam-unternehmen-autosuggest>
+
+                    <avam-personalberater-autosuggest
+                        id="kundenberatung"
+                        [parentForm]="searchForm"
+                        controlName="kundenberatung"
+                        [benutzerSuchenTokens]="benutzerSuchenTokens"
+                        [type]="benutzerAutosuggestType"
+                        placeholder="{{ 'arbeitgeber.label.kundenberatung' | translate }}"
+                        (onSelect)="updatePersonalberaterSuche($event)"
+                        (onInput)="clearEmptyPersonalberaterSuche($event)"
+                        container="body"
+                        [scrollIntoView]="false"
+                    ></avam-personalberater-autosuggest>
+
+                    <div class="d-flex">
+                        <div class="w-100">
+                            <avam-benutzerstelle-autosuggest
+                                id="benutzerstelle"
+                                [parentForm]="searchForm"
+                                controlName="benutzerstelle"
+                                placeholder="{{ 'common.label.benutzerstelle' | translate }}"
+                                [type]="benutzerstelleAutosuggestType"
+                                (onSelect)="updateBenutzerstelleSuche($event)"
+                                (onInput)="clearEmptyBenutzerstelleSuche($event)"
+                                container="body"
+                                [scrollIntoView]="false"
+                            ></avam-benutzerstelle-autosuggest>
+                        </div>
+                        <div class="form-group">
+                            <button
+                                type="button"
+                                class="btn btn-secondary rounded-0"
+                                ngbTooltip="{{ 'benutzerverwaltung.label.benutzerstellensuchen' | translate }}"
+                                (click)="openBenutzerstelleSuche(benutzerstellenSuche)"
+                            >
+                                <span class="fa fa-search-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [disabled]="!searchForm.valid" [permissions]="[permissions.ARBEITGEBER_SUCHEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner channel="avamKontaktpersonResultChannel"></or-spinner>
+        <avam-kontaktperson-search-result #searchResult class="sticky-main"></avam-kontaktperson-search-result>
+    </div>
+</or-column-layout>
+
+<ng-template #benutzerstellenSuche>
+    <app-benutzerstelle-suche [uebergebeneDaten]="benutzerstelleSucheParams" (emitBenutzerstelle)="updateBenutzerstelleSuche($event)"></app-benutzerstelle-suche>
+</ng-template>

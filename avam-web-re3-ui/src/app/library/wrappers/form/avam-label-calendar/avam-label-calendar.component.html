@@ -1,0 +1,37 @@
+<div
+    [formGroup]="parentForm"
+    #ngForm="ngForm"
+    class="row"
+    [ngClass]="{
+        'form-group': !readOnly
+    }"
+>
+    <div *ngIf="calendarLabel" [ngClass]="readOnly ? 'col-lg-4 col-md-4 text-right' : 'col-lg-4 col-md-4 text-right col-form-label'">
+        <label class="mb-2" id="{{ id }}CalendarLabel">
+            {{ calendarLabel | translate }}
+        </label>
+    </div>
+    <div class="{{ inputClass ? inputClass : 'col-lg-8 col-md-8' }} align-self-center" orFormControlState>
+        <div [hidden]="readOnly">
+            <core-calendar
+                dynamicControlName
+                [isFocused]="isFocused"
+                [formControlName]="controlName"
+                [id]="id"
+                [inputPlaceholder]="inputPlaceholder | translate"
+                [bsConfig]="bsConfig"
+                (dateChange)="onValueChange($event)"
+                [disableControl]="isDisabled"
+                [coreReadOnly]="coreReadOnly"
+                [tooltip]="tooltip"
+            ></core-calendar>
+            <or-error-messages extendWithWarnings></or-error-messages>
+        </div>
+
+        <div class="align-self-center {{ customClassReadonly }}" *ngIf="readOnly">
+            <p class="p-value-left-12" id="{{ id }}CalendarParagraph">
+                {{ inputValue }}
+            </p>
+        </div>
+    </div>
+</div>

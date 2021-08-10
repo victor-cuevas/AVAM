@@ -1,0 +1,56 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-bew-massnahme-grunddaten-form #grunddatenFormComponent [grunddatenData]="grunddatenData"></avam-bew-massnahme-grunddaten-form>
+</div>
+<ng-template #footerButtons>
+    <button
+        *ngIf="!isIndividuelleAmm"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="reset()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="!isIndividuelleAmm" class="btn btn-secondary ml-1" type="button" (click)="openDeleteModal()" [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN]">
+        {{ 'amm.massnahmen.button.massnahmeloeschen' | translate }}
+    </button>
+    <button *ngIf="inPlanungAkquisitionSichtbar" class="btn btn-secondary ml-1" type="button" (click)="zuMassnahmenplanung()">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.massnahmen.button.zurmassnahmenplanung' | translate }}
+    </button>
+    <button
+        *ngIf="displayInsAngebotUebernehmen"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="massnhameInsAngebotUebernehmen()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'amm.massnahmen.button.massnhameinsangebotuebernehmen' | translate }}
+    </button>
+    <button
+        *ngIf="!isIndividuelleAmm"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="submit()"
+        [permissionContext]="[permissions.AMM_MASSNAHMEN_BEARBEITEN, permissions.KEY_AMM_MASSNAHMEN_BEWIRTSCHAFTUNG_BEARBEITEN]"
+    >
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ kuerzelMassnahmentyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.produktnr' | translate }} </b>
+        <span>{{ produktId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+        <span>{{ massnahmeTitel }}</span>
+    </div>
+</ng-template>

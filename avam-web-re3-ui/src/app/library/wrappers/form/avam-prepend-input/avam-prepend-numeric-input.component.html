@@ -1,0 +1,42 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" [ngClass]="customWrapperClass ? customWrapperClass : ''" class="row form-group">
+    <div *ngIf="selectLabel" [ngClass]="customLabelClass ? customLabelClass : 'col-lg-4 col-md-4'" class="text-right">
+        <label class="col-form-label">{{ selectLabel | translate }}</label>
+    </div>
+    <div class="d-flex align-items-center" [ngClass]="customInputWrapperClass ? customInputWrapperClass : selectLabel ? 'col-lg-8 col-md-8' : 'col-lg-12 col-md-12'">
+        <div orFormControlState class="d-flex flex-wrap w-100">
+            <div class="d-flex {{ customInputClass ? customInputClass : 'w-100' }}">
+                <span
+                    class="input-group-text input-group-prepend prependHeight pl-2 pr-2 {{
+                        customPrependLabelClass ? customPrependLabelClass : 'flex-shrink-0 flex-grow-0 flex-basis-auto'
+                    }}"
+                    id="{{ id }}PrependInput"
+                    >{{ prependLabel | translate }}</span
+                >
+                <div [hidden]="!readOnly" class="{{ customReadOnlyClass ? customReadOnlyClass : 'flex-shrink-1 flex-grow-1 flex-basis-auto read-only' }}">
+                    <span>
+                        {{ inputValue }}
+                    </span>
+                </div>
+                <div [hidden]="readOnly" class="{{ customInputContainerClass ? customInputContainerClass : 'flex-shrink-1 flex-grow-1 flex-basis-auto w-100' }}">
+                    <core-input
+                        class="w-100"
+                        dynamicControlName
+                        [formControlName]="controlName"
+                        [disableControl]="isDisabled"
+                        ngbTooltip="{{ toolTip | translate }}"
+                        triggers="{{ toolTip ? 'hover' : 'click' }}"
+                        placeholder="{{ placeholder | translate }}"
+                        (onInput)="input($event)"
+                        (onChange)="change($event)"
+                        (onKeyup)="keyup($event)"
+                        (onBlur)="blur($event)"
+                    ></core-input>
+                </div>
+            </div>
+            <div class="w-100 d-flex">
+                <div class="d-block margin-left-50px"></div>
+                <or-error-messages></or-error-messages>
+            </div>
+        </div>
+    </div>
+</div>

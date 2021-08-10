@@ -1,0 +1,131 @@
+<form [formGroup]="vermittlungFormBearbeiten" #ngForm="ngForm" closeBrowserTab [form]="vermittlungFormBearbeiten" autocomplete="off">
+    <or-spinner [channel]="zuweisungChannel"></or-spinner>
+    <div class="print-block row">
+        <div class="links col-xl-6">
+            <avam-vermittlung-data-panel
+                #vermittlungDataPanel
+                [formGroup]="vermittlungFormBearbeiten"
+                [vermittlungsartId]="vermittlungsartId"
+                [radioButtonOptions]="radioButtonOptions"
+                [vermittlungsartLabels]="labels"
+                [zuweisungStatusLabels]="zuweisungStatusLabels"
+                [calendarDisabled]="calendarDisabled"
+                (radioValueCodeChanged)="checkedRadioButton($event)"
+                (radioWithDateSelected)="isRadioWithDateSelected($event)"
+            ></avam-vermittlung-data-panel>
+            <avam-collapse-panel title="arbeitgeber.label.stellenangebot">
+                <div panel-type="action">
+                    <button type="button" class="btn btn-secondary mr-1" (click)="openOsteDetails()">{{ 'arbeitgeber.label.detail' | translate }}</button>
+                </div>
+                <div panel-type="body">
+                    <avam-label-input
+                        [parentForm]="vermittlungFormBearbeiten"
+                        controlName="stellenangebotName"
+                        [readOnly]="true"
+                        selectLabel="arbeitgeber.label.name"
+                    ></avam-label-input>
+                    <avam-label-input
+                        [parentForm]="vermittlungFormBearbeiten"
+                        controlName="stellenangebotOrt"
+                        [readOnly]="true"
+                        selectLabel="arbeitgeber.label.ort"
+                    ></avam-label-input>
+                    <avam-label-input
+                        [parentForm]="vermittlungFormBearbeiten"
+                        controlName="stellenbezeichnung"
+                        [readOnly]="true"
+                        selectLabel="arbeitgeber.oste.label.stellenbezeichnung"
+                    ></avam-label-input>
+                    <avam-label-input
+                        [parentForm]="vermittlungFormBearbeiten"
+                        controlName="stellenNr"
+                        [readOnly]="true"
+                        selectLabel="arbeitgeber.label.stellennr"
+                    ></avam-label-input>
+                    <avam-label-input
+                        [parentForm]="vermittlungFormBearbeiten"
+                        controlName="stellenangebotStatus"
+                        [readOnly]="true"
+                        selectLabel="arbeitgeber.oste.label.status"
+                    ></avam-label-input>
+                    <avam-personalberater-autosuggest
+                        [parentForm]="vermittlungFormBearbeiten"
+                        controlName="osteBerater"
+                        componentLabel="common.label.bearbeitungdurch"
+                        [isDisabled]="true"
+                        [type]="personalberaterAutosuggestType"
+                    ></avam-personalberater-autosuggest>
+                </div>
+            </avam-collapse-panel>
+        </div>
+
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.nutzung.label.kontaktperson' | translate }}</h3>
+                </label>
+                <avam-label-input [readOnly]="true" [parentForm]="vermittlungFormBearbeiten" controlName="anrede" selectLabel="{{ 'stes.label.fachberatung.anrede' }}">
+                </avam-label-input>
+                <avam-label-input
+                    [readOnly]="true"
+                    [parentForm]="vermittlungFormBearbeiten"
+                    controlName="kontaktpersonName"
+                    selectLabel="{{ 'common.label.name' }}"
+                ></avam-label-input>
+                <avam-label-input
+                    [readOnly]="true"
+                    [parentForm]="vermittlungFormBearbeiten"
+                    controlName="kontaktpersonVorname"
+                    selectLabel="{{ 'common.label.vorname' }}"
+                ></avam-label-input>
+                <avam-label-input
+                    [readOnly]="true"
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    [parentForm]="vermittlungFormBearbeiten"
+                    controlName="kontaktpersonTelefon"
+                    selectLabel="{{ 'common.label.telefon' }}"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="vermittlungFormBearbeiten"
+                    controlName="kontaktpersonEmail"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    [readOnly]="true"
+                ></app-email-input>
+            </div>
+            <avam-vermittlung-rueckmeldungen [formGroup]="vermittlungFormBearbeiten" [vermittlungsergebnisLabels]="vermittlungsergebnisLabels"></avam-vermittlung-rueckmeldungen>
+        </div>
+    </div>
+</form>
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="navigateToAnzeigen()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button *ngIf="hasBearbeitenPermission" class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="statusFreigabebereit && hasFreigebenPermission" class="btn btn-secondary ml-1" type="button" (click)="update(updateType.ZURUECKWEISEN)">
+        {{ 'stes.vermittlung.button.zuweisungzurueckweisen' | translate }}
+    </button>
+    <button *ngIf="statusFreigabebereit && hasFreigebenPermission" class="btn btn-secondary ml-1" type="button" (click)="update(updateType.FREIGEBEN)">
+        {{ 'stes.vermittlung.button.zuweisungfreigeben' | translate }}
+    </button>
+    <button *ngIf="hasSuchenPermission" class="btn btn-secondary ml-1" type="button" (click)="openProfilvergleich(profilvergleichModal)">
+        {{ 'stes.button.vermittlung.profilvergleich' | translate }}
+    </button>
+    <button *ngIf="hasBearbeitenPermission" class="btn btn-secondary ml-1" type="button" (click)="openDeleteDialog()">
+        {{ 'stes.vermittlung.button.vermittlungloeschen' | translate }}
+    </button>
+    <button *ngIf="hasBearbeitenPermission" class="btn btn-primary ml-1" type="button" (click)="update(updateType.SPEICHERN)">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #profilvergleichModal>
+    <avam-profilvergleich-modal [zuweisungId]="zuweisungId" [parentFormNumber]="formNumber"></avam-profilvergleich-modal>
+</ng-template>
+
+<ng-template #osteDetailsModal>
+    <avam-oste-details-modal [osteId]="osteId"></avam-oste-details-modal>
+</ng-template>

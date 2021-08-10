@@ -1,0 +1,153 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block">
+        <div class="avam-panel">
+            <avam-label-dropdown
+                avamAutofocus
+                [parentForm]="formGroup"
+                controlName="erfassungssprache"
+                id="erfassungssprache"
+                [options]="spracheOptions"
+                selectLabel="amm.massnahmen.label.erfassungssprache"
+                [hideEmptyOption]="true"
+                inputClass="col-lg-3 col-md-3"
+                [readOnly]="currentMode === formModes.READONLY"
+            >
+            </avam-label-dropdown>
+        </div>
+        <div class="avam-panel">
+            <avam-label-input
+                id="elementCode"
+                [parentForm]="formGroup"
+                controlName="elementCode"
+                selectLabel="amm.administration.label.elementcode"
+                [readOnly]="currentMode === formModes.READONLY"
+                inputClass="col-lg-3 col-md-3"
+            ></avam-label-input>
+            <div *ngIf="+formGroup.value.erfassungssprache === spracheEnum.DEUTSCH">
+                <avam-label-input
+                    id="elementnameDe"
+                    [parentForm]="formGroup"
+                    controlName="elementnameDe"
+                    selectLabel="amm.administration.label.elementnameDe"
+                    [readOnly]="currentMode === formModes.READONLY"
+                ></avam-label-input>
+                <app-textarea
+                    id="beschreibungDe"
+                    formControlName="beschreibungDe"
+                    selectLabel="amm.administration.label.beschreibungDe"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="currentMode === formModes.READONLY"
+                ></app-textarea>
+            </div>
+            <div *ngIf="+formGroup.value.erfassungssprache === spracheEnum.FRANZOESISCH">
+                <avam-label-input
+                    id="elementnameFr"
+                    [parentForm]="formGroup"
+                    controlName="elementnameFr"
+                    selectLabel="amm.administration.label.elementnameFr"
+                    [readOnly]="currentMode === formModes.READONLY"
+                ></avam-label-input>
+                <app-textarea
+                    id="beschreibungFr"
+                    formControlName="beschreibungFr"
+                    selectLabel="amm.administration.label.beschreibungFr"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="currentMode === formModes.READONLY"
+                ></app-textarea>
+            </div>
+            <div *ngIf="+formGroup.value.erfassungssprache === spracheEnum.ITALIENISCH">
+                <avam-label-input
+                    id="elementnameIt"
+                    [parentForm]="formGroup"
+                    controlName="elementnameIt"
+                    selectLabel="amm.administration.label.elementnameIt"
+                    [readOnly]="currentMode === formModes.READONLY"
+                ></avam-label-input>
+                <app-textarea
+                    id="beschreibungIt"
+                    formControlName="beschreibungIt"
+                    selectLabel="amm.administration.label.beschreibungIt"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="currentMode === formModes.READONLY"
+                ></app-textarea>
+            </div>
+            <avam-label-input
+                id="sortierschluessel"
+                [parentForm]="formGroup"
+                controlName="sortierschluessel"
+                selectLabel="amm.administration.label.sortierschluessel"
+                [readOnly]="currentMode === formModes.READONLY"
+                inputClass="col-lg-3 col-md-3"
+            ></avam-label-input>
+            <avam-date-range-picker
+                id="gueltigVonBis"
+                label="amm.administration.label.gueltig"
+                [parentForm]="formGroup"
+                formControlNameFrom="gueltigVon"
+                formControlNameTo="gueltigBis"
+                [readOnly]="currentMode === formModes.READONLY ? 'all' : ''"
+                [isResponsive]="true"
+            ></avam-date-range-picker>
+            <avam-label-input
+                *ngIf="showKbArtAsal"
+                id="kbArtAsal"
+                [parentForm]="formGroup"
+                controlName="kbArtAsal"
+                selectLabel="amm.administration.label.kbart"
+                [readOnly]="true"
+                inputClass="col-lg-3 col-md-3"
+            ></avam-label-input>
+            <avam-label-input
+                id="elternElement"
+                [parentForm]="formGroup"
+                controlName="elternElement"
+                selectLabel="amm.administration.label.elternelement"
+                [readOnly]="true"
+                [toolTip]="strukturelementData?.strukturPath | dbTranslate: 'name'"
+                inputClass="col-lg-3 col-md-3"
+            ></avam-label-input>
+            <div class="row mb-2" *ngIf="showAusgleichsstelle && currentMode !== formModes.READONLY">
+                <div class="col-lg-4 col-md-4  text-right col-form-label">
+                    <label class="mb-2"> {{ 'common.label.massnahmenartAusgleichsstelle' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="avam-input-modal">
+                        <div class="input-wrapper" orFormControlState>
+                            <core-input
+                                id="ausgleichstelle"
+                                formControlName="ausgleichstelle"
+                                [placeholder]="'stes.placeholder.select.waehlen' | translate"
+                                ngbTooltip="{{ handler.selectedAusgleichstellePath | dbTranslate: 'name' }}"
+                                [coreReadOnly]="true"
+                            ></core-input>
+                            <or-error-messages></or-error-messages>
+                        </div>
+                        <div class="input-group-append d-block">
+                            <button
+                                class="btn btn-secondary hover-color-change rounded-0"
+                                type="button"
+                                ngbTooltip="{{ 'common.label.massnahmenartAusgleichsstelle' | translate }}"
+                                (click)="openModal()"
+                            >
+                                <span class="fa fa fa-clone"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <avam-label-input
+                *ngIf="showAusgleichsstelle && currentMode === formModes.READONLY"
+                id="ausgleichstelle"
+                [parentForm]="formGroup"
+                controlName="ausgleichstelle"
+                selectLabel="common.label.massnahmenartAusgleichsstelle"
+                [readOnly]="true"
+                [toolTip]="handler?.selectedAusgleichstellePath | dbTranslate: 'name'"
+                inputClass="col-lg-3 col-md-3"
+            ></avam-label-input>
+        </div>
+    </div>
+</form>

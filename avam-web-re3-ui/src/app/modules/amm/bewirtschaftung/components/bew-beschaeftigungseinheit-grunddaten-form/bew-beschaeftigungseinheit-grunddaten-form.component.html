@@ -1,0 +1,173 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="erfassungssprache"
+                    id="erfassungssprache"
+                    [options]="erfassungsspracheOptions"
+                    selectLabel="amm.massnahmen.label.erfassungssprache"
+                    (onChange)="onLanguageDropdownChange($event)"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <div *ngIf="displayGermanElements">
+                    <label>{{ 'amm.massnahmen.label.titelde' | translate }}</label>
+                    <app-textarea id="titelDe" formControlName="titelDe" [fullWidth]="true" customFormControlState maxLength="255"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungD' | translate }}</label>
+                    <app-textarea id="ergaenzendeAngabenDe" formControlName="ergaenzendeAngabenDe" [fullWidth]="true" customFormControlState maxLength="255"></app-textarea>
+                </div>
+                <div *ngIf="displayFrenchElements">
+                    <label>{{ 'amm.massnahmen.label.titelfr' | translate }}</label>
+                    <app-textarea id="titelFr" formControlName="titelFr" [fullWidth]="true" customFormControlState maxLength="255"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungF' | translate }}</label>
+                    <app-textarea id="ergaenzendeAngabenFr" formControlName="ergaenzendeAngabenFr" [fullWidth]="true" customFormControlState maxLength="255"></app-textarea>
+                </div>
+                <div *ngIf="displayItalianElements">
+                    <label>{{ 'amm.massnahmen.label.titelit' | translate }}</label>
+                    <app-textarea id="titelIt" formControlName="titelIt" [fullWidth]="true" customFormControlState maxLength="255"></app-textarea>
+                    <label>{{ 'amm.massnahmen.label.bemerkungI' | translate }}</label>
+                    <app-textarea id="ergaenzendeAngabenIt" formControlName="ergaenzendeAngabenIt" [fullWidth]="true" customFormControlState maxLength="255"></app-textarea>
+                </div>
+                <avam-beruf-autosuggest
+                    componentLabel="stes.label.beruf"
+                    [parentForm]="formGroup"
+                    controlName="berufTaetigkeit"
+                    placeholder="stes.placeholder.beruf"
+                ></avam-beruf-autosuggest>
+                <avam-unternehmen-autosuggest
+                    *ngIf="beschaeftigungseinheitData?.isPraktikumsstelle"
+                    id="arbeitgeber"
+                    [parentForm]="formGroup"
+                    controlName="arbeitgeber"
+                    componentLabel="amm.massnahmen.label.arbeitgeber"
+                    [readOnly]="beschaeftigungseinheitData?.standortDto?.anbieterReadonly"
+                    suchePlusLabel="amm.massnahmen.label.arbeitgeber"
+                ></avam-unternehmen-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.massnahmen.label.durchfuehrung' | translate }}</h3>
+                </label>
+                <avam-date-range-picker
+                    id="gueltigVonBis"
+                    class="form-group"
+                    label="amm.massnahmen.label.gueltig"
+                    [parentForm]="formGroup"
+                    formControlNameFrom="gueltigVon"
+                    formControlNameTo="gueltigBis"
+                    [isResponsive]="true"
+                ></avam-date-range-picker>
+                <avam-select-week-availability
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    vormittagsControlName="vormittags"
+                    nachmittagsControlName="nachmittags"
+                    [dropdownOptions]="verfuegbarkeitOptions"
+                    [clearCheckboxes]="clearCheckboxes"
+                    verfuegbarkeitControl="verfuegbarkeit"
+                    selectLabel="{{ 'amm.massnahmen.label.verfuegbarkeit' }}"
+                ></avam-select-week-availability>
+                <div>
+                    <app-textarea
+                        *ngIf="displayGermanElements"
+                        id="arbeitszeitenDe"
+                        formControlName="arbeitszeitenDe"
+                        selectLabel="amm.massnahmen.label.arbeitszeitenD"
+                        customFormControlState
+                        [maxLength]="255"
+                    ></app-textarea>
+                </div>
+                <div>
+                    <app-textarea
+                        *ngIf="displayFrenchElements"
+                        id="arbeitszeitenFr"
+                        formControlName="arbeitszeitenFr"
+                        selectLabel="amm.massnahmen.label.arbeitszeitenF"
+                        customFormControlState
+                        [maxLength]="255"
+                    ></app-textarea>
+                </div>
+                <div>
+                    <app-textarea
+                        *ngIf="displayItalianElements"
+                        id="arbeitszeitenIt"
+                        formControlName="arbeitszeitenIt"
+                        selectLabel="amm.massnahmen.label.arbeitszeitenI"
+                        customFormControlState
+                        [maxLength]="255"
+                    ></app-textarea>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <app-paragraph
+                    id="beschaeftigungseinheitsNr"
+                    [label]="beschaeftigungseinheitData?.isPraktikumsstelle ? 'amm.massnahmen.label.praktikumsstelle.nummer' : 'amm.massnahmen.label.arbeitsplatzkategorie.nummer'"
+                    [value]="beschaeftigungseinheitData?.beDto?.beschaeftigungseinheitId ? beschaeftigungseinheitData.beDto.beschaeftigungseinheitId : ''"
+                ></app-paragraph>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="status"
+                    id="status"
+                    [options]="statusOptions"
+                    selectLabel="amm.massnahmen.label.status"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <avam-label-checkbox
+                    inputClass="''"
+                    selectLabel="{{
+                        beschaeftigungseinheitData?.isPraktikumsstelle
+                            ? ('amm.massnahmen.label.praktikumsstelle' | translate)
+                            : ('amm.massnahmen.label.arbeitsplatzkategorie' | translate)
+                    }} {{ 'amm.massnahmen.label.imangebotsichtbar' | translate }}"
+                    componentId="imAngebotSichtbar"
+                    [parentForm]="formGroup"
+                    controlName="imAngebotSichtbar"
+                >
+                </avam-label-checkbox>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'amm.massnahmen.label.platzverwaltung' | translate }}</h3>
+                </label>
+                <avam-prepend-numeric-input
+                    [customInputClass]="'w-30 min-width-135px'"
+                    selectLabel="amm.massnahmen.label.kapazitaet"
+                    prependLabel="amm.nutzung.label.max"
+                    componentId="kapazitaetMax"
+                    [parentForm]="formGroup"
+                    controlName="kapazitaetMax"
+                ></avam-prepend-numeric-input>
+                <avam-prepend-numeric-input
+                    [customInputClass]="'w-30 min-width-135px'"
+                    selectLabel="amm.massnahmen.label.ueberbuchung"
+                    prependLabel="amm.nutzung.label.max"
+                    componentId="ueberbuchungMax"
+                    [parentForm]="formGroup"
+                    controlName="ueberbuchungMax"
+                ></avam-prepend-numeric-input>
+                <avam-input-slider
+                    [showTwoLines]="true"
+                    [parentForm]="formGroup"
+                    controlName="beschaeftigungsgrad"
+                    id="beschaeftigungsgrad"
+                    selectLabel="stes.label.beschaeftigungsgrad"
+                    prependLabel="amm.nutzung.label.max"
+                >
+                    <span>%</span>
+                </avam-input-slider>
+            </div>
+        </div>
+    </div>
+</form>

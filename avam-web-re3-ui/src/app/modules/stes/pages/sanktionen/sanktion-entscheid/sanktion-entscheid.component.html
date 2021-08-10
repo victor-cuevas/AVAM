@@ -1,0 +1,165 @@
+<div>
+    <or-spinner channel="entscheidFormChannel"></or-spinner>
+    <router-outlet #routerOutletComponent (activate)="onOutletActivate($event)"></router-outlet>
+    <hr />
+    <form #ngForm="ngForm" autocomplete="off">
+        <div class="print-block row" [formGroup]="entscheidForm">
+            <div class="rechts col-xl-6">
+                <div class="avam-panel">
+                    <label>
+                        <h3>{{ 'common.label.entscheid' | translate }}</h3>
+                    </label>
+
+                    <avam-label-calendar
+                        avamAutofocus
+                        controlName="einstellungsbeginn"
+                        [parentForm]="entscheidForm"
+                        id="einstellungsbeginn"
+                        calendarLabel="{{ 'stes.label.einstellungsbeginn' | translate }}"
+                        inputPlaceholder="{{ 'stes.placeholder.date' | translate }}"
+                        [inputClass]="'col-lg-5 col-md-5'"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                        [readOnly]="!isBearbeiten && isReadOnlyByStatus()"
+                    ></avam-label-calendar>
+                    <avam-label-input
+                        id="einstelltage"
+                        controlName="einstelltage"
+                        selectLabel="{{ 'stes.label.einstelltage' | translate }}"
+                        [inputClass]="'col-lg-4 col-md-4'"
+                        [parentForm]="entscheidForm"
+                        [readOnly]="!isBearbeiten && isReadOnlyByStatus()"
+                    ></avam-label-input>
+                    <div class="sachverhaltlohnausfall" *ngIf="isVermittlung()">
+                        <avam-label-input
+                            id="sachverhaltlohnausfall"
+                            controlName="sachverhaltlohnausfall"
+                            selectLabel="{{ 'stes.label.sachverhaltlohnausfall' | translate }}"
+                            [parentForm]="entscheidForm"
+                            [inputClass]="'col-lg-4 col-md-4'"
+                            [readOnly]="!isBearbeiten && isReadOnlyByStatus()"
+                            [isDisabled]="formDisabled"
+                        ></avam-label-input>
+                        <span class="sachverhaltlohnausfall-currency">{{ 'common.label.chf' | translate }}</span>
+                    </div>
+                    <avam-label-dropdown
+                        id="statusCode"
+                        controlName="statusCode"
+                        selectLabel="{{ 'stes.label.status' | translate }}"
+                        [parentForm]="entscheidForm"
+                        [options]="statusOptions"
+                        [readOnly]="!isBearbeiten && isReadOnlyByStatus()"
+                    ></avam-label-dropdown>
+                    <br />
+                    <avam-label-input
+                        id="entscheidNr"
+                        controlName="entscheidNr"
+                        selectLabel="{{ 'stes.label.entscheidNr' | translate }}"
+                        [parentForm]="entscheidForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                    <avam-label-input
+                        id="entscheidDatum"
+                        controlName="entscheidDatum"
+                        selectLabel="{{ 'stes.label.entscheidDatum' | translate }}"
+                        [parentForm]="entscheidForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                    <avam-label-input
+                        id="alkTransferDate"
+                        controlName="alkTransferDate"
+                        selectLabel="{{ 'stes.label.transferanalk' | translate }}"
+                        [parentForm]="entscheidForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                    <avam-label-input
+                        id="ersetztEntscheidNr"
+                        controlName="ersetztEntscheidNr"
+                        selectLabel="{{ 'stes.label.ersetztEntscheidNr' | translate }}"
+                        [parentForm]="entscheidForm"
+                        readOnly="true"
+                    ></avam-label-input>
+                </div>
+            </div>
+
+            <div class="links col-xl-6">
+                <div class="avam-panel">
+                    <avam-personalberater-autosuggest
+                        [isDisabled]="formDisabled"
+                        #freigabeDurch
+                        id="freigabeDurch"
+                        [parentForm]="entscheidForm"
+                        controlName="freigabeDurch"
+                        componentLabel="{{ 'stes.label.freigabedurch' | translate }}"
+                        [benutzerSuchenTokens]="benutzerSuchenTokensfreigabeDurch"
+                        [type]="personalberaterAutosuggestType"
+                    ></avam-personalberater-autosuggest>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<ng-template #footerButtons>
+    <button *ngIf="!isBearbeiten || ((BSP14 || BSP15 || BSP16 || BSP17) && isBearbeiten)" class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button *ngIf="!isBearbeiten || (BSP14 && isBearbeiten)" class="btn btn-link" type="button" (click)="reset()" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="BSP15 && isBearbeiten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="callRestService('ueberarbeitenSanktionEntscheid')"
+        [permissionContext]="[permissions.STES_SANKTION_ENTSCHEID_FREIGEBEN_UEBERARBEITEN]"
+    >
+        {{ 'common.button.ueberarbeiten' | translate }}
+    </button>
+    <button
+        *ngIf="BSP15 && isBearbeiten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="callRestService('zuruecknehmenSanktionEntscheid')"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'common.button.zuruecknehmen' | translate }}
+    </button>
+    <button
+        *ngIf="BSP14 && isBearbeiten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="deleteWithConfirm()"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'stes.vermittlungsfaehigkeit.button.entscheid.loeschen' | translate }}
+    </button>
+    <button
+        *ngIf="BSP16 && isBearbeiten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="callRestService('ersetzenSanktionEntscheid')"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'common.button.ersetzen' | translate }}
+    </button>
+    <button
+        *ngIf="BSP15 && isBearbeiten"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="callRestService('freigebenSanktionEntscheid')"
+        [permissionContext]="[permissions.STES_SANKTION_ENTSCHEID_FREIGEBEN_UEBERARBEITEN]"
+    >
+        {{ 'common.button.freigeben' | translate }}
+    </button>
+    <button
+        *ngIf="!isBearbeiten || ((BSP14 || BSP15 || BSP16 || BSP17) && isBearbeiten)"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="save()"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

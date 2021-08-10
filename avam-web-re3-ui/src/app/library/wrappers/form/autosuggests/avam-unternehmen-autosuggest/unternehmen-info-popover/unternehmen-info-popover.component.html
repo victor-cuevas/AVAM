@@ -1,0 +1,139 @@
+<ng-template #content
+    ><div class="modal-body has-overlay" style="min-height: 300px;" aria-busy="true" aria-live="assertive">
+        <div class="avam-panel">
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.name' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ data.name1 }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right"></label>
+                </div>
+                <div class="col-6">
+                    {{ data.name2 }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right"></label>
+                </div>
+                <div class="col-6">
+                    {{ data.name3 }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.strassenr' | translate }}</label>
+                </div>
+                <div class="col-6">{{ data.strasse }} {{ data.strasseNr }}</div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.plzort' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ plzOrt }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.postfach' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ data.postfach }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.burpostfachplzort' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ postfachPlzOrt }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.land' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ land }}
+                </div>
+            </div>
+        </div>
+        <div class="avam-panel">
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.telefon' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ data.telefonNr }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.fax' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ data.telefaxNr }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.email' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    <a [href]="'mailto:' + data.email" target="_blank"> {{ data.email }}</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.webadresse' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    <a [href]="data.url" target="_blank"> {{ data.url }}</a>
+                </div>
+            </div>
+        </div>
+        <div class="avam-panel">
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.burnummer' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ data.burNummer }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.status' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ unternehmenStatus }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <label class="pull-right">{{ 'unternehmen.label.verweiser' | translate }}</label>
+                </div>
+                <div class="col-6">
+                    {{ data.verweiser }}
+                    <a *ngIf="data.verweiser" class="fa fa-external-link-square ml-2" aria-hidden="true"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<button
+    *ngIf="data"
+    type="button"
+    class="fa fa-info-circle icon-readonly align-info-btn"
+    [ngbPopover]="content"
+    triggers="mouseenter:mouseleave"
+    container="body"
+    (mouseenter)="showData()"
+></button>

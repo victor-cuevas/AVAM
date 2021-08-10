@@ -1,0 +1,28 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <avam-bew-massnahme-suchen-form (onEnter)="search()" [data]="data" #suchenFormComponent></avam-bew-massnahme-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button avamDisableOnSpinner type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button avamDisableOnSpinner type="submit" class="btn btn-primary" (click)="search()" [disabled]="searchNotAvailable">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <avam-bew-massnahme-suchen-table #tableComponent [dataSource]="dataSource"></avam-bew-massnahme-suchen-table>
+    </div>
+</or-column-layout>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-bew-massnahme-suchen-table *ngIf="dataSource" [hideTableButton]="true" [dataSource]="dataSource"></avam-bew-massnahme-suchen-table>
+    </avam-generic-table-print>
+</ng-template>

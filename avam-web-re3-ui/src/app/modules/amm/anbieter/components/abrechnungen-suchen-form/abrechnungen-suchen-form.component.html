@@ -1,0 +1,58 @@
+<form (keydown.enter)="onEnter.emit($event)" [formGroup]="formGroup" #ngForm="ngForm" autocomplete="off">
+    <div class="mt-3 search-padding">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.abrechnungen.subnavmenuitem.abrechnung' | translate }}</span>
+        </h3>
+        <avam-label-input
+            avamAutofocus
+            controlName="abrechnungNr"
+            inputClass="col"
+            [parentForm]="formGroup"
+            placeholder="amm.abrechnungen.label.abrechnungsnr"
+            (onInput)="toggleEnabledInputs($event)"
+            (onChange)="toggleEnabledInputs($event)"
+        ></avam-label-input>
+        <avam-label-input controlName="titel" inputClass="col" [parentForm]="formGroup" placeholder="amm.abrechnungen.label.titel" [isDisabled]="disableInputs"></avam-label-input>
+        <avam-unternehmen-autosuggest
+            id="anbieter"
+            controlName="anbieter"
+            isAvamOnly="true"
+            [parentForm]="formGroup"
+            placeholder="amm.massnahmen.label.anbieter"
+            [readOnly]="disableInputs"
+        ></avam-unternehmen-autosuggest>
+        <br />
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="ausfuehrungsdatumVon"
+            [parentForm]="formGroup"
+            id="ausfuehrungsdatumVon"
+            inputPlaceholder="amm.abrechnungen.label.ausfuehrungsdatumvon"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            [isDisabled]="disableInputs"
+            (dateChange)="onDateChange($event, 'ausfuehrungsdatumBis')"
+        ></avam-label-calendar>
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="ausfuehrungsdatumBis"
+            [parentForm]="formGroup"
+            id="ausfuehrungsdatumBis"
+            inputPlaceholder="amm.abrechnungen.label.ausfuehrungsdatumbis"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+            [isDisabled]="disableInputs"
+            (dateChange)="onDateChange($event, 'ausfuehrungsdatumVon')"
+        ></avam-label-calendar>
+        <br />
+        <avam-prepend-dropdown
+            inputClass="col"
+            [parentForm]="formGroup"
+            controlName="status"
+            id="status"
+            selectLabel="common.label.status"
+            placeholder="common.label.waehlen"
+            [options]="statusDropdownLabels"
+            [isDisabled]="disableInputs"
+        ></avam-prepend-dropdown>
+    </div>
+</form>

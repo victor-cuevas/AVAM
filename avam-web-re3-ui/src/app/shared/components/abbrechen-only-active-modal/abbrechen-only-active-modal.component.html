@@ -1,0 +1,20 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title " id="exampleModalLabel">{{ 'common.message.ungespeicherteAnderungen' | translate }}</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 font-weight-bold">{{ 'common.message.achtung' | translate }}</div>
+            <div class="col-lg-10 col-md-10">{{ 'common.message.alertnotsaved2' | translate }}</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="activeModal.dismiss('Cross click')">
+            {{ 'common.message.aufSeiteBleiben' | translate }}
+        </button>
+        <button type="button" class="btn btn-primary" (click)="activeModal.close('Verlassen')">{{ 'common.message.seiteVerlassen' | translate }}</button>
+    </div>
+</div>

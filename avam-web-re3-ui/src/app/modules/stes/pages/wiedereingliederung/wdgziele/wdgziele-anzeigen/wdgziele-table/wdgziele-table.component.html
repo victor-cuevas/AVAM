@@ -1,0 +1,30 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" sortField="erfassungsdatum" [sortOrder]="-1">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <div class="btn-group">
+                    <button
+                        ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                        (primaryButtonClick)="itemSelected(row.zielId)"
+                        avamPrimaryButtonDirective
+                        class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                </div>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'erfassungsdatum' || column.columnDef === 'fristBis'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

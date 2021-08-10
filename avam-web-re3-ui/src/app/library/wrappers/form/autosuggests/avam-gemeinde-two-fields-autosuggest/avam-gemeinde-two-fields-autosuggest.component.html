@@ -1,0 +1,56 @@
+<div #ngForm [formGroup]="parentForm" class="row form-group {{ wrapperInputClass }}">
+    <div *ngIf="label" class="text-right" [ngClass]="labelContainerInputClass ? labelContainerInputClass : 'col-lg-4 col-md-4'">
+        <label for="name" class="col-form-label">{{ label | translate }}</label>
+    </div>
+    <div [hidden]="isReadOnly" class="row pr-0" [ngClass]="inputFieldsContainerInputClass ? inputFieldsContainerInputClass : label ? 'col-lg-8 col-md-8' : 'col-lg-12 col-md-12'">
+        <div [hidden]="isReadOnly" class="align-self-top" orFormControlState [ngClass]="bfsNrFieldInputClass ? bfsNrFieldInputClass : 'col-lg-5 col-md-5'">
+            <core-autosuggest
+                #bfsNrAutosuggest
+                arrow-scrolling
+                dynamicControlName
+                [formControlName]="bfsNrControlName"
+                [placeholder]="bfsNrPlaceholder"
+                [disableControl]="isDisabled"
+                [coreReadOnly]="coreReadOnly"
+                [coreReadOnlyClearButton]="coreReadOnlyClearButton"
+                [searchFunction]="searchBfsNr"
+                [inputFormatter]="inputBfsNrFormatter"
+                [resultFormatter]="resultFormatter"
+                (onSelect)="selectBfsNr($event)"
+                (onChange)="changeBfsNr($event)"
+                (onInput)="inputBfsNr($event)"
+                (onKeyup)="keyupBfsNr($event)"
+                (onBlur)="blurBfsNr($event)"
+            ></core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div [hidden]="isReadOnly" class="align-self-top pr-0" orFormControlState [ngClass]="nameFieldInputClass ? nameFieldInputClass : 'col-lg-7 col-md-7'">
+            <core-autosuggest
+                #nameAutosuggest
+                arrow-scrolling
+                dynamicControlName
+                [formControlName]="nameControlName"
+                [placeholder]="namePlaceholder"
+                [disableControl]="isDisabled"
+                [coreReadOnly]="coreReadOnly"
+                [coreReadOnlyClearButton]="coreReadOnlyClearButton"
+                [searchFunction]="searchName"
+                [inputFormatter]="inputNameFormatter"
+                [resultFormatter]="resultFormatter"
+                (onSelect)="selectName($event)"
+                (onChange)="changeName($event)"
+                (onInput)="inputName($event)"
+                (onKeyup)="keyupName($event)"
+                (onBlur)="blurName($event)"
+            ></core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+    </div>
+    <div
+        [hidden]="!isReadOnly"
+        class="align-self-center"
+        [ngClass]="readOnlyContainerInputClass ? readOnlyContainerInputClass : label ? 'col-lg-8 col-md-8' : 'col-lg-12 col-md-12'"
+    >
+        <span class="readonly">{{ bfsNrInputReadOnlyValue }} {{ nameInputReadOnlyValue }}</span>
+    </div>
+</div>

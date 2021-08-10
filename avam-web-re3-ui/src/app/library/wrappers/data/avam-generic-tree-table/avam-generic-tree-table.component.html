@@ -1,0 +1,24 @@
+<div #genericTreeTable>
+    <table
+        #cdkTable
+        cdk-table
+        avamConnectingLines
+        [onCollapseRow]="onCollapse"
+        [onExpandRow]="onExpand"
+        [dataSource]="treeTableService.dataSource"
+        class="table avam-generic-tree-table table-hover table-responsive table-bordered d-sm-table"
+    >
+        <tr class="table-row-header" cdk-header-row *cdkHeaderRowDef="headers" [resizable-handle]="genericTreeTable"></tr>
+        <tr
+            cdk-row
+            *cdkRowDef="let row; columns: headers"
+            (click)="navigatorService.onClick(row)"
+            (keydown)="navigatorService.onKeydown($event, row)"
+            (dblclick)="onDoubleClick(row)"
+            (keyup.enter)="onPressEnter(row)"
+            [ngClass]="row.model.id === navigatorService.selection?.selected?.model.id ? 'selected-row' : ''"
+            class="a_{{ row.model.id }} table-row"
+            [tabindex]="0"
+        ></tr>
+    </table>
+</div>

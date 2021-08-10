@@ -1,0 +1,53 @@
+<avam-generic-table
+    #geschaefteTable
+    *ngIf="rows"
+    [maxHeight]="775"
+    [stateKey]="stateKey"
+    [dataSource]="rows"
+    [headers]="displayedColumns"
+    [scrollable]="true"
+    [sortField]="'erfasstAm'"
+    [sortOrder]="1"
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'exclamationMark'">
+            <th [sortable-column]="column.columnDef" [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                <div class="full-centered">
+                    <sort-icon *ngIf="geschaefteTable.isSorted(column.columnDef)" [column]="column.columnDef" class="mr-1"></sort-icon>
+                    <i class="fa fa-exclamation icon-red" aria-hidden="true"></i>
+                </div>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <ng-container *ngIf="row.exclamationMark">
+                    <i class="full-centered fa fa-exclamation icon-red" aria-hidden="true"></i>
+                </ng-container>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'actions'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                {{ column.header | translate }}
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    avamPrimaryButtonDirective
+                    *ngIf="!print"
+                    [ngbTooltip]="'common.button.oeffnen' | translate"
+                    (primaryButtonClick)="onOpen(row.callback)"
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'erfasstAm' || column.columnDef === 'termin'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: dateFormat" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">{{ column.cell(row) | date: dateFormat }}</span>
+            </td>
+        </ng-container>
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <span [ngbTooltip]="column.cell(row)" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">{{ column.cell(row) }}</span>
+        </td>
+    </ng-container>
+</avam-generic-table>

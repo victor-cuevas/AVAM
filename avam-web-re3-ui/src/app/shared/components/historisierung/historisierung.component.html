@@ -1,0 +1,21 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-basic-title">
+        <span>{{ 'history.label.historisierung' | translate }} </span>
+        <app-result-count [dataLength]="tableData.length"></app-result-count>
+    </h3>
+    <div class="mr-3 mb-2">
+        <app-toolbox [configuration]="toolboxConfig" [id]="historisierungToolboxId"></app-toolbox>
+    </div>
+</div>
+<div class="scrollable-modal-body pre-scrollable mh-100">
+    <or-spinner [channel]="historisierungChannel"></or-spinner>
+    <avam-historisierung-table *ngIf="tableData" [dataSource]="tableData" [headers]="headers"></avam-historisierung-table>
+</div>
+<div class="modal-footer justify-content-between mt-2">
+    <span>{{ modalNumber }}</span>
+    <div class="sticky-actions">
+        <button type="button" class="btn btn-link" (click)="close()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+    </div>
+</div>

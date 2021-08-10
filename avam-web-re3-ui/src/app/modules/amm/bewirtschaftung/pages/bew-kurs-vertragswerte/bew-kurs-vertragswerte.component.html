@@ -1,0 +1,65 @@
+<div>
+    <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+    <avam-bew-vertragswerte-uebersicht-table
+        #table
+        [dataSource]="datasource"
+        [vertragswertType]="types.KURS"
+        (onItemSelected)="onRowSelected($event)"
+        (onItemDeleted)="onRowDeleted($event)"
+    ></avam-bew-vertragswerte-uebersicht-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <div class="d-flex w-100 justify-content-between right flex-shrink-1 flex-grow-1 text-right">
+        <button class="btn btn-secondary ml-1" type="button" (click)="zurKursplanung()">
+            <span class="fa fa-external-link"></span>
+            {{ 'amm.massnahmen.button.zurkursplanung' | translate }}
+        </button>
+        <button *ngIf="showHinzufuegenBtn" class="btn btn-primary ml-1" type="button" (click)="openVertragswertZuordnenModal()">
+            {{ 'amm.akquisition.button.vertragswertzuordnen' | translate }}
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="datasource">
+        <avam-bew-vertragswerte-uebersicht-table
+            *ngIf="datasource"
+            [hideTableButton]="true"
+            [dataSource]="datasource"
+            [vertragswertType]="types.KURS"
+        ></avam-bew-vertragswerte-uebersicht-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ infobarData?.kuerzelMassnahmentyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.durchfuehrungsnr' | translate }} </b>
+        <span>{{ kursId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+        <span>{{ infobarData?.zulassungsTyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ infobarData?.unternehmensname }}</span>
+    </div>
+    <div class="item">
+        <b> {{ infobarData?.provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }} </b>
+        <span>{{ infobarData?.burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.status' | translate }} </b>
+        <span>{{ infobarData?.unternehmenStatus }}</span>
+    </div>
+</ng-template>
+
+<ng-template #vertragswertModal>
+    <avam-bew-vertragswert-zuordnen-modal [kursId]="kursId" (vertragswertZuordnenEmitter)="vertragswertZuordnen($event)"></avam-bew-vertragswert-zuordnen-modal>
+</ng-template>

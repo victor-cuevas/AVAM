@@ -1,0 +1,55 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="form-group row">
+    <div *ngIf="componentLabel != null" class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8'" style="display: flex">
+        <div class="input-group" [hidden]="readOnly" orFormControlState>
+            <core-autosuggest
+                arrow-scrolling
+                #inputElement
+                dynamicControlName
+                [formControlName]="controlName"
+                [placeholder]="placeholder"
+                [inputFormatter]="inputFormatter"
+                [template]="rt"
+                [searchFunction]="searchRegion"
+                [disableControl]="isDisabled"
+                [container]="container"
+                [scrollIntoView]="scrollIntoView"
+                ngbTooltip="{{ tooltip | translate }}"
+                triggers="{{ tooltip ? 'hover' : 'click' }}"
+                style="width: inherit;"
+                (onInput)="input($event)"
+                (onChange)="change($event)"
+                (onKeyup)="keyup($event)"
+                (onBlur)="blur($event)"
+                (onSelect)="select($event)"
+            >
+            </core-autosuggest>
+            <or-error-messages></or-error-messages>
+        </div>
+        <button
+            type="button"
+            ngbTooltip="{{ 'common.button.waehlenRegion' | translate }}"
+            (click)="open(modalRegionenAuswaehlen)"
+            class="btn btn-secondary rounded-0 input-group-append d-block"
+        >
+            <span class="fa fa-clone"></span>
+        </button>
+    </div>
+</div>
+
+<ng-template #modalRegionenAuswaehlen>
+    <app-regionen-auswaehlen [id]="i" (emitRegion)="fillData($event)"></app-regionen-auswaehlen>
+</ng-template>
+
+<ng-template #rt let-r="result" let-t="term">
+    <div class="row flex-nowrap" avamAlignPopupTemplateAndInput>
+        <div class="d-inline-block w-20 pl-1 pr-1 min-width-80px">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.code" [term]="[t]"></ngb-highlight>
+        </div>
+        <div class="d-inline-block w-80 pl-1 pr-1 min-width-0">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.translatedName" [term]="[t]"></ngb-highlight>
+        </div>
+    </div>
+</ng-template>

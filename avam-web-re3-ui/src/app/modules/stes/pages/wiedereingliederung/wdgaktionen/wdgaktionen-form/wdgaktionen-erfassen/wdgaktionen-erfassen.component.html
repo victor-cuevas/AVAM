@@ -1,0 +1,116 @@
+<div [formGroup]="aktionErfassenForm" #ngForm="ngForm" closeBrowserTab autocomplete="off" [form]="aktionErfassenForm">
+    <div class="row">
+        <or-spinner [channel]="wdgAktionenChannel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.wdg.label.wdgaktion' | translate }}</h3>
+                </label>
+                <div class="wdg-row">
+                    <div class="wdg-radio">
+                        <input type="radio" name="wdgRadio" [checked]="isWgdAktionenSelect" (change)="changeInputStatus()" />
+                    </div>
+                    <core-input
+                        class="w-100 massnahmen-input"
+                        formControlName="wgdAktionen"
+                        [disableControl]="true"
+                        placeholder="{{ 'stes.label.wiedereingliederung.aktionWaehlen' | translate }}"
+                    ></core-input>
+                    <div class="wdg-btn">
+                        <button
+                            #wdgAktionenBtn
+                            type="button"
+                            class="btn btn-secondary rounded-0"
+                            [disabled]="!isWgdAktionenSelect"
+                            (click)="openModal(massnahmenModal, 'modal-md', true)"
+                        >
+                            <span class="fa fa-clone"></span>
+                        </button>
+                        <ng-template #massnahmenModal>
+                            <avam-massnahmenart-waehlen-modal
+                                [queryParams]="massnahmenQueryParams"
+                                (onSelect)="selectMassnahmenart($event)"
+                                [selectOnlyChildren]="false"
+                            ></avam-massnahmenart-waehlen-modal>
+                        </ng-template>
+                    </div>
+                </div>
+                <div class="wdg-row mb-2">
+                    <div class="wdg-radio">
+                        <input type="radio" name="wdgRadio" [checked]="!isWgdAktionenSelect" (change)="changeInputStatus()" />
+                    </div>
+                    <core-input
+                        class="w-100 massnahmen-wgdAktionenText"
+                        formControlName="wgdAktionenText"
+                        [disableControl]="isWgdAktionenSelect"
+                        placeholder="{{ 'stes.label.wiedereingliederung.aktionEintragen' | translate }}"
+                    ></core-input>
+                </div>
+                <div class="add-padding-left">
+                    <h5>{{ 'benutzerverwaltung.label.bemerkung' | translate }}</h5>
+                    <app-textarea [maxLength]="255" customFormControlState id="bemerkung" formControlName="bemerkung" [fullWidth]="true"> </app-textarea>
+                </div>
+                <hr />
+                <avam-label-calendar
+                    controlName="erfassungsdatum"
+                    id="erfassungsdatum"
+                    calendarLabel="{{ 'stes.label.wiedereingliederung.erfassungsDatum' }}"
+                    [parentForm]="aktionErfassenForm"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'stes.label.inderZeit' }}"
+                    [parentForm]="aktionErfassenForm"
+                    formControlNameFrom="wdgDatumVon"
+                    formControlNameTo="wdgDatumBis"
+                    [isResponsive]="true"
+                >
+                </avam-date-range-picker>
+                <avam-label-checkbox
+                    componentId="durchgefuehrt"
+                    controlName="durchgefuehrt"
+                    [parentForm]="aktionErfassenForm"
+                    selectLabel="{{ 'stes.label.wiedereingliederung.durchgefuehrt' }}"
+                ></avam-label-checkbox>
+                <avam-dropdown-array
+                    selectedLabel="{{ 'stes.wdg.label.ziel' }}"
+                    [parentForm]="aktionErfassenForm"
+                    formArray="ziel"
+                    [dropDownOptions]="dropDownOptions"
+                    [idPrefix]="'ziel'"
+                ></avam-dropdown-array>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    id="personalberater"
+                    controlName="personalberater"
+                    [parentForm]="aktionErfassenForm"
+                    componentLabel="{{ 'stes.label.bearbeitung' }}"
+                    [benutzerSuchenTokens]="bearbeitungSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    #pberater
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="wdgAktionId" class="btn btn-secondary ml-1" type="button" (click)="openDeleteDialog()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.aktionLoeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

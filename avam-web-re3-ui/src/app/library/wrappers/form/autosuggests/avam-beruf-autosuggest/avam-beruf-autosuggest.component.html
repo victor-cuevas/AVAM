@@ -1,0 +1,62 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="form-group row">
+    <div *ngIf="componentLabel != null" class="col-lg-4 col-md-4 text-right">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [ngClass]="componentLabel == null ? 'col-lg-12 col-md-12' : 'col-lg-8 col-md-8'" class="d-flex">
+        <div class="input-group d-flex flex-nowrap" *ngIf="!isReadOnly">
+            <div [ngClass]="showFilter ? 'w-60' : 'w-100'" orFormControlState>
+                <core-autosuggest
+                    arrow-scrolling
+                    #inputElement
+                    dynamicControlName
+                    [formControlName]="controlName"
+                    [placeholder]="placeholder | translate"
+                    [inputFormatter]="inputFormatter"
+                    [template]="rt"
+                    [searchFunction]="searchBeruf"
+                    [disableControl]="isDisabled"
+                    [container]="container"
+                    [scrollIntoView]="scrollIntoView"
+                    ngbTooltip="{{ tooltip | translate }}"
+                    triggers="{{ tooltip ? 'hover' : 'click' }}"
+                    style="width: inherit;"
+                    (onInput)="input($event)"
+                    (onChange)="change($event)"
+                    (onKeyup)="keyup($event)"
+                    (onBlur)="blur($event)"
+                    (onSelect)="select($event)"
+                >
+                </core-autosuggest>
+                <or-error-messages></or-error-messages>
+            </div>
+            <div *ngIf="!isReadOnly && showFilter" [ngClass]="[isReadOnly ? 'd-none' : 'as-filter-width', showFilter ? 'w-40' : '']">
+                <select class="form-control" id="filterDropdown" #filterDropdown [disabled]="isDisabled">
+                    <option *ngFor="let option of filterOptions" [selected]="gueltigkeitStatus === option.value" value="{{ option.value }}">{{
+                        option | dbTranslate: 'label'
+                    }}</option>
+                </select>
+            </div>
+        </div>
+        <div *ngIf="isReadOnly">
+            <p class="mb-2">
+                {{ inputValue }}
+            </p>
+        </div>
+    </div>
+</div>
+<ng-template #rt let-r="result" let-t="term">
+    <div class="row flex-nowrap" avamAlignPopupTemplateAndInput>
+        <button class="d-inline-block w-50 pl-1 pr-1 min-width-100px tooltip-btn" [ngbTooltip]="r.genderSpecificTranslatedObject.bezeichnung">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.genderSpecificTranslatedObject.bezeichnung" [term]="t"></ngb-highlight>
+        </button>
+        <div class="d-inline-block w-10 pl-1 pr-1 min-width-100px">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.genderSpecificTranslatedObject.bfsStammcode" [term]="t"></ngb-highlight>
+        </div>
+        <button class="d-inline-block w-25 pl-1 pr-1 min-width-100px tooltip-btn" [ngbTooltip]="r.genderSpecificTranslatedObject.chIscoBeruf">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.genderSpecificTranslatedObject.chIscoBeruf" [term]="t"></ngb-highlight>
+        </button>
+        <button class="d-inline-block w-15 pl-1 pr-1 min-width-100px tooltip-btn" [ngbTooltip]="r.genderSpecificTranslatedObject.anerkennung">
+            <ngb-highlight class="text-overflow-with-dots w-100" [result]="r.genderSpecificTranslatedObject.anerkennung" [term]="t"></ngb-highlight>
+        </button>
+    </div>
+</ng-template>

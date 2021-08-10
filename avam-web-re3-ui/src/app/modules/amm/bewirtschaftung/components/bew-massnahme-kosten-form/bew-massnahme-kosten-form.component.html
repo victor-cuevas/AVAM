@@ -1,0 +1,197 @@
+<form [formGroup]="formGroup" #ngForm="ngForm">
+    <div class="avam-panel d-flex flex-column">
+        <div class="d-flex">
+            <div class="col-md-4">
+                <avam-currency-input
+                    avamAutofocus
+                    id="kurskosten"
+                    controlName="kurskosten"
+                    [parentForm]="formGroup"
+                    label="amm.nutzung.label.kurskosten"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    customInputClass="col-md-6"
+                    customLabelClass="col-md-5"
+                    customSecondaryLabelClass="col-md-1 px-0"
+                    (onChange)="recalculateAllValues()"
+                ></avam-currency-input>
+            </div>
+            <div class="col-md-4">
+                <avam-label-dropdown
+                    selectLabel="amm.nutzung.label.an"
+                    inputClass="col-md-8"
+                    labelClass="col-md-4"
+                    id="kurskostenAn"
+                    [parentForm]="formGroup"
+                    controlName="kurskostenAn"
+                    [options]="kursAndMaterialkostenAnOptions"
+                ></avam-label-dropdown>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <hr class="divider w-100" />
+        <div class="d-flex">
+            <div class="col-md-4">
+                <avam-currency-input
+                    id="materialkosten"
+                    controlName="materialkosten"
+                    [parentForm]="formGroup"
+                    label="amm.nutzung.label.materialkosten"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    customInputClass="col-md-6"
+                    customLabelClass="col-md-5"
+                    customSecondaryLabelClass="col-md-1 px-0"
+                    (onChange)="recalculateAllValues()"
+                ></avam-currency-input>
+            </div>
+            <div class="col-md-4">
+                <avam-label-dropdown
+                    selectLabel="amm.nutzung.label.an"
+                    inputClass="col-md-8"
+                    labelClass="col-md-4"
+                    id="materialkostenAn"
+                    [parentForm]="formGroup"
+                    controlName="materialkostenAn"
+                    [options]="kursAndMaterialkostenAnOptions"
+                ></avam-label-dropdown>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <hr class="divider w-100" />
+        <div class="d-flex">
+            <div class="col-md-4">
+                <avam-currency-input
+                    id="pruefungskosten"
+                    controlName="pruefungskosten"
+                    [parentForm]="formGroup"
+                    label="amm.nutzung.label.pruefungskosten"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    customInputClass="col-md-6"
+                    customLabelClass="col-md-5"
+                    customSecondaryLabelClass="col-md-1 px-0"
+                    (onChange)="recalculateAllValues()"
+                ></avam-currency-input>
+            </div>
+            <div class="col-md-4">
+                <avam-label-dropdown
+                    selectLabel="amm.nutzung.label.an"
+                    inputClass="col-md-8"
+                    labelClass="col-md-4"
+                    id="pruefungskostenAn"
+                    [parentForm]="formGroup"
+                    controlName="pruefungskostenAn"
+                    [options]="pruefungskostenAnOptions"
+                    (onChange)="checkPruefungsinstitution($event)"
+                ></avam-label-dropdown>
+            </div>
+            <div class="col-md-4">
+                <avam-unternehmen-autosuggest
+                    *ngIf="showPruefungsinstitution"
+                    id="pruefungsinstitution"
+                    controlName="pruefungsinstitution"
+                    [parentForm]="formGroup"
+                    placeholder="{{ 'amm.nutzung.label.pruefungsinstitution' }}"
+                    [simpleInput]="false"
+                    componentLabel="amm.nutzung.label.pruefungsinstitution"
+                    isAvamOnly="true"
+                ></avam-unternehmen-autosuggest>
+            </div>
+        </div>
+        <hr class="divider w-100" />
+        <div class="d-flex">
+            <div class="col-md-4">
+                <avam-currency-input
+                    id="kurskostenTotal"
+                    controlName="kurskostenTotal"
+                    [parentForm]="formGroup"
+                    label="amm.nutzung.label.totalKosten"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    customInputClass="col-md-6"
+                    customLabelClass="col-md-5"
+                    customSecondaryLabelClass="col-md-1 px-0"
+                    readOnly="true"
+                ></avam-currency-input>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+    <div class="avam-panel d-flex flex-column">
+        <label class="d-flex">
+            <h3>{{ 'amm.massnahmen.label.durchfuehrung' | translate }}</h3>
+        </label>
+        <div class="d-flex">
+            <div class="col-md-4">
+                <avam-label-input
+                    textDirection="rtl"
+                    id="anzahlKurstage"
+                    [parentForm]="formGroup"
+                    selectLabel="{{ 'amm.massnahmen.label.anzahlkurstage' }}"
+                    controlName="anzahlKurstage"
+                    inputClass="col-md-6"
+                    labelClass="col-md-5"
+                    (onChange)="recalculateAllValues()"
+                ></avam-label-input>
+            </div>
+            <div class="col-md-4">
+                <avam-currency-input
+                    id="kostenProTag"
+                    controlName="kostenProTag"
+                    [parentForm]="formGroup"
+                    label="amm.nutzung.label.kostenprotag"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    customInputClass="col-md-4"
+                    customLabelClass="col-md-6"
+                    customSecondaryLabelClass="col-md-1 px-0"
+                    readOnly="true"
+                ></avam-currency-input>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+        <div class="d-flex">
+            <div class="col-md-4">
+                <avam-label-input
+                    textDirection="rtl"
+                    id="anzahlLektionen"
+                    [parentForm]="formGroup"
+                    selectLabel="{{ 'amm.massnahmen.label.anzahllektionen' }}"
+                    controlName="anzahlLektionen"
+                    inputClass="col-md-6"
+                    labelClass="col-md-5"
+                    (onChange)="recalculateAllValues()"
+                ></avam-label-input>
+            </div>
+            <div class="col-md-4">
+                <avam-currency-input
+                    id="kostenProLektion"
+                    controlName="kostenProLektion"
+                    [parentForm]="formGroup"
+                    label="amm.nutzung.label.kostenprolektion"
+                    secondaryLabel="amm.zahlungen.label.chf"
+                    customInputClass="col-md-4"
+                    customLabelClass="col-md-6"
+                    customSecondaryLabelClass="col-md-1 px-0"
+                    readOnly="true"
+                ></avam-currency-input>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+    <div class="avam-panel d-flex flex-column">
+        <div class="d-flex">
+            <div class="col-md-4">
+                <avam-prepend-numeric-input
+                    selectLabel="amm.massnahmen.label.platzeKapazitat"
+                    prependLabel="amm.nutzung.label.max"
+                    componentId="anzahlTeilnehmerMax"
+                    [parentForm]="formGroup"
+                    controlName="anzahlTeilnehmerMax"
+                    customInputWrapperClass="col-md-6"
+                    customLabelClass="col-md-5"
+                    customWrapperClass="rtl"
+                ></avam-prepend-numeric-input>
+            </div>
+            <div class="col-md-4"></div>
+            <div class="col-md-4"></div>
+        </div>
+    </div>
+</form>

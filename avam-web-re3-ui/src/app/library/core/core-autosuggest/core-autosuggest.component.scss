@@ -1,0 +1,57 @@
+.autosuggest-icon {
+    background-color: transparent;
+    border: none;
+    color: #b4b4b4;
+    margin-left: -2rem;
+    outline: none;
+    padding: 0.375rem;
+    width: 2rem;
+    z-index: 3;
+}
+
+avam-info-icon-btn {
+    position: absolute;
+    right: 0;
+}
+
+button.text-control-clear {
+    span.fa-times-circle {
+        opacity: 0;
+    }
+
+    &:focus {
+        span.fa-times-circle {
+            opacity: 1 !important;
+        }
+
+        ~ avam-info-icon-btn {
+            right: 20px;
+        }
+    }
+}
+
+.text-control {
+    .w-100.ml-3.mr-3:hover,
+    &:hover {
+        /deep/ button.text-control-clear span.fa-times-circle {
+            opacity: 1 !important;
+        }
+    }
+}
+
+input {
+    &.show-clear-button:not([disabled]) {
+        + button.text-control-clear {
+            display: block !important;
+
+            span.fa-times-circle {
+                opacity: 1 !important;
+            }
+        }
+    }
+}
+
+.noInfoButton {
+    margin-left: -3.4rem !important;
+}
+

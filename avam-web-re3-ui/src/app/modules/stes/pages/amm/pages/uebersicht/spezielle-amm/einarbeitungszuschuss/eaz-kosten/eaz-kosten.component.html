@@ -1,0 +1,146 @@
+<form [formGroup]="eazKostenForm" #ngForm="ngForm" closeBrowserTab [form]="eazKostenForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    selectLabel="{{ 'amm.nutzung.label.berechnungsvariante' }}"
+                    [parentForm]="eazKostenForm"
+                    controlName="berechnungsvariante"
+                    id="berechnungsvariante"
+                    [options]="berechnungsvarianteOptions"
+                    [readOnly]="disableFieldsByEntscheidStatus"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+                <avam-input-slider
+                    [showTwoLines]="true"
+                    [parentForm]="eazKostenForm"
+                    controlName="beschaeftigungsgrad"
+                    id="beschaeftigungsgrad"
+                    selectLabel="stes.label.beschaeftigungsgrad"
+                    [isDisabled]="disableFieldsByEntscheidStatus"
+                >
+                    <span>%</span>
+                </avam-input-slider>
+                <avam-currency-input
+                    controlName="monatslohn"
+                    [parentForm]="eazKostenForm"
+                    id="monatslohn"
+                    label="common.label.monatslohn"
+                    secondaryLabel="common.label.chf"
+                    [readOnly]="disableFieldsByEntscheidStatus"
+                    customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-3' : 'col-md-3 flex-row-reverse' }}"
+                ></avam-currency-input>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.berechnungsgrundlage' | translate }}</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3 text-right">
+                        <p class="mb-2 border-bottom-solid-thin">{{ eazKostenData?.berechnungsGrundlage | formatSwissFranc: true }}</p>
+                    </div>
+                    <div class="col-lg-4 col-md-4">
+                        <p>{{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <avam-label-calendar
+                    id="einarbeitung"
+                    controlName="einarbeitung"
+                    calendarLabel="amm.nutzung.label.einarbeitungVon"
+                    [parentForm]="eazKostenForm"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'stes.subnavmenuitem.stesAmm.ausrichtung' }}"
+                    [parentForm]="eazKostenForm"
+                    formControlNameFrom="ausrichtungVon"
+                    formControlNameTo="ausrichtungBis"
+                    [isResponsive]="true"
+                    [readOnly]="disableFieldsByEntscheidStatus ? 'all' : ''"
+                ></avam-date-range-picker>
+                <div class="row mt-3">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.ausrichtungszeitraum' | translate }}</label>
+                    </div>
+                    <div class="px-3 col-md-3">
+                        <p class="mb-2  border-bottom-solid-thin text-right">{{ eazKostenData?.ausrichtungszeitraumInMonaten | formatNumber: '1' }}</p>
+                    </div>
+                    <p>{{ 'stes.label.monate' | translate }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3">
+                        <h4>{{ 'amm.nutzung.label.zeitraum' | translate }}</h4>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 text-center">
+                        <h4>{{ 'stes.subnavmenuitem.stesAmm.zuschussProzent' | translate }}</h4>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 text-right">
+                        <h4>{{ 'stes.subnavmenuitem.stesAmm.zuschussChf' | translate }}</h4>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 text-right">
+                        <h4>{{ 'stes.subnavmenuitem.stesAmm.restlohnChf' | translate }}</h4>
+                    </div>
+                </div>
+                <hr class="hr-thick" />
+                <div *ngFor="let zuschuss of eazKostenData?.zuschuesse" class="row mb-2">
+                    <div class="col-xl-3 col-lg-3">{{ zuschuss.index + 1 }}. {{ zuschuss.gueltigAb | date: 'dd.MM' }} - {{ zuschuss.gueltigBis | date: 'dd.MM' }}</div>
+                    <div class="col-xl-3 col-lg-3 text-center">
+                        {{ zuschuss.zuschussProzente }}
+                    </div>
+                    <div class="col-xl-3 col-lg-3 text-right">
+                        {{ zuschuss.zuschussBetraege | formatSwissFranc }}
+                    </div>
+                    <div class="col-xl-3 col-lg-3 text-right">
+                        {{ zuschuss.restLohn | formatSwissFranc }}
+                    </div>
+                </div>
+                <hr class="hr-thick" />
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3"></div>
+                    <div class="col-xl-3 col-lg-3 pr-2rem font-weight-bold text-center">Ø {{ eazKostenData?.zuschussProzenteDurchschnitt }}</div>
+                    <div class="col-xl-3 col-lg-3 font-weight-bold text-right">
+                        {{ eazKostenData?.zuschussSumme | formatSwissFranc }}
+                    </div>
+                    <div class="col-xl-3 col-lg-3 font-weight-bold text-right">
+                        {{ eazKostenData?.restlohnSumme | formatSwissFranc: true }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(eazKostenButtons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR, ammButtonsTypeEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="(eazKostenButtons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-secondary ml-1" type="button" (click)="onBerechnen()">
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button *ngIf="(eazKostenButtons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button></ng-template
+>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'common.label.entscheidnr' | translate }} </b>
+        <span>{{ entscheidNr }}</span>
+    </div>
+</ng-template>

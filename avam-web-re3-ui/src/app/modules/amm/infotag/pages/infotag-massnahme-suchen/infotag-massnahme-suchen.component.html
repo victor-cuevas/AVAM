@@ -1,0 +1,30 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <avam-infotag-massnahme-suchen-form (onEnter)="search()" #massnahmeSuchenForm [infotagMassnahmeData]="infotagMassnahmeData"></avam-infotag-massnahme-suchen-form>
+        <or-spinner [channel]="STATE_KEY"></or-spinner>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button avamDisableOnSpinner type="submit" class="btn btn-primary" (click)="search()">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="default-layout">
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <or-spinner [channel]="tableSpinnerChannel"></or-spinner>
+        <avam-infotag-massnahme-suchen-table [dataSource]="dataSource" (onItemSelected)="itemSelected($event)"></avam-infotag-massnahme-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-infotag-massnahme-suchen-table [dataSource]="dataSource"  [forPrinting]="true"></avam-infotag-massnahme-suchen-table>
+    </avam-generic-table-print>
+</ng-template>

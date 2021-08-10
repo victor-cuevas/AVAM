@@ -1,0 +1,213 @@
+<form [formGroup]="basisangabenForm">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    [parentForm]="basisangabenForm"
+                    id="stellenbezeichnung"
+                    controlName="stellenbezeichnung"
+                    selectLabel="{{ 'arbeitgeber.oste.label.stellenbezeichnung' }}"
+                    [readOnly]="true"
+                >
+                </avam-label-input>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right align-self-center mr-3">
+                        <label>{{ 'arbeitgeber.oste.label.stellenbeschreibung' | translate }}</label>
+                    </div>
+                    <button
+                        type="button"
+                        (click)="openStellenbeschreibungModal()"
+                        class="btn btn-secondary rounded-0"
+                        ngbTooltip="{{ 'arbeitgeber.oste.label.stellenbeschreibung' | translate }}"
+                    >
+                        <span class="fa fa-clone"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <div class="row">
+                    <div class="col-xs-4 col-md-4 col-lg-4 text-right align-self-center">
+                        <label>{{ 'arbeitgeber.oste.label.stellenantritt' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8">
+                        <avam-label-checkbox
+                            componentId="abSofort"
+                            [parentForm]="basisangabenForm"
+                            controlName="abSofort"
+                            selectLabel="{{ 'arbeitgeber.oste.label.absofort' }}"
+                            [isDisabled]="true"
+                            inputClass=" "
+                        ></avam-label-checkbox>
+                    </div>
+                </div>
+                <avam-label-checkbox
+                    componentId="nachVereinbarung"
+                    [parentForm]="basisangabenForm"
+                    controlName="nachVereinbarung"
+                    selectLabel="{{ 'arbeitgeber.oste.label.nachvereinbarung' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <div class="calendar-padding-top form-group row">
+                    <div class="col-4"></div>
+                    <div class="col-3">
+                        <avam-label-checkbox
+                            inputClass=" "
+                            componentId="checkboxAb"
+                            [parentForm]="basisangabenForm"
+                            controlName="checkboxAb"
+                            selectLabel="{{ 'arbeitgeber.oste.label.ab' }}"
+                            [isDisabled]="true"
+                        ></avam-label-checkbox>
+                    </div>
+                    <div>
+                        <avam-label-calendar
+                            id="stellenAntritt"
+                            controlName="stellenAntritt"
+                            inputClass="w-60"
+                            [parentForm]="basisangabenForm"
+                            [readOnly]="true"
+                        ></avam-label-calendar>
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    [parentForm]="basisangabenForm"
+                    controlName="fristTyp"
+                    id="fristTyp"
+                    [options]="fristTypOptions"
+                    selectLabel="arbeitgeber.oste.label.anstellungsdauer"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <avam-label-calendar
+                    *ngIf="basisangabenForm.get('vertragsdauer').value"
+                    id="vertragsdauer"
+                    controlName="vertragsdauer"
+                    [parentForm]="basisangabenForm"
+                    calendarLabel="common.label.bis"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-range-valued-wrapper
+                    id="beschaeftigungsgrad"
+                    [parentForm]="basisangabenForm.controls.beschaeftigungsgradSlider"
+                    rangeSliderControlName="beschaeftigungsgrad"
+                    fromInputControlName="pensumVon"
+                    toInputControlName="pensumBis"
+                    [isDisabled]="true"
+                    selectLabel="arbeitgeber.oste.label.beschaeftigungsgrad"
+                    percentage="true"
+                ></avam-range-valued-wrapper>
+                <avam-input-slider
+                    id="arbeitszeitStd"
+                    [parentForm]="basisangabenForm"
+                    controlName="arbeitszeitStd"
+                    selectLabel="arbeitgeber.oste.label.wochenarbeitszeit"
+                    [isDisabled]="true"
+                    min="1"
+                    max="99"
+                    stundenLabel="true"
+                ></avam-input-slider>
+                <avam-multiselect
+                    id="arbeitsform"
+                    controlName="arbeitsform"
+                    [parentForm]="basisangabenForm"
+                    [options]="arbeitsformenOptions"
+                    label="arbeitgeber.oste.label.besarbeitsformen"
+                    [isDisabled]="true"
+                ></avam-multiselect>
+            </div>
+            <div class="avam-panel">
+                <app-textarea
+                    customFormControlState
+                    [maxLength]="255"
+                    id="detailangaben"
+                    formControlName="detailangaben"
+                    selectLabel="arbeitgeber.oste.label.ergaenzendeangaben"
+                    [readonly]="true"
+                ></app-textarea>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.lohnanganben' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    [parentForm]="basisangabenForm"
+                    controlName="lohnart"
+                    id="lohnart"
+                    [options]="lohnartOptions"
+                    selectLabel="arbeitgeber.oste.label.art"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="basisangabenForm"
+                    controlName="waehrung"
+                    id="waehrung"
+                    [options]="waehrungOptions"
+                    selectLabel="arbeitgeber.oste.label.waehrung"
+                    [readOnly]="true"
+                ></avam-label-dropdown>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'arbeitgeber.oste.label.lohn' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 row justify-content-between no-gutters">
+                        <div class="col-12 col-xl-6 row justify-content-between align-items-baseline no-gutters">
+                            <p class="col-lg-4">{{ basisangabenForm.controls.lohnMin.value }}</p>
+                            <p class="col-lg-8 p-1">{{ 'arbeitgeber.oste.label.lohnmin' | translate }}</p>
+                        </div>
+                        <div class="col-12 col-xl-6 row justify-content-between align-items-baseline no-gutters">
+                            <p class="col-lg-4">{{ basisangabenForm.controls.lohnMax.value }}</p>
+                            <p class="col-lg-8 p-1">{{ 'arbeitgeber.oste.label.lohnmax' | translate }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.arbeitsort' | translate }}</h3>
+                </label>
+                <avam-label-input
+                    [parentForm]="basisangabenForm"
+                    controlName="arbeitsortStaat"
+                    id="arbeitsortStaat"
+                    selectLabel="{{ 'common.label.land' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="basisangabenForm.controls.arbeitsortStaat"
+                    [parentForm]="basisangabenForm"
+                    label="arbeitgeber.oste.label.plzort"
+                    [readOnly]="true"
+                ></avam-plz-autosuggest>
+                <avam-label-input
+                    [parentForm]="basisangabenForm"
+                    id="arbeitsortText"
+                    controlName="arbeitsortText"
+                    selectLabel="{{ 'arbeitgeber.oste.label.zusatztext' }}"
+                    [readOnly]="true"
+                >
+                </avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <avam-label-checkbox
+                    componentId="behinderte"
+                    inputClass="col-lg-4"
+                    [parentForm]="basisangabenForm"
+                    controlName="behinderte"
+                    selectLabel="{{ 'arbeitgeber.oste.label.behindertegeeignet' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="jobSharing"
+                    inputClass="col-lg-4"
+                    [parentForm]="basisangabenForm"
+                    controlName="jobSharing"
+                    selectLabel="{{ 'arbeitgeber.oste.label.jobsharing' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+            </div>
+        </div>
+    </div>
+</form>

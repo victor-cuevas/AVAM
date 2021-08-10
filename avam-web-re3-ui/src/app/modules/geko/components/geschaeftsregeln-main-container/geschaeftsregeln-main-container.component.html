@@ -1,0 +1,26 @@
+<div class="sticky">
+    <div class="sticky-main">
+        <or-column-layout orColumnLayoutExtension [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="navigation-container sticky">
+                <div class="navigation-resizable" sideNavigationResize></div>
+                <app-navigation [navPath]="navPath"></app-navigation>
+            </div>
+            <div column-main-content class="h-100 default-layout">
+                <or-spinner [channel]="channel"></or-spinner>
+                <div class="row">
+                    <div class="col-8 d-flex align-items-center" *ngIf="header">
+                        <h1 class="pr-5" *ngIf="header?.kanton">{{ 'common.label.kanton' | translate }} {{ header?.kanton | dbTranslate: 'name' }}</h1>
+                        <h2 *ngIf="header?.title">{{ header?.title | translate }}</h2>
+                        <app-result-count *ngIf="header?.tableCount" [dataLength]="header?.tableCount" [isInfoleiste]="true"></app-result-count>
+                    </div>
+                    <div class="col-4 pull-right">
+                        <app-toolbox></app-toolbox>
+                    </div>
+                </div>
+                <hr class="nm-t-6" />
+                <avam-alert></avam-alert>
+                <router-outlet> </router-outlet>
+            </div>
+        </or-column-layout>
+    </div>
+</div>

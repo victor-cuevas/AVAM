@@ -1,0 +1,241 @@
+<form [formGroup]="schnellzuweisungForm" #ngForm="ngForm" closeBrowserTab [showPromptOnBeforeUnload]="shouldShowPrompt" [form]="schnellzuweisungForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="schnellzuweisungChannel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <avam-label-calendar
+                    controlName="schnellzuweisungVom"
+                    [parentForm]="schnellzuweisungForm"
+                    id="schnellzuweisungVom"
+                    calendarLabel="{{ 'stes.label.vermittlung.schnellzuweisungvom' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [isFocused]="true"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="bewerbungBis"
+                    [parentForm]="schnellzuweisungForm"
+                    id="bewerbungBis"
+                    calendarLabel="{{ 'stes.label.vermittlung.bewerbungBis' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-personalberater-autosuggest
+                    id="vermittlung"
+                    controlName="vermittlung"
+                    [parentForm]="schnellzuweisungForm"
+                    componentLabel="{{ 'common.label.bearbeitungdurch' }}"
+                    placeholder="{{ 'common.label.bearbeitungdurch' | translate }}"
+                    [benutzerSuchenTokens]="vermittlungSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    showFilter="true"
+                    (onPersonalEmailClick)="onPersonalEmailClick()"
+                    #vermittlung
+                ></avam-personalberater-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'erweitertesuche.label.arbeitgeber' | translate }}</h3>
+                </label>
+                <avam-unternehmen-autosuggest
+                    [parentForm]="schnellzuweisungForm"
+                    controlName="arbeitgeberName1"
+                    [inputClass]="'col-lg-8 col-md-8'"
+                    componentLabel="common.label.name"
+                    suchePlusLabel="erweitertesuche.label.arbeitgeber"
+                    (onSelect)="selectedItem($event)"
+                    (onInput)="onUnternehmenInput()"
+                    [simpleInput]="true"
+                ></avam-unternehmen-autosuggest>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8 text-right">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="schnellzuweisungForm" controlName="arbeitgeberName2"> </avam-label-input>
+                    </div>
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8 text-right">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="schnellzuweisungForm" controlName="arbeitgeberName3"> </avam-label-input>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label for="strasse" class="col-form-label"> {{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 text-right">
+                        <avam-label-input placeholder="{{ 'common.label.strasse' }}" inputClass="col-lg-12" [parentForm]="schnellzuweisungForm" controlName="arbeitgeberStrasse">
+                        </avam-label-input>
+                    </div>
+                    <div class="col-lg-2 col-md-2 text-right">
+                        <avam-label-input placeholder="{{ 'common.label.nr' }}" inputClass="col-lg-12" [parentForm]="schnellzuweisungForm" controlName="arbeitgeberStrasseNr">
+                        </avam-label-input>
+                    </div>
+                </div>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="schnellzuweisungForm.controls.land"
+                    [parentForm]="schnellzuweisungForm.get('plz')"
+                    [readOnly]="false"
+                    [supportsSimpleInput]="true"
+                    label="stes.label.plzort"
+                    placeholderPlz="{{ 'stes.label.plz' | translate }}"
+                    placeholderOrt="{{ 'stes.label.vermittlung.ort' | translate }}"
+                ></avam-plz-autosuggest>
+                <avam-label-input [parentForm]="schnellzuweisungForm" controlName="unternehmenPostfach" selectLabel="{{ 'common.label.postfach' }}"></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="schnellzuweisungForm.controls.land"
+                    [parentForm]="schnellzuweisungForm.get('postfach')"
+                    [readOnly]="false"
+                    [supportsSimpleInput]="true"
+                    label="stes.vermittlung.label.plzortpostfach"
+                    placeholderPlz="{{ 'stes.label.plz' | translate }}"
+                    placeholderOrt="{{ 'common.label.ortpostfach' | translate }}"
+                ></avam-plz-autosuggest>
+                <div class="form-group">
+                    <avam-land-autosuggest id="land" controlName="land" [parentForm]="schnellzuweisungForm" componentLabel="stes.label.land"></avam-land-autosuggest>
+                </div>
+            </div>
+
+            <div class="avam-panel" formGroupName="kontaktpersonForm">
+                <avam-kontaktperson-input-wrapper
+                    (onClear)="onKontaktpersonClear()"
+                    componentLabel="{{ 'amm.nutzung.label.kontaktperson' }}"
+                    [parentForm]="schnellzuweisungForm"
+                    controlName="kontaktperson"
+                    [unternehmenId]="unternehmenId"
+                    (kontaktpersonSelected)="onKontaktpersonSelected($event)"
+                    [disabled]="shouldDisableModal"
+                    placeholder="stes.label.kontaktpersonAuswaehlen"
+                ></avam-kontaktperson-input-wrapper>
+                <avam-label-dropdown
+                    [parentForm]="schnellzuweisungForm.get('kontaktpersonForm')"
+                    controlName="anrede"
+                    selectLabel="{{ 'stes.label.fachberatung.anrede' }}"
+                    id="anrede"
+                    [options]="anredeOptions"
+                    [readOnly]="schnellzuweisungForm.controls.kontaktperson.value"
+                >
+                </avam-label-dropdown>
+                <avam-label-input
+                    [parentForm]="schnellzuweisungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonName"
+                    selectLabel="{{ 'common.label.name' }}"
+                    [readOnly]="schnellzuweisungForm.controls.kontaktperson.value"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="schnellzuweisungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonVorname"
+                    selectLabel="{{ 'common.label.vorname' }}"
+                    [readOnly]="schnellzuweisungForm.controls.kontaktperson.value"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    [parentForm]="schnellzuweisungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonTelefon"
+                    selectLabel="{{ 'common.label.telefon' }}"
+                    [readOnly]="schnellzuweisungForm.controls.kontaktperson.value"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="schnellzuweisungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonEmail"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                    [readOnly]="schnellzuweisungForm.controls.kontaktperson.value"
+                ></app-email-input>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    [parentForm]="schnellzuweisungForm"
+                    controlName="stellenbezeichnung"
+                    selectLabel="{{ 'arbeitgeber.oste.label.stellenbezeichnung' }}"
+                ></avam-label-input>
+                <avam-beruf-autosuggest [parentForm]="schnellzuweisungForm" controlName="berufTaetigkeit" componentLabel="stes.label.beruf"></avam-beruf-autosuggest>
+                <avam-input-slider
+                    [parentForm]="schnellzuweisungForm"
+                    controlName="vermittlungsGrad"
+                    [step]="1"
+                    [showTwoLines]="true"
+                    id="vermittlungsGrad"
+                    selectLabel="stes.label.beschaeftigungsgrad"
+                    [min]="1"
+                    ><span>%</span></avam-input-slider
+                >
+            </div>
+            <div class="avam-panel" formGroupName="checkboxForm">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.bewerbungsformen' | translate }}</h3>
+                </label>
+                <hr />
+                <avam-label-checkbox
+                    componentId="schriftlich"
+                    inputClass="mr-2"
+                    [parentForm]="checkboxForm"
+                    controlName="schriftlich"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbschriftlich' }}"
+                >
+                </avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="persoenlich"
+                    inputClass="mr-2"
+                    [parentForm]="checkboxForm"
+                    controlName="persoenlich"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbpersoenlich' }}"
+                >
+                </avam-label-checkbox>
+                <hr />
+                <avam-label-checkbox
+                    componentId="elektronisch"
+                    inputClass="mr-2"
+                    [parentForm]="checkboxForm"
+                    controlName="elektronisch"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbelektronisch' }}"
+                >
+                </avam-label-checkbox>
+                <app-email-input
+                    [parentForm]="schnellzuweisungForm"
+                    controlName="email"
+                    placeholder="stes.placeholder.email"
+                    [readOnly]="!checkboxForm.controls.elektronisch.value"
+                ></app-email-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.onlineBewerbung' }}"
+                    [parentForm]="schnellzuweisungForm"
+                    controlName="onlineFormular"
+                    selectLabel="{{ 'arbeitgeber.oste.label.onlinebewerbung' }}"
+                    [readOnly]="!checkboxForm.controls.elektronisch.value"
+                ></avam-label-input>
+                <hr />
+                <avam-label-checkbox
+                    componentId="telefonisch"
+                    inputClass="mr-2"
+                    [parentForm]="checkboxForm"
+                    controlName="telefonisch"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbtelefonisch' }}"
+                >
+                </avam-label-checkbox>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.mobile' }}"
+                    [parentForm]="schnellzuweisungForm"
+                    controlName="telefon"
+                    selectLabel="{{ 'common.label.telefon' }}"
+                    [readOnly]="!checkboxForm.controls.telefonisch.value"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_SCHNELLZUWEISUNG_BEARBEITEN]">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

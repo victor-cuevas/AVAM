@@ -1,0 +1,122 @@
+<div class="modal-content">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ 'unternehmen.message.wirklickburdatenverwendet' | translate }}</h4>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <ng-form #ngForm="ngForm">
+            <div class="col-xl-12 avam-panel">
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2"> {{ 'unternehmen.label.uidnummer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-form-label" avamAutoFocus>
+                        <a *ngIf="inputValue" [href]="'https://www.uid.admin.ch/Detail.aspx?uid_id=' + inputValue" target="_blank">
+                            <span class="mr-2">{{ inputValue }}</span>
+                        </a>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2"> {{ 'amm.massnahmen.label.burNr' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-form-label">
+                        {{ selectedBurData.burNr }}
+                    </div>
+                </div>
+                <div class="mb-lg-3">
+                    <avam-label-input [parentForm]="burDatenForm" controlName="name" selectLabel="unternehmen.label.name" [readOnly]="selectedBurData.name1"></avam-label-input>
+                    <avam-label-input
+                        *ngIf="selectedBurData.name2 || !selectedBurData.name1"
+                        [parentForm]="burDatenForm"
+                        controlName="name2"
+                        selectLabel=" "
+                        [readOnly]="selectedBurData.name1"
+                    ></avam-label-input>
+                    <avam-label-input
+                        *ngIf="selectedBurData.name3 || !selectedBurData.name1"
+                        [parentForm]="burDatenForm"
+                        controlName="name3"
+                        selectLabel=" "
+                        [readOnly]="selectedBurData.name1"
+                    ></avam-label-input>
+                </div>
+                <div class="row">
+                    <div class="col" style="position:relative">
+                        <div class="row mb-2">
+                            <div class="col-lg-4 col-md-4 text-right col-form-label">
+                                <label class="mb-2">{{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}</label>
+                            </div>
+                            <div class="col-lg-8 col-md-8 align-self-center">
+                                <div class="d-flex">
+                                    {{ selectedBurData.strasse + ' ' + selectedBurData.strasseNr }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="burDatenForm.get('land')"
+                    [parentForm]="burDatenForm.controls.plz"
+                    label="common.label.plzort"
+                    placeholderOrt="{{ 'unternehmen.label.burort' | translate }}"
+                    placeholderPlz="{{ 'unternehmen.label.burplz' | translate }}"
+                    supportsSimpleInput="true"
+                    [readOnly]="isOrtPlzValidForCH(selectedBurData.plzOrt) && (selectedBurData.plzOrt || selectedBurData.plzOrtPostfach)"
+                ></avam-plz-autosuggest>
+                <avam-label-input
+                    [parentForm]="burDatenForm"
+                    controlName="postfach"
+                    id="postfach"
+                    selectLabel="{{ 'stes.label.postfach' }}"
+                    placeholder="stes.label.nummer"
+                    readOnly="true"
+                ></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="burDatenForm.get('land')"
+                    [parentForm]="burDatenForm.controls.plzPostfach"
+                    label="arbeitgeber.oste.label.postfachplzortup"
+                    placeholderOrt="{{ 'unternehmen.label.burort' | translate }}"
+                    placeholderPlz="{{ 'unternehmen.label.burplz' | translate }}"
+                    supportsSimpleInput="true"
+                    [readOnly]="isOrtPlzValidForCH(selectedBurData.plzOrtPostfach) && (selectedBurData.plzOrtPostfach || selectedBurData.plzOrt)"
+                ></avam-plz-autosuggest>
+                <avam-land-autosuggest
+                    id="land"
+                    controlName="land"
+                    [parentForm]="burDatenForm"
+                    componentLabel="{{ 'stes.label.land' | translate }}"
+                    [readOnly]="selectedBurData.land"
+                ></avam-land-autosuggest>
+                <avam-branche-autosuggest
+                    id="branche"
+                    componentLabel="amm.nutzung.label.branche"
+                    [parentForm]="burDatenForm"
+                    controlName="branche"
+                    placeholder="{{ 'stes.placeholder.nogacode' | translate }}"
+                    [readOnly]="selectedBurData.branche"
+                ></avam-branche-autosuggest>
+            </div>
+        </ng-form>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <div>{{ MODAL_NUMMER }}</div>
+        <div class="sticky-actions">
+            <button type="button" id="abbrechen-button" class="btn btn-link" data-dismiss="modal" (click)="close()">
+                {{ 'common.button.neinNichtVerwenden' | translate }}
+            </button>
+            <button type="button" id="ok-button" class="btn btn-primary" (click)="submit()" [permissions]="[permissions.ARBEITGEBER_ERFASSEN]">
+                {{ 'common.button.verwenden' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

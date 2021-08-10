@@ -1,0 +1,48 @@
+<avam-generic-table
+    [dataSource]="dataSource"
+    [headers]="displayedColumns"
+    [footer]="true"
+    sortField="initial"
+    [sortOrder]="-1"
+    customSort="true"
+    (sortFunction)="sortFunction($event)"
+    [stateKey]="stateKey"
+    [recalculateMaxHeight]="false"
+    [shouldFocusInitialRow]="false"
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'gueltigBis' || column.columnDef === 'gueltigVon'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                    avamPrimaryButtonDirective
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    type="button"
+                    (primaryButtonClick)="itemSelected(row)"
+                ></button>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'chf'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ chfTotal }}</td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'teilnehmerTage'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ tnTageTotal }}</td> </ng-container
+        ><ng-container *ngIf="column.columnDef === 'teilnehmer'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ tnTotal }}</td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+        <td cdk-footer-cell *cdkFooterCellDef>{{ column.footer | translate }}</td>
+    </ng-container>
+</avam-generic-table>

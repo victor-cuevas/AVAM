@@ -1,0 +1,78 @@
+<div [ngClass]="{ responsive: isResponsive }" [formGroup]="parentForm" class="d-flex row form-group {{ containerClass }}" #ngForm="ngForm">
+    <div *ngIf="label" [ngClass]="[!hasVerticalLayout ? 'd-flex justify-content-end' : '', labelClass ? labelClass : 'col-lg-4 col-md-4']" class="text-right">
+        <label [ngClass]="{ 'mb-2 mt-2': !hasVerticalLayout }">
+            {{ label | translate }}
+        </label>
+    </div>
+    <div [ngClass]="[hasVerticalLayout ? 'd-flex flex-column' : 'd-flex flex-row', dropdownWrapper ? '' : 'flex-wrap', wrapperClass ? wrapperClass : 'col-lg-8 col-md-8']">
+        <div orFormControlState id="datepicker-von" [ngClass]="hasVerticalLayout ? 'flex-shrink-1 flex-grow-1 flex-basis-auto' : 'inner-control-size'" class="{{ inputClass }}">
+            <div class="d-flex flex-wrap">
+                <div class="w-100 d-flex">
+                    <div class="label w-25 text-center d-block" *ngIf="!hasVerticalLayout">
+                        {{ 'stes.label.von' | translate | lowercase }}
+                    </div>
+                    <div class="d-block" [ngClass]="hasVerticalLayout ? 'w-100' : 'w-75'" [ngStyle]="{ 'margin-bottom': hasVerticalLayout ? '10px' : null }">
+                        <div class="read-only" *ngIf="readOnlyStyleVon">{{ inputValueFrom }}</div>
+                        <core-calendar
+                            [ngStyle]="{
+                                visibility: readOnlyStyleVon ? 'hidden' : '',
+                                display: readOnlyStyleVon ? 'block' : '',
+                                height: readOnlyStyleVon ? '0' : ''
+                            }"
+                            [inputPlaceholder]="placeholderFrom"
+                            dynamicControlName
+                            [formControlName]="formControlNameFrom"
+                            [minDate]="minFrom"
+                            [maxDate]="maxFrom"
+                            [disableControl]="isDisabled"
+                            [bsConfig]="bsConfig"
+                            (dateChange)="onValueChangeFrom($event)"
+                        >
+                        </core-calendar>
+                    </div>
+                </div>
+                <div *ngIf="!readOnlyStyleVon" class="w-100 d-flex">
+                    <div class="w-25 d-block" *ngIf="!hasVerticalLayout"></div>
+                    <div class="d-block" [ngClass]="hasVerticalLayout ? 'w-100' : 'w-75'" [ngStyle]="{ 'margin-top': hasVerticalLayout ? '-10px' : null }">
+                        <or-error-messages extendWithWarnings></or-error-messages>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div orFormControlState id="datepicker-bis" [ngClass]="hasVerticalLayout ? 'flex-shrink-1 flex-grow-1 flex-basis-auto' : 'inner-control-size'" class="{{ inputClass }}">
+            <div class="d-flex flex-wrap">
+                <div class="w-100 d-flex">
+                    <div class="label w-25 text-center d-block" *ngIf="!hasVerticalLayout">
+                        {{ 'stes.label.bis' | translate | lowercase }}
+                    </div>
+                    <div class="d-block" [ngClass]="hasVerticalLayout ? 'w-100' : 'w-75'">
+                        <div class="read-only" *ngIf="readOnlyStyleBis">{{ inputValueTo }}</div>
+                        <core-calendar
+                            [ngStyle]="{
+                                visibility: readOnlyStyleBis ? 'hidden' : '',
+                                display: readOnlyStyleBis ? 'block' : '',
+                                height: readOnlyStyleBis ? '0' : ''
+                            }"
+                            [inputPlaceholder]="placeholderTo"
+                            dynamicControlName
+                            [formControlName]="formControlNameTo"
+                            [minDate]="minTo"
+                            [maxDate]="maxTo"
+                            [disableControl]="isDisabled"
+                            [bsConfig]="bsConfig"
+                            (dateChange)="onValueChangeTo($event)"
+                        >
+                        </core-calendar>
+                    </div>
+                </div>
+                <div *ngIf="!readOnlyStyleBis" class="w-100 d-flex">
+                    <div class="w-25 d-block" *ngIf="!hasVerticalLayout"></div>
+                    <div class="d-block" [ngClass]="hasVerticalLayout ? 'w-100' : 'w-75'">
+                        <or-error-messages extendWithWarnings></or-error-messages>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

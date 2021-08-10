@@ -1,0 +1,12 @@
+.lohnLabel {
+    padding-left: 3%;
+    padding-right: 5%;
+}
+
+.lohnInput {
+    width: 25%;
+}
+
+:host ::ng-deep avam-range-valued-wrapper .space-between-input-fields {
+    width: calc(100% - 2 * 220px);
+}

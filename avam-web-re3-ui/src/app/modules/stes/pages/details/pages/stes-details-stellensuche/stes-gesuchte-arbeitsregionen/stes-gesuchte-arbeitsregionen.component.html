@@ -1,0 +1,57 @@
+<div [formGroup]="parentForm">
+    <div formArrayName="autosuggests" *ngFor="let item of dynamicFormControls.controls; let i = index" class="form-group">
+        <div [formGroupName]="i">
+            <div class="d-flex m-0">
+                <div class="d-flex flex-grow-1 flex-shrink-1 flex-basis-auto">
+                    <div *ngIf="!readonly" class="p-0 w-100">
+                        <app-arbeitsorte-autosuggest
+                            arrow-scrolling
+                            #autosuggest
+                            [formGroupDirective]="formGroupDirective"
+                            [parentForm]="item"
+                            (selectItem)="selectedItem($event)"
+                            (writeItem)="selectedItem($event)"
+                            placeholder="arbeitgeber.label.codebezeichnung"
+                        ></app-arbeitsorte-autosuggest>
+                    </div>
+                </div>
+                <div class="d-flex flex-grow-0 flex-shrink-0 flex-basis-auto">
+                    <div *ngIf="!readonly" class="p-0 input-group-append d-block">
+                        <button
+                            type="button"
+                            [disabled]="disabled"
+                            ngbTooltip="{{ 'common.button.waehlenRegion' | translate }}"
+                            (click)="open(modalRegionenAuswaehlen)"
+                            class="btn btn-secondary rounded-0"
+                        >
+                            <span class="fa fa-clone fa-fw"></span>
+                        </button>
+                    </div>
+                    <div
+                        *ngIf="!readonly"
+                        class="d-flex justify-content-start ml-auto p-0 input-group-append d-block buttondiv"
+                        [ngClass]="{ 'text-align-left': !(i == items.length - 1) || !(items.length !== 1) }"
+                    >
+                        <button type="button" *ngIf="items.length !== 1" (click)="remove(i)" class="btn btn-secondary ml-1">
+                            <span class="fa fa-trash"></span>
+                        </button>
+                        <button *ngIf="i == items.length - 1" (click)="addItem()" type="button" class="btn btn-secondary ml-1">
+                            <span class="fa fa-plus"></span>
+                        </button>
+                        <button *ngIf="i == 0" type="button" class="btn btn-secondary ml-1 opacity-0" disabled>
+                            <span class="fa fa-plus"></span>
+                        </button>
+                    </div>
+                </div>
+                <div *ngIf="readonly">
+                    <p class="mb-2 p-0 w-100">
+                        {{ item.value.item.regionDe }}
+                    </p>
+                </div>
+            </div>
+            <ng-template #modalRegionenAuswaehlen>
+                <app-regionen-auswaehlen [id]="i" (emitRegion)="fillData($event)"></app-regionen-auswaehlen>
+            </ng-template>
+        </div>
+    </div>
+</div>

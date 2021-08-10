@@ -1,0 +1,19 @@
+<app-autosuggest-two-fields
+    id="id"
+    [value]="value"
+    [disabled]="disableControls"
+    (selectItem)="selectItem($event)"
+    [searchFunctionAutosuggestOne]="searchFunctionAutosuggestOne"
+    [searchFunctionAutosuggestTwo]="searchFunctionAutosuggestTwo"
+    [resultFormatterAutosuggestOne]="resultFormatterAutosuggestOne"
+    [resultFormatterAutosuggestTwo]="resultFormatterAutosuggestTwo"
+    [inputFormatterAutosuggestOne]="inputFormatterAutosuggestOne"
+    [inputFormatterAutosuggestTwo]="inputFormatterAutosuggestTwo"
+    [inputClassFirst]="inputClassFirst ? inputClassFirst : 'col-lg-3 col-md-3'"
+    [inputClassSecond]="inputClassSecond ? inputClassSecond : 'col-lg-5 col-md-5'"
+    [placeholderOne]="placeholderOne ? placeholderOne : ''"
+    [placeholderTwo]="placeholderTwo ? placeholderTwo : ''"
+    label="stes.label.gemeinde"
+    #autoSuggestComponent
+>
+</app-autosuggest-two-fields>

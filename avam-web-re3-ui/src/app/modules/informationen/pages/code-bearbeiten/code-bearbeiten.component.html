@@ -1,0 +1,23 @@
+<div class="sticky">
+    <div class="sticky-main ">
+        <or-column-layout orColumnLayoutExtension [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="navigation-container sticky">
+                <div class="navigation-resizable pt-3" sideNavigationResize></div>
+                <app-navigation [navPath]="navPath" [sideMenu]="sideMenu"></app-navigation>
+            </div>
+            <div column-main-content class="h-100 default-layout">
+                <avam-amm-infopanel></avam-amm-infopanel>
+                <avam-alert></avam-alert>
+                <avam-code-form></avam-code-form>
+            </div>
+        </or-column-layout>
+    </div>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+</ng-template>

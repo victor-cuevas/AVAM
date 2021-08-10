@@ -1,0 +1,63 @@
+<or-column-layout [left]="true" [right]="false">
+    <div column-left-content class="no-overflow h-100" (keyup.enter)="onSubmit()">
+        <form class="h-100" [formGroup]="searchForm" #ngForm="ngForm" autocomplete="off">
+            <div class="avam-panel avam-panel-extra-lighter search-height">
+                <h3>
+                    <span class="fa fa-search mr-2"></span>
+                    <span>{{ 'i18n.routes.stes-search.title' | translate }}</span>
+                </h3>
+                <label class="col-form-label">{{ 'stes.vermittlung.label.imzustaendigkeitsbereichvon' | translate }}</label>
+                <avam-personalberater-autosuggest
+                    #personalberater
+                    avamAutofocus
+                    id="benutzer"
+                    controlName="benutzer"
+                    [parentForm]="searchForm"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [type]="personalberaterAutosuggestType"
+                    container="body"
+                    [scrollIntoView]="false"
+                ></avam-personalberater-autosuggest>
+                <label class="col-form-label">{{ 'stes.vermittlung.label.zeitraum' | translate }}</label>
+                <avam-label-dropdown
+                    inputClass="col-lg-12 col-md-12"
+                    [parentForm]="searchForm"
+                    controlName="zeitraum"
+                    id="zeitraum"
+                    [options]="zeitraumOptions"
+                ></avam-label-dropdown>
+            </div>
+            <div column-left-content class="sticky-footer sticky-actions buttons-pannel-margin">
+                <button class="btn btn-link" type="button" (click)="onReset()">
+                    {{ 'common.button.zuruecksetzen' | translate }}
+                </button>
+                <button class="btn btn-primary ml-1" type="button" (click)="onSubmit()">
+                    <span class="fa fa-search"></span>
+                    {{ 'common.button.suchen' | translate }}
+                </button>
+            </div>
+        </form>
+    </div>
+    <div column-main-content class="default-layout">
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4">{{ 'stes.vermittlung.label.stellensuchendematchingtreffer' | translate }}&nbsp;&nbsp;</h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="dataSource.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox [configuration]="toolboxConfiguration" [id]="toolboxId" [formNumber]="formNumber"></app-toolbox>
+            </div>
+        </div>
+        <avam-alert></avam-alert>
+        <div column-main-content>
+            <or-spinner [channel]="spinnerChannel"></or-spinner>
+            <avam-stes-matchingtreffer-table #results [dataSource]="dataSource" [stateKey]="stateKey" (onItemSelected)="itemSelected($event)"></avam-stes-matchingtreffer-table>
+        </div>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-stes-matchingtreffer-table *ngIf="dataSource" [dataSource]="dataSource"></avam-stes-matchingtreffer-table>
+    </avam-generic-table-print>
+</ng-template>

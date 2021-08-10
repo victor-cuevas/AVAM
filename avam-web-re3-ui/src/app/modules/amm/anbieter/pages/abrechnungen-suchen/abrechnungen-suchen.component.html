@@ -1,0 +1,34 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <avam-abrechnungen-suchen-form #searchForm [statusOptions]="statusOptions" (onEnter)="search()"></avam-abrechnungen-suchen-form>
+        <or-spinner [channel]="searchChannel"></or-spinner>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button avamDisableOnSpinner type="submit" class="btn btn-primary" (click)="search()">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <or-spinner [channel]="tableChannel"></or-spinner>
+        <avam-abrechnungen-suchen-table
+            *ngIf="dataSource"
+            [dataSource]="dataSource"
+            (onItemSelected)="itemSelected($event)"
+            [showAdditionalInformation]="true"
+            [stateKey]="tableStateKey"
+        ></avam-abrechnungen-suchen-table>
+    </div>
+</or-column-layout>
+
+<ng-template #modalPrint>
+    <avam-abrechnungen-suchen-table *ngIf="dataSource" [dataSource]="dataSource" [showAdditionalInformation]="true" [forPrinting]="true"></avam-abrechnungen-suchen-table>
+</ng-template>

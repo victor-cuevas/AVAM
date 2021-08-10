@@ -1,0 +1,58 @@
+<avam-generic-table [dataSource]="dataSource" [headers]="displayedColumns" [maxHeight]="480" sortField="arbeitsort" [sortOrder]="1" [stateKey]="stateKey">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'meldepflicht'">
+            <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                <div class="header-container">
+                    <span [ngbTooltip]="column.header | translate">
+                        <sort-icon [column]="column.columnDef"></sort-icon>
+                        <i class="fa fa-flag fa-lg"></i>
+                    </span>
+                </div>
+            </th>
+
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="column.cell(row) === meldepflichtEnum.UNTERLIEGT_LAUFEND" [ngbTooltip]="'stes.tooltip.vermittlung.meldepflichtLaufend' | translate">
+                    <i class="full-centered fa fa-flag fa-lg"></i>
+                </span>
+                <span *ngIf="column.cell(row) === meldepflichtEnum.UNTERLIEGT_ABGELAUFEN" [ngbTooltip]="'stes.tooltip.vermittlung.meldepflichtAbgelaufen' | translate">
+                    <i class="full-centered fa fa-flag-o fa-lg"></i>
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'stellenbezeichnung'">
+            <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef class="bold-header">
+                <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+            </th>
+
+            <td cdk-cell *cdkCellDef="let row">
+                <span *ngIf="row.taetigkeitAnforderungen" [ngbTooltip]="row.taetigkeitAnforderungen">
+                    {{ column.cell(row) | translate }}
+                </span>
+                <span *ngIf="!row.taetigkeitAnforderungen" [ngbTooltip]="column.cell(row) | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | translate }}
+                </span>
+            </td>
+        </ng-container>
+
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    ngbTooltip="{{ 'common.button.uebernehmen' | translate }}"
+                    (primaryButtonClick)="itemSelected(row.osteId)"
+                    avamPrimaryButtonDirective
+                    class="fa fa-check btn btn-success btn-sm buttonOnHover"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

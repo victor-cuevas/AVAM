@@ -1,0 +1,55 @@
+<div class="modal-content">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="modal-header">
+        <h4 class="modal-title">{{ 'unternehmen.burmutationsantrag.mitteilungansBfs' | translate }}</h4>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div *ngFor="let message of messages; let i = index">
+            <ngb-alert type="{{ message.type }}" (close)="closeAlert(i)">
+                {{ message.text | translate }}
+            </ngb-alert>
+        </div>
+        <ng-form #ngForm="ngForm">
+            <div [formGroup]="mitteilungForm">
+                <app-textarea avamAutofocus id="mitteilung" formControlName="mitteilung" [fullWidth]="true" maxLength="255" customFormControlState></app-textarea>
+                <div class="col-xl-12 avam-panel">
+                    <div class="row mb-0">
+                        <div class="col-lg-5 col-md-5 text-right col-form-label">
+                            <label> {{ 'common.label.datum' | translate }}</label>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-form-label">
+                            {{ currentDate }}
+                        </div>
+                    </div>
+                    <div class="row mb-0">
+                        <div class="col-lg-5 col-md-5 text-right col-form-label">
+                            <label> {{ 'unternehmen.label.ansprechpersonavam' | translate }}</label>
+                        </div>
+                        <div class="col-lg-7 col-md-7 col-form-label">
+                            <avam-personalberater-autosuggest
+                                id="currentUser"
+                                controlName="currentUser"
+                                [parentForm]="mitteilungForm"
+                                [isDisabled]="true"
+                            ></avam-personalberater-autosuggest>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-form>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <div>
+            <button type="button" id="abbrechen-button" class="btn btn-link" data-dismiss="modal" (click)="close()">
+                {{ 'common.button.abbrechen' | translate }}
+            </button>
+            <button type="button" id="ok-button" class="btn btn-primary" (click)="senden()" [permissions]="[permissions.ARBEITGEBER_BURDATEN_BFSMITTEILUNG]">
+                {{ 'unternehmen.button.mitteilungansbfssenden' | translate }}
+            </button>
+        </div>
+    </div>
+</div>

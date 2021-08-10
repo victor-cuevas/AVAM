@@ -1,0 +1,88 @@
+<div class="row" [formGroup]="parentForm">
+    <div class="col-lg-4 col-md-4 text-right" *ngIf="componentLabel">
+        <label class="col-form-label">{{ componentLabel | translate }}</label>
+    </div>
+    <div [class]="componentLabel ? 'col-lg-8 col-md-8' : 'col-lg-12 col-md-12'">
+        <div [formArrayName]="controlArrayName" *ngFor="let item of parentForm.controls[controlArrayName]['controls']; let i = index">
+            <div [formGroupName]="i">
+                <div class="d-flex flex-nowrap">
+                    <div class="flex-grow-1 flex-shrink-1">
+                        <div [hidden]="isReadOnly">
+                            <ng-container [ngSwitch]="autosuggestSelected">
+                                <ng-container *ngSwitchCase="autosuggestEnum.BRANCHE">
+                                    <avam-branche-autosuggest
+                                        [id]="'branche_' + i"
+                                        [parentForm]="item"
+                                        [controlName]="controlName"
+                                        [placeholder]="placeholder"
+                                        [tooltip]="toolTip"
+                                        [isDisabled]="isDisabled"
+                                        (onChange)="formatReadonlyValues()"
+                                    ></avam-branche-autosuggest>
+                                </ng-container>
+
+                                <ng-container *ngSwitchCase="autosuggestEnum.BERUFSGRUPPE">
+                                    <avam-berufsgruppe-autosuggest
+                                        [id]="'berufsgruppe_' + i"
+                                        [parentForm]="item"
+                                        [controlName]="controlName"
+                                        [placeholder]="placeholder"
+                                        [tooltip]="toolTip"
+                                        [isDisabled]="isDisabled"
+                                        (onChange)="formatReadonlyValues()"
+                                    ></avam-berufsgruppe-autosuggest>
+                                </ng-container>
+
+                                <ng-container *ngSwitchCase="autosuggestEnum.UNTERNEHMEN">
+                                    <avam-unternehmen-autosuggest
+                                        [id]="'unternehmen_' + i"
+                                        [parentForm]="item"
+                                        [controlName]="controlName"
+                                        [placeholder]="placeholder"
+                                        [isAvamOnly]="isAvamOnly"
+                                        [simpleInput]="simpleInput"
+                                        [suchePlusLabel]="suchePlusLabel"
+                                        [readOnly]="isDisabled"
+                                        (onChange)="formatReadonlyValues()"
+                                    ></avam-unternehmen-autosuggest>
+                                </ng-container>
+
+                                <ng-container *ngSwitchCase="autosuggestEnum.PERSONALBERATER">
+                                    <avam-personalberater-autosuggest
+                                        [id]="'personalberater_' + i"
+                                        [parentForm]="item"
+                                        [controlName]="controlName"
+                                        [placeholder]="placeholder"
+                                        [benutzerSuchenTokens]="benutzerSuchenTokens"
+                                        [type]="type"
+                                        [showFilter]="showFilter"
+                                        [isDisabled]="isDisabled"
+                                        [showEmail]="showEmail"
+                                        (onChange)="formatReadonlyValues()"
+                                    ></avam-personalberater-autosuggest>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <span *ngIf="isReadOnly" class="mb-2">{{ readOnlyValues[i] }}</span>
+                    </div>
+                    <div class="input-group-append d-flex flex-nowrap mb-2">
+                        <div>
+                            <button type="button" *ngIf="autosuggestArray.length !== 1" [disabled]="isDisabled" (click)="removeItem(i)" class="btn btn-secondary ml-1">
+                                <span class="fa fa-trash"></span>
+                            </button>
+                            <button
+                                *ngIf="i == autosuggestArray.length - 1 && !isReadOnly"
+                                [disabled]="isDisabled"
+                                (click)="addItem()"
+                                type="button"
+                                class="btn btn-secondary ml-1"
+                            >
+                                <span class="fa fa-plus"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

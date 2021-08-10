@@ -1,0 +1,100 @@
+<form #ngForm="ngForm" closeBrowserTab autocomplete="off" [formGroup]="formGroup">
+    <div class="row">
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    avamAutofocus
+                    selectLabel="{{ 'geko.label.geschaeftsart' }}"
+                    [parentForm]="formGroup"
+                    controlName="geschaeftsart"
+                    id="geschaeftsart"
+                    placeholder="stes.placeholder.select.waehlen"
+                    [options]="handler.geschaeftsartenOptions"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    selectLabel="{{ 'geko.label.prioritaet' }}"
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="prioritaet"
+                    id="prioritaet"
+                    [options]="handler.prioritaetOptions"
+                ></avam-label-dropdown>
+                <app-textarea customFormControlState id="aufgabentext" formControlName="aufgabentext" selectLabel="geko.label.aufgabenText" [maxLength]="1536"></app-textarea>
+                <avam-label-calendar
+                    controlName="faelligAm"
+                    id="faelligAm"
+                    calendarLabel="{{ 'geko.label.faelligAm' }}"
+                    [parentForm]="formGroup"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-label-dropdown
+                    *ngIf="isBearbeiten()"
+                    selectLabel="{{ 'geko.label.status' }}"
+                    [hideEmptyOption]="true"
+                    [parentForm]="formGroup"
+                    controlName="status"
+                    id="status"
+                    [options]="handler.statusOptions"
+                    (onChange)="handler.setFaelligAmValidators(data.formMode, $event)"
+                ></avam-label-dropdown>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <div class="d-flex ml-xl-4">
+                    <div class="w-100">
+                        <avam-benutzerstelle-autosuggest
+                            (onInput)="handler.updateBenutzerstelle($event, zuestaendig)"
+                            id="benutzerstellenId"
+                            [parentForm]="formGroup"
+                            controlName="benutzerstelle"
+                            [benutzerstelleSuchenTokens]="handler.reactiveForms.benutzerstelleSuchenTokens"
+                            componentLabel="{{ 'geko.label.benutzerstelle' | translate }}"
+                            placeholder="{{ 'geko.placeholder.benutzerstellenId' | translate }} "
+                            [type]="handler.reactiveForms.benutzerstelleAutosuggestType"
+                        ></avam-benutzerstelle-autosuggest>
+                    </div>
+                    <div class="form-group">
+                        <button
+                            type="button"
+                            class="btn btn-secondary rounded-0"
+                            ngbTooltip="{{ 'benutzerverwaltung.label.benutzerstellensuchen' | translate }}"
+                            (click)="service.facade.openModalFensterService.openXLModal(benutzerstelleSuche)"
+                        >
+                            <span class="fa fa-search-plus"></span>
+                        </button>
+                    </div>
+                </div>
+                <avam-personalberater-autosuggest
+                    #zuestaendig
+                    id="zuestaendig"
+                    controlName="zuestaendig"
+                    [parentForm]="formGroup"
+                    componentLabel="{{ 'geko.label.zustandig' | translate }}"
+                    (onSelect)="handler.updateBenutzerZustaendig($event)"
+                    (onInput)="handler.onInputBenutzerZustaendig($event, zuestaendig)"
+                    [benutzerSuchenTokens]="handler.reactiveForms.benutzerSuchenTokens"
+                    [type]="handler.reactiveForms.personalberaterAutosuggestType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                ></avam-personalberater-autosuggest>
+                <avam-personalberater-autosuggest
+                    #initialisiertDurch
+                    id="benutzerVerantwortlich"
+                    controlName="initialisiertDurch"
+                    [parentForm]="formGroup"
+                    [isDisabled]="true"
+                    componentLabel="{{ 'geko.label.initialisiert' | translate }}"
+                    [benutzerSuchenTokens]="handler.reactiveForms.benutzerSuchenTokens"
+                    [type]="handler.reactiveForms.personalberaterAutosuggestType"
+                    placeholder="{{ 'geko.label.initialisiert' | translate }}"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+    </div>
+</form>
+<ng-template #benutzerstelleSuche>
+    <app-benutzerstelle-suche
+        [uebergebeneDaten]="handler.reactiveForms.benutzerstelleSucheParams"
+        (emitBenutzerstelle)="handler.updateBenutzerstelleSuche($event)"
+    ></app-benutzerstelle-suche>
+</ng-template>

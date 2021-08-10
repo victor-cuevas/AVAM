@@ -1,0 +1,6 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" *ngIf="stesHeader">{{ stesHeader.name }}, {{ stesHeader.vorname }} – {{ ueberschrift }} - {{ ueberschriftModal }}</h4>
+    <div class="mr-3"><app-toolbox [id]="toolboxId" [formNumber]="modalNumber"></app-toolbox></div>
+</div>
+<hr class="nm-t-6" />
+<avam-stes-info-bar [data]="stesHeader" [hasTitle]="false"></avam-stes-info-bar>

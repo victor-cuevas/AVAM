@@ -1,0 +1,215 @@
+<form [formGroup]="bewerbungForm">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <div class="d-flex">
+                    <label class="col-lg-4 col-md-4 kontaktperson-label">
+                        <h3>{{ 'arbeitgeber.oste.label.kontaktperson' | translate }}</h3>
+                    </label>
+                    <div class="col-lg-8 col-md-8 align-self-center kontaktperson-input">
+                        <avam-kontaktperson-input-wrapper [parentForm]="bewerbungForm" controlName="kontaktperson" [readonly]="true"></avam-kontaktperson-input-wrapper>
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    [options]="anredeDropdownModel"
+                    [readOnly]="true"
+                    [parentForm]="bewerbungForm"
+                    controlName="kontaktpersonAnrede"
+                    selectLabel="{{ 'arbeitgeber.oste.label.anrede' }}"
+                >
+                </avam-label-dropdown>
+                <avam-label-input [readOnly]="true" [parentForm]="bewerbungForm" controlName="kontaktpersonName" selectLabel="{{ 'common.label.name' }}"></avam-label-input>
+                <avam-label-input [readOnly]="true" [parentForm]="bewerbungForm" controlName="kontaktpersonVorname" selectLabel="{{ 'common.label.vorname' }}"></avam-label-input>
+                <avam-label-input [readOnly]="true" [parentForm]="bewerbungForm" controlName="kontaktpersonTelefon" selectLabel="{{ 'common.label.telefon' }}"></avam-label-input>
+                <div class="row">
+                    <div class="col-4">
+                        <label class="pull-right no-word-wrap">{{ 'common.label.email' | translate }}</label>
+                    </div>
+                    <div class="col-8">
+                        <a [href]="'mailto:' + bewerbungForm.get('kontaktpersonEmail').value" target="_blank"> {{ bewerbungForm.get('kontaktpersonEmail').value }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <div class="d-flex">
+                    <label class="col-lg-4 col-md-4 kontaktperson-label">
+                        <h3>{{ 'arbeitgeber.oste.label.fragenzurstelle' | translate }}</h3>
+                    </label>
+                    <div class="col-lg-8 col-md-8 align-self-center kontaktperson-input">
+                        <avam-kontaktperson-input-wrapper [parentForm]="bewerbungForm" controlName="kontaktpersonFragen" [readonly]="true"></avam-kontaktperson-input-wrapper>
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    [options]="anredeDropdownModel"
+                    [readOnly]="true"
+                    [parentForm]="bewerbungForm"
+                    controlName="kontaktpersonFragenAnrede"
+                    selectLabel="{{ 'arbeitgeber.oste.label.anrede' }}"
+                >
+                </avam-label-dropdown>
+                <avam-label-input [readOnly]="true" [parentForm]="bewerbungForm" controlName="kontaktpersonFragenName" selectLabel="{{ 'common.label.name' }}"></avam-label-input>
+                <avam-label-input
+                    [readOnly]="true"
+                    [parentForm]="bewerbungForm"
+                    controlName="kontaktpersonFragenVorname"
+                    selectLabel="{{ 'common.label.vorname' }}"
+                ></avam-label-input>
+                <avam-label-input
+                    [readOnly]="true"
+                    [parentForm]="bewerbungForm"
+                    controlName="kontaktpersonFragenTelefon"
+                    selectLabel="{{ 'common.label.telefon' }}"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-4">
+                        <label class="pull-right no-word-wrap">{{ 'common.label.email' | translate }}</label>
+                    </div>
+                    <div class="col-8">
+                        <a [href]="'mailto:' + bewerbungForm.get('kontaktpersonFragenEmail').value" target="_blank"> {{ bewerbungForm.get('kontaktpersonFragenEmail').value }}</a>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <app-textarea
+                    customFormControlState
+                    [maxLength]="255"
+                    id="ergaenzendeAngaben"
+                    formControlName="ergaenzendeAngaben"
+                    selectLabel="arbeitgeber.oste.label.ergaenzendeangaben"
+                    [readonly]="true"
+                ></app-textarea>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'arbeitgeber.oste.label.bewerbungsformen' | translate }}</h3>
+                </label>
+                <hr />
+                <avam-label-checkbox
+                    componentId="schriftlich"
+                    inputClass="mr-2"
+                    [parentForm]="bewerbungForm"
+                    controlName="schriftlich"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbschriftlich' }}"
+                    [isDisabled]="true"
+                >
+                </avam-label-checkbox>
+                <avam-label-checkbox
+                    componentId="persoenlich"
+                    inputClass="mr-2"
+                    [parentForm]="bewerbungForm"
+                    controlName="persoenlich"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbpersoenlich' }}"
+                    [isDisabled]="true"
+                >
+                </avam-label-checkbox>
+                <avam-unternehmen-autosuggest
+                    [parentForm]="bewerbungForm"
+                    controlName="arbeitgeberName1"
+                    [inputClass]="'col-lg-8 col-md-8'"
+                    componentLabel="common.label.name"
+                    [readOnly]="true"
+                    *ngIf="oste?.bewerSchriftlich || oste?.bewerPersoenlich"
+                ></avam-unternehmen-autosuggest>
+                <avam-label-input
+                    *ngIf="!oste?.bewerSchriftlich && !oste?.bewerPersoenlich"
+                    selectLabel="common.label.name"
+                    [inputClass]="'col-lg-8 col-md-8'"
+                    [parentForm]="bewerbungForm"
+                    controlName="arbeitgeberName1"
+                    [readOnly]="true"
+                >
+                </avam-label-input>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8 text-right ">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="bewerbungForm" controlName="arbeitgeberName2" [readOnly]="true"> </avam-label-input>
+                    </div>
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8 text-right ">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="bewerbungForm" controlName="arbeitgeberName3" [readOnly]="true"> </avam-label-input>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label for="strasse" class="col-form-label"> {{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-5 col-md-5 text-right ">
+                        <avam-label-input
+                            placeholder="{{ 'common.label.strasse' }}"
+                            inputClass="col-lg-12"
+                            [parentForm]="bewerbungForm"
+                            controlName="arbeitgeberStrasse"
+                            [readOnly]="true"
+                        >
+                        </avam-label-input>
+                    </div>
+                    <div class="col-lg-3 col-md-3 text-right ">
+                        <avam-label-input
+                            placeholder="{{ 'common.label.nr' }}"
+                            inputClass="col-lg-12"
+                            [parentForm]="bewerbungForm"
+                            controlName="arbeitgeberStrasseNr"
+                            [readOnly]="true"
+                        >
+                        </avam-label-input>
+                    </div>
+                </div>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="bewerbungForm.controls.land"
+                    [parentForm]="bewerbungForm.get('plz')"
+                    [readOnly]="true"
+                    label="stes.label.plzort"
+                ></avam-plz-autosuggest>
+                <avam-label-input [parentForm]="bewerbungForm" controlName="unternehmenPostfach" selectLabel="{{ 'common.label.postfach' }}" [readOnly]="true"></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="bewerbungForm.controls.land"
+                    [parentForm]="bewerbungForm.get('postfach')"
+                    [readOnly]="true"
+                    label="arbeitgeber.oste.label.postfachplzortup"
+                ></avam-plz-autosuggest>
+                <avam-label-input [parentForm]="bewerbungForm" controlName="land" id="land" selectLabel="{{ 'common.label.land' }}" [readOnly]="true"></avam-label-input>
+                <hr />
+                <avam-label-checkbox
+                    componentId="elektronisch"
+                    inputClass="mr-2"
+                    [parentForm]="bewerbungForm"
+                    controlName="elektronisch"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbelektronisch' }}"
+                    [isDisabled]="true"
+                >
+                </avam-label-checkbox>
+                <div class="row">
+                    <div class="col-4">
+                        <label class="pull-right no-word-wrap">{{ 'common.label.email' | translate }}</label>
+                    </div>
+                    <div class="col-8">
+                        <a [href]="'mailto:' + bewerbungForm.get('email').value" target="_blank"> {{ bewerbungForm.get('email').value }}</a>
+                    </div>
+                </div>
+                <avam-label-input
+                    [parentForm]="bewerbungForm"
+                    controlName="onlineFormular"
+                    selectLabel="{{ 'arbeitgeber.oste.label.onlinebewerbung' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <hr />
+                <avam-label-checkbox
+                    componentId="telefonisch"
+                    inputClass="mr-2"
+                    [parentForm]="bewerbungForm"
+                    controlName="telefonisch"
+                    selectLabel="{{ 'arbeitgeber.oste.label.bewerbtelefonisch' }}"
+                    [isDisabled]="true"
+                >
+                </avam-label-checkbox>
+                <avam-label-input [parentForm]="bewerbungForm" controlName="telefon" selectLabel="{{ 'common.label.telefon' }}" [readOnly]="true"></avam-label-input>
+            </div>
+        </div>
+    </div>
+</form>

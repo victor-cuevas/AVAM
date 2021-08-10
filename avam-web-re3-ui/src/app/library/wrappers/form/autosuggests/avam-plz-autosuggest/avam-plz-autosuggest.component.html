@@ -1,0 +1,70 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" class="row mb-2">
+    <div *ngIf="label" class="col-lg-4 col-md-4 text-right align-self-center">
+        <label for="plz" class="col-form-label">{{ label | translate }}</label>
+    </div>
+    <div [ngClass]="label ? 'col-lg-8 col-md-8' : 'col-lg-12 col-md-12'" class="row pr-0">
+        <div [hidden]="_readOnly" orFormControlState class="align-self-top" [ngClass]="inputClassPlz ? inputClassPlz : label ? 'col-lg-5 col-md-5' : 'col-lg-5 col-md-5'">
+            <core-autosuggest
+                arrow-scrolling
+                *ngIf="!simpleInput"
+                dynamicControlName
+                [formControlName]="plzControl"
+                [placeholder]="placeholderPlz"
+                [searchFunction]="searchFunctionAutosuggestPlz"
+                [inputFormatter]="inputFormatterAutosuggestPlz"
+                [resultFormatter]="resultFormatterAutosuggest"
+                [disableControl]="disabled"
+                [container]="container"
+                [scrollIntoView]="scrollIntoView"
+                (onSelect)="selectPlz($event)"
+                (onChange)="changePlz($event)"
+                (onInput)="inputPlz($event)"
+                (onKeyup)="plzKeyup($event)"
+                (onBlur)="plzBlur($event)"
+                (onClear)="clearPlz($event)"
+            ></core-autosuggest>
+            <core-input
+                *ngIf="simpleInput"
+                dynamicControlName
+                [formControlName]="plzControl"
+                [placeholder]="placeholderPlz"
+                [disableControl]="disabled"
+                (onChange)="changeInput()"
+                (onClear)="clearPlz($event)"
+            ></core-input>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div [hidden]="_readOnly" orFormControlState class="align-self-top pr-0" [ngClass]="inputClassOrt ? inputClassOrt : label ? 'col-lg-7 col-md-7' : 'col-lg-7 col-md-7'">
+            <core-autosuggest
+                arrow-scrolling
+                *ngIf="!simpleInput"
+                dynamicControlName
+                [formControlName]="ortControl"
+                [placeholder]="placeholderOrt"
+                [searchFunction]="searchFunctionAutosuggestOrt"
+                [inputFormatter]="inputFormatterAutosuggestOrt"
+                [resultFormatter]="resultFormatterAutosuggest"
+                [disableControl]="disabled"
+                [container]="container"
+                [scrollIntoView]="scrollIntoView"
+                (onSelect)="selectOrt($event)"
+                (onChange)="changeOrt($event)"
+                (onInput)="inputOrt($event)"
+                (onKeyup)="ortKeyup($event)"
+                (onBlur)="ortBlur($event)"
+            ></core-autosuggest>
+            <core-input
+                *ngIf="simpleInput"
+                dynamicControlName
+                [formControlName]="ortControl"
+                [placeholder]="placeholderOrt"
+                [disableControl]="disabled"
+                (onChange)="changeInput()"
+            ></core-input>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div *ngIf="_readOnly" class="align-self-center" [ngClass]="label ? 'col-lg-8 col-md-8 pr-0 ' : 'col-lg-12 col-md-12 pl-0'">
+            <p class="mb-0 pl-0">{{ plzValue }} {{ ortValue }}</p>
+        </div>
+    </div>
+</div>

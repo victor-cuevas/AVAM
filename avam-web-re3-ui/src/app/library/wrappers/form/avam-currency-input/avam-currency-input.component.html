@@ -1,0 +1,52 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" [ngClass]="customWrapperClass ? customWrapperClass : ''" class="row form-group {{ textDirection }}">
+    <div *ngIf="label" [ngClass]="customLabelClass ? customLabelClass : 'col-lg-4 col-md-4'" class="text-right">
+        <label class="col-form-label">{{ label | translate }}</label>
+    </div>
+    <div
+        class="d-flex align-items-center"
+        [ngClass]="
+            customInputClass
+                ? customInputClass
+                : (label && secondaryLabel) || (label && ternaryLabel) || (secondaryLabel && ternaryLabel)
+                ? 'col-lg-4 col-md-4'
+                : label || secondaryLabel || ternaryLabel
+                ? 'col-lg-8 col-md-8'
+                : 'col-lg-12 col-md-12'
+        "
+    >
+        <div [hidden]="!isReadOnly || coreReadOnly" [class]="customReadOnlyClass">
+            <span [class]="highlightNegative && negativeValue ? 'negativeValue' : ''">
+                {{ readOnlyValue }}
+            </span>
+        </div>
+        <div [hidden]="isReadOnly && !coreReadOnly" orFormControlState class="max-width-100 w-100 {{ customInputContainerClass }}">
+            <core-input
+                [class]="highlightNegative && negativeValue ? 'negativeValue' : ''"
+                #coreInput
+                dynamicControlName
+                [placeholder]="placeholder"
+                [formControlName]="controlName"
+                [disableControl]="isDisabled"
+                [max]="max"
+                [coreReadOnly]="coreReadOnly"
+                [coreReadOnlyClearButton]="coreReadOnlyClearButton"
+                (onInput)="onHandleInput($event)"
+                (onClear)="onClearField($event)"
+                (onChange)="onHandleChange($event)"
+                (onKeyup)="onHandleKeyUp($event)"
+                (onBlur)="onHandleBlur($event)"
+            ></core-input>
+            <or-error-messages></or-error-messages>
+        </div>
+    </div>
+    <div
+        *ngIf="secondaryLabel"
+        id="secondaryLabel"
+        class="{{ customSecondaryLabelClass ? customSecondaryLabelClass : ternaryLabel ? 'col-lg-2 col-md-2' : 'col-lg-4 col-md-4' }} text-left"
+    >
+        <div class="col-form-label">{{ secondaryLabel | translate }}</div>
+    </div>
+    <div *ngIf="ternaryLabel" class="{{ customTernaryLabelClass ? customTernaryLabelClass : secondaryLabel ? 'col-lg-2 col-md-2' : 'col-lg-4 col-md-4' }} text-left">
+        <div class="col-form-label"><ng-content></ng-content></div>
+    </div>
+</div>

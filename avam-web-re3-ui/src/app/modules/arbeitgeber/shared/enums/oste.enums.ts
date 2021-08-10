@@ -1,0 +1,5 @@
+export enum OsteConstants {
+    FRIST_TYP_UNBEFRISTET = 'UNBEFR',
+    FRIST_TYP_BEFRISTET = 'BEFR',
+    FRIST_TYP_KURZEINSATZ = 'KURZ'
+}

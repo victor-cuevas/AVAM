@@ -1,0 +1,83 @@
+<div class="row">
+    <or-spinner [channel]="fachberatungsangebotChannel"></or-spinner>
+    <div (keyup.enter)="search()" class="col-l-6 col-xl-3 p-0">
+        <form class="page-scroll" [formGroup]="searchFormData" #ngForm="ngForm" autocomplete="off">
+            <div class="avam-panel avam-panel-extra-lighter p-3 h-100">
+                <h4>
+                    <span class="fa fa-search mr-2"></span>
+                    <span>{{ 'stes.label.fachberatungsangebot' | translate }}</span>
+                </h4>
+                <label class="col-form-label">{{ 'stes.label.fachberatungsangebote.beratungsbereich' | translate }}</label>
+                <avam-label-dropdown
+                    avamAutofocus
+                    inputClass="col-lg-12 col-md-12"
+                    placeholder="common.label.keineauswahl"
+                    [parentForm]="searchFormData"
+                    controlName="beratungsBereichId"
+                    id="beratungsBereichId"
+                    [options]="beratungsbereichOptionsLabels"
+                >
+                </avam-label-dropdown>
+                <avam-label-input
+                    [inputClass]="'col'"
+                    [parentForm]="searchFormData"
+                    controlName="bezeichnung"
+                    placeholder="{{ 'stes.label.fachberatungsangebote.bezeichnung' | translate }}"
+                ></avam-label-input>
+                <avam-label-input
+                    [inputClass]="'col'"
+                    [parentForm]="searchFormData"
+                    controlName="angebotsNr"
+                    placeholder="{{ 'stes.label.fachberatungsangebote.angebotnr' | translate }}"
+                ></avam-label-input>
+                <label class="col-form-label">{{ 'stes.label.fachberatung.zustaendigkeitsbereich' | translate }}</label>
+                <avam-label-dropdown
+                    inputClass="col-lg-12 col-md-12"
+                    [parentForm]="searchFormData"
+                    controlName="zustaendigkeitsBereichId"
+                    id="zustaendigkeitsBereichId"
+                    [options]="zustaendigkeitsbereichOptionsLabels"
+                >
+                </avam-label-dropdown>
+                <avam-unternehmen-autosuggest
+                    [parentForm]="searchFormData"
+                    controlName="fachberatungsstelle"
+                    [inputClass]="'col-lg-12 col-md-12'"
+                    placeholder="{{ 'stes.label.fachberatungsangebote.fachberatungsstelle' }}"
+                    [simpleInput]="true"
+                    [isAvamOnly]="true"
+                    suchePlusLabel="stes.label.fachberatungsangebote.fachberatungsstelle"
+                ></avam-unternehmen-autosuggest>
+                <avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>
+            </div>
+        </form>
+    </div>
+    <div class="col-l-6 col-xl-9 ">
+        <avam-stes-info-bar *ngIf="stesHeader" [data]="stesHeader"></avam-stes-info-bar>
+        <avam-alert></avam-alert>
+        <avam-fachberatung-suchen-table [dataSource]="dataSource" (onItemSelected)="itemSelected($event)"></avam-fachberatung-suchen-table>
+    </div>
+</div>
+
+<ng-template #footerBtns>
+    <div class="col-l-6 col-xl-3 col-left">
+        <button class="btn btn-link" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button class="btn btn-primary ml-1" type="button" (click)="search()" [permissions]="[permissions.STES_SUCHEN_SICHTEN]">
+            <span class="fa fa-search"></span>
+            {{ 'common.button.suchen' | translate }}
+        </button>
+    </div>
+    <div class="col-l-6 col-xl-9 col-right">
+        <button class="btn btn-link" type="button" (click)="cancel()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-fachberatung-suchen-table *ngIf="dataSource" [dataSource]="dataSource"></avam-fachberatung-suchen-table>
+    </avam-generic-table-print>
+</ng-template>

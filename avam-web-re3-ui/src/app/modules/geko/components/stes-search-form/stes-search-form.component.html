@@ -1,0 +1,131 @@
+<form [formGroup]="gekoStesSearchFormGroup" #ngForm="ngForm" class="no-overflow h-100" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter p-3 sticky">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'geko.pfad.geschaefte.stes.suchen' | translate }}</span>
+        </h3>
+        <label class="col-form-label">{{ 'geko.label.geschaeftsart' | translate }}</label>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="gekoStesSearchFormGroup"
+            controlName="geschaeftsartId"
+            id="geschaeftsartId"
+            placeholder="stes.placeholder.select.waehlen"
+            (onChange)="onChangeGeschaeftsartId($event)"
+            [options]="geschaeftsartenOptions"
+        ></avam-label-dropdown>
+        <label class="col-form-label">{{ 'geko.label.sachstand' | translate }}</label>
+        <avam-label-dropdown
+            inputClass="col-lg-12 col-md-12"
+            [parentForm]="gekoStesSearchFormGroup"
+            controlName="sachstandId"
+            id="sachstandId"
+            placeholder="stes.placeholder.select.waehlen"
+            [options]="sachstaendeOptions"
+        ></avam-label-dropdown>
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <label class="col-form-label">{{ 'geko.label.termin' | translate }}</label>
+            </div>
+        </div>
+        <avam-date-range-picker
+            class="form-group"
+            [hasVerticalLayout]="true"
+            [labelClass]="'col-lg-12 col-md-12'"
+            [inputClass]="' '"
+            [wrapperClass]="'col-lg-12 col-md-12'"
+            [parentForm]="gekoStesSearchFormGroup"
+            placeholderFrom="{{ 'common.label.von' | translate }}"
+            placeholderTo="{{ 'common.label.bis' | translate }}"
+            formControlNameFrom="geschaeftsterminVon"
+            formControlNameTo="geschaeftsterminBis"
+        ></avam-date-range-picker>
+        <label class="col-form-label">{{ 'geko.label.erstelltAm' | translate }}</label>
+        <avam-date-range-picker
+            class="form-group"
+            [hasVerticalLayout]="true"
+            [labelClass]="'col-lg-12 col-md-12'"
+            [inputClass]="' '"
+            [wrapperClass]="'col-lg-12 col-md-12'"
+            [parentForm]="gekoStesSearchFormGroup"
+            placeholderFrom="{{ 'common.label.von' | translate }}"
+            placeholderTo="{{ 'common.label.bis' | translate }}"
+            formControlNameFrom="erstelltAmVon"
+            formControlNameTo="erstelltAmBis"
+        ></avam-date-range-picker>
+        <label class="col-form-label">{{ 'geko.label.fallbearbeitung' | translate }}</label>
+        <avam-personalberater-autosuggest
+            #fallbearbeiter
+            id="fallbearbeiterId"
+            controlName="fallbearbeiterId"
+            [parentForm]="gekoStesSearchFormGroup"
+            placeholder="{{ 'geko.label.fallbearbeitung' | translate }}"
+            (onSelect)="onSelectFallbearbeiter($event)"
+            (onInput)="onChangeFallbearbeiterInput($event)"
+            [showFilter]="true"
+            [type]="personalberaterAutosuggestType"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-personalberater-autosuggest>
+        <avam-label-checkbox
+            componentId="istBerater"
+            controlName="istBerater"
+            [parentForm]="gekoStesSearchFormGroup"
+            selectLabel="{{ 'geko.label.istBerater' }}"
+            inputClass="'col-lg-12'"
+            (onChange)="onFilterChange($event)"
+        ></avam-label-checkbox>
+        <avam-label-checkbox
+            componentId="istBearbeiter"
+            controlName="istBearbeiter"
+            [parentForm]="gekoStesSearchFormGroup"
+            selectLabel="{{ 'geko.label.istBearbeiter' }}"
+            inputClass="'col-lg-12'"
+            (onChange)="onFilterChange($event)"
+        ></avam-label-checkbox>
+        <avam-label-checkbox
+            componentId="istFreigeber"
+            controlName="istFreigeber"
+            [parentForm]="gekoStesSearchFormGroup"
+            selectLabel="{{ 'geko.label.istFreigeber' }}"
+            inputClass="'col-lg-12'"
+            (onChange)="onFilterChange($event)"
+        ></avam-label-checkbox>
+        <ng-template #benutzerstellenSuche>
+            <app-benutzerstelle-suche [uebergebeneDaten]="benutzerstelleSucheParams" (emitBenutzerstelle)="updateBenutzerstelleSuche($event)"> </app-benutzerstelle-suche>
+        </ng-template>
+        <div class="d-flex mt-3">
+            <div class="w-100">
+                <avam-benutzerstelle-autosuggest
+                    #benutzerstelle
+                    id="benutzerstellenId"
+                    [parentForm]="gekoStesSearchFormGroup"
+                    controlName="benutzerstellenId"
+                    [benutzerstelleSuchenTokens]="benutzerstelleSuchenTokens"
+                    placeholder="{{ 'common.label.benutzerstelle' | translate }}"
+                    [type]="benutzerstelleAutosuggestType"
+                    container="body"
+                    [scrollIntoView]="false"
+                ></avam-benutzerstelle-autosuggest>
+            </div>
+            <div class="form-group input-group-append d-block">
+                <button
+                    type="button"
+                    class="btn btn-secondary rounded-0"
+                    ngbTooltip="{{ 'benutzerverwaltung.label.benutzerstellensuchen' | translate }}"
+                    (click)="openBenutzerstelleSuche(benutzerstellenSuche)"
+                >
+                    <span class="fa fa-search-plus fa-fw"></span>
+                </button>
+            </div>
+        </div>
+        <avam-label-checkbox
+            componentId="istFallbearbeiterLeer"
+            controlName="istFallbearbeiterLeer"
+            [parentForm]="gekoStesSearchFormGroup"
+            selectLabel="{{ 'geko.label.istFallbearbeiterLeer' }}"
+            inputClass="'col-lg-12'"
+            (onChange)="onFallbearbeiterLeer()"
+        ></avam-label-checkbox>
+    </div>
+</form>

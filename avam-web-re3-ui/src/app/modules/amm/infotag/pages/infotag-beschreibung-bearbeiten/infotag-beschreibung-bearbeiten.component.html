@@ -1,0 +1,71 @@
+<div class="d-block">
+    <avam-infotag-massnahme-beschreibung-form #beschreibungForm [beschreibungData]="beschreibungData"></avam-infotag-massnahme-beschreibung-form>
+    <or-spinner [channel]="channel"></or-spinner>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()" [permissionContext]="[permissions.AMM_INFOTAG_BEWIRTSCHAFTEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="infotagDto?.anzahlBuchungen === 0"
+        avamDisableOnSpinner
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openModalUebernehmen()"
+        [permissionContext]="[permissions.AMM_INFOTAG_BEWIRTSCHAFTEN]"
+    >
+        {{ 'amm.infotag.button.anbieterdatenuebernehmen' | translate }}
+    </button>
+    <button avamDisableOnSpinner class="btn btn-primary ml-1" type="button" (click)="onSave()" [permissionContext]="[permissions.AMM_INFOTAG_BEWIRTSCHAFTEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <span>{{ infotagDto?.massnahmeObject?.produktObject?.elementkategorieAmtObject?.organisation }}-{{ 'amm.infotag.label.listeinfotage' | translate }}</span>
+        </div>
+        <div class="item">
+            <b>{{ 'amm.massnahmen.label.massnahmennr' | translate }}</b>
+            {{ infotagDto?.massnahmeObject?.massnahmeId }}
+        </div>
+        <div class="item">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ infotagDto | dbTranslate: 'titel' }}
+            </span>
+        </div>
+        <div class="item">
+            <b> {{ 'amm.anbieter.label.anbieter' | translate }} </b>
+            <span>
+                {{ unternehmen?.name1 }}
+                {{ unternehmen?.name2 }}
+                {{ unternehmen?.name3 }}
+            </span>
+        </div>
+        <div class="item">
+            <div class="item">
+                <ng-container *ngIf="unternehmen?.provBurNr; else nichtProv">
+                    <b> {{ 'arbeitgeber.oste.label.provburnr' | translate }} </b>
+                    <span> {{ unternehmen?.provBurNr }} </span>
+                </ng-container>
+                <ng-template #nichtProv>
+                    <b> {{ 'arbeitgeber.oste.label.burnr' | translate }} </b>
+                    <span> {{ unternehmen?.burNummer }} </span>
+                </ng-template>
+            </div>
+        </div>
+        <div class="item">
+            <b> {{ 'arbeitgeber.oste.label.status' | translate }} </b>
+            <span> {{ unternehmen?.statusObject | dbTranslate: 'text' }} </span>
+        </div>
+        <div class="item">
+            <b>{{ 'amm.massnahmen.label.durchfuehrungsnr' | translate }}</b>
+            {{ infotagDto?.durchfuehrungsId }}
+        </div>
+    </ng-container>
+</ng-template>

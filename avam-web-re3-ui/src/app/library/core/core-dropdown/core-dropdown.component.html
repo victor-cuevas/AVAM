@@ -1,0 +1,8 @@
+<select [formControl]="control" #inputElement class="form-control" (change)="change($event.target.value)" (focusout)="focusout($event)">
+    <option *ngIf="placeholder; else emptyOption" value="">{{ placeholder | translate }}</option>
+    <option *ngFor="let option of _options" value="{{ option.value }}">{{ option | dbTranslate: 'label' }}</option>
+</select>
+
+<ng-template #emptyOption>
+    <option *ngIf="!hideEmptyOption" value=""></option>
+</ng-template>

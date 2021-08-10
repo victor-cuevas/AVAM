@@ -1,0 +1,48 @@
+<avam-generic-table [dataSource]="dataSource" [headers]="displayedColumns" [sortField]="baseTableConfig.config.sortField" [sortOrder]="baseTableConfig.config.sortOrder">
+    <ng-container *ngFor="let column of baseTableConfig.columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <div *ngIf="column.columnDef === 'nichtGeeignet'; else defaultHeader" class="header-container">
+                <span [ngbTooltip]="column.header | translate">
+                    <sort-icon [column]="column.columnDef"></sort-icon>
+                    <em class="fa fa-exclamation fa-lg"></em>
+                </span>
+            </div>
+            <ng-template #defaultHeader>
+                <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+            </ng-template>
+        </th>
+
+        <ng-container *ngIf="column.columnDef === 'actions'">
+            <td cdk-cell *cdkCellDef="let row">
+                <div class="avam-table-action-colum">
+                    <button
+                        ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                        (primaryButtonClick)="onClick(row)"
+                        avamPrimaryButtonDirective
+                        class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                        type="button"
+                    ></button>
+                    <button
+                        *ngIf="row.nichtGeeignet"
+                        ngbTooltip="{{ 'stes.vermittlung.button.markeriungentfernen' | translate }}"
+                        (click)="removeMarking(row.stesId)"
+                        class="fa fa-exclamation btn btn-light btn-sm exclamation-btn-padding buttonOnHover"
+                        type="button"
+                    ></button>
+                </div>
+            </td>
+        </ng-container>
+
+        <td cdk-cell *cdkCellDef="let row">
+            <span *ngIf="specialTooltipCell(column); else defaultCell" [ngbTooltip]="(row[column.columnDef + 'Tooltip'] ? row[column.columnDef + 'Tooltip'] : '') | translate">
+                {{ column.cell(row) ? column.cell(row) : '' }}
+            </span>
+            <ng-template #defaultCell>
+                <span *ngIf="column.columnDef === 'nichtGeeignet' && column.cell(row) === suitableEnum.NICHT_GEEIGNET" [ngbTooltip]="row.nichtGeeignetTooltip">
+                    <em class="full-centered fa fa-exclamation fa-lg"></em>
+                </span>
+                <avam-generic-table-cell *ngIf="column.columnDef !== 'nichtGeeignet'" [column]="column" [row]="row"></avam-generic-table-cell>
+            </ng-template>
+        </td>
+    </ng-container>
+</avam-generic-table>

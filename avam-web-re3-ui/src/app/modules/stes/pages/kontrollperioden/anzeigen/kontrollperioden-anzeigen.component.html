@@ -1,0 +1,18 @@
+<or-spinner channel="kontrollperioden"></or-spinner>
+<avam-kontrollperioden-anzeigen-table #kontrollperiodenAnzeigenTable (dbClick)="onButtonClick($event)"></avam-kontrollperioden-anzeigen-table>
+
+<ng-template #modalPrint>
+    <avam-kontrollperioden-anzeigen-table
+        *ngIf="kontrollperiodenAnzeigenTable.dataSource"
+        [dataSource]="kontrollperiodenAnzeigenTable.dataSource"
+    ></avam-kontrollperioden-anzeigen-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1" type="button" (click)="kontrollperiodeErfassen()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'common.button.kontrollperiodeErfassen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

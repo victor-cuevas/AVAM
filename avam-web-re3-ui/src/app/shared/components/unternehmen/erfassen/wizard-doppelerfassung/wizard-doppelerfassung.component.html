@@ -1,0 +1,21 @@
+<ng-container *ngIf="secondStepData">
+    <div column-main-content class="h-100 default-layout">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-common-wrapper-table
+            [dataSource]="tableConfig.data"
+            [columns]="tableConfig.columns"
+            [config]="tableConfig.config"
+            (onRowSelect)="selectItem($event)"
+        ></avam-common-wrapper-table>
+    </div>
+</ng-container>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableConfig.data">
+        <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="tableConfig.columns" [config]="tableConfig.config"></avam-common-wrapper-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #burDatenModal>
+    <avam-bur-daten-modal [selectedBurData]="selectedBurData"></avam-bur-daten-modal>
+</ng-template>

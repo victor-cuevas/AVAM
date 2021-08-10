@@ -1,0 +1,14 @@
+<div class="row">
+    <div class="col-8 d-flex align-items-center">
+        <h2 class="pl-4">{{ 'geko.pfad.geschaefte.stes.uebersicht' | translate }}&nbsp;&nbsp;</h2>
+        <app-result-count *ngIf="searchDone" [dataLength]="results.length" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<avam-alert></avam-alert>
+<avam-geschaefte-table [rows]="rows" (onPrimaryAction)="onOpen($event)" [stateKey]="stateKey"></avam-geschaefte-table>
+<ng-template #modalPrint>
+    <avam-geschaefte-table [rows]="rows" [print]="true" [stateKey]="stateKeyPrint"></avam-geschaefte-table>
+</ng-template>

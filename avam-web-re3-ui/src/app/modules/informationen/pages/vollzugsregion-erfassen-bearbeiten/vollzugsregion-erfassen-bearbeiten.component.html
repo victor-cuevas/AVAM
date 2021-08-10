@@ -1,0 +1,122 @@
+<div class="sticky">
+    <div class="sticky-main">
+        <or-column-layout orColumnLayoutExtension [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="navigation-container sticky">
+                <div class="navigation-resizable" sideNavigationResize>
+                    <ul class="nav nav-tree expanded nav-bordered nav-hover" role="tree">
+                        <li class="side-nav-tree nav-item fit-width">
+                            <div class="nav-link display-flex active">
+                                <a class="avam-nav-link active" aria-selected="false">
+                                    <span class="no-word-wrap padding-left-15 d-inline-block" triggers="manual">{{
+                                        (isBearbeiten ? 'verzeichnisse.label.vollzugsregion' : 'benutzerverwaltung.topnavmenuitem.vollzugsregionerfassen') | translate
+                                    }}</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div column-main-content class="h-100 default-layout">
+                <avam-amm-infopanel></avam-amm-infopanel>
+                <avam-alert></avam-alert>
+                <or-spinner [channel]="channel"></or-spinner>
+                <form [formGroup]="form" #ngForm="ngForm">
+                    <div class="row">
+                        <div class="rechts col-xl-6 d-flex">
+                            <div class="avam-panel w-100">
+                                <avam-label-input
+                                    [parentForm]="form"
+                                    controlName="bezeichnungDeutsch"
+                                    selectLabel="{{ 'verzeichnisse.label.bezeichnung_vz_deutsch' | translate }}"
+                                ></avam-label-input>
+                                <avam-label-input
+                                    [parentForm]="form"
+                                    controlName="bezeichnungFranzoesisch"
+                                    selectLabel="{{ 'verzeichnisse.label.bezeichnung_vz_franzoesisch' | translate }}"
+                                ></avam-label-input>
+                                <avam-label-input
+                                    [parentForm]="form"
+                                    controlName="bezeichnungItalienisch"
+                                    selectLabel="{{ 'verzeichnisse.label.bezeichnung_vz_italienisch' | translate }}"
+                                ></avam-label-input>
+                                <avam-label-dropdown
+                                    [parentForm]="form"
+                                    controlName="vollzugsregiontyp"
+                                    [options]="regionTypArray"
+                                    [selectLabel]="'benutzerverwaltung.label.vollzugsregiontyp'"
+                                    placeholder="common.label.waehlen"
+                                ></avam-label-dropdown>
+                            </div>
+                        </div>
+                        <div class="links col-xl-6 d-flex">
+                            <div class="avam-panel w-100">
+                                <avam-label-input
+                                    [parentForm]="form"
+                                    controlName="vollzugsregionID"
+                                    selectLabel="{{ 'benutzerverwaltung.label.vollzugsregionid' | translate }}"
+                                ></avam-label-input>
+                                <avam-date-range-picker
+                                    id="gueltigVonBis"
+                                    label="amm.akquisition.label.gueltig"
+                                    [parentForm]="form"
+                                    formControlNameFrom="gueltigVon"
+                                    formControlNameTo="gueltigBis"
+                                    inputClass="col-md-12 pl-0 pr-0 mb-2"
+                                ></avam-date-range-picker>
+                                <div class="row mb-0">
+                                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                                        <label> {{ 'verzeichnisse.label.kantone' | translate }}</label>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-form-label font-weight-bold">
+                                        {{ kantoneList }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <avam-common-wrapper-table
+                    *ngIf="displayTable"
+                    [dataSource]="tableConfig.data"
+                    [columns]="tableConfig.columns"
+                    [config]="tableConfig.config"
+                    (onRowSelect)="deleteBenutzerstelle($event)"
+                ></avam-common-wrapper-table>
+            </div>
+        </or-column-layout>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="openBenutzerstelleModal()">
+        <span class="fa fa-plus"></span>
+        {{ 'verzeichnisse.label.add_benutzerstelle' | translate }}
+    </button>
+    <button
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="save()"
+        [permissions]="[!!isBearbeiten ? permissions.INFORMATIONEN_BENUTZERVERWALTUNG_VOLLZREGION_BEARBEITEN : permissions.INFORMATIONEN_BENUTZERVERWALTUNG_VOLLZREGION_ERFASSEN]"
+    >
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #benutzerstellenSuche>
+    <app-benutzerstelle-suche
+        [uebergebeneDaten]="benutzerstelleSucheParams"
+        (emitSelectedBenutzerstellen)="addBenutzerstellen($event)"
+        [vollzugsregionBenutzerstellen]="benutzerstelleIds"
+        [isMultiSelect]="true"
+    ></app-benutzerstelle-suche>
+</ng-template>
+
+<ng-template #infobartemplate>&nbsp;</ng-template>

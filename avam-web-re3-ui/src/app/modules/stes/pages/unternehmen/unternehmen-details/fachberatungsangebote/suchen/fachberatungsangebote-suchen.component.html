@@ -1,0 +1,16 @@
+<or-column-layout [left]="true" [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main">
+        <avam-fachberatungsangebote-form #form class="sticky-main" (onResetEvent)="onReset()" (keyup.enter)="form.search()"></avam-fachberatungsangebote-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="form.reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="form.search()" [disabled]="form.isSubmitDisabled()" [permissions]="[form.permissions.STES_FACHBERATUNG_SUCHEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <avam-fachberatungsangebote-result #result class="sticky-main"></avam-fachberatungsangebote-result>
+    </div>
+</or-column-layout>

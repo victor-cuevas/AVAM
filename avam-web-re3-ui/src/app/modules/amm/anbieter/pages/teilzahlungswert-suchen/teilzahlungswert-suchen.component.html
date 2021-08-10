@@ -1,0 +1,45 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main avam-panel avam-panel-extra-lighter">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-teilzahlungswert-suchen-form #searchForm [teilzahlungswertData]="teilzahlungswertData" (onEnter)="search()"></avam-teilzahlungswert-suchen-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <div>
+            <button type="reset" class="btn btn-link" (click)="reset()">
+                {{ 'common.button.zuruecksetzen' | translate }}
+            </button>
+        </div>
+        <div>
+            <button avamDisableOnSpinner type="submit" class="btn btn-primary" (click)="search()">
+                <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+            </button>
+        </div>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <avam-amm-infopanel></avam-amm-infopanel>
+        <avam-alert></avam-alert>
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-anbieter-teilzahlungswerte-table
+            *ngIf="dataSource"
+            [dataSource]="dataSource"
+            [parentForm]="checkboxForm"
+            [tableType]="tableType.SUCHEN"
+            (onCreate)="createTeilzahlung($event)"
+            (onCheckboxChange)="onCheckboxChange($event)"
+            (onItemSelected)="onItemSelected($event)"
+        ></avam-anbieter-teilzahlungswerte-table>
+    </div>
+</or-column-layout>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-primary ml-1 keepDisabled" type="button" (click)="createTeilzahlung()" [disabled]="disableErfassen">
+        <span class="fa fa-plus mr-2"></span>
+        {{ 'amm.zahlungen.button.teilzahlungerfassen' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-anbieter-teilzahlungswerte-table *ngIf="dataSource" [dataSource]="dataSource" [tableType]="tableType.SUCHEN" [forPrinting]="true"></avam-anbieter-teilzahlungswerte-table>
+</ng-template>

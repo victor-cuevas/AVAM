@@ -1,0 +1,141 @@
+<div class="row pull-right" [ngClass]="toolboxStyleClass">
+    <button
+        id="toolbox-reply-button"
+        type="button"
+        ngbTooltip="{{ 'common.alttext.restoreSessionData.trefferliste' | translate }}"
+        triggers="hover"
+        (click)="onClickZurueckButton()"
+        [hidden]="!isZurueckZurGespeichertenListeVisible()"
+        [disabled]="!isZurueckZurGespeichertenListeVisible()"
+        class="btn btn-secondary ml-2 noButton"
+    >
+        <span class="fa fa-reply"></span>
+    </button>
+    <button
+        id="toolbox-more-button"
+        ngbTooltip="{{ 'common.button.mehr' | translate }}"
+        type="button"
+        class="btn btn-secondary ml-2"
+        [hidden]="!isMoreButtonVisible()"
+        [disabled]="!isMoreButtonVisible()"
+        [ngClass]="{ 'border-0 bg-transparent': moreButtonWithoutBorder() }"
+        placement="bottom"
+        [autoClose]="true"
+        [ngbPopover]="popContent1"
+        triggers="manual"
+        #p="ngbPopover"
+        appCustomPopover
+        [ngpPopoverRef]="p"
+    >
+        <span>...</span>
+    </button>
+    <button
+        id="toolbox-dms-button"
+        type="button"
+        ngbTooltip="{{ 'common.button.dmsdossier' | translate }}"
+        triggers="hover"
+        class="btn btn-secondary ml-2"
+        (click)="onClickDMSButton()"
+        [hidden]="!isDMSButtonVisible()"
+        [disabled]="!isDMSButtonVisible()"
+        [ngClass]="{ 'border-0 bg-transparent': dmsButtonWithoutBorder() }"
+    >
+        <span>{{ 'common.alttext.dms' | translate }}</span>
+    </button>
+    <button
+        id="toolbox-copy-button"
+        type="button"
+        ngbTooltip="{{ 'common.alttext.dmsmetadatenkopieren' | translate }}"
+        triggers="hover"
+        class="btn btn-secondary ml-2"
+        (click)="onClickCopyButton()"
+        [hidden]="!isCopyButtonVisible()"
+        [disabled]="!isCopyButtonVisible()"
+        [ngClass]="{ 'border-0 bg-transparent': copyButtonWithoutBorder() }"
+    >
+        <span class="fa fa-copy"></span>
+    </button>
+    <button
+        id="toolbox-word-button"
+        type="button"
+        ngbTooltip="{{ 'common.button.dokumentmanager' | translate }}"
+        triggers="hover"
+        class="btn btn-secondary ml-2"
+        (click)="onClickWordButton()"
+        [hidden]="!isWordButtonVisible()"
+        [disabled]="!isWordButtonVisible()"
+        [ngClass]="{ 'border-0 bg-transparent': wordButtonWithoutBorder() }"
+    >
+        <span class="fa fa-file-word-o"></span>
+    </button>
+    <button
+        id="toolbox-excel-button"
+        type="button"
+        ngbTooltip="{{ 'common.button.excelexport' | translate }}"
+        triggers="hover"
+        class="btn btn-secondary ml-2"
+        (click)="onClickExcelButton()"
+        [hidden]="!isExcelButtonVisible()"
+        [disabled]="!isExcelButtonVisible()"
+        [ngClass]="{ 'border-0 bg-transparent': excelButtonWithoutBorder() }"
+    >
+        <span class="fa fa-file-excel-o"></span>
+    </button>
+    <button
+        id="toolbox-print-button"
+        type="button"
+        ngbTooltip="{{ 'common.alttext.drucken' | translate }}"
+        triggers="hover"
+        class="btn btn-secondary ml-2"
+        (click)="onClickPrintButton()"
+        [hidden]="!isPrintButtonVisible()"
+        [disabled]="!isPrintButtonVisible()"
+        [ngClass]="{ 'border-0 bg-transparent': printButtonWithoutBorder() }"
+    >
+        <span class="fa fa-print"></span>
+    </button>
+    <button
+        id="toolbox-help-button"
+        ngbTooltip="{{ 'common.button.hilfe' | translate }}"
+        triggers="hover"
+        type="button"
+        class="btn btn-secondary ml-2"
+        (click)="onClickHelpButton()"
+        [hidden]="!isHelpButtonVisible()"
+        [disabled]="!isHelpButtonVisible()"
+        [ngClass]="{ 'border-0 bg-transparent': helpButtonWithoutBorder() }"
+    >
+        <span class="fa fa-question"></span>
+    </button>
+    <button
+        id="toolbox-exit-button"
+        ngbTooltip="{{ 'common.button.schliessen' | translate }}"
+        triggers="hover"
+        type="button"
+        class="btn btn-secondary ml-2"
+        (click)="onClickExitButton()"
+        [hidden]="!isExitButtonVisible()"
+        [disabled]="!isExitButtonVisible()"
+        [ngClass]="{ 'border-0 bg-transparent': exitButtonWithoutBorder() }"
+    >
+        <span class="fa fa-close"></span>
+    </button>
+</div>
+
+<ng-template #popContent1>
+    <div class="row" *ngIf="isEmailButtonVisible()">
+        <div class="col-sm">
+            <a id="toolbox-email-hyperlink" [href]="emailAddress" target="_top" tabindex="-1">{{ 'common.button.emailSenden' | translate }}</a>
+        </div>
+    </div>
+    <div class="row" *ngIf="isHistoryButtonVisible()">
+        <div class="col-sm">
+            <a role="button" id="toolbox-history-hyperlink" (click)="onClickHistoryButton()">{{ 'common.alttext.historisierung' | translate }}</a>
+        </div>
+    </div>
+    <div class="row" *ngIf="isAsalDatenButtonVisible()">
+        <div class="col-sm">
+            <a role="button" id="toolbox-history-hyperlink" (click)="onClickAsalDatenButton()">{{ 'amm.abrechnungen.subnavmenuitem.asaldaten' | translate }}</a>
+        </div>
+    </div>
+</ng-template>

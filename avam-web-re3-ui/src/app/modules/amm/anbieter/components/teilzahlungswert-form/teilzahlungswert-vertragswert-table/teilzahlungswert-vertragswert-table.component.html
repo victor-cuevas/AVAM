@@ -1,0 +1,29 @@
+<avam-generic-table
+    *ngIf="dataSource"
+    [dataSource]="dataSource"
+    [headers]="displayedColumns"
+    [recalculateMaxHeight]="false"
+    [footer]="true"
+    sortField="teilzahlungswertNr"
+    [sortOrder]="1"
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'chfBetrag'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="row.chfSaldo" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t" [ngClass]="row.chfSaldo < 0 ? 'text-danger' : ''"
+                    ><avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell
+                ></span>
+            </td>
+            <td cdk-footer-cell *cdkFooterCellDef>{{ chfTotal }}</td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+        <ng-container>
+            <td cdk-footer-cell *cdkFooterCellDef class="text-right">{{ column.footer | translate }}</td>
+        </ng-container>
+    </ng-container>
+</avam-generic-table>

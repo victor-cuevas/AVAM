@@ -1,0 +1,33 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'arbeitgeber.oste.stellenmeldungweiterleiten' | translate }}
+            <app-result-count [dataLength]="tableConfig.data.length"></app-result-count>
+        </h4>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <or-spinner [channel]="spinnerChannel"></or-spinner>
+    <div class="avam-panel avam-panel-extra-lighter row m-2" [formGroup]="filterForm">
+        <div class="col-3">
+            <avam-label-input controlName="benutzerstelle" selectLabel="{{ 'benutzerverwaltung.label.benutzerstelle' }}" [parentForm]="filterForm"></avam-label-input>
+        </div>
+        <div class="col-2">
+            <avam-label-input controlName="id" selectLabel="{{ 'benutzerverwaltung.label.id' }}" [parentForm]="filterForm"></avam-label-input>
+        </div>
+    </div>
+    <div class="table-wrapper-height scrollable-modal-body max-height-600">
+        <avam-common-wrapper-table
+            [dataSource]="tableConfig.data"
+            [columns]="tableConfig.columns"
+            [config]="tableConfig.config"
+            (onRowSelect)="openConfirmDialog($event)"
+            [shouldFocusInitialRow]="shouldFocusInitialRow"
+        ></avam-common-wrapper-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ '0210043' }}</span>
+        <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+    </div>
+</div>

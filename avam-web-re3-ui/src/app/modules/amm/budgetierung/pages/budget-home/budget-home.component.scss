@@ -1,0 +1,15 @@
+.navigation-resizable {
+    width: 5px;
+    background: transparent;
+    cursor: col-resize;
+    float: right;
+    height: 100%;
+    position: absolute;
+    right: 15px;
+    z-index: 99999;
+}
+
+.navigation-container {
+    padding-top: 15px;
+    resize: horizontal;
+}

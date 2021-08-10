@@ -1,0 +1,10 @@
+<li
+    class="nav-item mouse-pointer"
+    [ngClass]="{ active: stepProperties.isActive, valid: stepProperties.isValid, disabled: stepProperties.isDisabled }"
+    role="presentation"
+    [attr.data-step-label]="stepLable"
+    (click)="onClick()"
+>
+    <a class="nav-link text-nowrap" role="menuitem">{{ stepTitle | translate }}</a>
+    <ng-content></ng-content>
+</li>

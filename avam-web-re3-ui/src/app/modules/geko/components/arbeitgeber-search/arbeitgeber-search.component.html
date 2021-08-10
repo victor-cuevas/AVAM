@@ -1,0 +1,42 @@
+<or-column-layout [left]="true" [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main">
+        <or-spinner [channel]="channel"></or-spinner>
+        <avam-geko-arbeitgeber-search-form
+            #formComponent
+            [isAmm]="isAmm"
+            [data]="data"
+            (geschaeftsartChangedEvent)="onChangeGeschaeftsartId($event)"
+        ></avam-geko-arbeitgeber-search-form>
+    </div>
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="formComponent.reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="onSearch()" [permissions]="[permissions.GEKO_VERLAUF_SUCHEN_AG]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+    <div column-main-content class="h-100 default-layout">
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2 class="pl-4" *ngIf="!isAmm">{{ 'geko.pfad.geschaefte.arbeitgeber.uebersicht' | translate }}&nbsp;&nbsp;</h2>
+                <h2 class="pl-4" *ngIf="isAmm">{{ 'geko.pfad.geschaefte.amm.uebersicht' | translate }}&nbsp;&nbsp;</h2>
+                <app-result-count *ngIf="dataSource" [dataLength]="dataSource.length" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <or-spinner [channel]="resultChannel"></or-spinner>
+        <avam-alert></avam-alert>
+        <avam-geko-arbeitgeber-search-table
+            [isAmm]="isAmm"
+            [stateKey]="tableStateKey"
+            [dataSource]="dataSource"
+            (onOpenItem)="openCallback($event)"
+        ></avam-geko-arbeitgeber-search-table>
+    </div>
+</or-column-layout>
+<ng-template #modalPrint>
+    <avam-geko-arbeitgeber-search-table [isAmm]="isAmm" [stateKey]="tableStateKey" [dataSource]="dataSource" [forPrinting]="true"></avam-geko-arbeitgeber-search-table>
+</ng-template>

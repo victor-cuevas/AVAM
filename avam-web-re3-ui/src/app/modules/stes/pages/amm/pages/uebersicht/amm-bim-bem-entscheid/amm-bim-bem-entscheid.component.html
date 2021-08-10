@@ -1,0 +1,307 @@
+<form [formGroup]="bimBemEntscheidForm" #ngForm="ngForm" closeBrowserTab [form]="bimBemEntscheidForm" autocomplete="off">
+    <div class="print-block row">
+        <or-spinner [channel]="channel"></or-spinner>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [parentForm]="bimBemEntscheidForm"
+                    controlName="ammEntscheidTyp"
+                    id="ammEntscheidTyp"
+                    [options]="entscheidTypOptions"
+                    selectLabel="amm.nutzung.label.entscheidTyp"
+                    (onChange)="onEntscheidTypChange($event)"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    [hideEmptyOption]="true"
+                    avamAutofocus
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="bimBemEntscheidForm"
+                    controlName="entscheidart"
+                    id="entscheidart"
+                    [options]="entscheidartOptions"
+                    (onChange)="onEntscheidartChange($event)"
+                    selectLabel="amm.nutzung.label.entscheidart"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+                <div *ngIf="displayDatepicker" class="row">
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8">
+                        <avam-label-calendar
+                            id="abbruchdatum"
+                            controlName="abbruchdatum"
+                            [parentForm]="bimBemEntscheidForm"
+                            calendarLabel="common.label.am"
+                            [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                        ></avam-label-calendar>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-multiselect
+                    id="auflage"
+                    controlName="auflage"
+                    [parentForm]="bimBemEntscheidForm"
+                    [options]="auflageMultiselectOptions"
+                    label="amm.nutzung.label.auflage"
+                    [isDisabled]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                ></avam-multiselect>
+                <hr class="hr-thin" />
+                <avam-multiselect
+                    id="begruendung"
+                    controlName="begruendung"
+                    [parentForm]="bimBemEntscheidForm"
+                    [options]="begruendungMultiselectOptions"
+                    label="amm.nutzung.label.begruendung"
+                    [isDisabled]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                ></avam-multiselect>
+                <hr class="hr-thin" />
+                <avam-multiselect
+                    id="ergaenzendeAngaben"
+                    controlName="ergaenzendeAngaben"
+                    [parentForm]="bimBemEntscheidForm"
+                    [options]="ergaenzendeAngabenMultiselectOptions"
+                    label="amm.nutzung.label.ergaenzendeAngaben"
+                    [isDisabled]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                ></avam-multiselect>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    selectLabel="{{ 'amm.nutzung.label.geldgeber' }}"
+                    [parentForm]="bimBemEntscheidForm"
+                    controlName="geldgeber"
+                    id="geldgeber"
+                    (onChange)="onGeldgeberChange($event)"
+                    [options]="geldgeberOptions"
+                    [readOnly]="isGeldgeberReadonly"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    selectLabel="{{ 'amm.nutzung.label.finanzierungsquelle' }}"
+                    [parentForm]="bimBemEntscheidForm"
+                    controlName="finanzierungsquelle"
+                    id="finanzierungsquelle"
+                    [options]="finanzierungsquelleOptions"
+                    [inputClass]="'col-lg-4 col-md-4'"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt || !isGeldgeberArbeitslosenversicherung"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    *ngIf="displayVermittlungsfaehigkeit"
+                    selectLabel="{{ 'amm.nutzung.label.vermittlungsfaehigkeit' }}"
+                    [parentForm]="bimBemEntscheidForm"
+                    controlName="vermittlungsfaehigkeit"
+                    id="vermittlungsfaehigkeit"
+                    [options]="vermittlungsfaehigkeitOptions"
+                    [inputClass]="'col-lg-4 col-md-4'"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    [parentForm]="bimBemEntscheidForm"
+                    controlName="entscheidungDurch"
+                    placeholder="{{ 'amm.massnahmen.label.benutzer' | translate }}"
+                    componentLabel="{{ 'amm.nutzung.label.entscheidDurch' }}"
+                    [benutzerSuchenTokens]="entscheidungDurchSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    id="entscheidungDurch"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    controlName="ammEntscheidNr"
+                    [parentForm]="bimBemEntscheidForm"
+                    [readOnly]="true"
+                    id="ammEntscheidNr"
+                    selectLabel="common.label.entscheidnr"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'stes.subnavmenuitem.stesAmm.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="bimBemEntscheidData?.vorgaengerId"
+                            id="vorgaengerLabel"
+                            [routerLink]="['./']"
+                            [queryParams]="{ gfId: vorgaengerGeschaeftsfallId, entscheidId: vorgaengerEntscheidId }"
+                        >
+                            {{ bimBemEntscheidData?.vorgaengerObject?.entscheidNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'stes.subnavmenuitem.stesAmm.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="bimBemEntscheidData?.nachfolgerId"
+                            id="nachfolgerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ gfId: nachfolgerGeschaeftsfallId, entscheidId: nachfolgerEntscheidId }"
+                        >
+                            {{ bimBemEntscheidData?.nachfolgerObject?.entscheidNr }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    selectLabel="{{ 'common.label.status' }}"
+                    [parentForm]="bimBemEntscheidForm"
+                    controlName="status"
+                    id="status"
+                    [options]="statusOptions"
+                    [inputClass]="'col-lg-4 col-md-4'"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    (onChange)="onEntscheidStatusChange()"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <avam-personalberater-autosuggest
+                    [parentForm]="bimBemEntscheidForm"
+                    controlName="freigabeDurch"
+                    placeholder="{{ 'amm.massnahmen.label.benutzer' | translate }}"
+                    componentLabel="{{ 'amm.nutzung.label.freigabeDurch' }}"
+                    [benutzerSuchenTokens]="freigabeDurchSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                    [readOnly]="isEntscheidStatusFreigabebereitFreigegebenOrErsetzt"
+                    id="freigabeDurch"
+                ></avam-personalberater-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <avam-label-calendar
+                    id="freigabedatum"
+                    controlName="freigabedatum"
+                    calendarLabel="amm.nutzung.label.freigabeDatum"
+                    [parentForm]="bimBemEntscheidForm"
+                    [inputClass]="'col-4'"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-input
+                    id="transferAlk"
+                    controlName="transferAlk"
+                    [parentForm]="bimBemEntscheidForm"
+                    selectLabel="stes.label.transferanalk"
+                    [isDisabled]="true"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <div *ngIf="displayBeschaeftigungsgrad" class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="beschaeftigungsgrad">{{ 'amm.nutzung.label.beschaeftigungsgrad' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p id="beschaeftigungsgradProzent">
+                            {{
+                                bimBemEntscheidData?.ammGeschaeftsfallObject?.ammBuchungArbeitsplatzkategorie
+                                    ? bimBemEntscheidData?.ammGeschaeftsfallObject?.ammBuchungArbeitsplatzkategorie?.beschaeftigungsgrad
+                                    : bimBemEntscheidData?.ammGeschaeftsfallObject?.ammBuchungPraktikumsstelle?.beschaeftigungsgrad
+                            }}
+                            %
+                        </p>
+                    </div>
+                </div>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="amm.nutzung.label.amm"
+                    [parentForm]="bimBemEntscheidForm"
+                    formControlNameFrom="ausrichtungVon"
+                    formControlNameTo="ausrichtungBis"
+                    [isResponsive]="true"
+                    [readOnly]="'all'"
+                    id="ausrichtungVonBis"
+                ></avam-date-range-picker>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="anzahlTage">{{ 'amm.nutzung.label.anzahlTage' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p id="anzahlTageDauer">{{ bimBemEntscheidData?.ammKostenSpesen?.massnahmeDauer }}</p>
+                    </div>
+                </div>
+                <div *ngIf="isBimBemEntscheidTypeKursIndividuell" class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="totalKosten">{{ 'amm.nutzung.label.totalKosten' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p id="totalKostenChf">{{ bimBemEntscheidData?.ammKosten?.betrag | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="totalSpesen">{{ 'amm.nutzung.label.totalspesen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p id="totalSpesenChf">{{ bimBemEntscheidData?.ammKostenSpesen?.betrag | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <div *ngIf="isBimBemEntscheidTypeBP" class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="mArbeitgeberanteil"> {{ 'amm.nutzung.label.monatlicherarbeitgeberanteil' | translate }}</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <p id="mArbeitgeberanteilProzent">{{ bimBemEntscheidData?.ammKostenBp?.arbeitgeberbeitragProzent }} %</p>
+                    </div>
+                    <p id="mArbeitgeberanteilChf">{{ bimBemEntscheidData?.ammKostenBp?.arbeitgeberbeitrag | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                </div>
+                <div *ngIf="isBimBemEntscheidTypeBP" class="row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="totalArbeitgeberanteil">{{ 'amm.nutzung.label.totalarbeitgeberanteil' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p id="totalArbeitgeberanteilChf">{{ bimBemEntscheidData?.ammKostenBp?.betrag | formatSwissFranc }} {{ 'common.label.chf' | translate }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_ERSETZBAR]) && !bimBemEntscheidData?.nachfolgerId"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="onErsetzen()"
+    >
+        {{ 'common.button.ersetzen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_UEBERARBEITBAR])" class="btn btn-secondary ml-1" type="button" (click)="onUeberarbeiten()">
+        {{ 'common.button.ueberarbeiten' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_FREIGEBBAR])" class="btn btn-secondary ml-1" type="button" (click)="onFreigeben()">
+        {{ 'common.button.freigeben' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_ZURUECKNEHMBAR])" class="btn btn-primary ml-1" type="button" (click)="onZuruecknehmen()">
+        {{ 'common.button.zuruecknehmen' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR, ammButtonsTypeEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_LOESCHBAR])" class="btn btn-secondary ml-1" type="button" (click)="openModalLoeschen()">
+        {{ 'common.button.ammEnstscheidloeschen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSubmit()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+</ng-template>

@@ -1,0 +1,49 @@
+<div class="overflow-auto-custom">
+    <or-spinner [channel]="spinnerChannel"></or-spinner>
+    <avam-profilvergleich-table *ngIf="dataSource" [dataSource]="dataSource"></avam-profilvergleich-table>
+</div>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-profilvergleich-table *ngIf="dataSource" [dataSource]="dataSource"></avam-profilvergleich-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #anforderungenSkillsModal>
+    <avam-anforderungen-skills-vergleichen-modal [stesId]="stesId" [osteId]="osteId"></avam-anforderungen-skills-vergleichen-modal>
+</ng-template>
+
+<ng-template #stesDetailsModal>
+    <avam-stes-details-modal [stesId]="stesId"></avam-stes-details-modal>
+</ng-template>
+
+<ng-template #osteDetailsModal>
+    <avam-oste-details-modal [osteId]="osteId"></avam-oste-details-modal>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+
+    <div #stesOste="ngbDropdown" ngbDropdown placement="top-right" class="dropdown" (mouseleave)="stesOste.close()">
+        <button class="btn btn-secondary ml-1" ngbDropdownToggle (mouseenter)="stesOste.open()">
+            {{ 'common.button.stesOsteDetails' | translate }}
+        </button>
+        <div class="dropdown-menu mb-0" ngbDropdownMenu (mouseenter)="stesOste.open()" (mouseleave)="stesOste.close()">
+            <button class="dropdown-item" *ngFor="let option of stesOsteOptions" (click)="onDropdownOptionClick(option)">
+                {{ option.text | translate }}
+            </button>
+        </div>
+    </div>
+
+    <button class="btn btn-secondary ml-1" type="button" (click)="movePrevious()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+
+    <button *ngIf="showNextBtn()" class="btn btn-primary ml-1" type="button" (click)="moveNext()" [permissions]="[permissions.STES_VM_ZUWEISUNG_BEARBEITEN]">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer class="btn-bar-zero-height" [buttonsTemplate]="footerButtons"></avam-action-footer>

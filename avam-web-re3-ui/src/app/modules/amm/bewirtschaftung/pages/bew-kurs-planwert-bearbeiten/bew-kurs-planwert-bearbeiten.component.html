@@ -1,0 +1,67 @@
+<div class="d-block">
+    <avam-bew-planwert-form #planwertFormComponent [planwertData]="planwertData"></avam-bew-planwert-form>
+    <or-spinner [channel]="channel"></or-spinner>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container>
+        <button class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button avamDisableOnSpinner class="btn btn-secondary ml-1" type="button" (click)="openDeleteDialog()" [permissionContext]="[permissions.AMM_PLANUNG_BEARBEITEN]">
+            {{ 'common.button.planwertloeschen' | translate }}
+        </button>
+        <button avamDisableOnSpinner class="btn btn-secondary ml-1" type="button" (click)="submit('berechnen')" [permissionContext]="[permissions.AMM_PLANUNG_BEARBEITEN]">
+            {{ 'common.button.berechnen' | translate }}
+        </button>
+        <button class="btn btn-secondary ml-1" type="button" (click)="zurKursplanung()">
+            <span class="fa fa-external-link"></span>
+            {{ 'amm.massnahmen.button.zurkursplanung' | translate }}
+        </button>
+        <button avamDisableOnSpinner class="btn btn-primary ml-1" type="button" (click)="submit('speichern')" [permissionContext]="[permissions.AMM_PLANUNG_BEARBEITEN]">
+            {{ 'common.button.speichern' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <span
+                >{{ planwertData?.durchfuehrungseinheitObject?.massnahmeObject?.produktObject?.elementkategorieAmtObject?.organisation }}-{{
+                    planwertData?.typ | dbTranslate: 'text'
+                }}</span
+            >
+        </div>
+        <div class="item">
+            <b>{{ 'amm.massnahmen.label.durchfuehrungsnr' | translate }}</b>
+            {{ dfeId }}
+        </div>
+        <div class="item">
+            <b> {{ 'amm.anbieter.label.anbieter' | translate }} </b>
+            <span>
+                {{ unternehmen?.name1 }}
+                {{ unternehmen?.name2 }}
+                {{ unternehmen?.name3 }}
+            </span>
+        </div>
+        <div class="item">
+            <div class="item">
+                <ng-container *ngIf="unternehmen?.provBurNr; else nichtProv">
+                    <b> {{ 'arbeitgeber.oste.label.provburnr' | translate }} </b>
+                    <span> {{ unternehmen?.provBurNr }} </span>
+                </ng-container>
+                <ng-template #nichtProv>
+                    <b> {{ 'arbeitgeber.oste.label.burnr' | translate }} </b>
+                    <span> {{ unternehmen?.burNummer }} </span>
+                </ng-template>
+            </div>
+        </div>
+        <div class="item">
+            <b> {{ 'arbeitgeber.oste.label.status' | translate }} </b>
+            <span> {{ unternehmen?.statusObject | dbTranslate: 'text' }} </span>
+        </div>
+    </ng-container>
+</ng-template>

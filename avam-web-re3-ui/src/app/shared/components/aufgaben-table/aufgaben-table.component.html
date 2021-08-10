@@ -1,0 +1,92 @@
+<avam-generic-table
+    #aufgabenTable
+    *ngIf="tableData"
+    [stateKey]="getStateKey()"
+    [dataSource]="tableData"
+    [headers]="displayedTableColumns"
+    [scrollable]="true"
+    [maxHeight]="775"
+    (sortFunction)="sortFunction($event)"
+    [customSort]="true"
+>
+    <ng-container *ngFor="let column of tableColumns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'checkbox'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef><input type="checkbox" [checked]="allchecked" (click)="checkAll()" /></th>
+            <td [ngStyle]="{ background: row?.rowColor }" cdk-cell *cdkCellDef="let row"><input type="checkbox" [checked]="row.checked" (click)="checkbox(row)" /></td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'terminueberschreitung'">
+            <th [sortable-column]="column.columnDef" [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                <div class="full-centered">
+                    <sort-icon *ngIf="aufgabenTable.isSorted(column.columnDef)" [column]="column.columnDef"></sort-icon>
+                    <i class="fa fa-exclamation icon-red" aria-hidden="true"></i>
+                </div>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <ng-container *ngIf="row.terminueberschreitung">
+                    <i class="full-centered fa fa-exclamation icon-red" aria-hidden="true"></i>
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'actions'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                {{ column.header | translate }}
+            </th>
+            <td style="display: flex; justify-content: space-around;" cdk-cell *cdkCellDef="let row">
+                <button
+                    (primaryButtonClick)="onOpen(row)"
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    avamPrimaryButtonDirective
+                    type="button"
+                    [ngbTooltip]="'common.button.oeffnen' | translate"
+                ></button>
+                <button
+                    (click)="onDeleteRow(row)"
+                    class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                    type="button"
+                    [ngbTooltip]="'common.button.loeschen' | translate"
+                ></button>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'zuErledigenBis'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">{{
+                    column.cell(row) | date: 'dd.MM.yyyy'
+                }}</span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'geschaeftsart'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: 'geschaeftsartText'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | dbTranslate: 'geschaeftsartText' }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'aufgabeText'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row)" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) }}
+                </span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'zustandig'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: 'zustaendigkeitVerantwortlich'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | dbTranslate: 'zustaendigkeitVerantwortlich' }}
+                </span>
+            </td>
+        </ng-container>
+
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

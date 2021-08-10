@@ -1,0 +1,22 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" [sortField]="'abrechnungsperiode'" [sortOrder]="-1" [stateKey]="stateKey">
+    <ng-container *ngFor="let column of tableColumns" [cdkColumnDef]="column?.columnDef">
+        <th [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <div class="header-container">
+                <span [ngbTooltip]="column.header | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    <sort-icon [column]="column.columnDef"></sort-icon>
+                    {{ column.header | translate }}
+                </span>
+            </div>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'betrag' || column.columnDef === 'kaeSweAgAnteil'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | formatSwissFranc" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t" *ngIf="column.cell(row)">
+                    {{ column.cell(row) | formatSwissFranc }}
+                </span>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

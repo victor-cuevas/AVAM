@@ -1,0 +1,21 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">
+            {{ 'amm.abrechnungen.label.durchfuehrungseinheiten' | translate }}
+            <app-result-count [dataLength]="datasource.length"></app-result-count>
+        </h4>
+
+        <div class="mr-3">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [id]="modalToolboxId" [formNumber]="formNr"></app-toolbox>
+        </div>
+    </div>
+    <div class="table-wrapper-height scrollable-modal-body max-height-800">
+        <or-spinner [channel]="searchChannel"></or-spinner>
+        <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+        <avam-durchfuehrungseinheiten-table [dataSource]="datasource"></avam-durchfuehrungseinheiten-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNr }}</span>
+        <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+    </div>
+</div>

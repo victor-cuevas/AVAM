@@ -1,0 +1,147 @@
+<or-column-layout [right]="false" avamNavCollapsedCheck>
+    <div column-left-content class="sticky-main" (keyup.enter)="search()">
+        <or-spinner channel="avamSweMeldungSearchChannel"></or-spinner>
+        <form class="outer-panel-height no-overflow h-100" #ngForm="ngForm" autocomplete="off">
+            <div class="avam-panel avam-panel-extra-lighter inner-panel-height p-3 sticky">
+                <div [formGroup]="searchForm" class="no-overflow h-100">
+                    <h3>
+                        <span class="fa fa-search mr-2"></span>
+                        {{ 'kaeswe.label.meldungswe' | translate }}
+                    </h3>
+                    <avam-prepend-dropdown
+                        controlName="status"
+                        [parentForm]="searchForm"
+                        [readOnly]="false"
+                        [selectLabel]="'common.label.status'"
+                        [options]="statusDropdownLabels"
+                        [placeholder]="combiningFieldsDisabled ? '' : 'geko.placeholder.select.waehlen'"
+                        [isDisabled]="combiningFieldsDisabled"
+                    ></avam-prepend-dropdown>
+                    <br />
+                    <avam-label-input
+                        #entscheidNrInput
+                        avamAutofocus
+                        inputClass="col"
+                        controlName="entscheidNr"
+                        id="name"
+                        placeholder="{{ 'common.label.entscheidnr' | translate }}"
+                        [parentForm]="searchForm"
+                        (onInput)="checkDisabled($event)"
+                        (onChange)="checkDisabled($event)"
+                    >
+                    </avam-label-input>
+                    <br />
+                    <avam-date-range-picker
+                        [parentForm]="searchForm"
+                        formControlNameFrom="ausfallVon"
+                        formControlNameTo="ausfallBis"
+                        [hasVerticalLayout]="true"
+                        [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                        [isResponsive]="true"
+                        wrapperClass="col-lg-12 col-md-12"
+                        placeholderFrom="{{ combiningFieldsDisabled ? '' : ('kaeswe.label.ausfallvon' | translate) }}"
+                        placeholderTo="{{ combiningFieldsDisabled ? '' : ('kaeswe.label.bis' | translate) }}"
+                        [isDisabled]="combiningFieldsDisabled"
+                    >
+                    </avam-date-range-picker>
+                    <br />
+                    <avam-date-range-picker
+                        [parentForm]="searchForm"
+                        formControlNameFrom="freigabeVon"
+                        formControlNameTo="freigabeBis"
+                        [hasVerticalLayout]="true"
+                        [isResponsive]="true"
+                        wrapperClass="col-lg-12 col-md-12"
+                        placeholderFrom="{{ combiningFieldsDisabled ? '' : ('kaeswe.label.freigabedatumvon' | translate) }}"
+                        placeholderTo="{{ combiningFieldsDisabled ? '' : ('kaeswe.label.bis' | translate) }}"
+                        [isDisabled]="combiningFieldsDisabled"
+                    >
+                    </avam-date-range-picker>
+                    <br />
+                    <label class="col-form-label">{{ 'kaeswe.label.kanton' | translate }}</label>
+                    <avam-label-dropdown
+                        inputClass="col-lg-12 col-md-12"
+                        [parentForm]="searchForm"
+                        controlName="kanton"
+                        id="kanton"
+                        [options]="kantonDropdownLabels"
+                        [isDisabled]="combiningFieldsDisabled"
+                        (onChange)="onKantonChange($event)"
+                    ></avam-label-dropdown>
+                    <br />
+                    <avam-personalberater-autosuggest
+                        id="verantwortliche"
+                        [parentForm]="searchForm"
+                        controlName="verantwortliche"
+                        [benutzerSuchenTokens]="benutzerSuchenTokens"
+                        [type]="benutzerAutosuggestType"
+                        placeholder="{{ combiningFieldsDisabled ? '' : ('kaeswe.label.verantwortlicheperson' | translate) }}"
+                        (onSelect)="updatePersonalberaterSuche($event)"
+                        (onInput)="onInputPersonalberaterSuche($event)"
+                        [isDisabled]="combiningFieldsDisabled"
+                        container="body"
+                        [scrollIntoView]="false"
+                    ></avam-personalberater-autosuggest>
+                    <avam-label-checkbox
+                        componentId="sachbearbeitung"
+                        controlName="sachbearbeitung"
+                        [parentForm]="searchForm"
+                        selectLabel="{{ 'kaeswe.label.sachbearbeitung' | translate }}"
+                        inputClass="col-lg-0"
+                        [isDisabled]="combiningFieldsDisabled"
+                    ></avam-label-checkbox>
+                    <avam-label-checkbox
+                        componentId="freigabe"
+                        controlName="freigabe"
+                        [parentForm]="searchForm"
+                        selectLabel="{{ 'kaeswe.label.freigabe' | translate }}"
+                        inputClass="col-lg-0"
+                        [isDisabled]="combiningFieldsDisabled"
+                    ></avam-label-checkbox>
+                    <avam-erweiterte-suche
+                        #erweiterteSucheComponent
+                        [parentForm]="searchForm"
+                        contextId="swe"
+                        arrayName="erweiterteSuche"
+                        unternehmensType="arbeitgeber"
+                        [isDisabled]="combiningFieldsDisabled"
+                        (onClick)="onClickErweiterteSuche()"
+                    ></avam-erweiterte-suche>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div column-left-content class="sticky-footer sticky-actions">
+        <button type="reset" class="btn btn-link" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="search()" [disabled]="!searchForm.valid" [permissions]="[permissions.ARBEITGEBER_SWE_MELDUNG_SUCHEN]">
+            <span class="fa fa-search mr-2"></span> <span>{{ 'common.button.suchen' | translate }}</span>
+        </button>
+    </div>
+
+    <div column-main-content class="h-100 default-layout">
+        <div class="row">
+            <div class="col-8 d-flex align-items-center">
+                <h2>{{ 'kaeswe.label.meldungsweallearbeitgeber' | translate }}&nbsp;&nbsp;</h2>
+                <app-result-count *ngIf="searchDone" [dataLength]="resultsData ? resultsData.length : 0" [isInfoleiste]="true"></app-result-count>
+            </div>
+            <div class="col-4 pull-right">
+                <app-toolbox></app-toolbox>
+            </div>
+        </div>
+        <avam-alert></avam-alert>
+        <or-spinner channel="{{ resultSpinnerChannel }}"></or-spinner>
+        <avam-kaeswe-suchen-table
+            #resultTable
+            [tableData]="resultsData"
+            [stateKey]="tableStateKey"
+            (onPrimaryAction)="openMeldungen($event)"
+            [gesamtbetriebCode]="gesamtbetriebCode"
+        ></avam-kaeswe-suchen-table>
+    </div>
+</or-column-layout>
+<ng-template #modalPrint>
+    <avam-kaeswe-suchen-table [tableData]="resultsData" [stateKey]="tableStateKey" [forPrinting]="true" [gesamtbetriebCode]="gesamtbetriebCode"></avam-kaeswe-suchen-table>
+</ng-template>

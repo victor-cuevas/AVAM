@@ -1,0 +1,84 @@
+<div class="d-block">
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-gesamtbudget-form #budgetForm [formData]="formData"></avam-gesamtbudget-form>
+    <div>
+        <avam-teilbudget-tree-table [dataSource]="treeArray" [readonly]="true"></avam-teilbudget-tree-table>
+    </div>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b> {{ 'common.label.version' | translate }} </b>
+            <span> {{ formData?.budget?.version }} </span>
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONERSETZEN)"
+            avamDisableOnSpinner
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="update(updateType.ERSETZEN)"
+        >
+            {{ 'amm.budgetierung.button.budgetersetzen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONUEBERARBEITEN)"
+            avamDisableOnSpinner
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="update(updateType.UEBERARBEITEN)"
+        >
+            {{ 'common.button.ueberarbeiten' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONFREIGEBEN)"
+            avamDisableOnSpinner
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="update(updateType.FREIGEBEN)"
+        >
+            {{ 'common.button.freigeben' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONZURUECKNEHMEN)"
+            avamDisableOnSpinner
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="update(updateType.ZURUECKNEHMEN)"
+        >
+            {{ 'common.button.zuruecknehmen' | translate }}
+        </button>
+        <button *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)" class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONLOESCHEN)"
+            avamDisableOnSpinner
+            class="btn btn-secondary ml-1"
+            type="button"
+            (click)="openDeleteDialog()"
+        >
+            {{ 'amm.budgetierung.button.budgetloeschen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONSPEICHERN)"
+            avamDisableOnSpinner
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="update(updateType.UPDATE)"
+        >
+            {{ 'i18n.common.save' | translate }}
+        </button>
+    </ng-container>
+</ng-template>
+
+<ng-template #budgetvergleichModal>
+    <avam-budgetvergleich-anzeigen-modal [listeKopieParam]="listeKopieParam"></avam-budgetvergleich-anzeigen-modal>
+</ng-template>

@@ -1,0 +1,106 @@
+<form [formGroup]="searchFormGroup" #ngForm="ngForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter p-3 border-0">
+        <div class="row">
+            <div class="col-lg-12">
+                <h3>
+                    <span class="fa fa-search mr-2"></span>
+                    <span>{{ 'amm.nutzung.label.angebot' | translate }}</span>
+                </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <avam-label-input
+                    avamAutofocus
+                    inputClass="col"
+                    controlName="titel"
+                    id="titel"
+                    placeholder="{{ notCombiningActive ? '' : 'amm.nutzung.label.titel' }}"
+                    [parentForm]="searchFormGroup"
+                    [isDisabled]="notCombiningActive"
+                ></avam-label-input>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <avam-label-input
+                    inputClass="col"
+                    controlName="durchfuehrungseinheitId"
+                    id="durchfuehrungseinheitId"
+                    placeholder="amm.massnahmen.label.durchfuehrungsnr"
+                    [parentForm]="searchFormGroup"
+                    (onKeyup)="checkEnableInputs($event.target.value)"
+                    (onChange)="checkEnableInputs($event.target.value)"
+                ></avam-label-input>
+            </div>
+        </div>
+        <div>
+            <avam-unternehmen-autosuggest
+                id="anbieter"
+                controlName="anbieter"
+                [parentForm]="searchFormGroup"
+                placeholder="{{ notCombiningActive ? '' : 'amm.massnahmen.label.anbieter' }}"
+                isAvamOnly="true"
+                [simpleInput]="true"
+                container="body"
+                [scrollIntoView]="false"
+                [readOnly]="notCombiningActive"
+                suchePlusLabel="{{ 'stes.label.arbeitgeber' }}"
+            ></avam-unternehmen-autosuggest>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <label class="col-form-label">{{ 'amm.massnahmen.label.durchfuehrungsort' | translate }}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 form-group">
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [parentForm]="searchFormGroup.get('plz')"
+                    placeholderPlz="{{ notCombiningActive ? '' : ('stes.label.plz' | translate) }}"
+                    placeholderOrt="{{ notCombiningActive ? '' : ('stes.label.ort' | translate) }}"
+                    container="body"
+                    [scrollIntoView]="false"
+                    [disabled]="notCombiningActive"
+                ></avam-plz-autosuggest>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" id="dateRangePicker">
+                <avam-date-range-picker
+                    class="form-group"
+                    label="{{ 'amm.nutzung.label.durchfuehrungDesInfotages' | translate }}"
+                    [hasVerticalLayout]="true"
+                    [labelClass]="'col-lg-12 col-md-12'"
+                    [inputClass]="' '"
+                    [wrapperClass]="'col-lg-12 col-md-12'"
+                    [parentForm]="searchFormGroup"
+                    formControlNameFrom="zeitraumVon"
+                    formControlNameTo="zeitraumBis"
+                    [placeholderFrom]="notCombiningActive ? '' : ('amm.nutzung.label.durchfuehrungVon' | translate)"
+                    [placeholderTo]="notCombiningActive ? '' : ('amm.nutzung.label.durchfuehrungBis' | translate)"
+                    [isDisabled]="notCombiningActive"
+                ></avam-date-range-picker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <label class="col-form-label">{{ 'amm.nutzung.label.massnahmeartstruktur' | translate }}</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <avam-label-dropdown
+                    [parentForm]="searchFormGroup"
+                    controlName="massnahmeartstruktur"
+                    id="massnahmeartstruktur"
+                    [options]="massnahmeartstrukturen"
+                    inputClass="col-lg-12"
+                    [isDisabled]="notCombiningActive"
+                ></avam-label-dropdown>
+            </div>
+        </div>
+    </div>
+</form>

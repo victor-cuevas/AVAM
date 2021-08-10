@@ -1,0 +1,139 @@
+@media print {
+    .avam-generic-table-wrapper {
+        .scrollable-header-box {
+            margin-right: 0px !important;
+        }
+    }
+
+    .avam-generic-table {
+        overflow: hidden !important;
+        height: 100% !important;
+        max-height: 100% !important;
+
+        button {
+            visibility: hidden !important;
+        }
+    }
+}
+
+.avam-generic-table-wrapper {
+    overflow: hidden;
+
+    td > button {
+        visibility: hidden;
+    }
+
+    td,
+    th {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .scrollable-header-box {
+        margin-right: 17px;
+        opacity: 1;
+
+        tr {
+            &.unselectable-text {
+                user-select: none;
+            }
+        }
+
+        .sortable-column {
+            cursor: pointer;
+        }
+
+        span {
+            overflow: hidden;
+            display: block;
+            text-overflow: ellipsis;
+        }
+    }
+
+    .scrollable-table {
+        margin-bottom: 0;
+        border-bottom: 0px;
+        table-layout: fixed;
+
+        .resize-container {
+            height: 100%;
+            width: 5px;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            cursor: col-resize;
+        }
+    }
+
+    .avam-generic-table {
+        overflow: auto;
+        height: 100%;
+        table {
+            margin-top: -50px;
+            margin-bottom: 0;
+            table-layout: fixed;
+            border-bottom: 0px;
+
+            thead {
+                opacity: 1;
+            }
+
+            tbody {
+                tr:hover,
+                tr:focus {
+                    background: #dde7ff !important;
+                }
+            }
+
+            th {
+                position: relative;
+                overflow: hidden;
+                white-space: nowrap;
+                -moz-text-overflow: ellipsis;
+                -ms-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                vertical-align: middle;
+            }
+
+            .sortable-column {
+                cursor: pointer;
+            }
+
+            td {
+                overflow: hidden;
+                white-space: nowrap;
+                -moz-text-overflow: ellipsis;
+                -ms-text-overflow: ellipsis;
+                text-overflow: ellipsis;
+                vertical-align: middle;
+
+                span {
+                    overflow: hidden;
+                    display: block;
+                    text-overflow: ellipsis;
+                }
+            }
+
+            tfoot {
+                opacity: .9999;
+                z-index: 9 !important;
+
+                td {
+                    z-index: 9 !important;
+                    background: #f5f5f5;
+                    border-bottom: 1px solid #dee2e6;
+                }
+            }
+        }
+    }
+}
+
+.avam-generic-table {
+    .table th,
+    .table td {
+        padding: 0.75rem !important;
+        vertical-align: top;
+        border-top: 1px solid #dee2e6;
+    }
+}

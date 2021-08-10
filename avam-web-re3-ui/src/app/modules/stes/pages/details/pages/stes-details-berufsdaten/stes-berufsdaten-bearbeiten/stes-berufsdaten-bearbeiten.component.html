@@ -1,0 +1,176 @@
+<form [formGroup]="berufsdatenForm" #ngForm="ngForm" closeBrowserTab autocomplete="off" [form]="berufsdatenForm">
+    <div class="print-block row">
+        <or-spinner [channel]="berufsdatenBearbeitenChannel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.angabenZumBeruf' | translate }}</h3>
+                </label>
+                <avam-beruf-autosuggest [parentForm]="berufsdatenForm" controlName="berufsTaetigkeit" componentLabel="{{ 'stes.label.beruf' }}"></avam-beruf-autosuggest>
+                <avam-label-dropdown
+                    [parentForm]="berufsdatenForm"
+                    controlName="qualifikation"
+                    selectLabel="{{ 'stes.label.qualifikation' }}"
+                    id="qualifikation"
+                    [options]="qualifikationOptions"
+                ></avam-label-dropdown>
+                <div class="form-group row negative-mb">
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8">
+                        <div class="row">
+                            <div class="ml-3">
+                                <avam-label-checkbox
+                                    componentId="ausgeuebtB"
+                                    controlName="ausgeuebtB"
+                                    [parentForm]="berufsdatenForm"
+                                    selectLabel="{{ 'stes.label.ausgeuebt' }}"
+                                    inputClass="ml-3"
+                                    (onChange)="showErrorMsg()"
+                                    [isDisabled]="berufsdatenForm.controls.zuletztB.value"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="ml-3">
+                                <avam-label-checkbox
+                                    componentId="zuletztB"
+                                    controlName="zuletztB"
+                                    [parentForm]="berufsdatenForm"
+                                    selectLabel="{{ 'stes.label.zuletzt' }}"
+                                    inputClass="ml-3"
+                                    (onChange)="showErrorMsg()"
+                                    [isDisabled]="!berufsdatenForm.controls.ausgeuebtB.value"
+                                ></avam-label-checkbox>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="margin-bottom ml-3">
+                                <avam-label-checkbox
+                                    componentId="gesuchtB"
+                                    controlName="gesuchtB"
+                                    [parentForm]="berufsdatenForm"
+                                    selectLabel="{{ 'stes.label.gesucht' }}"
+                                ></avam-label-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    [parentForm]="berufsdatenForm"
+                    controlName="berufsErfahrung"
+                    selectLabel="{{ 'stes.label.erfahrung' }}"
+                    id="berufsErfahrung"
+                    [options]="berufsErfahrungOptions"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="berufsdatenForm"
+                    controlName="berufsFunktion"
+                    selectLabel="{{ 'stes.label.funktion' }}"
+                    id="berufsFunktion"
+                    [options]="berufsFunktionOptions"
+                    [hideEmptyOption]="true"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="berufsdatenForm"
+                    controlName="ausbildungsniveau"
+                    selectLabel="{{ 'stes.label.ausbildungsniveau' }}"
+                    id="ausbildungsniveau"
+                    [options]="ausbildungsniveauOptions"
+                ></avam-label-dropdown>
+                <avam-label-dropdown
+                    [parentForm]="berufsdatenForm"
+                    controlName="berufsAbschluss"
+                    selectLabel="{{ 'stes.label.abschluss' }}"
+                    id="berufsAbschluss"
+                    [options]="berufsAbschlussOptions"
+                    (onChange)="onBerufsAbschlussChange($event)"
+                ></avam-label-dropdown>
+                <div class="form-group row negative-mb">
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8">
+                        <div class="row">
+                            <div class="ml-3">
+                                <avam-label-checkbox
+                                    componentId="berufsAbschlussAnerkannt"
+                                    controlName="berufsAbschlussAnerkannt"
+                                    [parentForm]="berufsdatenForm"
+                                    selectLabel="{{ 'stes.label.abschlussAnerkannt' }}"
+                                    inputClass="ml-3"
+                                    (onChange)="showErrorMsg()"
+                                    [isDisabled]="disableberufsAbschluss"
+                                ></avam-label-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.ausuebungDesBerufs' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    controlName="ausuebungVon"
+                    id="ausuebungVon"
+                    calendarLabel="{{ 'stes.label.von' }}"
+                    [parentForm]="berufsdatenForm"
+                    [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                    [inputPlaceholder]="'stes.placeholder.monatjahr'"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    controlName="ausuebungBis"
+                    id="ausuebungBis"
+                    calendarLabel="{{ 'stes.label.bis' }}"
+                    [parentForm]="berufsdatenForm"
+                    [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                    [inputPlaceholder]="'stes.placeholder.monatjahr'"
+                ></avam-label-calendar>
+                <div class="form-group row" orFormControlState>
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label>{{ 'stes.label.dauer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <div class="row" style="align-items: center">
+                            <div class="d-flex align-items-baseline col-lg-4 col-md-3" orFormControlState>
+                                <input style="width: 75px" formControlName="dauerJahre" id="dauerJahre" class="form-control" />
+                                <p class="ml-2 mb-1">{{ 'stes.label.jahre' | translate }}</p>
+                            </div>
+                            <div class="d-flex align-items-baseline col-lg-7 col-md-8">
+                                <input style="width: 75px" formControlName="dauerMonate" id="dauerMonate" class="form-control" />
+                                <p class="ml-2 mb-1">{{ 'stes.label.monate' | translate }}</p>
+                            </div>
+                        </div>
+                        <or-error-messages></or-error-messages>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.skillsLabel' | translate }}</h3>
+                </label>
+                <div>
+                    <label>{{ 'stes.label.skills' | translate }}</label>
+                    <app-textarea id="fachkenntnisse" formControlName="fachkenntnisse" fullWidth="true" [maxLength]="800" customFormControlState></app-textarea>
+                    <label>{{ 'stes.label.einschraenkungen' | translate }}</label>
+                    <app-textarea id="einschraenkungen" formControlName="einschraenkungen" fullWidth="true" [maxLength]="255" customFormControlState></app-textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()" [permissions]="permissionsList">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()" [permissions]="permissionsList">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="berufsQualifikationId" class="btn btn-secondary ml-1'" type="button" (click)="deleteWithConfirm()" [permissions]="permissionsList">
+        {{ 'common.button.berufLoeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="permissionsList">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

@@ -1,0 +1,91 @@
+<div [formGroup]="parentForm" #ngForm="ngForm">
+    <div class="form-group">
+        <avam-label-dropdown
+            [parentForm]="parentForm"
+            [controlName]="verfuegbarkeitControl"
+            id="verfuegbarkeit"
+            [options]="dropdownOptions"
+            [selectLabel]="selectLabel"
+            (onChange)="change($event)"
+            [isDisabled]="isDisabled"
+            [readOnly]="readOnly"
+            [hideEmptyOption]="hideEmptyOption"
+        ></avam-label-dropdown>
+        <div class="row spacer-bottom-small" *ngIf="showCheckboxPanel">
+            <div class="col-lg-4 col-md-4 text-right">
+                <table class="w-100">
+                    <tr>
+                        <th>
+                            &nbsp;
+                        </th>
+                    </tr>
+                    <tr class="row-height">
+                        <td>
+                            <label class="col-form-label">{{ 'common.label.vormittags' | translate }}</label>
+                        </td>
+                    </tr>
+                    <tr class="row-height">
+                        <td>
+                            <label class="col-form-label">{{ 'common.label.nachmittags' | translate }}</label>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <table class="w-50">
+                    <tr>
+                        <th class="min-width" *ngFor="let item of days; let i = index">
+                            <label class="col-form-label">{{ days[i] | translate }}</label>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td [formArrayName]="vormittagsControlName" *ngFor="let item of vormittags.controls; let i = index" orFormControlState>
+                            <div class="text-control">
+                                <div class="form-check form-check-inline checkbox-item__label-text">
+                                    <core-checkbox
+                                        [disableControl]="isDisabled"
+                                        dynamicControlName
+                                        [formControlName]="i"
+                                        [componentId]="'vormittag-' + vormittagsControlName + [i]"
+                                    >
+                                        <label class="form-check-label form-check-label-padding-left font-weight-600" for="vormittag-{{ vormittagsControlName }}{{ i }}"></label>
+                                    </core-checkbox>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td [formArrayName]="nachmittagsControlName" *ngFor="let item of nachmittags.controls; let i = index" orFormControlState>
+                            <div class="text-control">
+                                <div class="form-check form-check-inline checkbox-item__label-text">
+                                    <core-checkbox
+                                        [disableControl]="isDisabled"
+                                        dynamicControlName
+                                        [formControlName]="i"
+                                        [componentId]="'nachmittag-' + nachmittagsControlName + [i]"
+                                    >
+                                        <label class="form-check-label form-check-label-padding-left font-weight-600" for="nachmittag-{{ nachmittagsControlName }}{{ i }}"></label>
+                                    </core-checkbox>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+
+                <ng-container *ngIf="!isDisabled">
+                    <div
+                        *ngIf="
+                            ((!nachmittags.valid || !vormittags.valid) &&
+                                (!nachmittags.touched || !vormittags.touched || !vormittags.dirty || !nachmittags.dirty) &&
+                                this.ngForm.submitted) ||
+                            ((!nachmittags.valid || !vormittags.valid) && (nachmittags.touched || vormittags.touched || vormittags.dirty || nachmittags.dirty))
+                        "
+                        class="has-error"
+                    >
+                        <div class="form-control-feedback">{{ 'i18n.validation.required' | translate }}</div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

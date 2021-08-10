@@ -1,0 +1,195 @@
+<form [formGroup]="searchFormData" class="no-overflow h-100" (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter p-3 sticky">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'i18n.routes.stes-search.title' | translate }}</span>
+        </h3>
+        <avam-prepend-dropdown
+            [hideEmptyOption]="true"
+            id="statusId"
+            [parentForm]="searchFormData"
+            controlName="statusId"
+            [selectLabel]="'common.label.status'"
+            [options]="statusOptionsLabels"
+        >
+        </avam-prepend-dropdown>
+        <br />
+        <avam-label-input
+            avamAutofocus
+            inputClass="col"
+            controlName="nachname"
+            id="nachname"
+            placeholder="{{ combiningFieldsDisabled ? '' : 'common.label.nachname' }}"
+            [isDisabled]="combiningFieldsDisabled"
+            [parentForm]="searchFormData"
+        ></avam-label-input>
+        <avam-label-input
+            inputClass="col"
+            controlName="vorname"
+            id="vorname"
+            placeholder="{{ combiningFieldsDisabled ? '' : 'common.label.vorname' }}"
+            [isDisabled]="combiningFieldsDisabled"
+            [parentForm]="searchFormData"
+        ></avam-label-input>
+        <avam-label-input
+            inputClass="col"
+            controlName="geburtsdatum"
+            (onBlur)="formatWithDots()"
+            id="geburtsdatum"
+            placeholder="{{ combiningFieldsDisabled ? '' : 'stes.label.geburtsdatum' }}"
+            [isDisabled]="combiningFieldsDisabled"
+            [parentForm]="searchFormData"
+        ></avam-label-input>
+        <avam-gemeinde-autosuggest
+            placeholder="{{ combiningFieldsDisabled ? '' : 'verzeichnisse.label.gemeindenrname' }}"
+            [parentForm]="searchFormData"
+            controlName="gemeinde"
+            [isDisabled]="combiningFieldsDisabled"
+            container="body"
+            [scrollIntoView]="false"
+        >
+        </avam-gemeinde-autosuggest>
+
+        <div class="form-control-feedback" style="color:#dc0018" *ngIf="searchFormData.get('gemeinde').errors">
+            {{ 'common.message.gemeindeNichtGefunden' | translate }}
+        </div>
+        <br />
+        <br />
+        <avam-label-input
+            (paste)="onPaste('svNr', $event)"
+            (drop)="onDrop('svNr', $event)"
+            (onChange)="enableInputs($event.target.value, ['svNr'])"
+            (onKeyup)="calcQueryRestricted()"
+            inputClass="col"
+            controlName="svNr"
+            id="svnr"
+            placeholder="{{ svNrDisabled ? '' : 'stes.label.svnr' }}"
+            [isDisabled]="svNrDisabled"
+            [parentForm]="searchFormData"
+        ></avam-label-input>
+        <avam-label-input
+            (paste)="onPaste('personenNr', $event)"
+            (drop)="onDrop('personenNr', $event)"
+            (onChange)="enableInputs($event.target.value, ['personenNr'])"
+            (onKeyup)="calcQueryRestricted()"
+            inputClass="col"
+            controlName="personenNr"
+            id="personenNr"
+            placeholder="{{ personenNrDisabled ? '' : 'stes.label.personennr' }}"
+            [isDisabled]="personenNrDisabled"
+            [parentForm]="searchFormData"
+        ></avam-label-input>
+        <avam-label-input
+            (paste)="onPaste('stesId', $event)"
+            (drop)="onDrop('stesId', $event)"
+            (onChange)="enableInputs($event.target.value, ['stesId'])"
+            (onKeyup)="calcQueryRestricted()"
+            inputClass="col"
+            controlName="stesId"
+            id="stesId"
+            placeholder="{{ stesIdDisabled ? '' : 'stes.label.stesid' }}"
+            [isDisabled]="stesIdDisabled"
+            [parentForm]="searchFormData"
+        ></avam-label-input>
+        <br />
+        <app-schlagworte-autosuggest
+            #schlagwortComponent
+            formControlName="schlagwort"
+            customFormControlState
+            [showLabel]="false"
+            [filterDisabled]="combiningFieldsDisabled"
+        ></app-schlagworte-autosuggest>
+        <br />
+        <avam-personalberater-autosuggest
+            #personalBeraterComponent
+            showFilter="true"
+            [parentForm]="searchFormData"
+            controlName="personalBerater"
+            placeholder="{{ combiningFieldsDisabled ? '' : ('common.label.personalberater' | translate) }}"
+            [type]="benutzerAutosuggestType"
+            [benutzerSuchenTokens]="benutzerSuchenTokens"
+            [isDisabled]="combiningFieldsDisabled"
+            container="body"
+            [scrollIntoView]="false"
+        ></avam-personalberater-autosuggest>
+        <br />
+        <div class="form-group row">
+            <div class="col">
+                <div class="input-group">
+                    <button type="button" class="btn btn-link" (click)="onAddExtraCriteria()" [disabled]="restrictedQuery">
+                        <span class="fa fa-plus mr-2"></span>
+                        <span class="font-weight-bold">{{ 'common.label.weiteressuchkriterium' | translate }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row avam-panel avam-panel-light p-0" formArrayName="extraCriteria" *ngFor="let extraCriteriaComponent of getExtraCriteria(); let i = index">
+            <div class="input-group" [formGroupName]="i">
+                <div class="col list-group avam-panel-light">
+                    <div class="list-group-item border-0 avam-panel-light">
+                        <avam-label-dropdown
+                            [parentForm]="searchFormData.get('extraCriteria').get(i.toString())"
+                            controlName="searchLevel1"
+                            id="searchLevel1{{ i }}"
+                            [options]="staticParentOptions"
+                            inputClass="col"
+                            (onChange)="reloadChildrenOptions($event, i)"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="list-group-item border-0 avam-panel-light">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <avam-label-dropdown
+                                    [parentForm]="searchFormData.get('extraCriteria').get(i.toString())"
+                                    controlName="searchFieldId"
+                                    id="searchFieldId{{ i }}"
+                                    [options]="selectedChildrenOptions[i] == null ? [] : selectedChildrenOptions[i]"
+                                    inputClass="col"
+                                    (onChange)="reloadComparatorsAndGrandChildOptions($event, i)"
+                                    [hideEmptyOption]="true"
+                                ></avam-label-dropdown>
+                            </div>
+                            <div class="col-md-4">
+                                <avam-label-dropdown
+                                    [parentForm]="searchFormData.get('extraCriteria').get(i.toString())"
+                                    controlName="comparatorId"
+                                    id="comparatorId{{ i }}"
+                                    [options]="selectedComparatorOptions[i] == null ? [] : selectedComparatorOptions[i]"
+                                    inputClass="col"
+                                    [hideEmptyOption]="true"
+                                ></avam-label-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item border-0 avam-panel-light" *ngIf="isEWSDropdown[i] == null ? true : !isEWSDropdown[i]">
+                        <avam-label-input
+                            inputClass="col"
+                            controlName="searchFreeText"
+                            id="searchFreeText{{ i }}"
+                            [parentForm]="extraCriteriaComponent"
+                            (onBlur)="formatSearchFreeText(i)"
+                        ></avam-label-input>
+                    </div>
+                    <div class="list-group-item border-0 avam-panel-light" *ngIf="isEWSDropdown[i] == null ? false : isEWSDropdown[i]">
+                        <avam-label-dropdown
+                            [parentForm]="searchFormData.get('extraCriteria').get(i.toString())"
+                            controlName="searchLevel3"
+                            id="searchLevel3{{ i }}"
+                            [options]="selectedGrandChildOptions[i] == null ? [] : selectedGrandChildOptions[i]"
+                            inputClass="col"
+                            [hideEmptyOption]="true"
+                        ></avam-label-dropdown>
+                    </div>
+                </div>
+                <div class="list-group avam-panel-light">
+                    <div class="list-group-item border-0 avam-panel-light">
+                        <button type="button" role="button" class="btn btn-link" (click)="onRemoveExtraCriteria(i)">
+                            <span class=" fa fa-close"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

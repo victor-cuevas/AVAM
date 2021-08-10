@@ -1,0 +1,81 @@
+<div class="form-group row">
+    <div class="col">
+        <div class="input-group">
+            <button type="button" class="btn btn-link" (click)="onAddExtraCriteria()" [disabled]="isDisabled">
+                <span class="fa fa-plus mr-2"></span>
+                <span class="font-weight-bold">{{ 'common.label.weiteressuchkriterium' | translate }}</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="arrayName && parentForm && getExtraCriteria() && getExtraCriteria().length > 0">
+    <form [formGroup]="parentForm" #ngForm="ngForm" contextId="contextId">
+        <div class="form-group row avam-panel avam-panel-light p-0" [formArrayName]="arrayName" *ngFor="let extraCriteriaComponent of getExtraCriteria(); let i = index">
+            <div class="input-group" [formGroupName]="i">
+                <div class="col list-group avam-panel-light">
+                    <div class="list-group-item border-0 avam-panel-light">
+                        <avam-label-dropdown
+                            [parentForm]="criteria.get(i.toString())"
+                            controlName="searchLevel1"
+                            id="searchLevel1{{ i }}"
+                            [options]="staticParentOptions"
+                            inputClass="col"
+                            (onChange)="reloadChildrenOptions($event, i)"
+                            [isDisabled]="isDisabled"
+                            [hideEmptyOption]="true"
+                        ></avam-label-dropdown>
+                    </div>
+                    <div class="list-group-item border-0 avam-panel-light">
+                        <div class="row">
+                            <div class="col-8">
+                                <avam-label-dropdown
+                                    [parentForm]="criteria.get(i.toString())"
+                                    controlName="searchFieldId"
+                                    id="searchFieldId{{ i }}"
+                                    [options]="selectedChildrenOptions[i] == null ? [] : selectedChildrenOptions[i]"
+                                    inputClass="col"
+                                    (onChange)="reloadComparatorsAndGrandChildOptions($event, i)"
+                                    [isDisabled]="isDisabled"
+                                    [hideEmptyOption]="true"
+                                ></avam-label-dropdown>
+                            </div>
+                            <div class="col-4">
+                                <avam-label-dropdown
+                                    [parentForm]="criteria.get(i.toString())"
+                                    controlName="comparatorId"
+                                    id="comparatorId{{ i }}"
+                                    [options]="selectedComparatorOptions[i] == null ? [] : selectedComparatorOptions[i]"
+                                    inputClass="col"
+                                    [isDisabled]="isDisabled"
+                                    [hideEmptyOption]="true"
+                                ></avam-label-dropdown>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item border-0 avam-panel-light" *ngIf="isEWSDropdown[i] == null ? true : !isEWSDropdown[i]">
+                        <avam-label-input [inputClass]="'col'" controlName="searchFreeText" [parentForm]="criteria.controls[i]" [isDisabled]="isDisabled"></avam-label-input>
+                    </div>
+                    <div class="list-group-item border-0 avam-panel-light" *ngIf="isEWSDropdown[i] == null ? false : isEWSDropdown[i]">
+                        <avam-label-dropdown
+                            [parentForm]="criteria.get(i.toString())"
+                            controlName="searchLevel3"
+                            id="searchLevel3{{ i }}"
+                            [options]="selectedGrandChildOptions[i] == null ? [] : selectedGrandChildOptions[i]"
+                            inputClass="col"
+                            hideEmptyOption="true"
+                            [isDisabled]="isDisabled"
+                        ></avam-label-dropdown>
+                    </div>
+                </div>
+                <div class="list-group avam-panel-light">
+                    <div class="list-group-item border-0 avam-panel-light">
+                        <button type="button" role="button" class="btn btn-link" (click)="onRemoveExtraCriteria(i)" [disabled]="isDisabled">
+                            <span class=" fa fa-close"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</ng-container>

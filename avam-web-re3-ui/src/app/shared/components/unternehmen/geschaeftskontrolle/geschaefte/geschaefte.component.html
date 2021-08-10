@@ -1,0 +1,20 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-alert></avam-alert>
+    <avam-geko-arbeitgeber-search-table
+        [stateKey]="getStateKey()"
+        [isAmm]="isAmm"
+        [forDetails]="true"
+        [dataSource]="dataSource"
+        (onOpenItem)="openCallback($event)"
+    ></avam-geko-arbeitgeber-search-table>
+</div>
+<ng-template #modalPrint>
+    <avam-geko-arbeitgeber-search-table
+        [stateKey]="getStateKey()"
+        [forPrinting]="true"
+        [isAmm]="isAmm"
+        [forDetails]="true"
+        [dataSource]="dataSource"
+    ></avam-geko-arbeitgeber-search-table>
+</ng-template>

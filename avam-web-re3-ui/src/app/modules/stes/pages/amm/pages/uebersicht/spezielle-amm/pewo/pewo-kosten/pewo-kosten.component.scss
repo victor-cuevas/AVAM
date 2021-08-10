@@ -1,0 +1,16 @@
+.p-bottom-145rem {
+    padding-bottom: 1.45rem;
+}
+
+// Custom class to prevent <hr> from disappearing when zooming in/out. See AVB-15178 in Jira
+.hr-thick-pewo-kosten {
+    border: 0.6px solid black;
+    border-bottom-width: 0px;
+    margin-top: -8px;
+}
+
+.hr-thick-pewo-kosten-totalzuschuesse {
+    border: 0.4px solid black;
+    border-bottom-width: 0px;
+    margin-top: -15px;
+}

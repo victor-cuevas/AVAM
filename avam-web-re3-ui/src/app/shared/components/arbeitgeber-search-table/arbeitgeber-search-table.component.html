@@ -1,0 +1,52 @@
+<avam-generic-table
+    *ngIf="dataSource"
+    [dataSource]="dataSource"
+    [headers]="headers"
+    [stateKey]="getStateKey()"
+    (sortFunction)="sort($event)"
+    [customSort]="true"
+    [scrollable]="true"
+    [sortField]="erfasstAm"
+    #table
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === abgelaufen">
+            <th [sortable-column]="column.columnDef" [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                <div class="full-centered">
+                    <sort-icon *ngIf="table.isSorted(column.columnDef)" [column]="column.columnDef" class="mr-1"></sort-icon>
+                    <i class="fa fa-exclamation icon-red" aria-hidden="true"></i>
+                </div>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <ng-container *ngIf="row.abgelaufen">
+                    <i class="full-centered fa fa-exclamation icon-red" aria-hidden="true"></i>
+                </ng-container>
+            </td>
+        </ng-container>
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === erfasstAm || column.columnDef === geschaeftstermin">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: dateFormat" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">{{ column.cell(row) | date: dateFormat }}</span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === actions">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                {{ column.header | translate }}
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    avamPrimaryButtonDirective
+                    [ngbTooltip]="'common.button.oeffnen' | translate"
+                    (primaryButtonClick)="onOpen(row.callback)"
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

@@ -1,0 +1,23 @@
+<avam-amm-infopanel></avam-amm-infopanel>
+<avam-alert></avam-alert>
+<router-outlet></router-outlet>
+
+<ng-template #panelTemplate>
+    <ng-container *ngIf="contentService.unternehmen">
+        <div class="item">
+            <span>{{ contentService.getStrasseInfo(contentService.unternehmen) }}</span>
+        </div>
+        <div class="item" *ngIf="contentService.unternehmen.postfachPlzObject || contentService.isPlzAusland(contentService.unternehmen)">
+            <strong>{{ 'arbeitgeber.oste.label.postfach' | translate }}</strong>
+            <span> {{ contentService.getPostfachInfo(contentService.unternehmen) }}</span>
+        </div>
+        <div class="item">
+            <strong>{{ 'unternehmen.label.burnummer' | translate }}</strong>
+            <span> {{ contentService.getBurnummerInfo(contentService.unternehmen) }}</span>
+        </div>
+        <div class="item">
+            <strong>{{ 'unternehmen.label.burstatus' | translate }}</strong>
+            <span> {{ contentService.unternehmen.statusObject | dbTranslate: 'text' }}</span>
+        </div>
+    </ng-container>
+</ng-template>

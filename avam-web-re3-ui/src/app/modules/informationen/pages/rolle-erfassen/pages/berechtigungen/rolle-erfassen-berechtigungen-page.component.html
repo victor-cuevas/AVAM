@@ -1,0 +1,36 @@
+<p>
+    rolle-erfassen-berechtigungen-page works!
+</p>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="wizardService.movePrev()">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <div *ngIf="berechtigungScopes" #aktionen="ngbDropdown" class="dropdown" ngbDropdown container="body" placement="top-right">
+        <button class="btn btn-secondary buttonOnHover ml-1" ngbDropdownToggle (click)="aktionen.open()">
+            {{ 'benutzerverwaltung.label.berechtigungalle' | translate }}
+        </button>
+        <div class="dropdown-menu" ngbDropdownMenu>
+            <button class="dropdown-item" *ngFor="let scope of berechtigungScopes" (click)="onBerechtigungSelection(scope)">
+                {{ scope | dbTranslate: 'text' }}
+            </button>
+        </div>
+    </div>
+    <button class="btn btn-primary ml-1" type="button" (click)="submit()">
+        {{ 'common.button.fertigstellen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ 'example' }}</span>
+    </div>
+</ng-template>

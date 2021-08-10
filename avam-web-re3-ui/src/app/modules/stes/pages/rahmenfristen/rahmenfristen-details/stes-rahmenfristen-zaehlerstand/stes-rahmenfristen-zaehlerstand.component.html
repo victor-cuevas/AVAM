@@ -1,0 +1,177 @@
+<div class="row">
+    <or-spinner [channel]="rahmenfristenZaehlerstandChannel"></or-spinner>
+    <div class="rechts col-xl-6">
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'stes.asal.label.taggelder' | translate }}</h3>
+            </label>
+            <app-paragraph
+                id="anspruch"
+                customClassInput="col-lg-3 col-md-3 text-right"
+                label="{{ 'stes.asal.label.anspruch' }}"
+                [value]="zaehlerstandData?.raHoechstanspruch | formatNumber: '1'"
+            ></app-paragraph>
+            <app-paragraph
+                id="gesamt"
+                customClassInput="col-lg-3 col-md-3 text-right"
+                label="{{ 'stes.asal.label.gesamt' }}"
+                [value]="zaehlerstandData?.raAbgerechneteTGGTotal | formatNumber: '1'"
+            ></app-paragraph>
+            <app-paragraph
+                id="zwischenverdienst"
+                customClassInput="col-lg-3 col-md-3 text-right"
+                label="{{ 'stes.asal.label.zwischenverdienst' }}"
+                [value]="zaehlerstandData?.raZwischenVerdienstTGG | formatNumber: '1'"
+            ></app-paragraph>
+            <app-paragraph
+                id="militaerZivilschutz"
+                customClassInput="col-lg-3 col-md-3 text-right"
+                label="{{ 'stes.asal.label.militaerZivilschutz' }}"
+                [value]="zaehlerstandData?.raMilitaerZivilschTGG | formatNumber: '1'"
+            ></app-paragraph>
+            <app-paragraph
+                id="krankentaggelder"
+                customClassInput="col-lg-3 col-md-3 text-right"
+                label="{{ 'stes.asal.label.krankenTaggelder' }}"
+                [value]="zaehlerstandData?.raKrankenTGG | formatNumber: '1'"
+            ></app-paragraph>
+            <app-paragraph
+                id="kurstageArt59d"
+                customClassInput="col-lg-3 col-md-3 text-right"
+                label="{{ 'stes.asal.label.kurstageArt59d' }}"
+                [value]="zaehlerstandData?.raKurstageArt59d | formatNumber: '1'"
+            ></app-paragraph>
+            <app-paragraph
+                id="fse"
+                customClassInput="col-lg-3 col-md-3 text-right"
+                label="{{ 'stes.asal.label.fse' }}"
+                [value]="zaehlerstandData?.seTaggelder | formatNumber: '1'"
+            ></app-paragraph>
+            <div class="row paragraph-margins">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label id="wartetageOffenparagraphLable">{{ 'stes.asal.label.wartetageOffen' | translate }}</label>
+                </div>
+                <div class="d-flex col-lg-8 col-md-8">
+                    <div class="col-lg-3 col-md-3 pr-0 pl-0">
+                        <p class="p-value-left-12 text-right pr-3" id="wartetageOffenparagraph">
+                            {{ zaehlerstandData?.raWarteTageOffen | formatNumber: '1' }}
+                        </p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="getigltWartetageparagraphLable">{{ 'stes.asal.label.getilgt_klein' | translate }}</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <p class="p-value-left-12 text-right" id="getigltWartetageparagraph">
+                            {{ zaehlerstandData?.raWarteTageGetilgt | formatNumber: '1' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row paragraph-margins">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label id="einstelltageOffenparagraphLable">{{ 'stes.asal.label.einstelltageOffen' | translate }}</label>
+                </div>
+                <div class="d-flex col-lg-8 col-md-8">
+                    <div class="col-lg-3 col-md-3 pr-0 pl-0">
+                        <p class="p-value-left-12  text-right pr-3" id="einstelltageOffenparagraph">
+                            {{ zaehlerstandData?.raEinstellTageOffen | formatNumber: '1' }}
+                        </p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="getigltEinstelltageparagraphLable">{{ 'stes.asal.label.getilgt_klein' | translate }}</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <p class="p-value-left-12 text-right" id="getigltEinstelltageparagraph">
+                            {{ zaehlerstandData?.raEinstellTageGetilgt | formatNumber: '1' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row paragraph-margins">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label id="kontrollfreieTageAnspruchparagraphLable">{{ 'stes.asal.label.kontrollfreieTageAnspruch' | translate }}</label>
+                </div>
+                <div class="d-flex col-lg-8 col-md-8">
+                    <div class="col-lg-3 col-md-3 pr-0 pl-0">
+                        <p class="p-value-left-12 text-right pr-3" id="kontrollfreieTageAnspruchparagraph">
+                            {{ zaehlerstandData?.raAnsprKontrollfreieTage | formatNumber: '1' }}
+                        </p>
+                    </div>
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="bezogenparagraphLable">{{ 'stes.asal.label.bezogen_klein' | translate }}</label>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <p class="p-value-left-12 text-right" id="bezogenparagraph">
+                            {{ zaehlerstandData?.raBezogeneKontrollfreieTage | formatNumber: '1' }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="links col-xl-6">
+        <div class="avam-panel">
+            <label>
+                <h3>{{ 'stes.asal.label.betraege' | translate }}</h3>
+            </label>
+            <app-double-paragraph
+                id="pendlerkostenbeitrag"
+                label="{{ 'stes.asal.label.pendlerkostenbeitrag' }}"
+                [value1]="zaehlerstandData?.raPendlerKostenBeitrag | formatSwissFranc"
+                [value2]="'stes.asal.label.chf' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="wochenaufenthalterbeitrag"
+                label="{{ 'stes.asal.label.wochenaufenthalterbeitrag' }}"
+                [value1]="zaehlerstandData?.raWochenaufenthalterBeitrag | formatSwissFranc"
+                [value2]="'stes.asal.label.chf' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="individuelleKursauslagen"
+                label="{{ 'stes.asal.label.individuelleKursauslagen' }}"
+                [value1]="zaehlerstandData?.raIndividuelleKursauslage | formatSwissFranc"
+                [value2]="'stes.asal.label.chf' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="einarbeitungszuschuesse"
+                label="{{ 'stes.asal.label.einarbeitungszuschuesse' }}"
+                [value1]="zaehlerstandData?.raEinarbeitungsZuschuesse | formatSwissFranc"
+                [value2]="'stes.asal.label.chf' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <app-double-paragraph
+                id="ausbildungszuschuesse"
+                label="{{ 'stes.asal.label.ausbildungszuschuesse' }}"
+                [value1]="zaehlerstandData?.raAusbildungsZuschuesse | formatSwissFranc"
+                [value2]="'stes.asal.label.chf' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+            <br />
+            <app-double-paragraph
+                id="vorschussLeistungsexport"
+                label="{{ 'stes.asal.label.vorschussLeistungsexport' }}"
+                [value1]="zaehlerstandData?.raEuVorschuss | formatSwissFranc"
+                [value2]="'stes.asal.label.chf' | translate"
+                customClassInput="col-lg-3 col-md-3 text-right"
+            ></app-double-paragraph>
+        </div>
+        <div class="avam-panel">
+            <app-paragraph
+                id="letzteKontrollPeriode"
+                label="{{ 'stes.asal.label.letzteKontrollperiode' }}"
+                [value]="zaehlerstandData?.raLetzteKontrollperiode | date: 'MM.yyyy'"
+            ></app-paragraph>
+        </div>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

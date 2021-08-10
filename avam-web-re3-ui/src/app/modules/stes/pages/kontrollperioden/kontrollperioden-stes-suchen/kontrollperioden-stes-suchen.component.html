@@ -1,0 +1,102 @@
+<stes-common-search
+    #baseSearchComponent
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [sortField]="sortField"
+    [stateKey]="stateKey"
+    infoleisteTranslationKey="stes.subnavmenuitem.kontrollperioden.anzeigen"
+    (searchEvent)="onSearchEvent()"
+    (resetEvent)="onResetEvent()"
+    (navigationEvent)="onNavigationEvent($event)"
+    (changeLanguageEvent)="setTableData()"
+>
+    <div [formGroup]="searchForm">
+        <h3 class="title-label">
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'stes.label.kontrollperiode' | translate }}</span>
+        </h3>
+        <avam-prepend-dropdown
+            id="statusId"
+            controlName="status"
+            [parentForm]="searchForm"
+            [options]="statusOptionsLabels"
+            [selectLabel]="'common.label.status'"
+            [placeholder]="'common.label.waehlen'"
+        ></avam-prepend-dropdown>
+        <label class="subtitle-label">
+            <h3>{{ 'stes.label.kontrollperiode-suchen.in-der-zeit' | translate }}</h3>
+        </label>
+        <avam-label-checkbox
+            componentId="vorderarbeitslosigkeit"
+            controlName="vorderarbeitslosigkeit"
+            [parentForm]="searchForm"
+            selectLabel="{{ 'stes.label.kontrollperiode-suchen.vor-der-arbeitslosigkeit' }}"
+            inputClass="col-lg-0"
+        ></avam-label-checkbox>
+        <avam-label-checkbox
+            componentId="waehrendderarbeitslosigkeit"
+            controlName="waehrendderarbeitslosigkeit"
+            [parentForm]="searchForm"
+            selectLabel="{{ 'stes.label.kontrollperiode-suchen.waehrend-der-arbeitslosigkeit' }}"
+            inputClass="col-lg-0"
+        ></avam-label-checkbox>
+        <label class="subtitle-label">
+            <h3>{{ 'stes.label.kontrollperiode-suchen.kontrollperiode-von-bis' | translate }}</h3>
+        </label>
+        <avam-date-range-picker
+            id="kontrollperiodeDateRange"
+            formControlNameFrom="kontrollperiodeVon"
+            formControlNameTo="kontrollperiodeBis"
+            class="form-group"
+            [placeholderFrom]="'stes.placeholder.monatjahr' | translate"
+            [placeholderTo]="'stes.placeholder.monatjahr' | translate"
+            [hasVerticalLayout]="true"
+            [labelClass]="'col-lg-12 col-md-12'"
+            [inputClass]="' '"
+            [wrapperClass]="'col-lg-12 col-md-12'"
+            [parentForm]="searchForm"
+            [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+        ></avam-date-range-picker>
+        <label class="subtitle-label">
+            <h3>{{ 'stes.label.kontrollperiode-suchen.beurteilung' | translate }}</h3>
+        </label>
+        <avam-label-checkbox
+            componentId="genuegend"
+            controlName="genuegend"
+            [parentForm]="searchForm"
+            selectLabel="{{ 'stes.label.kontrollperiode-suchen.genuegend' }}"
+            inputClass="col-lg-0"
+        ></avam-label-checkbox>
+        <avam-label-checkbox
+            componentId="ungenuegend"
+            controlName="ungenuegend"
+            [parentForm]="searchForm"
+            selectLabel="{{ 'stes.label.kontrollperiode-suchen.ungenuegend' }}"
+            inputClass="col-lg-0"
+        ></avam-label-checkbox>
+        <avam-label-checkbox
+            componentId="fehlennichtkontrolliert"
+            controlName="fehlennichtkontrolliert"
+            [parentForm]="searchForm"
+            selectLabel="{{ 'stes.label.kontrollperiode-suchen.fehlen-nicht-kontrolliert' }}"
+            inputClass="col-lg-0"
+        ></avam-label-checkbox>
+        <avam-label-checkbox
+            componentId="fehlenkontrolliert"
+            controlName="fehlenkontrolliert"
+            [parentForm]="searchForm"
+            selectLabel="{{ 'stes.label.kontrollperiode-suchen.fehlen-kontrolliert' }}"
+            inputClass="col-lg-0"
+        ></avam-label-checkbox>
+        <avam-label-checkbox
+            componentId="vomnachweisbefreit"
+            controlName="vomnachweisbefreit"
+            [parentForm]="searchForm"
+            selectLabel="{{ 'stes.label.kontrollperiode-suchen.vom-nachweis-befreit' }}"
+            inputClass="col-lg-0"
+        ></avam-label-checkbox>
+        <br />
+        <massnahmenverantwortung-benutzerstelle-search #stesAutosuggestSearchComponent [parentForm]="searchForm"></massnahmenverantwortung-benutzerstelle-search>
+    </div>
+</stes-common-search>

@@ -1,0 +1,132 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    controlName="vertragswertchf"
+                    [parentForm]="formGroup"
+                    selectLabel="amm.akquisition.label.vertragswertchf"
+                    [readOnly]="true"
+                    labelClass="col-lg-3 col-md-3"
+                    inputClass="col-lg-9 col-md-9"
+                ></avam-label-input>
+                <avam-teilzahlungswert-vertragswert-table [dataSource]="dataSource" [chfTotal]="chfTotal"></avam-teilzahlungswert-vertragswert-table>
+            </div>
+            <div class="avam-panel">
+                <avam-currency-input
+                    avamAutofocus
+                    id="chf"
+                    controlName="chf"
+                    [parentForm]="formGroup"
+                    label="amm.zahlungen.label.chf"
+                    customInputClass="col-6"
+                    [readOnly]="!(lastData?.enabledFields | fieldEnablePipe: fieldsEnum.TEILZAHLUNGSWERTBETRAG)"
+                ></avam-currency-input>
+                <div class="row">
+                    <div class="col-4 text-right col-form-label">
+                        <label> {{ 'amm.abrechnungen.label.faellig' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 text-left">
+                        <avam-prepend-calendar
+                            controlName="faelligAm"
+                            [parentForm]="formGroup"
+                            id="faelligAm"
+                            label="{{ 'common.label.am' | translate }}"
+                            inputClass="col-9"
+                            [readOnly]="!(lastData?.enabledFields | fieldEnablePipe: fieldsEnum.TEILZAHLUNGSWERTFAELLIGAM)"
+                            [isDisabled]="!(lastData?.enabledFields | fieldEnablePipe: fieldsEnum.TEILZAHLUNGSWERTFAELLIGAM)"
+                        ></avam-prepend-calendar>
+                    </div>
+                </div>
+
+                <avam-label-dropdown
+                    inputClass="col-6"
+                    [parentForm]="formGroup"
+                    controlName="gueltig"
+                    id="gueltig"
+                    [options]="gueltigOptions"
+                    [hideEmptyOption]="true"
+                    selectLabel="amm.akquisition.label.gueltig"
+                    [readOnly]="!(lastData?.enabledFields | fieldEnablePipe: fieldsEnum.ISTEILZAHLUNGSWERTGUELTIG)"
+                ></avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <label>{{ 'common.label.ergaenzendeangaben' | translate }}</label>
+                <app-textarea
+                    id="bemerkung"
+                    formControlName="bemerkung"
+                    [fullWidth]="true"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="!(lastData?.enabledFields | fieldEnablePipe: fieldsEnum.TEILZAHLUNGSWERTBEMERKUNG)"
+                ></app-textarea>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    id="teilzahlungswertNr"
+                    [parentForm]="formGroup"
+                    controlName="teilzahlungswertNr"
+                    selectLabel="amm.akquisition.label.teilzahlungswertnr"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'amm.abrechnungen.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="lastData?.teilzahlungswert?.vorgaengerObject?.teilzahlungswertId"
+                            [routerLink]=""
+                            id="vorgaengerLabel"
+                            (click)="vorgaengerNachvolgerSelected(lastData?.teilzahlungswert?.vorgaengerObject?.teilzahlungswertId)"
+                        >
+                            {{ lastData?.teilzahlungswert?.vorgaengerObject?.teilzahlungswertNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'amm.abrechnungen.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="lastData?.teilzahlungswert?.nachfolgerObject?.teilzahlungswertId"
+                            [routerLink]=""
+                            id="nachfolgerLink"
+                            (click)="vorgaengerNachvolgerSelected(lastData?.teilzahlungswert?.nachfolgerObject?.teilzahlungswertId)"
+                        >
+                            {{ lastData?.teilzahlungswert?.nachfolgerObject?.teilzahlungswertNr }}</a
+                        >
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <avam-input-modal
+                    selectLabel="amm.zahlungen.label.teilzahlungsnr"
+                    [parentForm]="formGroup"
+                    controlName="teilzahlungsNr"
+                    placeholder="{{ 'common.label.waehlen' }}"
+                    [coreReadOnlyClearButton]="true"
+                    [coreReadOnly]="true"
+                    [readOnly]="!(lastData?.enabledFields | fieldEnablePipe: fieldsEnum.TEILZAHLUNGNR)"
+                    [modal]="teilzahlungModal"
+                    (onChange)="deleteTeilzahlungsNr($event)"
+                ></avam-input-modal>
+                <avam-label-input controlName="status" [parentForm]="formGroup" selectLabel="amm.abrechnungen.label.status" [readOnly]="true"></avam-label-input>
+                <avam-label-input controlName="transferAlk" [parentForm]="formGroup" selectLabel="amm.abrechnungen.label.transferanalk" [readOnly]="true"></avam-label-input>
+                <avam-label-input
+                    controlName="freigegebeneAbrechnung"
+                    [parentForm]="formGroup"
+                    selectLabel="amm.akquisition.label.freigegebeneabrechnung"
+                    [readOnly]="true"
+                ></avam-label-input>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #teilzahlungModal>
+    <avam-teilzahlung-zuordnen-modal [anbieterId]="anbieterId" (onTeilzahlungZuordnen)="teilzahlungZuordnen($event)"></avam-teilzahlung-zuordnen-modal>
+</ng-template>

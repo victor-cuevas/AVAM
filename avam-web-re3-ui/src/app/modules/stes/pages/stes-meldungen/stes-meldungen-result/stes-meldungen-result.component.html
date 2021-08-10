@@ -1,0 +1,21 @@
+<avam-meldungen-table
+    #meldungenTable
+    [sourceData]="resultsData"
+    (onPrimaryAction)="openCallback($event)"
+    (onCheck)="onCheck($event)"
+    (onDeleteSingleRow)="onDeleteSingleRow($event)"
+    [showName]="false"
+    [stateKey]="stateKey"
+></avam-meldungen-table>
+<ng-template #buttons>
+    <button class="btn btn-secondary ml-1 keepDisabled" type="button" (click)="delete()" [disabled]="footerDisabled">
+        {{ 'geko.button.loeschen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1 keepDisabled" type="button" (click)="markNotRead()" [disabled]="footerDisabled">
+        {{ 'common.button.ungelesen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1 keepDisabled" type="button" (click)="markRead()" [disabled]="footerDisabled">
+        {{ 'common.button.gelesen' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="buttons"></avam-action-footer>

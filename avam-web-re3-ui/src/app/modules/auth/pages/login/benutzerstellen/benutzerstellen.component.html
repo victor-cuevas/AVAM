@@ -1,0 +1,45 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <div class="column-left">
+            <h4 class="modal-title" id="modal-benutzerstelle">
+                {{ 'login.feedback.benutzerstellewaehlen' | translate }}
+                <app-result-count *ngIf="isBenutzerstellenDataPresent()" [dataLength]="userData.userDto.benutzerstelleList.length"></app-result-count>
+            </h4>
+        </div>
+        <div class="mr-3">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [formNumber]="getFormNr()"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <avam-generic-table [dataSource]="tableData" [headers]="tableHeaders" sortField="benutzerstelleCode" [sortOrder]="1">
+            <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+                <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+
+                <ng-container *ngIf="column.columnDef === 'action'">
+                    <td style="display: flex; justify-content: space-around;" cdk-cell *cdkCellDef="let row">
+                        <button
+                            *ngIf="!row.skipRow"
+                            ngbTooltip="{{ 'common.button.uebernehmen' | translate }}"
+                            (primaryButtonClick)="subscribeBenutzerstelle(row)"
+                            avamPrimaryButtonDirective
+                            class="fa fa-check btn btn-success btn-sm buttonOnHover"
+                            type="button"
+                        ></button>
+                    </td>
+                </ng-container>
+
+                <td cdk-cell *cdkCellDef="let row">
+                    <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+                </td>
+            </ng-container>
+        </avam-generic-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ getFormNr() }}</span>
+        <div class="sticky-actions">
+            <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+        </div>
+    </div>
+</div>

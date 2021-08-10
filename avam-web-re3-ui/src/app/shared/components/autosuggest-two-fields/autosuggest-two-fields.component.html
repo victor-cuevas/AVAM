@@ -1,0 +1,63 @@
+<div class="row ">
+    <div *ngIf="label && label.length > 0" class="col-lg-4 col-md-4 text-right align-self-center">
+        <label for="plz" class="col-form-label">{{ label | translate }}</label>
+    </div>
+    <div class="{{ readOnly ? 'col-lg-4 col-md-4' : inputClassFirst ? inputClassFirst : 'col-lg-3 col-md-3' }}  align-self-center {{ showInfoIcon ? 'as-holder' : '' }}">
+        <app-autosuggest-input
+            arrow-scrolling
+            (selectItem)="emitSelectEvent($event)"
+            (writeItem)="itemWriteOne($event)"
+            #inputElementOne
+            [searchFunction]="searchFunctionAutosuggestOne"
+            [resultFormatter]="resultFormatterAutosuggestOne"
+            [inputFormatter]="inputFormatterAutosuggestOne"
+            [placeholder]="placeholderOne"
+            [disabled]="disabled"
+            [displayInfoBtn]="showInfoIcon"
+            selectedItemId="id"
+            [dataFunction]="getAlkZahlstelleInfo"
+            [labels]="labels"
+            [readOnly]="readOnly"
+        >
+        </app-autosuggest-input>
+    </div>
+    <div
+        class="{{ readOnly ? 'col-lg-4 col-md-4' : inputClassSecond ? inputClassSecond : 'col-lg-5 col-md-5' }} align-self-center {{ showInfoIcon ? 'as-holder' : '' }}"
+        [ngClass]="{ 'd-flex': showButton }"
+    >
+        <div class="input-group">
+            <app-autosuggest-input
+                arrow-scrolling
+                (selectItem)="emitSelectEvent($event)"
+                (writeItem)="itemWriteTwo($event)"
+                #inputElementTwo
+                class="w-100"
+                [searchFunction]="searchFunctionAutosuggestTwo"
+                [resultFormatter]="resultFormatterAutosuggestTwo"
+                [inputFormatter]="inputFormatterAutosuggestTwo"
+                [placeholder]="placeholderTwo"
+                [disabled]="disabled"
+                [displayInfoBtn]="showInfoIcon"
+                selectedItemId="id"
+                [dataFunction]="getAlkZahlstelleInfo"
+                [labels]="labels"
+                [readOnly]="readOnly"
+            >
+            </app-autosuggest-input>
+        </div>
+        <div [hidden]="showButton && !readOnly ? false : true" class="input-group-append">
+            <button
+                class="btn btn-secondary rounded-0"
+                type="button"
+                role="button"
+                (click)="buttonClick()"
+                style="height: 38px"
+                [disabled]="disabled"
+                ngbTooltip="{{ buttonTooltip | translate }}"
+                triggers="{{ buttonTooltip ? 'hover' : 'click' }}"
+            >
+                <span class="fa fa-clone fa-fw"></span>
+            </button>
+        </div>
+    </div>
+</div>

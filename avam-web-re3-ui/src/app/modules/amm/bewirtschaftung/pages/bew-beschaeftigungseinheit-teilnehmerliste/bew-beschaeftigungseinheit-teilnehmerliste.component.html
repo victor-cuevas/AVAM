@@ -1,0 +1,34 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-bew-massnahme-teilnehmerliste-form #formComponent [data]="data" (onDataRefresh)="onRefresh()"></avam-bew-massnahme-teilnehmerliste-form>
+</div>
+<div>
+    <or-spinner [channel]="resultsChannel"></or-spinner>
+    <avam-bew-massnahme-teilnehmerliste-table #tableComponent [dataSource]="dataSource"></avam-bew-massnahme-teilnehmerliste-table>
+</div>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <span>{{ infobarData?.kuerzelMassnahmentyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ isPraktikumstelle ? ('amm.massnahmen.label.praktikumsstelle.nummer' | translate) : ('amm.massnahmen.label.arbeitsplatzkategorie.nummer' | translate) }} </b>
+        <span>{{ beschaeftigungseinheitId }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.zulassungstyp' | translate }} </b>
+        <span>{{ infobarData?.zulassungsTyp }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.anbieter' | translate }} </b>
+        <span>{{ infobarData?.unternehmensname }}</span>
+    </div>
+    <div class="item">
+        <b> {{ infobarData?.provBurNr ? ('arbeitgeber.oste.label.provburnr' | translate) : ('amm.massnahmen.label.burNr' | translate) }} </b>
+        <span>{{ infobarData?.burNrToDisplay }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'amm.massnahmen.label.status' | translate }} </b>
+        <span>{{ infobarData?.unternehmenStatus }}</span>
+    </div>
+</ng-template>

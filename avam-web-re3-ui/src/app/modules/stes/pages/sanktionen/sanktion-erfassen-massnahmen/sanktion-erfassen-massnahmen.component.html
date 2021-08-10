@@ -1,0 +1,78 @@
+<form #ngForm="ngForm" autocomplete="off">
+    <or-spinner [channel]="sachverhaltChanel"></or-spinner>
+    <div class="print-block row">
+        <div class="rechts col-xl-6">
+            <div class="avam-panel min-height-20" [formGroup]="sachverhaltForm">
+                <label>
+                    <h3>{{ 'stes.label.sanktionen.sachverhaltmassnahmen' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    [avamAutofocus]="existingEntscheidOrSachverhalt()"
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    avamAutofocus
+                    id="grundId"
+                    controlName="grundId"
+                    [parentForm]="sachverhaltForm"
+                    selectLabel="{{ 'stes.label.sanktionsgrund' }}"
+                    [inputClass]="'col'"
+                    [options]="sanktionsgrund"
+                ></avam-label-dropdown>
+                <avam-label-calendar
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    id="datumKontrollPeriode"
+                    controlName="datumKontrollPeriode"
+                    [inputClass]="'col-5'"
+                    [parentForm]="sachverhaltForm"
+                    calendarLabel="{{ 'stes.label.kontrollperiode' }}"
+                    inputPlaceholder="{{ 'stes.placeholder.monatjahr' }}"
+                    [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                    [readOnly]="false"
+                ></avam-label-calendar>
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    selectLabel="{{ 'stes.label.ammBezeichnung' | translate }}"
+                    [parentForm]="sachverhaltForm"
+                    [controlName]="'ammBezeichnung'"
+                    [formNr]="formNr"
+                    modalHeader="{{ 'stes.label.arbeitsmarktlichemassnahmen.auswaehlen' | translate }}"
+                    [tableConfig]="tableConfig"
+                    (modalClosed)="setModalResult($event)"
+                ></avam-data-table-modal>
+                <avam-date-range-picker
+                    id="dauerVonDauerBis"
+                    class="form-group"
+                    label="{{ 'stes.label.dauer' }}"
+                    [parentForm]="sachverhaltForm"
+                    formControlNameFrom="dauerVon"
+                    formControlNameTo="dauerBis"
+                    [isResponsive]="true"
+                    [hasVerticalLayout]="false"
+                    [isDisabled]="true"
+                    [readOnly]="true"
+                ></avam-date-range-picker>
+                <avam-label-calendar
+                    id="anweisungsdatum"
+                    controlName="anweisungsdatum"
+                    [parentForm]="sachverhaltForm"
+                    calendarLabel="{{ 'stes.label.ammAnweisungsdatum' }}"
+                    inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+                <avam-label-calendar
+                    id="datumErfasstAm"
+                    controlName="datumErfasstAm"
+                    [parentForm]="sachverhaltForm"
+                    calendarLabel="{{ 'stes.label.erfassungsdatum' }}"
+                    inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <avam-fallbearbeitung-form #fallbearbeitung [autofocus]="existingEntscheidOrSachverhalt()"></avam-fallbearbeitung-form>
+        </div>
+    </div>
+</form>

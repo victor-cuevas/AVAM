@@ -1,0 +1,109 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-vertragswert-teilzahlungswerte-table
+        [dataSource]="dataSource"
+        [chfTotal]="chfTotal"
+        (onItemSelected)="navigateToTzwert($event)"
+    ></avam-vertragswert-teilzahlungswerte-table>
+</div>
+
+<ng-template #modalPrint>
+    <avam-vertragswert-teilzahlungswerte-table *ngIf="dataSource" [dataSource]="dataSource" [forPrinting]="true"></avam-vertragswert-teilzahlungswerte-table>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.leistungsvereinbarungnr' | translate }} </b>
+            <span> {{ lastData?.vertragswert?.leistungsvereinbarungObject?.leistungsvereinbarungNr }} </span>
+        </div>
+        <div class="item">
+            <b> {{ 'arbeitgeber.oste.label.status' | translate }} </b>
+            <span> {{ lastData?.vertragswert?.leistungsvereinbarungObject?.statusObject | dbTranslate: 'text' }} </span>
+        </div>
+
+        <div class="item" *ngIf="lastData?.vertragswert?.typ?.code === vertragswertTypEnum.MASSNAHME">
+            <b> {{ 'amm.akquisition.label.massnahmenNr' | translate }} </b>
+            <span>{{ lastData?.vertragswert?.massnahmeObject?.massnahmeId }}</span>
+        </div>
+        <div class="item" *ngIf="lastData?.vertragswert?.typ?.code === vertragswertTypEnum.KURS">
+            <b> {{ 'amm.akquisition.label.durchfuehrungsnrkurs' | translate }} </b>
+            <span>{{ lastData?.vertragswert?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+        </div>
+        <div class="item" *ngIf="lastData?.vertragswert?.typ?.code === vertragswertTypEnum.STANDORT">
+            <b> {{ 'amm.akquisition.label.durchfuehrungsnrstandort' | translate }} </b>
+            <span>{{ lastData?.vertragswert?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+        </div>
+
+        <div class="item" *ngIf="lastData?.vertragswert?.massnahmeObject">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ lastData?.vertragswert?.massnahmeObject | dbTranslate: 'titel' }}
+            </span>
+        </div>
+
+        <div class="item" *ngIf="lastData?.vertragswert?.durchfuehrungseinheitObject">
+            <b> {{ 'amm.massnahmen.label.titel' | translate }} </b>
+            <span>
+                {{ lastData?.vertragswert?.durchfuehrungseinheitObject | dbTranslate: 'titel' }}
+            </span>
+        </div>
+
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.profilnr' | translate }} </b>
+            <span>
+                {{ lastData?.vertragswert?.profilNr }}
+            </span>
+        </div>
+        <div class="item">
+            <b> {{ 'amm.akquisition.label.vertragswertnr' | translate }} </b>
+            <span>
+                {{ lastData?.vertragswert?.vertragswertNr }}
+            </span>
+        </div>
+    </ng-container>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button
+        class="btn btn-secondary ml-1"
+        *ngIf="lastData?.vertragswert?.typ?.code === vertragswertTypEnum.MASSNAHME"
+        [permissions]="[permissions.AMM_MASSNAHMEN_SICHTEN]"
+        type="button"
+        (click)="navigateToProdukt(vertragswertTypEnum.MASSNAHME)"
+    >
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zurmassnahme' | translate }}
+    </button>
+    <button
+        class="btn btn-secondary ml-1"
+        *ngIf="lastData?.vertragswert?.typ?.code === vertragswertTypEnum.KURS"
+        [permissions]="[permissions.AMM_MASSNAHMEN_SICHTEN]"
+        type="button"
+        (click)="navigateToProdukt(vertragswertTypEnum.KURS)"
+    >
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zumkurs' | translate }}
+    </button>
+    <button
+        class="btn btn-secondary ml-1"
+        *ngIf="lastData?.vertragswert?.typ?.code === vertragswertTypEnum.STANDORT"
+        [permissions]="[permissions.AMM_MASSNAHMEN_SICHTEN]"
+        type="button"
+        (click)="navigateToProdukt(vertragswertTypEnum.STANDORT)"
+    >
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zumstandort' | translate }}
+    </button>
+    <button
+        *ngIf="(lastData?.enabledActions | commonButtonDisplayPipe: buttonsEnum.COMMONBUTTONNEUERFASSEN)"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="teilzahlungswertErfassen()"
+    >
+        <span class="fa fa-plus"></span>
+        {{ 'amm.akquisition.button.teilzahlungswerterfassen' | translate }}
+    </button>
+</ng-template>

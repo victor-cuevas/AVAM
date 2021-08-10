@@ -1,0 +1,23 @@
+<div class="avam-panel-light">
+    <h3>
+        {{ 'stes.vermittlungsfaehigkeit.erfassen.table.label' | translate }}
+    </h3>
+</div>
+<avam-stes-tree-table-wraper
+    #sanktionenDataTable
+    id="sanktionenDataTable"
+    [tree]="treeArray"
+    (onDoubleClick)="onRowSelected($event)"
+    (onEnter)="onRowSelected($event)"
+    [objectOptions]="treeOptions"
+></avam-stes-tree-table-wraper>
+
+<ng-template #actionColumnTemplate let-element="element">
+    <button
+        *ngIf="element.model.data['type']"
+        class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+        ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+        (click)="onRowSelected(element)"
+        type="button"
+    ></button>
+</ng-template>

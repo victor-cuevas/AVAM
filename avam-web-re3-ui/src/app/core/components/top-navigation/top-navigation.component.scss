@@ -1,0 +1,29 @@
+.nav {
+    padding: 0;
+}
+
+ul {
+    &.second-row {
+        margin-top: 35px;
+    }
+}
+
+.selectedPath {
+    background-color: white;
+}
+
+.nav-item {
+    cursor: pointer;
+}
+
+.nav-header {
+    .nav-link:hover, .nav-link:focus, .nav-link:active {
+        font-weight: 600;
+    }
+}
+
+.home-icon {
+    a {
+        font-size: 22px;
+    }
+}

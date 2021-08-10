@@ -1,0 +1,46 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <form [formGroup]="formGroup" closeBrowserTab #ngForm="ngForm" [form]="formGroup" autocomplete="off">
+        <div class="print-block">
+            <div class="avam-panel">
+                <div class="col-4">
+                    <avam-label-dropdown id="institution" [parentForm]="formGroup" controlName="institution" [options]="institutionOptions" selectLabel="common.label.institution">
+                    </avam-label-dropdown>
+                    <avam-label-dropdown id="kanton" [parentForm]="formGroup" controlName="kanton" [options]="kantonOptions" selectLabel="common.label.kanton">
+                    </avam-label-dropdown>
+                </div>
+            </div>
+            <div class="avam-panel avam-panel-extra-lighter">
+                <p class="mb-0">{{ 'amm.budgetierung.label.kopieerstellenaus' | translate }}</p>
+            </div>
+        </div>
+    </form>
+    <avam-teilbudget-auswaehlen-table [dataSource]="dataSource" [rowCheckboxes]="rowCheckboxes"></avam-teilbudget-auswaehlen-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <b>{{ 'common.label.version' | translate }}</b>
+            {{ budget?.version }}
+        </div>
+        <div class="item">
+            <b>{{ 'common.label.status' | translate }}</b>
+            {{ budget?.status | dbTranslate: 'text' }}
+        </div>
+    </ng-container>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button avamDisableOnSpinner class="btn btn-primary ml-1" type="button" (click)="save()">
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>

@@ -1,0 +1,203 @@
+<form [formGroup]="personalienForm" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel" formGroupName="wohnadresse">
+                <label>
+                    <h3>{{ 'stes.label.wohnadresse' | translate }}</h3>
+                </label>
+                <avam-label-input [parentForm]="wohnadresseForm" controlName="name" id="name" selectLabel="{{ 'stes.label.name' }}" [readOnly]="true"></avam-label-input>
+                <avam-label-input [parentForm]="wohnadresseForm" controlName="vorname" id="vorname" selectLabel="{{ 'stes.label.vorname' }}" [readOnly]="true"></avam-label-input>
+                <avam-label-input
+                    [parentForm]="wohnadresseForm"
+                    controlName="strasse"
+                    id="strasse"
+                    selectLabel="{{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="wohnadresseForm"
+                    controlName="postfach"
+                    id="postfach"
+                    [inputClass]="'col-lg-3 col-md-3'"
+                    selectLabel="{{ 'stes.label.postfach' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="wohnadresseForm.controls.land"
+                    [parentForm]="wohnadresseForm.get('plz')"
+                    label="stes.label.plzort"
+                    [readOnly]="true"
+                ></avam-plz-autosuggest>
+                <avam-label-input [parentForm]="wohnadresseForm" controlName="land" id="land" selectLabel="{{ 'stes.label.land' }}" [readOnly]="true"></avam-label-input>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="wohnadresseForm.controls.land"
+                    [parentForm]="wohnadresseForm.get('gemeinde')"
+                    label="stes.label.gemeinde"
+                    [readOnly]="true"
+                ></avam-plz-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.kontaktangaben' | translate }}</h3>
+                </label>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('kontaktangaben')"
+                    controlName="telefonprivat"
+                    id="telefonprivat"
+                    selectLabel="{{ 'stes.label.telefonprivat' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('kontaktangaben')"
+                    controlName="telefongeschaeft"
+                    id="telefongeschaeft"
+                    selectLabel="{{ 'stes.label.telefongeschaeft' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('kontaktangaben')"
+                    controlName="fax"
+                    id="fax"
+                    selectLabel="{{ 'stes.label.fax' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('kontaktangaben')"
+                    controlName="mobile"
+                    id="mobile"
+                    selectLabel="{{ 'stes.label.mobile' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <app-email-input [parentForm]="personalienForm.get('kontaktangaben')" controlName="email" id="email" [readOnly]="true"> </app-email-input>
+            </div>
+            <div class="avam-panel" formGroupName="schlagworte">
+                <avam-multiselect
+                    id="schlagworte"
+                    controlName="schlagworte"
+                    [parentForm]="personalienForm.get('schlagworte')"
+                    [options]="schlagworteList"
+                    label="stes.label.schlagworte"
+                    [isDisabled]="true"
+                ></avam-multiselect>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.personenstammdaten' | translate }}</h3>
+                </label>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    controlName="personenNr"
+                    id="personenNr"
+                    selectLabel="{{ 'stes.label.personennr' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    controlName="svNr"
+                    id="svNr"
+                    selectLabel="{{ 'stes.label.svnr' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    controlName="zasName"
+                    id="zasName"
+                    selectLabel="{{ 'stes.label.zasName' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    controlName="zasVorname"
+                    id="zasVorname"
+                    selectLabel="{{ 'stes.label.zasVorname' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    controlName="geburtsdatum"
+                    id="geburtsdatum"
+                    selectLabel="{{ 'stes.label.geburtsdatum' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    controlName="geschlecht"
+                    id="geschlecht"
+                    selectLabel="{{ 'stes.label.geschlecht' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    controlName="zivilstand"
+                    id="zivilstand"
+                    selectLabel="{{ 'stes.label.zivilstand' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    controlName="nationalitaet"
+                    id="nationalitaet"
+                    selectLabel="{{ 'stes.label.nationalitaet' }}"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <avam-label-calendar
+                    [readOnly]="true"
+                    controlName="letzterzasabgleich"
+                    id="letzterzasabgleich"
+                    calendarLabel="{{ 'stes.label.letzterzasabgleich' }}"
+                    [parentForm]="personalienForm.get('personenstammdaten')"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+            </div>
+            <div class="avam-panel" formGroupName="aufenthaltsbewilligung">
+                <label>
+                    <h3>{{ 'stes.label.aufenhaltsbewilligung' | translate }}</h3>
+                </label>
+                <avam-label-checkbox
+                    componentId="leistungsimporteuefta"
+                    controlName="leistungsimporteuefta"
+                    [parentForm]="personalienForm.get('aufenthaltsbewilligung')"
+                    selectLabel="{{ 'stes.label.leistungsimporteuefta' }}"
+                    [isDisabled]="true"
+                ></avam-label-checkbox>
+
+                <avam-label-dropdown
+                    [parentForm]="personalienForm.get('aufenthaltsbewilligung')"
+                    controlName="aufenthaltsstatus"
+                    id="aufenthaltsstatus"
+                    selectLabel="{{ 'stes.label.aufenthaltsstatus' }}"
+                    [options]="aufenthaltsstatusDropdownLabels"
+                    inputClass="col-form-label col-md-8"
+                    readOnly="true"
+                ></avam-label-dropdown>
+
+                <div class="col-form-label">
+                    <avam-label-calendar
+                        [readOnly]="true"
+                        controlName="aufenthaltbis"
+                        id="aufenthaltbis"
+                        calendarLabel="{{ 'stes.label.aufenthaltbis' }}"
+                        [parentForm]="personalienForm.get('aufenthaltsbewilligung')"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    ></avam-label-calendar>
+                </div>
+                <div class="col-form-label">
+                    <avam-label-calendar
+                        [readOnly]="true"
+                        controlName="einreisedatum"
+                        id="einreisedatum"
+                        calendarLabel="{{ 'stes.label.einreisedatum' }}"
+                        [parentForm]="personalienForm.get('aufenthaltsbewilligung')"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    ></avam-label-calendar>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

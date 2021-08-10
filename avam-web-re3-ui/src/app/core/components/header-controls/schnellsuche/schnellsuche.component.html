@@ -1,0 +1,54 @@
+<div class="form-row form-group">
+    <div class="icon-input-inside dropdown" arrow-scrolling-top>
+        <input
+            #inputField
+            type="text"
+            id="schnellsucheText"
+            placeholder="{{ disabled ? '' : ('i18n.application.header.schnellsuche.suchbegriff' | translate) }}"
+            placement="bottom-right"
+            (keyup)="(search)"
+            [inputFormatter]="inputFormatter"
+            [resultTemplate]="resultTemplate"
+            [ngbTypeahead]="search"
+            (blur)="onBlur()"
+            (selectItem)="showDetails($event.item)"
+            [formControl]="searchText"
+            class="form-control"
+        />
+        <button type="button" [hidden]="!searching" class="fa fa fa-circle-o-notch fa-spin icon-input" style="outline: none;"></button>
+    </div>
+    <select #areaSelect class="form-control" style="border-left: none" [formControl]="selectedOption" id="schnellsucheDropdown">
+        <option *ngFor="let option of dropDownOptions" value="{{ option.id }}">{{ 'common.label.in' | translate }} {{ option.label | translate }}</option>
+    </select>
+    <ng-template #resultTemplate let-r="result" let-t="term">
+        <div class="tableRow" *ngIf="areaSelect.value === '0'">
+            <ngb-highlight class="tableCell" [result]="r.name" [term]="term(t, r.name)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCell" [result]="r.vorname" [term]="term(t, r.vorname)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellDate" [result]="r.geburtsdatum" [term]="term(t, r.geburtsdatum)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCell" [result]="r.strasseUndNummer" [term]="term(t, r.strasseUndNummer)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellPlz" [result]="r.plz" [term]="term(t, r.plz)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCell" [result]="r | dbTranslate: 'ort'" [term]="termOrt(t, r)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellEMail" [result]="r.email" [term]="term(t, r.email)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellTel" [result]="r.mobile" [term]="term(t, r.mobile)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellTel" [result]="r.telefonPrivat" [term]="term(t, r.telefonPrivat)" textOverflowTooltip></ngb-highlight>
+        </div>
+        <div class="tableRow" *ngIf="areaSelect.value !== '0'">
+            <ngb-highlight class="tableCellName" [result]="r.name" [term]="term(t, r.name)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellEMail" [result]="r.strasseNummer" [term]="term(t, r.strasseNummer)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellPlz" [result]="r.plz" [term]="term(t, r.plz)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCell" [result]="r.ort" [term]="term(t, r.ort)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCell" [result]="r.staat" [term]="term(t, r.staat)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellDate" [result]="r.burNr" [term]="term(t, r.burNr)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellTel" [result]="r.uid" [term]="term(t, r.uid)" textOverflowTooltip></ngb-highlight>
+            <ngb-highlight class="tableCellTel" [result]="r.telefon" [term]="term(t, r.telefon)" textOverflowTooltip></ngb-highlight>
+        </div>
+    </ng-template>
+
+    <button
+        #searchButton
+        type="button"
+        class="btn-primary p-2 fa fa-search-plus btn-schnellsuche schnellsuche-min-width"
+        (click)="navigateToSearch()"
+        id="schnellsucheButton"
+    ></button>
+</div>

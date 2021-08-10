@@ -1,0 +1,20 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title " id="exampleModalLabel">{{ text.modalHeader | translate }}</h4>
+        <button type="button" class="close" (click)="onCancel()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-lg-3 col-md-3 font-weight-bold">{{ text.bodyHeader | translate }}</div>
+            <div class="col-lg-9 col-md-9">{{ text.bodyMessage | translate }}</div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" id="abbrechen-cancel-button" class="btn btn-secondary" data-dismiss="modal" (click)="onCancel()">
+            {{ text.cancelButtonText | translate }}
+        </button>
+        <button ngbAutofocus type="button" id="abbrechen-ok-button" class="btn btn-primary" (click)="onOk()">{{ text.okButtonText | translate }}</button>
+    </div>
+</div>

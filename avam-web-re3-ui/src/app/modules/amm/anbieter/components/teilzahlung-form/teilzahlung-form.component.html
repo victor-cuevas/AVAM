@@ -1,0 +1,117 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row" *ngIf="(fields | async) as enabledFields">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>{{ 'amm.zahlungen.label.titel' | translate }}</label>
+                <avam-label-input
+                    id="titel"
+                    [parentForm]="formGroup"
+                    controlName="titel"
+                    inputClass="col-lg-12"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.TEILZAHLUNGTITEL)"
+                    avamAutofocus
+                ></avam-label-input>
+                <label>{{ 'amm.zahlungen.label.ergaenzendeangaben' | translate }}</label>
+                <app-textarea
+                    id="bemerkung"
+                    formControlName="bemerkung"
+                    [fullWidth]="true"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="!(enabledFields | fieldEnablePipe: fieldsEnum.TEILZAHLUNGBEMERKUNG)"
+                ></app-textarea>
+            </div>
+            <div class="avam-panel">
+                <avam-label-calendar
+                    inputClass="col-lg-4 col-md-4"
+                    controlName="ausfuehrungsdatum"
+                    [parentForm]="formGroup"
+                    id="ausfuehrungsdatum"
+                    calendarLabel="amm.zahlungen.label.ausfuehrungsdatum"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.AUSFUEHRUNGSDATUM)"
+                ></avam-label-calendar>
+                <avam-personalberater-autosuggest
+                    #bearbeitungDurch
+                    id="bearbeitungDurch"
+                    [parentForm]="formGroup"
+                    controlName="bearbeitungDurch"
+                    componentLabel="amm.zahlungen.label.bearbeitungdurch"
+                    [benutzerSuchenTokens]="bearbeitungDurchSuchenTokens"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.BEARBEITERID)"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    id="teilzahlungsNr"
+                    [parentForm]="formGroup"
+                    controlName="teilzahlungsNr"
+                    selectLabel="amm.zahlungen.label.teilzahlungsnr"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'amm.zahlungen.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="teilzahlungData?.tzParamDto?.teilzahlung?.vorgaengerObject?.teilzahlungId"
+                            id="vorgaengerLabel"
+                            [routerLink]="['./']"
+                            [queryParams]="{ teilzahlungId: teilzahlungData?.tzParamDto?.teilzahlung?.vorgaengerObject?.teilzahlungId }"
+                        >
+                            {{ teilzahlungData?.tzParamDto?.teilzahlung?.vorgaengerObject?.teilzahlungNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'amm.zahlungen.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="teilzahlungData?.tzParamDto?.teilzahlung?.nachfolgerObject?.teilzahlungId"
+                            id="nachfolgerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ teilzahlungId: teilzahlungData?.tzParamDto?.teilzahlung?.nachfolgerObject?.teilzahlungId }"
+                        >
+                            {{ teilzahlungData?.tzParamDto?.teilzahlung?.nachfolgerObject?.teilzahlungNr }}</a
+                        >
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    id="status"
+                    inputClass="col-lg-4 col-md-4"
+                    [parentForm]="formGroup"
+                    controlName="status"
+                    selectLabel="common.label.status"
+                    [hideEmptyOption]="true"
+                    [options]="statusDropdownOptions"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.TEILZAHLUNGSTATUS)"
+                >
+                </avam-label-dropdown>
+                <avam-personalberater-autosuggest
+                    id="freigabeDurch"
+                    [parentForm]="formGroup"
+                    controlName="freigabeDurch"
+                    componentLabel="amm.zahlungen.label.freigabedurch"
+                    [benutzerSuchenTokens]="freigabeDurchSuchenTokens"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [readOnly]="!(enabledFields | fieldEnablePipe: fieldsEnum.FREIGEBERID)"
+                ></avam-personalberater-autosuggest>
+                <avam-label-calendar
+                    controlName="freigabedatum"
+                    [parentForm]="formGroup"
+                    id="freigabedatum"
+                    calendarLabel="amm.zahlungen.label.freigabedatum"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+            </div>
+        </div>
+    </div>
+</form>

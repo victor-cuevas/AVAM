@@ -1,0 +1,168 @@
+<form class="outer-panel-height no-overflow h-100" #ngForm="ngForm" autocomplete="off">
+    <div class="avam-panel avam-panel-extra-lighter inner-panel-height p-3 h-100">
+        <div [formGroup]="searchForm" class="no-overflow h-100">
+            <h3>
+                <span class="fa fa-search mr-2"></span>
+                {{ 'unternehmen.label.suchen.' + type | translate }}
+            </h3>
+            <avam-prepend-dropdown
+                controlName="statusId"
+                [parentForm]="searchForm"
+                [readOnly]="false"
+                [selectLabel]="'common.label.status'"
+                [options]="statusDropdownLabels"
+            ></avam-prepend-dropdown>
+            <avam-label-input
+                [coreAutofocus]="true"
+                inputClass="col"
+                controlName="name"
+                id="name"
+                placeholder="{{ 'unternehmen.label.name' | translate }}"
+                [parentForm]="searchForm"
+            >
+            </avam-label-input>
+            <div class="checkbox-margin">
+                <avam-label-checkbox
+                    ngbTooltip="{{ 'tooltip.einzelnenwoertern' | translate }}"
+                    componentId="mitirgendeinemwort"
+                    controlName="mitirgendeinemwort"
+                    [parentForm]="searchForm"
+                    selectLabel="{{ 'unternehmen.label.mitirgendeinemwort' | translate }}"
+                    inputClass="col-lg-0"
+                ></avam-label-checkbox>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-md-8">
+                    <avam-label-input inputClass="col-lg-12 col-md-12" controlName="strasse" placeholder="{{ 'common.label.strasse' }}" [parentForm]="searchForm">
+                    </avam-label-input>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <avam-label-input inputClass="col-lg-12" controlName="strassenr" placeholder="{{ 'common.label.nr' }}" [parentForm]="searchForm"> </avam-label-input>
+                </div>
+            </div>
+            <avam-plz-autosuggest
+                plzControl="postleitzahl"
+                ortControl="ort"
+                [landControl]="searchForm.controls.land"
+                [parentForm]="searchForm.controls.plz"
+                placeholderPlz="{{ 'unternehmen.label.plz' | translate }}"
+                placeholderOrt="{{ 'unternehmen.label.ort' | translate }}"
+                container="body"
+                [scrollIntoView]="false"
+                supportsSimpleInput="true"
+            ></avam-plz-autosuggest>
+            <div class="checkbox-margin">
+                <avam-label-checkbox
+                    componentId="umliegendeorte"
+                    controlName="umliegendeorte"
+                    [parentForm]="searchForm"
+                    selectLabel="{{ 'unternehmen.label.umliegendeorte' | translate }}"
+                    inputClass="col-lg-0"
+                    ngbTooltip="{{ 'tooltip.umliegendeorte' | translate }}"
+                ></avam-label-checkbox>
+            </div>
+            <avam-land-autosuggest
+                id="land"
+                controlName="land"
+                [parentForm]="searchForm"
+                placeholder="{{ 'unternehmen.label.land' | translate }}"
+                container="body"
+                [scrollIntoView]="false"
+            ></avam-land-autosuggest>
+            <br />
+            <avam-label-input inputClass="col" controlName="uidnummer" id="uidnummer" placeholder="{{ 'unternehmen.label.uidnummer' | translate }}" [parentForm]="searchForm">
+            </avam-label-input>
+            <avam-label-input inputClass="col" controlName="burnummer" id="burnummer" placeholder="{{ 'unternehmen.label.burnummer' | translate }}" [parentForm]="searchForm">
+            </avam-label-input>
+            <br />
+            <avam-personalberater-autosuggest
+                id="personalberater"
+                [parentForm]="searchForm"
+                controlName="personalberater"
+                [type]="benutzerAutosuggestType"
+                placeholder="{{ 'unternehmen.label.kundenberatung' | translate }}"
+                [isDisabled]="this.searchForm.controls['personalberater'].disabled"
+                container="body"
+                [scrollIntoView]="false"
+                (onSelect)="updatePersonalberaterSuche($event)"
+                (onInput)="clearEmptyPersonalberaterSuche($event)"
+            ></avam-personalberater-autosuggest>
+            <br />
+            <div class="row mr-2">
+                <div class="col-form-label searchInField">{{ 'unternehmen.label.suchein' | translate }}</div>
+                <div class="pl-0 searchInField">
+                    <avam-button-group [parentForm]="searchForm" controlName="selector" [group]="selectorGroup" (click)="checkBur($event)"> </avam-button-group>
+                </div>
+            </div>
+            <div *ngIf="showAdvancedSearch" class="form-group row advanced-search advanced-search-button">
+                <div class="col">
+                    <div class="input-group">
+                        <button type="button" class="btn btn-link" (click)="onAddExtraCriteria()">
+                            <span class="fa fa-plus mr-2"></span>
+                            <span class="font-weight-bold">{{ 'common.label.weiteressuchkriterium' | translate }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group row avam-panel avam-panel-light p-0" formArrayName="extraCriteria" *ngFor="let extraCriteria of extraCriteria.controls; let i = index">
+                <div class="input-group" [formGroupName]="i">
+                    <div class="col list-group avam-panel-light padding-0">
+                        <div class="list-group-item border-0 avam-panel-light">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <avam-label-dropdown
+                                        id="sucheObject{{ i }}"
+                                        controlName="sucheObject"
+                                        [parentForm]="getExtraCriteria(i)"
+                                        [options]="enhancedSearchInfo.sucheObject"
+                                        (onChange)="reloadKriteriumOptions($event, i)"
+                                        inputClass="col"
+                                    ></avam-label-dropdown>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <avam-label-dropdown
+                                        id="sucheKriterium{{ i }}"
+                                        controlName="sucheKriterium"
+                                        [parentForm]="getExtraCriteria(i)"
+                                        [options]="enhancedSearchInfo.sucheKriterium[i].labels"
+                                        [hideEmptyOption]="true"
+                                        inputClass="col"
+                                    ></avam-label-dropdown>
+                                </div>
+                                <div class="col-md-5">
+                                    <avam-label-dropdown
+                                        id="operatorId{{ i }}"
+                                        controlName="operatorId"
+                                        [parentForm]="getExtraCriteria(i)"
+                                        [options]="enhancedSearchInfo.operatorId[i].labels"
+                                        [hideEmptyOption]="true"
+                                        inputClass="col"
+                                    ></avam-label-dropdown>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <avam-label-input
+                                        id="freeInput{{ i }}"
+                                        controlName="freeInput"
+                                        [inputClass]="'col-lg-12 col-md-12'"
+                                        [parentForm]="getExtraCriteria(i)"
+                                    ></avam-label-input>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group avam-panel-light padding-4">
+                        <div class="list-group-item border-0 avam-panel-light">
+                            <button type="button" role="button" class="btn btn-link" (click)="onRemoveExtraCriteria(i)">
+                                <span class="fa fa-close"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--[if lt IE 10]>
+<html class="lt-ie10" lang="en"><![endif]-->
+<!--[if gte IE 10]><!-->
+<html lang="en">
+    <!--<![endif]-->
+    <head>
+        <meta http-equiv="cache-control" content="max-age=0" />
+        <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="expires" content="-1" />
+        <meta http-equiv="expires" content="Sat, 01 Jan 2000 00:00:00 GMT" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <base id="baseHref" href="/AVAM_MOD/" />
+        <script>
+            (function() {
+                var pathChunks = window.location.pathname.split('/');
+                if (pathChunks.length > 1 && pathChunks[1] !== '') {
+                    document.getElementById('baseHref').href = '/' + pathChunks[1] + '/';
+                }
+            })();
+        </script>
+        <title>AVAM</title>
+        <link href="./assets/styles/images/favicon.png" rel="shortcut icon" />
+    </head>
+    <body class="has-overlay">
+        <noscript>
+            <div class="default-layout">
+                <h1>AVAM</h1>
+                <div class="callout callout-danger">
+                    <span class="sr-only">Error</span>
+                    <h4>Javascript required!</h4>
+                    <p class="lead">JavaScript must be enabled to use this app.</p>
+                    <p>Please enable JavaScript in your browser and refresh the page.</p>
+                </div>
+            </div>
+        </noscript>
+        <app-root></app-root>
+    </body>
+</html>

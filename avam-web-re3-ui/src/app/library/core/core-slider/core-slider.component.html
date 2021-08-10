@@ -1,0 +1,13 @@
+<div class="core-slider-wrapper" [class.disabled]="isDisabled">
+    <input
+        [formControl]="control"
+        type="range"
+        [min]="min"
+        [max]="max"
+        [step]="step"
+        (change)="onTouched(); onSlide($event)"
+        (input)="onTouched(); onSlide($event)"
+        [value]="value"
+        class="custom-range"
+    />
+</div>

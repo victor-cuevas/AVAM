@@ -1,0 +1,46 @@
+<avam-generic-table
+    [dataSource]="dataSource"
+    [headers]="displayedColumns"
+    [footer]="true"
+    [footer2]="footer2"
+    [footers]="displayedFooters"
+    sortField="valuta"
+    [sortOrder]="1"
+    [stateKey]="stateKey"
+    [shouldFocusInitialRow]="shouldFocusInitialRow"
+>
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'auszahlungsperiode' || column.columnDef === 'valuta'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+        <ng-container *ngIf="column.columnDef === 'betrag'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ total }}</td>
+        </ng-container>
+        <td cdk-footer-cell *cdkFooterCellDef>
+            <span class="text-right" [ngbTooltip]="column.footer | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                {{ column.footer | translate }}
+            </span>
+        </td>
+    </ng-container>
+
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.footerDef">
+        <ng-container *ngIf="column.columnDef === 'betrag'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ secondFooterTotal }}</td>
+        </ng-container>
+        <td cdk-footer-cell *cdkFooterCellDef>
+            <span class="text-right" [ngbTooltip]="column.footer2 | translate" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                {{ column.footer2 | translate }}
+            </span>
+        </td>
+    </ng-container>
+</avam-generic-table>

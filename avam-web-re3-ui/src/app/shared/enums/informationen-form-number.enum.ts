@@ -1,0 +1,6 @@
+export enum InformationenFormNumberEnum {
+    CODE_DOMAENE_AUSWAHLEN = '0615014',
+    CODES_SUCHEN = '0615009',
+    SCHLAGWORT_SUCHEN = '0615032',
+    CODE_BEARBEITEN = '0615008'
+}

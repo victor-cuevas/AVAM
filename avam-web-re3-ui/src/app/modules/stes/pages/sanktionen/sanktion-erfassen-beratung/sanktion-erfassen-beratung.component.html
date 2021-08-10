@@ -1,0 +1,72 @@
+<form #ngForm="ngForm" autocomplete="off">
+    <or-spinner [channel]="sachverhaltChanel"></or-spinner>
+    <div class="print-block row">
+        <div class="rechts col-xl-6">
+            <div class="avam-panel min-height-20" [formGroup]="sachverhaltForm">
+                <label>
+                    <h3>{{ 'stes.label.sanktionen.beratung' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    [avamAutofocus]="existingEntscheidOrSachverhalt()"
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    id="grundId"
+                    [parentForm]="sachverhaltForm"
+                    controlName="grundId"
+                    selectLabel="{{ 'stes.label.sanktionsgrund' | translate }}"
+                    [options]="sanktionsgrund"
+                ></avam-label-dropdown>
+                <avam-label-calendar
+                    id="datumKontrollPeriodeBeratung"
+                    controlName="datumKontrollPeriode"
+                    [parentForm]="sachverhaltForm"
+                    [inputClass]="'col-5'"
+                    calendarLabel="{{ 'stes.label.kontrollperiode' }}"
+                    inputPlaceholder="{{ 'stes.placeholder.monatjahr' }}"
+                    [bsConfig]="{ dateInputFormat: 'MMMM YYYY', minMode: 'month' }"
+                    [isDisabled]="true"
+                    [readOnly]="false"
+                ></avam-label-calendar>
+                <avam-data-table-modal
+                    [coreReadOnly]="true"
+                    [isDisabled]="existingEntscheidOrSachverhalt()"
+                    selectLabel="{{ 'stes.label.gespraechsart' | translate }}"
+                    [parentForm]="sachverhaltForm"
+                    [controlName]="'gespraechsart'"
+                    [formNr]="formNr"
+                    modalHeader="{{ 'stes.label.beratungsgespraech.auswaehlen' | translate }}"
+                    [tableConfig]="tableConfig"
+                    (modalClosed)="setModalResult($event)"
+                ></avam-data-table-modal>
+                <avam-label-calendar
+                    id="terminBeratung"
+                    controlName="termin"
+                    [parentForm]="sachverhaltForm"
+                    [inputClass]="'col-5'"
+                    calendarLabel="{{ 'stes.label.termin.termin' }}"
+                    inputPlaceholder="{{ 'stes.placeholder.monatjahr' }}"
+                    [isDisabled]="true"
+                    [readOnly]="false"
+                ></avam-label-calendar>
+                <avam-label-input
+                    id="zeit"
+                    [parentForm]="sachverhaltForm"
+                    controlName="zeit"
+                    selectLabel="{{ 'common.label.zeit' | translate }}"
+                    isDisabled="true"
+                    [inputClass]="'col-5'"
+                ></avam-label-input>
+                <avam-label-calendar
+                    id="datumErfasstAm"
+                    [parentForm]="sachverhaltForm"
+                    controlName="datumErfasstAm"
+                    calendarLabel="{{ 'common.label.erfassungsdatum' | translate }}"
+                    readOnly="true"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+            </div>
+        </div>
+        <div class="links col-xl-6">
+            <avam-fallbearbeitung-form #fallbearbeitung [autofocus]="existingEntscheidOrSachverhalt()"></avam-fallbearbeitung-form>
+        </div>
+    </div>
+</form>

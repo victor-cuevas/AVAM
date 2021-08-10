@@ -1,0 +1,10 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-infotag-teilnehmerliste-table *ngIf="tableData" [dataSource]="tableData"></avam-infotag-teilnehmerliste-table>
+</div>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableData">
+        <avam-infotag-teilnehmerliste-table *ngIf="tableData" [dataSource]="tableData"></avam-infotag-teilnehmerliste-table>
+    </avam-generic-table-print>
+</ng-template>

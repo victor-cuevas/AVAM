@@ -1,0 +1,332 @@
+<div class="row bold-checkbox">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="col-lg-4 col-md-4 p-0">
+        <form class="page-scroll" [formGroup]="matchingProfilForm" #ngForm="ngForm" autocomplete="off">
+            <div column-left-content class="default-layout avam-panel-extra-lighter">
+                <div class="col-lg-10 col-md-10 label-font">
+                    <avam-prepend-dropdown
+                        avamAutofocus
+                        controlName="status"
+                        [parentForm]="matchingProfilForm"
+                        [selectLabel]="'amm.massnahmen.label.status'"
+                        [options]="statusOptions"
+                        [hideEmptyOption]="true"
+                        [isDisabled]="statusDropdownDisabled"
+                    ></avam-prepend-dropdown>
+                    <avam-prepend-dropdown
+                        controlName="zeitraum"
+                        [parentForm]="matchingProfilForm"
+                        [selectLabel]="'amm.massnahmen.label.zeitraum'"
+                        [options]="zeitraumOptions"
+                        [isDisabled]="!dropdownDisabled"
+                    ></avam-prepend-dropdown>
+                    <avam-label-input
+                        [inputClass]="'col'"
+                        [parentForm]="matchingProfilForm"
+                        controlName="faehigkeitenSkills"
+                        placeholder="{{ 'arbeitgeber.label.skills' | translate }}"
+                        [isDisabled]="!dropdownDisabled"
+                    ></avam-label-input>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <avam-prepend-dropdown
+                                [ngbTooltip]="'arbeitgeber.oste.label.matchingprofilBeschaeftigunggrad' | translate"
+                                controlName="beschaeftigungsgradVon"
+                                [parentForm]="matchingProfilForm"
+                                [selectLabel]="'%'"
+                                [options]="beschaeftigungsgradVonBisOptions"
+                                [hideEmptyOption]="true"
+                                [isDisabled]="!dropdownDisabled"
+                            ></avam-prepend-dropdown>
+                        </div>
+                        <div class="col-lg-1 p-0 text-center">
+                            _
+                        </div>
+                        <div class="col-lg-5">
+                            <avam-label-dropdown
+                                [ngbTooltip]="'arbeitgeber.oste.label.matchingprofilBeschaeftigunggrad' | translate"
+                                inputClass="col"
+                                controlName="beschaeftigungsgradBis"
+                                [parentForm]="matchingProfilForm"
+                                [options]="beschaeftigungsgradBisOptions"
+                                [hideEmptyOption]="true"
+                                [isDisabled]="!dropdownDisabled"
+                            ></avam-label-dropdown>
+                        </div>
+                    </div>
+                    <avam-multiselect
+                        inputClass="col-12"
+                        controlName="zustaendichkeitsBereich"
+                        [parentForm]="matchingProfilForm"
+                        [options]="multiselectOptions"
+                        placeholder="stes.label.vermittlung.zustaendigkeitsbereich"
+                        [isDisabled]="!dropdownDisabled"
+                    ></avam-multiselect>
+                </div>
+                <div class="col-lg-12 col-md-12 label-font">
+                    <br />
+                    <h4>{{ 'arbeitgeber.oste.subnavmenuitem.allgemein' | translate }}</h4>
+                    <div class="avam-panel avam-panel-light p-2">
+                        <div class="row padding-t-b">
+                            <div class="col-xl-6">
+                                <avam-label-checkbox
+                                    componentId="arbeitsort"
+                                    inputClass="mr-0"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="arbeitsort"
+                                    selectLabel="{{ 'stes.label.arbeitsort' }}"
+                                    [isDisabled]="!dropdownDisabled"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="rechts col-xl-6">
+                                <avam-label-input [readOnly]="true" [inputClass]="'col'" [parentForm]="matchingProfilForm" controlName="arbeitsortInput"></avam-label-input>
+                            </div>
+                        </div>
+                        <hr class="divider" />
+                        <div class="row padding-t-b">
+                            <div class="col-xl-6">
+                                <avam-label-checkbox
+                                    componentId="beschaeftigungsgrad"
+                                    inputClass="mr-0"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="beschaeftigungsgrad"
+                                    selectLabel="{{ 'amm.nutzung.label.beschaeftigungsgrad' }}"
+                                    [isDisabled]="!dropdownDisabled"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="rechts col-xl-6">
+                                <avam-label-input
+                                    [readOnly]="true"
+                                    [inputClass]="'col'"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="beschaeftigungsgradInput"
+                                ></avam-label-input>
+                            </div>
+                        </div>
+                        <hr class="divider" />
+                        <div class="row padding-t-b">
+                            <div class="col-xl-6">
+                                <avam-label-checkbox
+                                    componentId="sprachkenntnisseMatching"
+                                    inputClass="mr-0"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="sprachkenntnisse"
+                                    selectLabel="{{ 'amm.massnahmen.label.sprachkenntnisse' }}"
+                                    [isDisabled]="!dropdownDisabled || !isEmpty('sprachkenntnisseInput')"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="rechts col-xl-6">
+                                <avam-label-input [readOnly]="true" [inputClass]="'col'" [parentForm]="matchingProfilForm" controlName="sprachkenntnisseInput"></avam-label-input>
+                            </div>
+                        </div>
+                        <hr class="divider" />
+                        <div class="row padding-t-b">
+                            <div class="col-xl-6">
+                                <avam-label-checkbox
+                                    componentId="geschlecht"
+                                    inputClass="mr-0"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="geschlecht"
+                                    selectLabel="{{ 'arbeitgeber.label.geschlecht' }}"
+                                    [isDisabled]="!dropdownDisabled || !isEmpty('geschlechtInput')"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="rechts col-xl-6">
+                                <avam-label-input [readOnly]="true" [inputClass]="'col'" [parentForm]="matchingProfilForm" controlName="geschlechtInput"></avam-label-input>
+                            </div>
+                        </div>
+                        <hr class="divider" />
+                        <div class="row padding-t-b">
+                            <div class="col-xl-6">
+                                <avam-label-checkbox
+                                    componentId="alter"
+                                    inputClass="mr-0"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="alter"
+                                    selectLabel="{{ 'arbeitgeber.label.idealesalter' }}"
+                                    [isDisabled]="!dropdownDisabled || !isEmpty('alterInput')"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="rechts col-xl-6">
+                                <avam-label-input [readOnly]="true" [inputClass]="'col'" [parentForm]="matchingProfilForm" controlName="alterInput"></avam-label-input>
+                            </div>
+                        </div>
+                        <hr class="divider" />
+                        <div class="row padding-t">
+                            <div class="col-xl-6">
+                                <avam-label-checkbox
+                                    componentId="besondereArbeitsformen"
+                                    inputClass="mr-0"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="besondereArbeitsformen"
+                                    selectLabel="{{ 'stes.label.besonderearbeitsformen' }}"
+                                    [isDisabled]="!dropdownDisabled || !isEmpty('besondereArbeitsformenInput')"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="rechts col-xl-6">
+                                <avam-label-input
+                                    [readOnly]="true"
+                                    [inputClass]="'col'"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="besondereArbeitsformenInput"
+                                ></avam-label-input>
+                            </div>
+                        </div>
+                        <hr class="divider" />
+                        <div class="row padding-t">
+                            <div class="col-xl-6">
+                                <avam-label-checkbox
+                                    componentId="fuehrerausweiskategorie"
+                                    inputClass="mr-0"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="fuehrerausweiskategorie"
+                                    selectLabel="{{ 'stes.label.fuehrerausweisKategorie' }}"
+                                    [isDisabled]="!dropdownDisabled || !isEmpty('fuehrerausweiskategorieInput')"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="rechts col-xl-6">
+                                <avam-label-input
+                                    [readOnly]="true"
+                                    [inputClass]="'col'"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="fuehrerausweiskategorieInput"
+                                ></avam-label-input>
+                            </div>
+                        </div>
+                        <hr class="divider" />
+                        <div class="row padding-t">
+                            <div class="col-xl-6">
+                                <avam-label-checkbox
+                                    componentId="privatesFahrzeug"
+                                    inputClass="mr-0"
+                                    [parentForm]="matchingProfilForm"
+                                    controlName="privatesFahrzeug"
+                                    selectLabel="{{ 'stes.label.privatesfahrzeug' }}"
+                                    [isDisabled]="!dropdownDisabled"
+                                ></avam-label-checkbox>
+                            </div>
+                            <div class="rechts col-xl-6">
+                                <avam-label-input [readOnly]="true" [inputClass]="'col'" [parentForm]="matchingProfilForm" controlName="privatesFahrzeugInput"></avam-label-input>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+                    <div formArrayName="berufeOptions" *ngFor="let beruf of berufeOptions.controls; let i = index">
+                        <ng-container [formGroupName]="i">
+                            <avam-label-checkbox
+                                componentId="berufName{{ i }}"
+                                inputClass="mr-0"
+                                [parentForm]="getBerufOptions(i)"
+                                controlName="berufName"
+                                selectLabel="{{ berufe[i].beruf }}"
+                                [isDisabled]="true"
+                            ></avam-label-checkbox>
+
+                            <div class="avam-panel avam-panel-light p-2">
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <avam-label-checkbox
+                                            componentId="aehnlicheBerufe{{ i }}"
+                                            inputClass="mr-0"
+                                            [parentForm]="getBerufOptions(i)"
+                                            controlName="aehnlicheBerufe"
+                                            selectLabel="{{ 'stes.label.aehnlicheBerufe' }}"
+                                            [isDisabled]="berufe[i].verwandteBerufeFlag || !dropdownDisabled"
+                                        ></avam-label-checkbox>
+                                    </div>
+                                    <div class="rechts col-xl-5 padding-t-b">
+                                        <p class="mb-2 col">
+                                            {{ berufe[i].verwandteBerufeKurz }}
+                                        </p>
+                                    </div>
+                                    <div class="info-icon-margin col-xl-1">
+                                        <avam-info-icon-btn [infoIconTemplate]="infoIconBerufe" [readOnly]="false" *ngIf="!berufe[i].verwandteBerufeFlag"></avam-info-icon-btn>
+                                        <ng-template #infoIconBerufe>
+                                            <div class="info-icon-height">
+                                                <h4>{{ 'stes.label.aehnlicheBerufe' | translate }}</h4>
+                                                <div *ngFor="let el of infoIconData(i)">
+                                                    <a><span style="font-size: 5px;" class="fa fa-circle"></span> {{ el }}</a>
+                                                </div>
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </div>
+                                <hr class="divider" />
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <avam-label-checkbox
+                                            componentId="qualifikation{{ i }}"
+                                            inputClass="mr-0"
+                                            [parentForm]="getBerufOptions(i)"
+                                            controlName="qualifikation"
+                                            selectLabel="{{ 'stes.label.qualifikation' }}"
+                                            [isDisabled]="berufe[i].qualifikationFlag || !dropdownDisabled"
+                                        ></avam-label-checkbox>
+                                    </div>
+                                    <div class="rechts col-xl-6 padding-t-b">
+                                        <p class="mb-2 col">
+                                            {{ berufe[i].qualifikation }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr class="divider" />
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <avam-label-checkbox
+                                            componentId="erfahrung{{ i }}"
+                                            inputClass="mr-0"
+                                            [parentForm]="getBerufOptions(i)"
+                                            controlName="erfahrung"
+                                            selectLabel="{{ 'stes.label.erfahrung' }}"
+                                            [isDisabled]="berufe[i].erfahrungFlag || !dropdownDisabled"
+                                        ></avam-label-checkbox>
+                                    </div>
+                                    <div class="rechts col-xl-6 padding-t-b">
+                                        <p class="mb-2 col">
+                                            {{ berufe[i].erfahrung }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr class="divider" />
+                                <div class="row">
+                                    <div class="col-xl-6">
+                                        <avam-label-checkbox
+                                            componentId="ausbildungsniveau{{ i }}"
+                                            inputClass="mr-0"
+                                            [parentForm]="getBerufOptions(i)"
+                                            controlName="ausbildungsniveau"
+                                            selectLabel="{{ 'stes.label.ausbildungsniveau' }}"
+                                            [isDisabled]="berufe[i].ausbildungsniveauFlag || !dropdownDisabled"
+                                        ></avam-label-checkbox>
+                                    </div>
+                                    <div class="rechts col-xl-6 padding-t-b">
+                                        <p class="mb-2 col">
+                                            {{ berufe[i].ausbildungsNiveau }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="rechts col-lg-8 col-md-8">
+        <div column-main-content>
+            <avam-amm-infopanel></avam-amm-infopanel>
+            <avam-alert></avam-alert>
+            <avam-matchingprofil-anzeigen-table
+                #matchingprofilAnzeigenTable
+                (dbClick)="onSelectItem($event)"
+                (onRemoveMarking)="openRemoveVermittlingNichtGeeignetDialog($event)"
+            ></avam-matchingprofil-anzeigen-table>
+        </div>
+    </div>
+</div>
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="filteredData">
+        <avam-matchingprofil-anzeigen-table #matchingprofilAnzeigenTableModel [inputData]="filteredData" [isPrintModal]="true"></avam-matchingprofil-anzeigen-table>
+    </avam-generic-table-print>
+</ng-template>

@@ -1,0 +1,13 @@
+<div class="row paragraph-margins">
+    <div class="col-lg-4 col-md-4 text-right">
+        <label id="{{ id }}paragraphLable">{{ label | translate }}</label>
+    </div>
+    <div class="{{ customClassInput ? customClassInput : 'col-lg-8 col-md-8' }}">
+        <span class="p-value-left-12" id="{{ id }}paragraph1">
+            {{ getValue1() }}
+        </span>
+        <span id="{{ id }}paragraph2">
+            {{ getValue2() }}
+        </span>
+    </div>
+</div>

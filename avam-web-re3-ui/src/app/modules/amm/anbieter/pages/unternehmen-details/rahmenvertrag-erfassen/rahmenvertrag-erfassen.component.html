@@ -1,0 +1,30 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-rahmenvertrag-form #rahmenvertragForm [rahmenvertragData]="rahmenvertragData"></avam-rahmenvertrag-form>
+    <div class="avam-panel  avam-panel-extra-lighter mb-0">
+        <strong class="mb-0">{{ 'amm.anbieter.subnavmenuitem.leistungsvereinbarungen' | translate }}</strong>
+    </div>
+    <avam-leistungsvereinbarungen-table [dataSource]="tableDataSource"></avam-leistungsvereinbarungen-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <ng-container *ngIf="(buttons | async) as availableButtons">
+        <button class="btn btn-link" type="button" (click)="cancel()">
+            {{ 'common.button.abbrechen' | translate }}
+        </button>
+        <button class="btn btn-link ml-1" type="button" (click)="reset()">
+            {{ 'common.button.zuruecksetzen' | translate }}
+        </button>
+        <button
+            *ngIf="(availableButtons | commonButtonDisplayPipe: ammButtonsTypeEnum.FKT_ERSTELLBAR)"
+            avamDisableOnSpinner
+            class="btn btn-primary ml-1"
+            type="button"
+            (click)="submit()"
+        >
+            {{ 'i18n.common.save' | translate }}
+        </button>
+    </ng-container>
+</ng-template>

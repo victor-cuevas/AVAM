@@ -1,0 +1,389 @@
+<form [formGroup]="datenfreigabeForm" #ngForm="ngForm" closeBrowserTab autocomplete="off" [form]="datenfreigabeForm">
+    <div class="row">
+        <or-spinner [channel]="datenfreigabeChannel"></or-spinner>
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 text-right">
+                        <label>{{ 'stes.label.publikation.befragung' | translate }}</label>
+                    </div>
+
+                    <div class="doubleButton col-lg-7 col-md-7">
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="wurdeBefragtJa"
+                                name="wurdeBefragt"
+                                [value]="true"
+                                formControlName="wurdeBefragt"
+                                (change)="resetBefragung()"
+                            />
+                            <label class="form-check-label radio-btn-text" for="wurdeBefragtJa">{{ 'i18n.common.yes' | translate }}</label>
+                        </div>
+
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="wurdeBefragtNein"
+                                name="wurdeBefragt"
+                                [value]="false"
+                                formControlName="wurdeBefragt"
+                                (change)="resetBefragung()"
+                            />
+                            <label class="form-check-label radio-btn-text" for="wurdeBefragtNein">{{ 'i18n.common.no' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.publikation.datenfreigabe' | translate }}</h3>
+                </label>
+                <hr class="hr-thin" />
+                <label>
+                    {{ 'arbeitgeber.oste.label.jobroomlabel' | translate }}
+                </label>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 text-right">
+                        <label>{{ 'arbeitgeber.oste.label.offentlich' | translate }}</label>
+                    </div>
+
+                    <div class="doubleButton col-lg-7 col-md-7">
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="oeffentlichJa"
+                                name="oeffentlich"
+                                [value]="true"
+                                formControlName="oeffentlich"
+                                (change)="setLoginDisabled()"
+                                [disableControl]="disableCheckbox"
+                            />
+                            <label class="form-check-label radio-btn-text" for="oeffentlichJa">{{ 'i18n.common.yes' | translate }}</label>
+                        </div>
+
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="oeffentlichNein"
+                                name="oeffentlich"
+                                [value]="false"
+                                formControlName="oeffentlich"
+                                (change)="setLoginDisabled()"
+                                [disableControl]="disableCheckbox"
+                            />
+                            <label class="form-check-label radio-btn-text" for="oeffentlichNein">{{ 'i18n.common.no' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+                <br />
+
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 text-right">
+                        <label>{{ 'arbeitgeber.oste.label.mitlogin' | translate }}</label>
+                    </div>
+
+                    <div class="doubleButton col-lg-7 col-md-7">
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="loginJa"
+                                name="login"
+                                [value]="true"
+                                formControlName="login"
+                                (change)="resetLoginMitKontaktangaben()"
+                                [disableControl]="disableCheckbox || disableLogin"
+                            />
+                            <label class="form-check-label radio-btn-text" for="loginJa">{{ 'i18n.common.yes' | translate }}</label>
+                        </div>
+
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="loginNein"
+                                name="login"
+                                [value]="false"
+                                formControlName="login"
+                                (change)="resetLoginMitKontaktangaben()"
+                                [disableControl]="disableCheckbox || disableLogin"
+                            />
+                            <label class="form-check-label radio-btn-text" for="loginNein">{{ 'i18n.common.no' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 text-right">
+                        <label>{{ 'stes.label.publikation.mitkontaktangaben' | translate }}</label>
+                    </div>
+
+                    <div class="doubleButton col-lg-7 col-md-7">
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="kontaktangebenJobroomJa"
+                                name="kontaktangebenJobroom"
+                                [value]="true"
+                                formControlName="kontaktangebenJobroom"
+                                [disableControl]="disableCheckbox || !datenfreigabeForm.controls.login.value"
+                            />
+                            <label class="form-check-label radio-btn-text" for="kontaktangebenJobroomJa">{{ 'i18n.common.yes' | translate }}</label>
+                        </div>
+
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="kontaktangebenJobroomNein"
+                                name="kontaktangebenJobroom"
+                                [value]="false"
+                                formControlName="kontaktangebenJobroom"
+                                [disableControl]="disableCheckbox || !datenfreigabeForm.controls.login.value"
+                            />
+                            <label class="form-check-label radio-btn-text" for="kontaktangebenJobroomNein">{{ 'i18n.common.no' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+                <hr class="hr-thin" />
+                <label>
+                    <h3>{{ 'stes.label.publikation.arbeitsvermittler' | translate }}</h3>
+                </label>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 text-right">
+                        <label>{{ 'stes.label.publikation.mitkontaktangaben' | translate }}</label>
+                    </div>
+
+                    <div class="doubleButton col-lg-7 col-md-7">
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="kontaktangebenArbeitgeberJa"
+                                name="kontaktangebenArbeitgeber"
+                                [value]="true"
+                                formControlName="kontaktangebenArbeitgeber"
+                                [disableControl]="disableCheckbox"
+                                (change)="resetKontaktangebenArbeitgeber()"
+                            />
+                            <label class="form-check-label radio-btn-text" for="kontaktangebenArbeitgeberJa">{{ 'i18n.common.yes' | translate }}</label>
+                        </div>
+
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="kontaktangebenArbeitgeberNein"
+                                name="kontaktangebenArbeitgeber"
+                                [value]="false"
+                                formControlName="kontaktangebenArbeitgeber"
+                                [disableControl]="disableCheckbox"
+                                (change)="resetKontaktangebenArbeitgeber()"
+                            />
+                            <label class="form-check-label radio-btn-text" for="kontaktangebenArbeitgeberNein">{{ 'i18n.common.no' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5"></div>
+                    <div class="col-lg-7 col-md-7">
+                        <ng-container *ngIf="!disableCheckbox">
+                            <div
+                                *ngIf="
+                                    !datenfreigabeForm.controls.kontaktangebenArbeitgeber.valid &&
+                                    !datenfreigabeForm.controls.kontaktangebenArbeitgeber.touched &&
+                                    this.ngForm.submitted
+                                "
+                                class="has-error"
+                            >
+                                <div class="form-control-feedback">{{ 'i18n.validation.required' | translate }}</div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 text-right">
+                        <label>{{ 'stes.label.publikation.mitbewerbungsunterlagen' | translate }}</label>
+                    </div>
+
+                    <div class="doubleButton col-lg-7 col-md-7">
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="unterlagenJa"
+                                name="unterlagen"
+                                [value]="true"
+                                formControlName="unterlagen"
+                                [disableControl]="disableCheckbox || !datenfreigabeForm.controls.kontaktangebenArbeitgeber.value"
+                            />
+                            <label class="form-check-label radio-btn-text" for="unterlagenJa">{{ 'i18n.common.yes' | translate }}</label>
+                        </div>
+
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="unterlagenNein"
+                                name="unterlagen"
+                                [value]="false"
+                                formControlName="unterlagen"
+                                [disableControl]="disableCheckbox || !datenfreigabeForm.controls.kontaktangebenArbeitgeber.value"
+                            />
+                            <label class="form-check-label radio-btn-text" for="unterlagenNein">{{ 'i18n.common.no' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 col-md-5"></div>
+                    <div class="col-lg-7 col-md-7">
+                        <ng-container *ngIf="!disableCheckbox">
+                            <div *ngIf="!datenfreigabeForm.controls.unterlagen.valid && !datenfreigabeForm.controls.unterlagen.touched && this.ngForm.submitted" class="has-error">
+                                <div class="form-control-feedback">{{ 'i18n.validation.required' | translate }}</div>
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+                <hr class="hr-thin" />
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 text-right">
+                        <label>{{ 'stes.label.publikation.bulletin' | translate }}</label>
+                    </div>
+
+                    <div class="doubleButton col-lg-7 col-md-7">
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="bulletinJa"
+                                name="bulletin"
+                                [value]="true"
+                                formControlName="bulletin"
+                                [disableControl]="disableCheckbox"
+                            />
+                            <label class="form-check-label radio-btn-text" for="bulletinJa">{{ 'i18n.common.yes' | translate }}</label>
+                        </div>
+
+                        <div class="radio-btn">
+                            <input
+                                type="radio"
+                                class="form-check-input vmtl-radio-focus"
+                                id="bulletinNein"
+                                name="bulletin"
+                                [value]="false"
+                                formControlName="bulletin"
+                                [disableControl]="disableCheckbox"
+                            />
+                            <label class="form-check-label radio-btn-text" for="bulletinNein">{{ 'i18n.common.no' | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.publikation.freigabesozialhilfestelle' | translate }}</h3>
+                </label>
+                <div class="row">
+                    <ng-template #benutzerstellen_suche>
+                        <app-benutzerstelle-suche [uebergebeneDaten]="benutzerstelleSucheParams" (emitBenutzerstelle)="fillDataBenutzerstelle($event)"></app-benutzerstelle-suche>
+                    </ng-template>
+                    <ng-template #benutzerstellenTabelle>
+                        <app-benutzerstelle-anzeigen
+                            [uebergebeneDaten]="benutzerstelleSucheParams"
+                            (emitBenutzerstelle)="fillDataBenutzerstelle($event)"
+                        ></app-benutzerstelle-anzeigen>
+                    </ng-template>
+                    <!-- Benutzerstellen ID -->
+                    <label class="col-lg-4 text-right align-self-center">{{ 'benutzerverwaltung.label.benutzerstellenid' | translate }}</label>
+                    <div class="input-group col-lg-8">
+                        <div orFormControlState>
+                            <input
+                                #benutzerstellenIdInput
+                                [disableControl]="true"
+                                (keypress)="cancelEvent($event)"
+                                (paste)="cancelEvent($event)"
+                                id="benutzerstellenId"
+                                formControlName="benutzerstellenId"
+                                class="form-control"
+                                style=""
+                            />
+                            <or-error-messages></or-error-messages>
+                        </div>
+                        <div>
+                            <button
+                                type="button"
+                                class="btn btn-secondary rounded-0"
+                                ngbTooltip="{{ 'common.button.waehlenBenutzerstelle' | translate }}"
+                                (click)="openBenutzerstellenTabelle(benutzerstellenTabelle)"
+                            >
+                                <span class="fa fa-clone fa-fw"></span>
+                            </button>
+                        </div>
+                        <div class="button-controls">
+                            <button
+                                type="button"
+                                class="btn btn-secondary ml-2"
+                                ngbTooltip="{{ 'benutzerverwaltung.label.benutzerstellensuchen' | translate }}"
+                                (click)="openBenutzerstelleSuche(benutzerstellen_suche)"
+                            >
+                                <span class="fa fa-search-plus fa-fw"></span>
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary ml-2"
+                                ngbTooltip="{{ 'kaeswe.label.freigabeloeschen' | translate }}"
+                                placement="top-right"
+                                (click)="clearBenutzerstelle()"
+                            >
+                                <span class="fa fa-trash fa-fw"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row paragraph-margins mt-3">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label id="paragraphLabel">{{ 'stes.label.benutzerstelle' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <p class="mb-0 p-value-left-12" id="paragraphBenuStelleName">{{ benutzerStelleObj ? (benutzerStelleObj | dbTranslate: 'name') : '' }}</p>
+                        <p class="mb-0 p-value-left-12" id="paragraphStrasseStrasseNr">
+                            {{ benutzerStelleObj ? (benutzerStelleObj | dbTranslate: 'strasse') : '' }} {{ strasseNr }}
+                        </p>
+                        <p class="p-value-left-12" id="paragraphPlzOrt">{{ plz }} {{ benutzerStelleObj ? (benutzerStelleObj.plzObject | dbTranslate: 'ort') : '' }}</p>
+                    </div>
+                </div>
+                <avam-label-calendar
+                    avamAutofocus
+                    controlName="beantragtAm"
+                    id="beantragtAm"
+                    calendarLabel="{{ 'stes.label.publikation.beantragtam' }}"
+                    (dateChange)="onChangeBeantragtAmBenutzerstellenId()"
+                    [parentForm]="datenfreigabeForm"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    [inputPlaceholder]="'stes.placeholder.date'"
+                ></avam-label-calendar>
+            </div>
+        </div>
+    </div>
+    <ng-template #resetBefragungConfirm>
+        <app-datenfreigabe-befragung-reset (reset)="resetDatenfreigabe($event)"> </app-datenfreigabe-befragung-reset>
+    </ng-template>
+</form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissions]="[permissions.STES_ANMELDEN_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button></ng-template
+>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

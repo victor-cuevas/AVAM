@@ -1,0 +1,323 @@
+<avam-amm-infopanel></avam-amm-infopanel>
+<avam-alert></avam-alert>
+<form #ngForm="ngForm" autocomplete="off" class="print-block row">
+    <div class="rechts col-xl-6 d-flex flex-column" [formGroup]="stelleForm">
+        <div class="avam-panel">
+            <label class="mb-0">
+                <h3>{{ 'arbeitgeber.oste.label.angabenzumstellenangebot' | translate }}</h3>
+            </label>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.stellenbezeichnung' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.bezeichnung }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'erweitertesuche.label.arbeitsort' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.arbeitsOrtOrt }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'erweitertesuche.label.beschaeftigungsgrad' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.pensumVon }} - {{ wizardService.osteEgovDTO?.pensumBis }} %</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.stellenantritt' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovViewObject?.stellenantritt | translate }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.anstellungsdauer' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovViewObject?.anstellungsdauer | translate }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex" *ngIf="wizardService.osteEgovDTO?.arbeitsformList?.length">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.besarbeitsformen' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovViewObject?.besondereArbeitsformen }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avam-panel">
+            <label class="mb-0">
+                <h3>{{ 'arbeitgeber.label.stellenbeschreibung' | translate }}</h3>
+            </label>
+            <app-textarea id="beschreibung" formControlName="beschreibung" selectLabel="" customFormControlState [readonly]="true" [fullWidth]="true"></app-textarea>
+        </div>
+    </div>
+    <div class="links col-xl-6">
+        <div class="avam-panel">
+            <label class="mb-0">
+                <h3>{{ 'arbeitgeber.oste.label.arbeitgeber' | translate }}</h3>
+            </label>
+            <div class="ltr d-flex col-form-label">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.label.name' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.untName }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr d-flex col-form-label">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.strassenr' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.untStrasse }} {{ wizardService.osteEgovDTO?.untHausNr }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr d-flex col-form-label">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'common.label.plzort' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.untPlz }} {{ wizardService.osteEgovDTO?.untOrt }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr d-flex col-form-label" *ngIf="wizardService?.osteEgovDTO?.untPostfach">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'common.label.postfach' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.untPostfach }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr d-flex col-form-label">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'stes.label.land' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovViewObject?.staat }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr d-flex col-form-label" *ngIf="wizardService?.osteEgovDTO?.untPostfachPlz || wizardService?.osteEgovDTO?.untPostfachOrt">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.postfachplzortup' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService?.osteEgovDTO?.untPostfachPlz }} {{ wizardService?.osteEgovDTO?.untPostfachOrt }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avam-panel">
+            <label class="mb-0">
+                <h3>{{ 'arbeitgeber.oste.label.kontaktperson' | translate }}</h3>
+            </label>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.anrede' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ anrede | dbTranslate: 'text' }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.label.name' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.kpName }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.label.vorname' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.kpVorname }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'common.label.telefon' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.kpTelefonNr }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'stes.label.email' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.kpEmail }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="avam-panel">
+            <label class="mb-0">
+                <h3>{{ 'arbeitgeber.oste.label.administratives' | translate }}</h3>
+            </label>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.meldedatum' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovViewObject?.erfasstAm }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.meldeart' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovViewObject?.meldeart }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.jobroomnr' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.stellennummerEgov?.trim() }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.zustaendigebenutzerstelle' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.arbeitsamtBereich }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="wizardService.osteEgovDTO?.ablehnungDatum" class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.ablehnungsdatum' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovViewObject?.ablehnungDatum }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="wizardService.osteEgovDTO?.ablehnungGrundEgovCode" class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.ablehnungsgrund' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovViewObject?.ablehnungGrund }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="wizardService.osteEgovDTO?.ablehnungGrund" class="ltr col-form-label d-flex">
+                <div class="col-lg-4 col-md-4 text-right">
+                    <label class="mb-0"> {{ 'arbeitgeber.oste.label.ergaenzendeablehnung' | translate }}</label>
+                </div>
+                <div class="col-lg-8 col-md-8 align-self-center">
+                    <div class="d-flex pt-0">
+                        <p class="mr-2 mb-0">{{ wizardService.osteEgovDTO?.ablehnungGrund }}</p>
+                        <ng-content select="[input-type=readOnly]"></ng-content>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>
+
+<ng-template #footerBtns>
+    <button class="btn btn-link" (click)="wizardService.navigateToMeldungenUebersicht()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button *ngIf="!wizardService.osteEgovDTO?.ablehnungDatum && !wizardService.disabledButtons" class="btn btn-secondary ml-1" (click)="openAblehnenModal()">
+        {{ 'arbeitgeber.oste.stellenmeldungablehnen' | translate }}
+    </button>
+    <button *ngIf="!wizardService.osteEgovDTO?.ablehnungDatum && !wizardService.disabledButtons" class="btn btn-secondary ml-1" (click)="openWeiterleitenModal()">
+        {{ 'arbeitgeber.oste.stellenmeldungweiterleiten' | translate }}
+    </button>
+    <button *ngIf="!wizardService.disabledButtons" class="btn btn-primary ml-1" (click)="wizardService.movePosition(1)">
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #ablehnenModal
+    ><avam-meldung-ablehnen-modal [grundDomain]="wizardService.grundDomain" [osteEgovId]="wizardService.osteEgovId" (onSearch)="search($event)"></avam-meldung-ablehnen-modal>
+</ng-template>
+
+<ng-template #weiterleitenModal>
+    <avam-meldung-weiterleiten-modal (benutzerStelleSelected)="weiterleiten($event)"></avam-meldung-weiterleiten-modal>
+</ng-template>

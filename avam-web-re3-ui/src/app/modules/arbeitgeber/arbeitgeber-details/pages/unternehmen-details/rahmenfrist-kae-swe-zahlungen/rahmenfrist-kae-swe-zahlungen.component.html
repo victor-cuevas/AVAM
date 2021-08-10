@@ -1,0 +1,19 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-rahmenfrist-kae-swe-zahlungen-table [dataSource]="tableDataSource" (actionClicked)="openModalZahlungen()"></avam-rahmenfrist-kae-swe-zahlungen-table>
+</div>
+
+<ng-template #modalZahlungen>
+    <avam-rahmenfrist-zahlungen [rahmenfristId]="rahmenfristId"></avam-rahmenfrist-zahlungen>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-rahmenfrist-kae-swe-zahlungen-table [dataSource]="tableDataSource" [forPrinting]="true"></avam-rahmenfrist-kae-swe-zahlungen-table>
+</ng-template>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

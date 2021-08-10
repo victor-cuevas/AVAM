@@ -1,0 +1,36 @@
+.read-only {
+    line-height: 35px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.label {
+    border: 1px solid #b4b4b4;
+    background-color: #f5f5f5;
+    line-height: 35px;
+    font-size: 14px;
+}
+
+.responsive {
+    .inner-control-size {
+        flex: 1 1 250px;
+    }
+
+    .label {
+        height: 38px;
+    }
+
+    &.form-group {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+    
+    .wrapper-label {
+        max-width: 65%;
+    }
+
+    #datepicker-von,
+    #datepicker-bis {
+        height: auto !important;
+    }
+}

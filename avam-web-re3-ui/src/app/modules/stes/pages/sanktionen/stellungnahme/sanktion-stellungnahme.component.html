@@ -1,0 +1,57 @@
+<div>
+    <or-spinner channel="stellungnahmeChannel"></or-spinner>
+    <router-outlet #routerOutletComponent (activate)="onOutletActivate($event)"></router-outlet>
+    <hr />
+    <form #ngForm="ngForm" autocomplete="off">
+        <div class="print-block row">
+            <div class="rechts col-xl-6">
+                <div class="avam-panel" [formGroup]="stellungnahmeForm">
+                    <label>
+                        <h3>{{ 'stes.label.stellungnahme' | translate }}</h3>
+                    </label>
+                    <avam-label-calendar
+                        avamAutofocus
+                        controlName="stellungnahmeBis"
+                        [parentForm]="stellungnahmeForm"
+                        id="stellungnahmeBis"
+                        calendarLabel="{{ 'stes.label.stellungnahmebis' }}"
+                        inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    ></avam-label-calendar>
+                    <avam-label-calendar
+                        controlName="eingangsdatum"
+                        [parentForm]="stellungnahmeForm"
+                        id="eingangsdatum"
+                        calendarLabel="{{ 'stes.label.eingangsdatum' }}"
+                        inputPlaceholder="{{ 'stes.placeholder.date' }}"
+                        [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                    ></avam-label-calendar>
+                    <avam-label-dropdown
+                        id="statusCode"
+                        controlName="statusCode"
+                        selectLabel="{{ 'stes.label.status' }}"
+                        [parentForm]="stellungnahmeForm"
+                        [options]="statusOptions"
+                    ></avam-label-dropdown>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" type="button" (click)="reset()" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="isBearbeiten" class="btn btn-secondary ml-1" type="button" (click)="openDeleteDialog()" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        {{ 'stes.vermittlungsfaehigkeit.button.stellungnahme.loeschen' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="save()" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

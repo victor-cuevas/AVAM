@@ -1,0 +1,27 @@
+<div class="modal-content">
+    <div class="row">
+        <div class="col-8 d-flex align-items-center">
+            <h4 class="pl-4 infoleiste">{{ 'stes.label.aehnlicheBerufe' | translate }}</h4>
+            <app-result-count [dataLength]="dataSource.length" [isInfoleiste]="true"></app-result-count>
+        </div>
+        <div class="col-4 pull-right">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [formNumber]="formNr"></app-toolbox>
+        </div>
+    </div>
+
+    <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-beruf-suchen-table #berufSuchenTableComponent [isWithoutCheckbox]="true" [showEyeAction]="showEyeAction"></avam-beruf-suchen-table>
+</div>
+<div class="modal-footer justify-content-between">
+    <div>{{ formNr }}</div>
+    <div class="sticky-actions">
+        <button type="button" class="btn btn-link ml-1" (click)="modalService.dismissAll()" data-dismiss="modal">{{ 'common.button.abbrechen' | translate }}</button>
+    </div>
+</div>
+
+<ng-template #modalPrintModal>
+    <avam-generic-table-print>
+        <avam-beruf-suchen-table [isPrintModal]="true" [dataSource]="dataSource"> </avam-beruf-suchen-table>
+    </avam-generic-table-print>
+</ng-template>

@@ -1,0 +1,54 @@
+<div class="sticky">
+    <div class="sticky-main">
+        <or-column-layout orColumnLayoutExtension [right]="false" avamNavCollapsedCheck>
+            <div column-left-content class="navigation-container sticky">
+                <div class="navigation-resizable" sideNavigationResize>
+                    <ul class="nav nav-tree expanded nav-bordered nav-hover" role="tree">
+                        <li class="side-nav-tree nav-item fit-width">
+                            <div class="nav-link display-flex active">
+                                <a class="avam-nav-link active" aria-selected="false">
+                                    <span class="no-word-wrap padding-left-15 d-inline-block" triggers="manual">{{
+                                        (currentMode === formModes.CREATE ? 'verzeichnisse.topnavmenuitem.zahlstelleerfassen' : 'stes.label.zahlstelle') | translate
+                                    }}</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div column-main-content class="col-12 default-layout">
+                <avam-amm-infopanel></avam-amm-infopanel>
+                <avam-alert></avam-alert>
+                <or-spinner [channel]="channel"></or-spinner>
+                <avam-zahlstellen-form #formComponent [zahlstelleelementData]="zahlstelleelementData"></avam-zahlstellen-form>
+            </div>
+        </or-column-layout>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="navigateHome()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+
+    <button class="btn btn-link ml-1" type="button" (click)="formComponent.reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+
+    <button
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="save()"
+        [permissions]="[
+            currentMode === formModes.CREATE ? permissions.INFORMATIONEN_VERZEICHNISSE_ZAHLSTELLEN_ERFASSEN : permissions.INFORMATIONEN_VERZEICHNISSE_ZAHLSTELLEN_SPEICHERN
+        ]"
+    >
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemplate>
+    &nbsp;
+</ng-template>

@@ -1,0 +1,88 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-vertragswert-detail-form
+        #detailFormComponent
+        [vertragswertDetailData]="vertragswertDetailData"
+        (onGuelitgChange)="onGuelitgChange($event)"
+    ></avam-vertragswert-detail-form>
+</div>
+
+<ng-template #footerButtons>
+    <button *ngIf="vertragswertDto?.vertragswertEditierbar && !isPreismodellTypReadonly" class="btn btn-link ml-1" type="button" (click)="detailFormComponent.reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="vertragswertDto?.vertragswertLoeschbar && (!isPreismodellTypReadonly || !isGueltigReadonly)"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="openDeleteModal()"
+        [permissions]="[permissions.AMM_AKQUISITION_BEARBEITEN]"
+    >
+        {{ 'amm.akquisition.button.vertragswertloeschen' | translate }}
+    </button>
+    <button *ngIf="vertragswertDto?.showAbrechnungswertErfassen" class="btn btn-secondary ml-1" type="button" (click)="abrechnungswertErfassen()">
+        <span class="fa fa-plus"></span>
+        {{ 'amm.akquisition.button.abrechnungswerterfassen' | translate }}
+    </button>
+    <button
+        *ngIf="vertragswertDto?.vertragswertEditierbar && isGueltig && !isPreismodellTypReadonly"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="calculate()"
+        [permissions]="[permissions.AMM_AKQUISITION_BEARBEITEN]"
+    >
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.STANDORT" class="btn btn-secondary ml-1" type="button" (click)="zumStandort()">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zumstandort' | translate }}
+    </button>
+    <button *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.KURS" class="btn btn-secondary ml-1" type="button" (click)="zumKurs()">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zumkurs' | translate }}
+    </button>
+    <button *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.MASSNAHME" class="btn btn-secondary ml-1" type="button" (click)="zurMassnahme()">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zurmassnahme' | translate }}
+    </button>
+    <button
+        *ngIf="(vertragswertDto?.vertragswertEditierbar || vertragswertDto?.vertragswertGueltigFlagAktiv) && (!isPreismodellTypReadonly || !isGueltigReadonly)"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="submit()"
+        [permissions]="[permissions.AMM_AKQUISITION_BEARBEITEN]"
+    >
+        {{ 'i18n.common.save' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.leistungsvereinbarungnr' | translate }}</strong>
+        <span> {{ referencedLv?.leistungsvereinbarungNr }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.massnahmen.label.status' | translate }}</strong>
+        <span> {{ referencedLv?.statusObject | dbTranslate: 'text' }} </span>
+    </div>
+    <div class="item" *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.MASSNAHME">
+        <b> {{ 'amm.akquisition.label.massnahmenNr' | translate }} </b>
+        <span>{{ vertragswertDto?.massnahmeObject?.massnahmeId }}</span>
+    </div>
+    <div class="item" *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.KURS || vertragswertDto?.typ?.code === vertragswertTypCodeEnum.STANDORT">
+        <b>
+            {{
+                vertragswertDto?.typ?.code === vertragswertTypCodeEnum.KURS
+                    ? ('amm.akquisition.label.durchfuehrungsnrkurs' | translate)
+                    : ('amm.akquisition.label.durchfuehrungsnrstandort' | translate)
+            }}
+        </b>
+        <span>{{ vertragswertDto?.durchfuehrungseinheitObject?.durchfuehrungsId }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.titel' | translate }}</strong>
+        <span> {{ titel }}</span>
+    </div>
+</ng-template>

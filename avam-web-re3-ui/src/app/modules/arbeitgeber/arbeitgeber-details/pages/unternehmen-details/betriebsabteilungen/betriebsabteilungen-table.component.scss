@@ -1,0 +1,28 @@
+.button-wrapper {
+    display: flex;
+
+    button {
+        display: flex;
+        margin: 0 auto;
+    }
+}
+
+.abteilungName-column {
+    width: 70%;
+}
+
+.abteilungNr-column {
+    width: 10%;
+}
+
+.alvAnerkannt-column {
+    width: 15%;
+}
+
+.actions-column {
+    width: 5%;
+}
+
+::ng-deep .has-error {
+    white-space: normal;
+}

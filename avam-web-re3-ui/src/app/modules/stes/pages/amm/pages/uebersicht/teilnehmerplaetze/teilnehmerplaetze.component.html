@@ -1,0 +1,22 @@
+<div>
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-participation-places [dataSource]="dataSource"></avam-participation-places>
+</div>
+
+<ng-template #footerButtons>
+    <button *ngIf="shouldShowPreviousButton" class="btn btn-secondary ml-1" type="button" (click)="getPreviousMonth()">
+        {{ 'amm.nutzung.button.vorherigerMonat' | translate }}
+    </button>
+    <button *ngIf="shouldShowNextButton" class="btn btn-primary ml-1" type="button" (click)="getNextMonth()">
+        {{ 'amm.nutzung.button.naechsterMonat' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+</ng-template>

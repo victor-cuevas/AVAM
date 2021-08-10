@@ -1,0 +1,43 @@
+<router-outlet #routerOutletComponent (activate)="onOutletActivate($event)"></router-outlet>
+<avam-sanktion-tree-table [data]="sanktionSachverhaltDTO" (onViewObjektClicked)="goToChild($event)"></avam-sanktion-tree-table>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link btn-cancel" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link btn-reset" type="button" (click)="reset()" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+
+    <button
+        *ngIf="isBearbeiten && sanktionSachverhaltDTO && !sanktionSachverhaltDTO.entscheidList && !sanktionSachverhaltDTO.stellungnahmeList"
+        class="btn btn-secondary ml-1 btn-delete"
+        type="button"
+        (click)="openDeleteDialog()"
+        [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]"
+    >
+        {{ 'stes.sanktionen.button.sachverhalt.loeschen' | translate }}
+    </button>
+
+    <div *ngIf="isBearbeiten" #individuelle="ngbDropdown" ngbDropdown placement="top-right" class="dropdown" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        <button class="btn btn-secondary ml-1" ngbDropdownToggle (mouseenter)="individuelle.open()">
+            {{ 'common.button.objekt' | translate }}
+        </button>
+        <div class="dropdown-menu mb-0" ngbDropdownMenu (mouseenter)="individuelle.open()" (mouseleave)="individuelle.close()">
+            <button class="dropdown-item" (click)="navigateTo('stellungnahme')">
+                {{ 'common.button.stellungnahmeErfassen' | translate }}
+            </button>
+            <button
+                class="dropdown-item"
+                (click)="navigateTo('entscheid')"
+                [disabled]="sanktionSachverhaltDTO && sanktionSachverhaltDTO.entscheidList && sanktionSachverhaltDTO.entscheidList.length > 0"
+            >
+                {{ 'common.button.entscheidErfassen' | translate }}
+            </button>
+        </div>
+    </div>
+    <button class="btn btn-primary ml-1 btn-save" type="button" (click)="save()" [permissionContext]="[permissions.STES_SANKTION_VMF_BEARBEITEN]">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

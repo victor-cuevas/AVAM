@@ -1,0 +1,33 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h4 *ngIf="tableConfig.data.length > 0; else keineTreffer" class="modal-title" id="modal-basic-title">
+            {{ modalHeader }}
+            <app-result-count [dataLength]="tableConfig.data.length"></app-result-count>
+        </h4>
+        <ng-template #keineTreffer>
+            <h4 class="modal-title" id="modal-basic-title-empty">{{ 'common.message.keinetreffer' | translate }}</h4>
+        </ng-template>
+        <div class="mr-3">
+            <app-toolbox [configuration]="modalToolboxConfiguration" [id]="modalToolboxId" [formNumber]="formNr"></app-toolbox>
+        </div>
+    </div>
+    <div class="table-wrapper-height scrollable-modal-body max-height-800">
+        <or-spinner channel="modalToolboxId"></or-spinner>
+        <avam-common-wrapper-table
+            [dataSource]="tableConfig.data"
+            [columns]="tableConfig.columns"
+            [config]="tableConfig.config"
+            (onRowSelect)="selectItem($event)"
+        ></avam-common-wrapper-table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNr }}</span>
+        <button type="button" class="btn btn-link" (click)="close()">{{ 'common.button.abbrechen' | translate }}</button>
+    </div>
+</div>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="tableConfig.data">
+        <avam-common-wrapper-table [dataSource]="tableConfig.data" [columns]="modalColumns" [config]="modalConfig"></avam-common-wrapper-table>
+    </avam-generic-table-print>
+</ng-template>

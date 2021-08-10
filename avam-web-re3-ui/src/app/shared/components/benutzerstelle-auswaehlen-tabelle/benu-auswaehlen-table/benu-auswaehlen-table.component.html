@@ -1,0 +1,28 @@
+<avam-generic-table *ngIf="tableData" [dataSource]="tableData" [headers]="displayedColumns" sortField="benutzerstelle" [sortOrder]="1" [stateKey]="stateKey" [minHeight]="625">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'checkbox'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef><input #checkboxesAll type="checkbox" [checked]="allchecked" (click)="checkAll()" /></th>
+            <td cdk-cell *cdkCellDef="let row">
+                <input #checkboxes type="checkbox" [checked]="row.checked" [disabled]="isRowSelectedByInput(row.benutzerstelleObj.benutzerstelleId)" (click)="checkbox(row)" />
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    ngbTooltip="{{ showEyeAction ? ('common.button.oeffnen' | translate) : ('common.button.uebernehmen' | translate) }}"
+                    (primaryButtonClick)="itemSelected(row)"
+                    avamPrimaryButtonDirective
+                    class="fa btn btn-sm buttonOnHover"
+                    [ngClass]="{ 'fa-check btn-success': !showEyeAction, 'fa-eye btn-primary': showEyeAction }"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

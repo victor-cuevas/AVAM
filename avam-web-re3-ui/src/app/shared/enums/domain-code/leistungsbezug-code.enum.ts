@@ -1,0 +1,6 @@
+export enum LeistungsbezugCodeEnum {
+    LEISTUNGSBEZUGALEBEZUEGER = '1',
+    LEISTUNGSBEZUGKEINEALE = '2',
+    LEISTUNGSBEZUGALEAM = '3',
+    LEISTUNGSBEZUGNICHT = '4'
+}

@@ -1,0 +1,76 @@
+<form (keydown.enter)="onEnter.emit($event)" class="search-scroll" [formGroup]="formGroup" #ngForm="ngForm" autocomplete="off">
+    <div class="mt-3">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.akquisition.subnavmenuitem.vertragswert' | translate }}</span>
+        </h3>
+    </div>
+    <div class="mt-3">
+        <avam-label-input
+            controlName="vertragswertNr"
+            [inputClass]="'col'"
+            [parentForm]="formGroup"
+            placeholder="{{ 'amm.akquisition.label.vertragswertnr' | translate }}"
+            (onInput)="toggleEnabledInputsForLeistungsVertragswertNr($event)"
+            (onChange)="toggleEnabledInputsForLeistungsVertragswertNr($event)"
+        ></avam-label-input>
+        <avam-label-input
+            controlName="profilNummer"
+            [inputClass]="'col'"
+            [parentForm]="formGroup"
+            placeholder="{{ 'amm.akquisition.label.profilnr' | translate }}"
+            (onInput)="toggleEnabledInputsForProfilNummer($event)"
+            (onChange)="toggleEnabledInputsForProfilNummer($event)"
+        ></avam-label-input>
+        <avam-unternehmen-autosuggest
+            id="anbieter"
+            controlName="anbieterParam"
+            isAvamOnly="true"
+            [parentForm]="formGroup"
+            placeholder="{{ 'amm.planundakqui.label.anbieter' | translate }}"
+            [readOnly]="disableInputs"
+        ></avam-unternehmen-autosuggest>
+        <br />
+        <h4>
+            <span>{{ 'amm.akquisition.label.statuslv' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            placeholder="common.label.waehlen"
+            controlName="leistungsvereinbarungStatusId"
+            id="leistungsvereinbarungStatusId"
+            [inputClass]="'col'"
+            [parentForm]="formGroup"
+            [hideEmptyOption]="true"
+            [options]="statusOptionsMapped"
+        ></avam-label-dropdown>
+        <br />
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="gueltigVon"
+            [parentForm]="formGroup"
+            id="gueltigVon"
+            inputPlaceholder="{{ 'common.label.gueltig_von' }}"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+        ></avam-label-calendar>
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="gueltigBis"
+            [parentForm]="formGroup"
+            id="gueltigBis"
+            inputPlaceholder="{{ 'common.label.gueltig_bis' }}"
+            [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+        ></avam-label-calendar>
+        <br />
+        <h4>
+            <span>{{ 'amm.akquisition.label.nuraktuelle' | translate }}</span>
+        </h4>
+        <avam-label-dropdown
+            controlName="nurAktuelleVertragswerte"
+            id="nurAktuelleVertragswerte"
+            [options]="nurAktuelleOptionsMapped"
+            [inputClass]="'col'"
+            [parentForm]="formGroup"
+            [hideEmptyOption]="true"
+        ></avam-label-dropdown>
+    </div>
+</form>

@@ -1,0 +1,20 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" [maxHeight]="300" sortField="jahr" [sortOrder]="-1">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row; let index = index">
+                <avam-label-checkbox
+                    componentId="rowCheckbox{{ index }}"
+                    [parentForm]="rowCheckboxes"
+                    controlName="{{ index }}"
+                    (onChange)="onCheckboxChange(index, $event)"
+                ></avam-label-checkbox>
+            </td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

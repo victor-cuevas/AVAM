@@ -1,0 +1,33 @@
+<div *ngIf="hasTitle" class="info-bar-container">
+    <div *ngIf="maskData" class="col-8 d-flex align-items-center p-0">
+        <h1
+            *ngIf="maskData?.title || maskData?.secondTitle"
+            #elementTitle
+            #tTitle="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="showTooltip(elementTitle, tTitle)"
+            (mouseleave)="tTitle.close()"
+            [ngbTooltip]="(maskData?.title ? (maskData?.title | translate) : '') + ' ' + (maskData?.secondTitle ? (maskData.secondTitle | translate) : '')"
+            [ngClass]="{ 'pr-5': maskData?.subtitle }"
+        >
+            {{ maskData?.title | translate }} {{ maskData?.secondTitle | translate }}
+        </h1>
+        <h2
+            *ngIf="maskData?.subtitle"
+            #elementSubtitle
+            #tSubtitle="ngbTooltip"
+            triggers="manual"
+            (mouseenter)="showTooltip(elementSubtitle, tSubtitle)"
+            (mouseleave)="tSubtitle.close()"
+            [ngbTooltip]="maskData?.subtitle | translate"
+        >
+            {{ maskData?.subtitle | translate }}
+        </h2>
+        <app-result-count [dataLength]="maskData?.tableCount" [isInfoleiste]="true"></app-result-count>
+    </div>
+    <div class="col-4 pull-right p-0">
+        <app-toolbox></app-toolbox>
+    </div>
+</div>
+<hr *ngIf="hasTitle && !maskData?.hideInfobar" class="nm-t-6" />
+<core-info-bar-panel *ngIf="!maskData?.hideInfobar" [data]="infopanelData"></core-info-bar-panel>

@@ -1,0 +1,23 @@
+<avam-generic-table *ngIf="dataSource" [dataSource]="dataSource" [headers]="displayedColumns" footer="true" sortField="profilNr" [sortOrder]="-1" [stateKey]="stateKey">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <ng-container *ngIf="column.columnDef === 'gueltigBis' || column.columnDef === 'gueltigVon' || column.columnDef === 'valutadatum'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">
+                    {{ column.cell(row) | date: 'dd.MM.yyyy' }}
+                </span>
+            </td>
+        </ng-container>
+        <ng-container *ngIf="column.columnDef === 'betrag'">
+            <td cdk-footer-cell *cdkFooterCellDef>{{ summeTotal }}</td>
+        </ng-container>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+        <ng-container>
+            <td cdk-footer-cell *cdkFooterCellDef class="text-right">{{ column.footer | translate }}</td>
+        </ng-container>
+    </ng-container>
+</avam-generic-table>

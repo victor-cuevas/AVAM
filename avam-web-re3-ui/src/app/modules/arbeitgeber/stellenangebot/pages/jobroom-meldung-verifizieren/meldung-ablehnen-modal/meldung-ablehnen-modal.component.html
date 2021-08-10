@@ -1,0 +1,37 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">{{ 'arbeitgeber.oste.label.ablehnunggrundneu' | translate }}</h4>
+        <button type="button" class="close" (click)="modalService.dismissAll()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form #ngForm="ngForm" autocomplete="off">
+            <avam-alert [channel]="alertChannel.NEST_MODAL"></avam-alert>
+            <or-spinner [channel]="spinnerChannel"></or-spinner>
+            <div class="avam-panel min-height-20" [formGroup]="ablehnenForm">
+                <avam-label-dropdown
+                    avamAutofocus
+                    placeholder="{{ 'arbeitgeber.oste.label.abmeldegrund' | translate }} {{ 'common.label.waehlen' | translate }}"
+                    inputClass="col"
+                    id="grundId"
+                    [parentForm]="ablehnenForm"
+                    controlName="grundId"
+                    [options]="grundDomain"
+                ></avam-label-dropdown>
+                <app-textarea
+                    placeholder="arbeitgeber.oste.label.anmerkungen"
+                    fullWidth="true"
+                    id="anmerkungen"
+                    formControlName="anmerkungen"
+                    customFormControlState
+                ></app-textarea>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-link" data-dismiss="modal" (click)="modalService.dismissAll()">{{ 'common.button.abbrechen' | translate }}</button>
+        <button type="button" class="btn btn-link" data-dismiss="modal" (click)="reset()">{{ 'common.button.zuruecksetzen' | translate }}</button>
+        <button type="button" class="btn btn-primary" (click)="send()">{{ 'common.button.senden' | translate }}</button>
+    </div>
+</div>

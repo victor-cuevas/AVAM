@@ -1,0 +1,25 @@
+<div class="modal-content d-block">
+    <div class="modal-header">
+        <h3 class="modal-title" id="modal-basic-title">
+            <span>{{ headerKey | translate }} </span>
+        </h3>
+        <button type="button" class="close" (click)="close()" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <table class="table-bordered w-100">
+            <tr class="content-row">
+                <td>
+                    <div class="area-text-content p-2">
+                        <span class="d-block mt-2"> {{ text }} </span>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span></span>
+        <button ngbAutofocus type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

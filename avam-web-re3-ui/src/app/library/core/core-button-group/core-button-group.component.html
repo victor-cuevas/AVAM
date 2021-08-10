@@ -1,0 +1,7 @@
+<div class="btn-group" role="group" aria-label="button-group">
+    <ng-container *ngFor="let button of data">
+        <button (click)="select(button)" [value]="button.value" type="button" class="btn btn-secondary" [ngClass]="button.selected ? 'selected' : ''" [disabled]="button.disabled">
+            {{ button.label | translate }}
+        </button>
+    </ng-container>
+</div>

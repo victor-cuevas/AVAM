@@ -1,0 +1,79 @@
+<form #ngForm="ngForm" [formGroup]="searchForm" (keydown.enter)="onEnter.emit($event)" autocomplete="off" closeBrowserTab>
+    <div class="mt-3 search-padding">
+        <h3>
+            <span class="fa fa-search mr-2"></span>
+            {{ 'benutzerverwaltung.label.benutzermeldung' | translate }}
+        </h3>
+        <br />
+        <h4>
+            {{ 'benutzerverwaltung.label.benutzermeldungstyp' | translate }}
+        </h4>
+        <avam-multiselect
+            [parentForm]="searchForm"
+            controlName="meldungstyp"
+            [options]="meldungstypOptions"
+            placeholder="i18n.oblique.multiselect.defaultTitle"
+            inputClass="col-12"
+        ></avam-multiselect>
+        <h4>
+            {{ 'common.label.status' | translate }}
+        </h4>
+        <avam-multiselect
+            #statusMultiselect
+            [parentForm]="searchForm"
+            controlName="status"
+            [options]="meldungstatusOptions"
+            placeholder="i18n.oblique.multiselect.defaultTitle"
+            inputClass="col-12"
+        ></avam-multiselect>
+        <br />
+        <avam-label-input controlName="name" inputClass="col-12" [parentForm]="searchForm" placeholder="common.label.name"></avam-label-input>
+        <avam-label-input controlName="vorname" inputClass="col-12" [parentForm]="searchForm" placeholder="common.label.vorname"></avam-label-input>
+        <br />
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="gemeldetVon"
+            id="gemeldetVon"
+            [parentForm]="searchForm"
+            inputPlaceholder="benutzerverwaltung.label.gemeldetvon"
+        ></avam-label-calendar>
+        <avam-label-calendar
+            inputClass="col-12"
+            controlName="gemeldetBis"
+            id="gemeldetBis"
+            [parentForm]="searchForm"
+            inputPlaceholder="benutzerverwaltung.label.gemeldetbis"
+        ></avam-label-calendar>
+        <br />
+        <avam-label-dropdown
+            inputClass="col-12"
+            [parentForm]="searchForm"
+            controlName="kanton"
+            [options]="kantoneOptions"
+            placeholder="{{ 'common.label.kantonwaehlen' | translate }}"
+        ></avam-label-dropdown>
+        <br />
+        <div class="w-100">
+            <avam-benutzerstelle-autosuggest
+                [parentForm]="searchForm"
+                controlName="benutzerstellenVon"
+                [benutzerstelleSuchenTokens]="benutzerstelleSuchenTokens"
+                placeholder="{{ 'informationen.placeholder.benutzerstellenIdVon' | translate }}"
+                [type]="benutzerstelleAutosuggestType"
+                container="body"
+                [scrollIntoView]="false"
+            ></avam-benutzerstelle-autosuggest>
+        </div>
+        <div class="w-100">
+            <avam-benutzerstelle-autosuggest
+                [parentForm]="searchForm"
+                controlName="benutzerstellenBis"
+                [benutzerstelleSuchenTokens]="benutzerstelleSuchenTokens"
+                placeholder="{{ 'informationen.placeholder.benutzerstellenIdBis' | translate }}"
+                [type]="benutzerstelleAutosuggestType"
+                container="body"
+                [scrollIntoView]="false"
+            ></avam-benutzerstelle-autosuggest>
+        </div>
+    </div>
+</form>

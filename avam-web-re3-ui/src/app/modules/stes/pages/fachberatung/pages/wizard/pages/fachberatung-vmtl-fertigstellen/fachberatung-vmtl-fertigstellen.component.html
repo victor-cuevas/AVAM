@@ -1,0 +1,186 @@
+<form [formGroup]="vermittlungForm" #ngForm="ngForm" autocomplete="off">
+    <or-spinner [channel]="vermittlungFertigstellenChannel"></or-spinner>
+    <avam-stes-info-bar *ngIf="stesHeader" [data]="stesHeader"></avam-stes-info-bar>
+    <avam-alert></avam-alert>
+    <div class="row print-block">
+        <div class="links col-xl-6">
+            <div class="avam-panel">
+                <avam-label-calendar
+                    avamAutofocus
+                    controlName="vermittlungVom"
+                    [parentForm]="vermittlungForm"
+                    id="vermittlungVom"
+                    calendarLabel="{{ 'stes.label.zuweisungfachberatung.zuweisungvom' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <avam-personalberater-autosuggest
+                    #vermittlungsverantwortung
+                    id="vermittlungsverantwortung"
+                    controlName="vermittlungsverantwortung"
+                    [parentForm]="vermittlungForm"
+                    componentLabel="{{ 'common.label.bearbeitungdurch' }}"
+                    [benutzerSuchenTokens]="vermittlungsverantwortungSuchenTokens"
+                    [type]="personalberaterAutosuggestType"
+                ></avam-personalberater-autosuggest>
+            </div>
+            <div class="avam-panel">
+                <div class="header-solid-1">
+                    <div class="title-pt-16">
+                        <label>
+                            <h3>{{ 'stes.label.zuweisungfachberatung.fachberatungsangebot' | translate }}</h3>
+                        </label>
+                    </div>
+                    <div class="btn-toolbar pull-right pad-btn-8-0">
+                        <button type="button" class="btn btn-secondary" (click)="openDetails()" ngbTooltip="{{ 'common.button.detail' | translate }}">
+                            {{ 'common.button.detail' | translate }}
+                        </button>
+                    </div>
+                </div>
+                <avam-label-input
+                    [parentForm]="vermittlungForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.fachberatungsangebote.beratungsbereich' | translate }}"
+                    controlName="beratungsbereich"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="vermittlungForm"
+                    readOnly="true"
+                    selectLabel="{{ 'stes.label.fachberatungsangebote.bezeichnung' | translate }}"
+                    controlName="bezeichnung"
+                ></avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.zuweisungfachberatung.termin' | translate }}</h3>
+                </label>
+                <avam-label-calendar
+                    controlName="terminDatum"
+                    [parentForm]="vermittlungForm"
+                    id="terminDatum"
+                    calendarLabel="{{ 'stes.label.zuweisungfachberatung.datum' }}"
+                    [bsConfig]="{ dateInputFormat: 'DD.MM.YYYY' }"
+                ></avam-label-calendar>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label> {{ 'stes.label.zuweisungfachberatung.uhrzeit' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="vermittlungForm" controlName="uhrzeit" placeholder="{{ 'stes.placeholder.uhrzeit' }}">
+                        </avam-label-input>
+                    </div>
+                </div>
+                <app-textarea
+                    customFormControlState
+                    id="ergaenzendeAngaben"
+                    formControlName="ergaenzendeAngaben"
+                    selectLabel="{{ 'stes.label.zuweisungfachberatung.ergaenzendeangaben' }}"
+                    [maxLength]="255"
+                >
+                </app-textarea>
+            </div>
+        </div>
+        <div class="rechts col-xl-6">
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.label.zuweisungfachberatung.durchfuerhungsort' | translate }}</h3>
+                </label>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4  text-right">
+                        <label>{{ 'common.label.name' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="vermittlungForm" controlName="unternehmenName1"> </avam-label-input>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8 text-right ">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="vermittlungForm" controlName="unternehmenName2"> </avam-label-input>
+                    </div>
+                    <div class="col-lg-4 col-md-4"></div>
+                    <div class="col-lg-8 col-md-8 text-right ">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="vermittlungForm" controlName="unternehmenName3"> </avam-label-input>
+                    </div>
+                </div>
+                <br />
+                <div class="form-group row">
+                    <div class="col-lg-4 col-md-4 text-right">
+                        <label for="strasse" class="col-form-label"> {{ 'stes.label.strasse' | translate }} {{ '/' }} {{ 'stes.label.nummer' | translate }}</label>
+                    </div>
+                    <div class="col-lg-6 col-md-6 text-right ">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="vermittlungForm" controlName="unternehmenStrasse"> </avam-label-input>
+                    </div>
+                    <div class="col-lg-2 col-md-2 text-right ">
+                        <avam-label-input inputClass="col-lg-12" [parentForm]="vermittlungForm" controlName="unternehmenStrasseNummer"> </avam-label-input>
+                    </div>
+                </div>
+                <avam-plz-autosuggest
+                    plzControl="postleitzahl"
+                    ortControl="ort"
+                    [landControl]="vermittlungForm.controls.land"
+                    [parentForm]="vermittlungForm"
+                    [readOnly]="false"
+                    [supportsSimpleInput]="true"
+                    label="stes.label.plzort"
+                    placeholderPlz="{{ 'stes.label.fachberatung.plz' | translate }}"
+                    placeholderOrt="{{ 'stes.label.fachberatung.ort' | translate }}"
+                ></avam-plz-autosuggest>
+                <avam-land-autosuggest id="land" controlName="land" [parentForm]="vermittlungForm" componentLabel="stes.label.land"></avam-land-autosuggest>
+            </div>
+            <div class="avam-panel" formGroupName="kontaktpersonForm">
+                <label>
+                    <h3>{{ 'stes.label.fachberatung.kontaktperson' | translate }}</h3>
+                </label>
+                <avam-label-dropdown
+                    [parentForm]="vermittlungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonAnredeId"
+                    selectLabel="{{ 'stes.label.fachberatung.anrede' }}"
+                    id="kontaktpersonAnredeId"
+                    [options]="anredeOptions"
+                >
+                </avam-label-dropdown>
+                <avam-label-input
+                    [parentForm]="vermittlungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonName"
+                    selectLabel="{{ 'common.label.name' }}"
+                ></avam-label-input>
+                <avam-label-input
+                    [parentForm]="vermittlungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonVorname"
+                    selectLabel="{{ 'common.label.vorname' }}"
+                ></avam-label-input>
+                <avam-label-input
+                    placeholder="{{ 'stes.placeholder.telefonprivat' }}"
+                    [parentForm]="vermittlungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonTelefonNr"
+                    selectLabel="{{ 'common.label.telefon' }}"
+                ></avam-label-input>
+                <app-email-input
+                    [parentForm]="vermittlungForm.get('kontaktpersonForm')"
+                    controlName="kontaktpersonEmail"
+                    placeholder="{{ 'stes.placeholder.email' }}"
+                ></app-email-input>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #fachberatungsangebotDetailModal>
+    <avam-detail-fachberatungsangebot-modal [fbDetails]="getFachberatungsangebotDetails()"></avam-detail-fachberatungsangebot-modal>
+</ng-template>
+
+<ng-template #footerBtns>
+    <button class="btn btn-link" type="button" (click)="cancel()" [permissions]="[permissions.STES_VM_ZUWEISUNG_FB_BEARBEITEN]">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button class="btn btn-secondary ml-1" type="button" (click)="back()" [permissions]="[permissions.STES_VM_ZUWEISUNG_FB_BEARBEITEN]">
+        {{ 'common.button.zurueck' | translate }}
+    </button>
+    <button class="btn btn-primary ml-1" type="button" (click)="processSave()" [permissions]="[permissions.STES_VM_ZUWEISUNG_FB_BEARBEITEN]">
+        {{ 'common.button.fertigstellen' | translate }}
+    </button>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerBtns"></avam-action-footer>

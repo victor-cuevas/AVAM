@@ -1,0 +1,144 @@
+<form [formGroup]="formGroup" #ngForm="ngForm" closeBrowserTab [form]="formGroup" autocomplete="off">
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <label>{{ 'amm.akquisition.label.titel' | translate }}</label>
+                <avam-label-input
+                    id="titel"
+                    [parentForm]="formGroup"
+                    controlName="titel"
+                    inputClass="col-lg-12"
+                    [readOnly]="rahmenvertragDto?.rahmenvertragDisabled || isGueltigNein"
+                ></avam-label-input>
+                <label>{{ 'common.label.ergaenzendeangaben' | translate }}</label>
+                <app-textarea
+                    id="bemerkung"
+                    formControlName="bemerkung"
+                    [fullWidth]="true"
+                    customFormControlState
+                    [maxLength]="255"
+                    [readonly]="rahmenvertragDto?.rahmenvertragDisabled || isGueltigNein"
+                ></app-textarea>
+            </div>
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    id="gueltigDropdown"
+                    [parentForm]="formGroup"
+                    controlName="gueltigDropdown"
+                    selectLabel="amm.administration.label.gueltig"
+                    [hideEmptyOption]="true"
+                    [options]="gueltigDropdownOptions"
+                    [readOnly]="rahmenvertragDto?.rahmenvertragDisabled || !rahmenvertragDto?.rahmenvertragGueltigFlagAktiv"
+                >
+                </avam-label-dropdown>
+                <avam-date-range-picker
+                    id="gueltigVonBis"
+                    label=""
+                    [parentForm]="formGroup"
+                    formControlNameFrom="gueltigVon"
+                    formControlNameTo="gueltigBis"
+                    [isResponsive]="true"
+                    [isDisabled]="rahmenvertragDto?.rahmenvertragDisabled || isGueltigNein"
+                ></avam-date-range-picker>
+                <!-- <avam-dropdown-datepicker
+                    id="gultigDropdownDaterangepicker"
+                    [parentForm]="formGroup"
+                    controlNameDropdown="gueltigDropdown"
+                    controlNameVon="gueltigVon"
+                    controlNameBis="gueltigBis"
+                    [options]="gueltigDropdownOptions"
+                    label="amm.administration.label.gueltig"
+                    [isDisabled]="rahmenvertragDto?.rahmenvertragDisabled"
+                >
+                </avam-dropdown-datepicker> -->
+                <avam-multiselect
+                    id="massnahmentyp"
+                    controlName="massnahmentyp"
+                    [parentForm]="formGroup"
+                    [options]="massnhamentypMultiselectOptions"
+                    label="amm.planundakqui.label.massnahmentyp"
+                    [isDisabled]="rahmenvertragDto?.rahmenvertragDisabled || isGueltigNein"
+                ></avam-multiselect>
+                <avam-personalberater-autosuggest
+                    #bearbeitungDurch
+                    id="bearbeitungDurch"
+                    [parentForm]="formGroup"
+                    controlName="bearbeitungDurch"
+                    componentLabel="amm.zahlungen.label.bearbeitungdurch"
+                    [benutzerSuchenTokens]="bearbeitungDurchSuchenTokens"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [isDisabled]="rahmenvertragDto?.rahmenvertragDisabled || isGueltigNein"
+                ></avam-personalberater-autosuggest>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    id="rahmenvertragNr"
+                    [parentForm]="formGroup"
+                    controlName="rahmenvertragNr"
+                    selectLabel="amm.akquisition.label.rahmenvertragnr"
+                    [readOnly]="true"
+                ></avam-label-input>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="vorgaengerLabel"> {{ 'amm.abrechnungen.label.vorgaenger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="rahmenvertragDto?.vorgaengerObject?.rahmenvertragId"
+                            id="vorgaengerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ rahmenvertragId: rahmenvertragDto?.vorgaengerObject?.rahmenvertragId }"
+                        >
+                            {{ rahmenvertragDto?.vorgaengerObject?.rahmenvertragNr }}</a
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 text-right col-form-label">
+                        <label class="mb-2" id="nachfolgerLabel"> {{ 'amm.abrechnungen.label.nachfolger' | translate }}</label>
+                    </div>
+                    <div class="col-lg-8 col-md-8 align-self-center mb-2">
+                        <a
+                            *ngIf="nachfolgerObject?.rahmenvertragId"
+                            id="nachfolgerLink"
+                            [routerLink]="['./']"
+                            [queryParams]="{ rahmenvertragId: nachfolgerObject?.rahmenvertragId }"
+                        >
+                            {{ nachfolgerObject?.rahmenvertragNr }}</a
+                        >
+                    </div>
+                </div>
+                <avam-label-dropdown
+                    id="status"
+                    [parentForm]="formGroup"
+                    controlName="status"
+                    selectLabel="common.label.status"
+                    [hideEmptyOption]="true"
+                    [options]="statusDropdownOptions"
+                    [readOnly]="rahmenvertragDto?.rahmenvertragDisabled"
+                >
+                </avam-label-dropdown>
+                <avam-personalberater-autosuggest
+                    id="freigabeDurch"
+                    [parentForm]="formGroup"
+                    controlName="freigabeDurch"
+                    componentLabel="amm.zahlungen.label.freigabedurch"
+                    [benutzerSuchenTokens]="freigabeDurchSuchenTokens"
+                    [type]="benutzerType"
+                    placeholder="{{ 'stes.placeholder.personalberater' | translate }}"
+                    [isDisabled]="rahmenvertragDto?.rahmenvertragDisabled"
+                ></avam-personalberater-autosuggest>
+                <avam-label-calendar
+                    controlName="freigabedatum"
+                    [parentForm]="formGroup"
+                    id="freigabedatum"
+                    calendarLabel="amm.akquisition.label.freigabeDatum"
+                    [readOnly]="true"
+                ></avam-label-calendar>
+            </div>
+        </div>
+    </div>
+</form>

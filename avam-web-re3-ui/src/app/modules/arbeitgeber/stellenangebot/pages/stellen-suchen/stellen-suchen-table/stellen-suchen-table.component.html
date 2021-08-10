@@ -1,0 +1,41 @@
+<avam-generic-table [dataSource]="dataSource" [headers]="displayedColumns" customSort="true" (sortFunction)="onSort($event)" stateKey="stellen-suchen-table">
+    <ng-container *ngFor="let column of columns" [cdkColumnDef]="column?.columnDef">
+        <th
+            [ngStyle]="{ width: column?.width }"
+            [ngClass]="{ 'avam-column-width': column.fixWidth }"
+            [sortable-column]="column.columnDef !== 'actions' ? column.columnDef : null"
+            cdk-header-cell
+            *cdkHeaderCellDef
+        >
+            <avam-generic-table-header-cell *ngIf="column.columnDef !== 'flag'" [column]="column"></avam-generic-table-header-cell>
+            <em *ngIf="column.columnDef === 'flag'" [ngbTooltip]="column.header | translate" class="pa-2 full-centered fa fa-lg fa-flag">
+                <sort-icon [column]="column.columnDef"></sort-icon>
+            </em>
+        </th>
+
+        <ng-container *ngIf="column.columnDef === 'action'">
+            <td cdk-cell *cdkCellDef="let row">
+                <button
+                    ngbTooltip="{{ 'common.button.oeffnen' | translate }}"
+                    (click)="itemSelected(row)"
+                    avamPrimaryButtonDirective
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    type="button"
+                ></button>
+            </td>
+        </ng-container>
+
+        <td cdk-cell *cdkCellDef="let row">
+            <ng-container *ngIf="column.columnDef === 'flag'">
+                <span *ngIf="column.cell(row) == meldepflichtEnum.UNTERLIEGT_LAUFEND" [ngbTooltip]="'stes.tooltip.vermittlung.meldepflichtLaufend' | translate">
+                    <em class="full-centered fa fa-flag fa-lg"></em>
+                </span>
+                <span *ngIf="column.cell(row) == meldepflichtEnum.UNTERLIEGT_ABGELAUFEN" [ngbTooltip]="'stes.tooltip.vermittlung.meldepflichtAbgelaufen' | translate">
+                    <em class="full-centered fa fa-flag-o fa-lg"></em>
+                </span>
+            </ng-container>
+
+            <avam-generic-table-cell [column]="column" [row]="row" *ngIf="column.columnDef !== 'flag'"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

@@ -1,0 +1,89 @@
+<form [formGroup]="participantsForm" autocomplete="off" id="{{ typ }}Participants">
+    <h4>{{ label | translate }}</h4>
+    <p>{{ 'stes.label.termin.kontaktperson' | translate }}</p>
+    <div class="form-group" formArrayName="participants" *ngFor="let teilnehmer of getTeilnehmerArray(); let i = index">
+        <div [formGroupName]="i">
+            <div class="row">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-1 form-check-inline" style="margin-right: 0; padding-right: 0">
+                    <input
+                        *ngIf="kontaktperson[i]"
+                        id="radioChecked{{ i }}"
+                        type="radio"
+                        name="{{ typ }}OptionsRadioInline"
+                        (click)="updateTeilnehmerSelected(i)"
+                        class="form-check-input"
+                        value="{{ kontaktperson[i] }}"
+                        checked=""
+                    />
+                    <label *ngIf="kontaktperson[i]" class="form-check-label"></label>
+                    <input
+                        *ngIf="!kontaktperson[i]"
+                        id="radio{{ i }}"
+                        type="radio"
+                        name="{{ typ }}OptionsRadioInline"
+                        (click)="updateTeilnehmerSelected(i)"
+                        class="form-check-input"
+                        value="{{ kontaktperson[i] }}"
+                    />
+                    <label *ngIf="!kontaktperson[i]" class="form-check-label"></label>
+                </div>
+                <div *ngIf="intern" class="col-lg-6" style="margin-right: 0; padding-right: 0">
+                    <avam-personalberater-autosuggest
+                        id="personalberater"
+                        [parentForm]="teilnehmer"
+                        controlName="personalberater"
+                        [benutzerSuchenTokens]="benutzerSuchenTokens"
+                        [type]="benutzerAutosuggestType"
+                    ></avam-personalberater-autosuggest>
+                </div>
+                <div class="col-lg-3" *ngIf="!intern">
+                    <avam-label-input
+                        controlName="vorname"
+                        id="{{ typ }}ParticipantVorname{{ i }}"
+                        inputClass="col"
+                        placeholder="common.label.vorname"
+                        [parentForm]="teilnehmer"
+                    ></avam-label-input>
+                </div>
+                <div class="col-lg-3" style="margin-right: 0; padding-right: 0" *ngIf="!intern">
+                    <avam-label-input
+                        controlName="name"
+                        id="{{ typ }}ParticipantName{{ i }}"
+                        inputClass="col"
+                        placeholder="common.label.name"
+                        [parentForm]="teilnehmer"
+                    ></avam-label-input>
+                </div>
+                <div class="col-lg-3">
+                    <button
+                        id="{{ typ }}ParticipantEraseButton{{ i }}"
+                        type="button"
+                        role="button"
+                        class="btn btn-secondary"
+                        style="margin-right: 10px"
+                        (click)="showRemoveKontaktPersonMessage(i)"
+                    >
+                        <em class=" fa fa-trash fa-fw"></em>
+                    </button>
+                    <button id="{{ typ }}ParticipantAddButton{{ i }}" type="button" role="button" class="btn btn-secondary" (click)="addTeilnehmer()">
+                        <em class="fa fa-plus fa-fw"></em>
+                    </button>
+                </div>
+            </div>
+            <div class="row" *ngIf="!intern">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8" style="padding-right: 0">
+                    <avam-label-input
+                        controlName="stelle"
+                        id="{{ typ }}ParticipantStelle{{ i }}"
+                        inputClass="col"
+                        placeholder="stes.label.termin.stelle"
+                        [parentForm]="teilnehmer"
+                    ></avam-label-input>
+                </div>
+                <div class="col-lg-2"></div>
+            </div>
+        </div>
+    </div>
+</form>

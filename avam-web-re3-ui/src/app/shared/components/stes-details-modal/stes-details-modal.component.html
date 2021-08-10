@@ -1,0 +1,100 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h3 class="modal-title mt-2 ml-1">
+            <span *ngIf="stesHeader">{{ stesHeader.name }}, {{ stesHeader.vorname }} - {{ headerLabelKey | translate }} {{ berufHeader }}</span>
+        </h3>
+        <div class="mr-3 mb-2">
+            <app-toolbox [configuration]="toolboxConfiguration"></app-toolbox>
+        </div>
+    </div>
+    <div class="modal-body">
+        <or-column-layout [left]="true" [right]="false">
+            <div column-left-content class="default-layout">
+                <ul class="nav nav-indented nav-hover" role="menubar">
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.STES_DETAILS_PERSONALIEN }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.STES_DETAILS_PERSONALIEN)"
+                            ><span class="fa fa-circle"></span> {{ 'stes.subnavmenuitem.stesPersonalien' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.STES_DETAILS_GRUNDDATEN }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.STES_DETAILS_GRUNDDATEN)"
+                            ><span class="fa fa-circle"></span> {{ 'stes.subnavmenuitem.stesGrunddaten' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.STES_DETAILS_BERUFSDATEN }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.STES_DETAILS_BERUFSDATEN)"
+                            ><span class="fa fa-circle"></span> {{ 'stes.subnavmenuitem.stesBerufsdaten' | translate }}</a
+                        >
+                    </li>
+                    <ul class="nav nav-indented nav-hover" role="menubar" *ngIf="beruf">
+                        <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.STES_DETAILS_BERUFSDATEN_DETAIL }" role="presentation">
+                            <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.STES_DETAILS_BERUFSDATEN_DETAIL)"
+                                ><span class="fa fa-circle"></span> {{ 'stes.subnavmenuitem.stesBeruf' | translate }}</a
+                            >
+                        </li>
+                    </ul>
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.STES_DETAILS_STELLENSUCHE }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.STES_DETAILS_STELLENSUCHE)"
+                            ><span class="fa fa-circle"></span> {{ 'stes.subnavmenuitem.stesStellensuche' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.STES_DETAILS_SPRACHEN }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.STES_DETAILS_SPRACHEN)"
+                            ><span class="fa fa-circle"></span> {{ 'stes.subnavmenuitem.stesSprachkenntnisse' | translate }}</a
+                        >
+                    </li>
+                    <li class="nav-item" [ngClass]="{ 'show active open': formNumber === formNumbers.STES_DETAILS_DATENFREIGABE }" role="presentation">
+                        <a class="nav-link mouse-pointer" role="menuitem" (click)="changePage(formNumbers.STES_DETAILS_DATENFREIGABE)"
+                            ><span class="fa fa-circle"></span> {{ 'stes.subnavmenuitem.stesPublikation' | translate }}</a
+                        >
+                    </li>
+                </ul>
+            </div>
+            <div column-main-content class="default-layout">
+                <or-spinner [channel]="spinnerChannel"></or-spinner>
+                <div class="info-panel-template avam-panel p-2" *ngIf="stesHeader">
+                    <div class="row">
+                        <div class="item">
+                            <span> {{ stesHeaderAddress }}</span>
+                        </div>
+                        <div class="item">
+                            <b> {{ 'stes.label.stesid' | translate }} </b>
+                            <span> {{ stesHeader.stesId }} {{ (stesHeader.aktiv ? 'common.label.aktiv' : 'common.label.inaktiv') | translate }} </span>
+                        </div>
+                        <div class="item">
+                            <b> {{ 'stes.label.alk' | translate }} </b>
+                            <span> {{ stesHeader.alk }} </span>
+                        </div>
+                        <div class="item">
+                            <b> {{ 'stes.label.personalberater' | translate }} </b>
+                            <span> {{ stesHeader.personalberaterName ? stesHeader.personalberaterName + ', ' + stesHeader.personalberaterVorname : '' }} </span>
+                        </div>
+                    </div>
+                </div>
+                <avam-alert [channel]="alertChannel.MODAL"></avam-alert>
+                <ng-container [ngSwitch]="formNumber">
+                    <div class="page-style">
+                        <avam-stes-details-modal-personalien *ngSwitchCase="formNumbers.STES_DETAILS_PERSONALIEN" [stesId]="stesId"></avam-stes-details-modal-personalien>
+                        <avam-stes-details-modal-grunddaten *ngSwitchCase="formNumbers.STES_DETAILS_GRUNDDATEN" [stesId]="stesId"></avam-stes-details-modal-grunddaten>
+                        <avam-stes-details-modal-berufsdaten
+                            *ngSwitchCase="formNumbers.STES_DETAILS_BERUFSDATEN"
+                            [stesId]="stesId"
+                            (onSelect)="openBeruf($event)"
+                        ></avam-stes-details-modal-berufsdaten>
+                        <avam-stes-details-modal-berufsdaten-detail
+                            *ngSwitchCase="formNumbers.STES_DETAILS_BERUFSDATEN_DETAIL"
+                            [beruf]="beruf"
+                        ></avam-stes-details-modal-berufsdaten-detail>
+                        <avam-stes-details-modal-stellensuche *ngSwitchCase="formNumbers.STES_DETAILS_STELLENSUCHE" [stesId]="stesId"></avam-stes-details-modal-stellensuche>
+                        <avam-stes-details-modal-sprachen *ngSwitchCase="formNumbers.STES_DETAILS_SPRACHEN" [stesId]="stesId"></avam-stes-details-modal-sprachen>
+                        <avam-stes-details-modal-datenfreigabe *ngSwitchCase="formNumbers.STES_DETAILS_DATENFREIGABE" [stesId]="stesId"></avam-stes-details-modal-datenfreigabe>
+                    </div>
+                </ng-container>
+            </div>
+        </or-column-layout>
+    </div>
+    <div class="modal-footer justify-content-between">
+        <span>{{ formNumber }}</span>
+        <button ngbAutofocus type="button" class="btn btn-link" (click)="close()">{{ 'i18n.common.cancel' | translate }}</button>
+    </div>
+</div>

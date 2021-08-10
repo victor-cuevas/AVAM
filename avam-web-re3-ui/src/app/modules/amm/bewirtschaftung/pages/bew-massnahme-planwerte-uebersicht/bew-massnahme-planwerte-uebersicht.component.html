@@ -1,0 +1,69 @@
+<div class="d-block">
+    <or-spinner [channel]="channel"></or-spinner>
+    <avam-bew-planwerte-uebersicht-table *ngIf="dataSource" [dataSource]="dataSource" (onItemSelected)="itemSelected($event)"></avam-bew-planwerte-uebersicht-table>
+</div>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #footerButtons>
+    <button class="btn btn-secondary ml-1" type="button" (click)="zurMassnahmenplanung()" [permissionContext]="[permissions.AMM_PLANUNG_LESEN]">
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.massnahmen.button.zurmassnahmenplanung' | translate }}
+    </button>
+    <button
+        *ngIf="(buttons | async | commonButtonDisplayPipe: buttonsEnum.AMMPLANUNGBUTTONNEUERPLANWERT)"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="planwertErfassen()"
+        [permissionContext]="[permissions.AMM_PLANUNG_LESEN]"
+    >
+        <span class="fa fa-plus"></span>
+        {{ 'amm.planung.button.planwerterfassen' | translate }}
+    </button>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-generic-table-print [dataSource]="dataSource">
+        <avam-bew-planwerte-uebersicht-table [dataSource]="dataSource" [forPrinting]="true"></avam-bew-planwerte-uebersicht-table>
+    </avam-generic-table-print>
+</ng-template>
+
+<ng-template #panelTemplate>
+    <ng-container>
+        <div class="item">
+            <span>{{ organisationInfoBar }}</span>
+        </div>
+        <div class="item">
+            <b>{{ 'amm.massnahmen.label.massnahmenr' | translate }}</b>
+            {{ massnahmeId }}
+        </div>
+        <div class="item">
+            <b>{{ 'amm.massnahmen.label.zulassungstyp' | translate }}</b>
+            {{ zulassungsTyp }}
+        </div>
+        <div class="item">
+            <b> {{ 'amm.anbieter.label.anbieter' | translate }} </b>
+            <span>
+                {{ anbieter?.name1 }}
+                {{ anbieter?.name2 }}
+                {{ anbieter?.name3 }}
+            </span>
+        </div>
+        <div class="item">
+            <div class="item">
+                <ng-container *ngIf="anbieter?.provBurNr; else nichtProv">
+                    <b> {{ 'arbeitgeber.oste.label.provburnr' | translate }} </b>
+                    <span> {{ anbieter?.provBurNr }} </span>
+                </ng-container>
+                <ng-template #nichtProv>
+                    <b> {{ 'arbeitgeber.oste.label.burnr' | translate }} </b>
+                    <span> {{ anbieter?.burNummer }} </span>
+                </ng-template>
+            </div>
+        </div>
+        <div class="item">
+            <b> {{ 'arbeitgeber.oste.label.status' | translate }} </b>
+            <span> {{ anbieter?.statusObject | dbTranslate: 'text' }} </span>
+        </div>
+    </ng-container>
+</ng-template>

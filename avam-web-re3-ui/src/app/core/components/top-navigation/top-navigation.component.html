@@ -1,0 +1,55 @@
+<div class="navigation">
+    <ul class="nav navbar-nav navbar-primary navbar-fw">
+        <li class="nav-item home-icon" ngbTooltip="{{ 'i18n.routes.home.title' | translate }}" routerLink="/home" (keyup.enter)="onHomeClick()">
+            <a class="nav-link">
+                <span class="control-icon fa fa-home"></span>
+            </a>
+        </li>
+        <li
+            *ngFor="let item of navigation"
+            class="nav-item"
+            [ngClass]="{ show: item.selected, selectedPath: item.pathSelected }"
+            (keyup.enter)="onItemEnter(item)"
+            (click)="onItemClick(item, $event)"
+            tabindex="0"
+        >
+            <a *ngIf="item.children" class="nav-link" role="button">
+                <span>{{ item.label | translate }}</span>
+                <span [ngClass]="{ toggle: item.children }"></span>
+            </a>
+            <a *ngIf="!item.children" class="nav-link" role="menuitem" [routerLink]="item.path">
+                <span>{{ item.label | translate }}</span>
+            </a>
+            <div class="navbar-primary-menu">
+                <ul id="snippet-navs-navbars-primary-3-menu" class="nav nav-hover">
+                    <li class="navbar-primary-row">
+                        <ng-container *ngFor="let group of item.children; let i = index">
+                            <ng-container *ngIf="group?.items.length !== 0">
+                                <ul class="nav navbar-primary-col navbar-primary-section" [ngClass]="{ 'second-row': i > 4 }">
+                                    <li class="nav-item nav-header">
+                                        <a [ngClass]="titleClass" class="nav-link">
+                                            <span [ngClass]="titleClass">{{ group.label | translate }}</span>
+                                        </a>
+                                    </li>
+
+                                    <li
+                                        class="nav-item navbar-primary-section"
+                                        *ngFor="let item of group.items"
+                                        [routerLink]="item.path"
+                                        (keyup.enter)="navigateToPath(item)"
+                                        routerLinkActive="active"
+                                        (click)="onItemLinkClick(item)"
+                                    >
+                                        <a class="nav-link">
+                                            <span>{{ item.label | translate }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </ng-container>
+                        </ng-container>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>

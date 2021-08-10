@@ -1,0 +1,8 @@
+#datumKontrollPeriodeCalendar core-calendar {
+    max-width: 65%;
+}
+
+#datumKontrollPeriodeCalendar core-calendar .input-group-append,
+.hide-buttons #datumKontrollPeriodeCalendar button {
+    display: none !important;
+}

@@ -1,0 +1,298 @@
+<div class="print-block row has-overlay">
+    <or-spinner channel="mutationsAntragChannel"></or-spinner>
+    <div class="row w-100">
+        <div class="col-xl-12 pt-3 pb-3 pl-3 pr-0 d-flex w-100">
+            <div class="rechts col-xl-6">
+                <div class="avam-panel avam-panel-extra-lighter">
+                    <h3>{{ 'unternehmen.label.neu' | translate }}</h3>
+                    <br />
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.name' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? mutationDTO.antragName1 : '' }}
+                        </div>
+                    </div>
+                    <div *ngIf="!!mutationDTO && !!mutationDTO.antragName2" class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label"></div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ mutationDTO.antragName2 }}
+                        </div>
+                    </div>
+                    <div *ngIf="!!mutationDTO && !!mutationDTO.antragName3" class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label"></div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ mutationDTO.antragName3 }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.strassenr' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO && mutationDTO.antragStrasse ? mutationDTO.antragStrasse + ' ' + mutationDTO.antragHausNr : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.plzort' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{
+                                !!mutationDTO && !!mutationDTO.antragPlzObject && !!mutationDTO.antragPlzObject.postleitzahl
+                                    ? mutationDTO.antragPlzObject.postleitzahl + ' ' + (mutationDTO.antragPlzObject | dbTranslate: 'ort')
+                                    : ''
+                            }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.postfach' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO && !!mutationDTO.antragPostfach ? mutationDTO.antragPostfach : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'arbeitgeber.oste.label.postfachplzortup' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{
+                                !!mutationDTO && !!mutationDTO.antragPostfachPlzObject && !!mutationDTO.antragPostfachPlzObject.postleitzahl
+                                    ? mutationDTO.antragPostfachPlzObject.postleitzahl + ' ' + (mutationDTO.antragPostfachPlzObject | dbTranslate: 'ort')
+                                    : ''
+                            }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.land' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? (mutationDTO.antragStaatObject | dbTranslate: 'name') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.status' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? (mutationDTO.antragStatusObject | dbTranslate: 'text') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.branche' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{
+                                !!mutationDTO && !!mutationDTO.antragNogaObject
+                                    ? mutationDTO.antragNogaObject.nogaCodeUp + ' ' + (mutationDTO.antragNogaObject | dbTranslate: 'textlang')
+                                    : ''
+                            }}
+                        </div>
+                    </div>
+                </div>
+                <div class="avam-panel avam-panel-extra-lighter mt-3">
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.datum' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? (mutationDTO.mutationsAntragDatum | date: 'dd.MM.yyyy') : '' }}
+                        </div>
+                    </div>
+                    <ng-form #ngForm="ngForm">
+                        <div class="row mb-2">
+                            <div class="col-lg-4 col-md-4 text-right col-form-label">
+                                <label class="mb-2"> {{ 'common.label.bearbeitungdurch' | translate }}</label>
+                            </div>
+                            <div [formGroup]="autosuggestForm" class="col-lg-6 col-md-6 col-form-label">
+                                <avam-personalberater-autosuggest
+                                    controlName="ansprechperson"
+                                    [parentForm]="autosuggestForm"
+                                    [isDisabled]="true"
+                                ></avam-personalberater-autosuggest>
+                            </div>
+                        </div>
+                    </ng-form>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.burmutationsantrag.mitteilungansBfs' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label word-break">
+                            {{ !!mutationDTO ? mutationDTO.bemerkungAvam : '' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="links col-xl-6 pr-0">
+                <div *ngIf="!!mutationDTO && !!mutationDTO.altName1" class="avam-panel avam-panel-extra-lighter mb-3">
+                    <h3>{{ 'unternehmen.label.zuletztgepeichert' | translate }}</h3>
+                    <br />
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.name' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? mutationDTO.altName1 : '' }}
+                        </div>
+                    </div>
+                    <div *ngIf="!!mutationDTO && !!mutationDTO.altName2" class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label"></div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ mutationDTO.altName2 }}
+                        </div>
+                    </div>
+                    <div *ngIf="!!mutationDTO && !!mutationDTO.altName3" class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label"></div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ mutationDTO.altName3 }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.strassenr' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO && mutationDTO.altStrasse ? mutationDTO.altStrasse + ' ' + mutationDTO.altHausNr : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.plzort' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{
+                                !!mutationDTO && !!mutationDTO.altPlzObject && !!mutationDTO.altPlzObject.postleitzahl
+                                    ? mutationDTO.altPlzObject.postleitzahl + ' ' + (mutationDTO.altPlzObject | dbTranslate: 'ort')
+                                    : ''
+                            }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.postfach' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO && !!mutationDTO.altPostfach ? mutationDTO.altPostfach : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'arbeitgeber.oste.label.postfachplzortup' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{
+                                !!mutationDTO && !!mutationDTO.altPostfachPlzObject && !!mutationDTO.altPostfachPlzObject.postleitzahl
+                                    ? mutationDTO.altPostfachPlzObject.postleitzahl + ' ' + (mutationDTO.altPostfachPlzObject | dbTranslate: 'ort')
+                                    : ''
+                            }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.land' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? (mutationDTO.altStaatObject | dbTranslate: 'name') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.status' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? (mutationDTO.altStatusObject | dbTranslate: 'text') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.branche' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{
+                                !!mutationDTO && !!mutationDTO.altNogaObject
+                                    ? mutationDTO.altNogaObject.nogaCodeUp + ' ' + (mutationDTO.altNogaObject | dbTranslate: 'textlang')
+                                    : ''
+                            }}
+                        </div>
+                    </div>
+                </div>
+                <div class="avam-panel avam-panel-extra-lighter">
+                    <h3>{{ 'unternehmen.label.antwortbfs' | translate }}</h3>
+                    <br />
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.datum' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? (mutationDTO.meldungsDatum | date: 'dd.MM.yyyy') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'common.label.status' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? (mutationDTO.mutationsAntragStatusObject | dbTranslate: 'text') : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.mutationid' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO && !!mutationDTO.mutationPkBfs ? mutationDTO.mutationPkBfs : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.responsecode' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            {{ !!mutationDTO ? mutationDTO.responseCode : '' }}
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label ngbTooltip="{{ 'common.label.emailTooltip' | translate }}" placement="left" class="mb-2"> {{ 'common.label.email' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label">
+                            <a *ngIf="mutationDTO && mutationDTO.bfsEmail" href="{{ 'mailto:' + mutationDTO.bfsEmail }}">
+                                {{ mutationDTO.bfsEmail }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-lg-4 col-md-4 text-right col-form-label">
+                            <label class="mb-2"> {{ 'unternehmen.label.mitteilungvonbfs' | translate }}</label>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-form-label word-break">
+                            {{ !!mutationDTO ? mutationDTO.bemerkungBfs : '' }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button
+        *ngIf="!checkIsStatusBentwortet"
+        class="btn btn-primary ml-1"
+        type="button"
+        (click)="ConfirmationStatusBeantworten()"
+        [permissions]="[permissions.ARBEITGEBER_BURMUTATIONEN_SICHTEN]"
+    >
+        {{ 'unternehmen.button.mutationsantragbeantworten' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

@@ -1,0 +1,6 @@
+tag-version-prefix=""
+git-tag-version=false
+commit-hooks=false
+registry=https://adch-nexus.adesso.local/repository/npm-group/
+strict-ssl=false
+

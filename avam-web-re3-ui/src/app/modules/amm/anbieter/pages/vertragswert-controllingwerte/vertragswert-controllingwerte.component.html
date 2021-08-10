@@ -1,0 +1,94 @@
+<div>
+    <or-spinner [channel]="CHANNEL_STATE_KEY"></or-spinner>
+    <avam-controllingwerte-table #controllingwerteTable [tableData]="tableData" (onDeleteRow)="deleteRow($event)"></avam-controllingwerte-table>
+</div>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link ml-1" type="button" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        *ngIf="isCtrlWerteBearbeitbar && +controllingwerteTable.formGroup.controls.kostenverteilschluessel.value !== controllingwerteTable.manuellId"
+        class="btn btn-secondary ml-1"
+        type="button"
+        (click)="calculate()"
+    >
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button
+        *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.STANDORT"
+        class="btn btn-secondary ml-1"
+        type="button"
+        [permissions]="[permissions.AMM_MASSNAHMEN_SICHTEN]"
+        (click)="zumStandort()"
+    >
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zumstandort' | translate }}
+    </button>
+    <button
+        *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.KURS"
+        class="btn btn-secondary ml-1"
+        type="button"
+        [permissions]="[permissions.AMM_MASSNAHMEN_SICHTEN]"
+        (click)="zumKurs()"
+    >
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zumkurs' | translate }}
+    </button>
+    <button
+        *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.MASSNAHME"
+        class="btn btn-secondary ml-1"
+        type="button"
+        [permissions]="[permissions.AMM_MASSNAHMEN_SICHTEN]"
+        (click)="zurMassnahme()"
+    >
+        <span class="fa fa-external-link"></span>
+        {{ 'amm.akquisition.button.zurmassnahme' | translate }}
+    </button>
+    <button *ngIf="isCtrlWerteBearbeitbar" class="btn btn-primary ml-1" type="button" (click)="submit()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobarTemplate>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.leistungsvereinbarungnr' | translate }}</strong>
+        <span> {{ vertragswertDto?.leistungsvereinbarungObject?.leistungsvereinbarungNr }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.massnahmen.label.status' | translate }}</strong>
+        <span> {{ vertragswertDto?.leistungsvereinbarungObject?.statusObject | dbTranslate: 'text' }} </span>
+    </div>
+    <div class="item" *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.MASSNAHME">
+        <b> {{ 'amm.akquisition.label.massnahmenNr' | translate }} </b>
+        <span>{{ referencedObjectId }}</span>
+    </div>
+    <div class="item" *ngIf="vertragswertDto?.typ?.code === vertragswertTypCodeEnum.KURS || vertragswertDto?.typ?.code === vertragswertTypCodeEnum.STANDORT">
+        <b>
+            {{
+                vertragswertDto?.typ?.code === vertragswertTypCodeEnum.KURS
+                    ? ('amm.akquisition.label.durchfuehrungsnrkurs' | translate)
+                    : ('amm.akquisition.label.durchfuehrungsnrstandort' | translate)
+            }}
+        </b>
+        <span>{{ referencedObjectId }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.titel' | translate }}</strong>
+        <span> {{ titel }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.profilnr' | translate }}</strong>
+        <span> {{ vertragswertDto?.profilNr }}</span>
+    </div>
+    <div class="item">
+        <strong>{{ 'amm.akquisition.label.vertragswertnr' | translate }}</strong>
+        <span> {{ vertragswertDto?.vertragswertNr }}</span>
+    </div>
+</ng-template>
+
+<ng-template #modalPrint>
+    <avam-controllingwerte-table [tableData]="tableData" [forPrint]="true"></avam-controllingwerte-table>
+</ng-template>

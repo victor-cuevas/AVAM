@@ -1,0 +1,203 @@
+<form [formGroup]="kostenForm" #ngForm="ngForm" closeBrowserTab [form]="kostenForm" autocomplete="off">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="avam-panel">
+        <div class="col-xl-8">
+            <div class="row">
+                <div class="col-md-6 align-self-center text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.gesuchstyp' | translate }}</label>
+                </div>
+                <div class="col-md-4 align-self-center">
+                    <div>{{ gesuchsTyp }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="avam-panel">
+        <div class="col-xl-8">
+            <label>
+                <h3>{{ 'stes.subnavmenuitem.stesAmm.monatlicheBeitraegeInCHF' | translate }}</h3>
+            </label>
+            <div class="row mb-2">
+                <div class="col-md-6 text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.monatslohnNachDerAusbildung' | translate }}</label>
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3">
+                    <avam-currency-input
+                        avamAutofocus
+                        controlName="monatslohnNachDerAusbildung"
+                        [parentForm]="kostenForm"
+                        id="monatslohnNachDerAusbildung"
+                        customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                        [readOnly]="disableFieldsByEntscheidStatus"
+                    ></avam-currency-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.berechnungsGrundlage' | translate }}</label>
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3 text-right">
+                    <p>{{ azKostenData?.berechnungsGrundlage | formatSwissFranc: true }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class=" col-md-10 text-right">
+                    <hr class="hr-thin" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-6 text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.ausbildungsmonatslohn' | translate }}</label>
+                </div>
+                <div class="col-md-3">
+                    <avam-currency-input
+                        controlName="ausbildungsmonatslohn"
+                        [parentForm]="kostenForm"
+                        id="ausbildungsmonatslohn"
+                        customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                        [readOnly]="disableFieldsByEntscheidStatus"
+                    ></avam-currency-input>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-6 text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.stipendium' | translate }}</label>
+                </div>
+                <div class="col-md-3">
+                    <avam-currency-input
+                        controlName="stipendium"
+                        [parentForm]="kostenForm"
+                        id="stipendium"
+                        customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                        [readOnly]="disableFieldsByEntscheidStatus"
+                    ></avam-currency-input>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-6 text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.anderweitigeUnterstuetzung' | translate }}</label>
+                </div>
+                <div class="col-md-3">
+                    <avam-currency-input
+                        controlName="anderweitigeUnterstuetzung"
+                        [parentForm]="kostenForm"
+                        id="anderweitigeUnterstuetzung"
+                        customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                        [readOnly]="disableFieldsByEntscheidStatus"
+                    ></avam-currency-input>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class=" col-md-10 text-right">
+                    <hr class="hr-thin" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class=" col-md-10 text-right p-0">
+                    <label>./.</label>
+                </div>
+                <div class="col-md-2 text-right">
+                    <p>{{ azKostenData?.unterstuetzungTotal | formatSwissFranc: true }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.monatlicherZuschuss' | translate }}</label>
+                </div>
+                <div class="col-md-3"></div>
+                <div class="col-md-3 text-right">
+                    <p>{{ azKostenData?.zuschussMonatlich | formatSwissFranc: true }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class=" col-md-10 text-right">
+                    <hr class="hr-thick" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="avam-panel">
+        <div class="col-xl-8">
+            <div class="row mb-2">
+                <div class="col-md-3"></div>
+                <div *ngIf="gesuchData" class=" col-md-12">
+                    <avam-date-range-picker
+                        class="form-group"
+                        label="{{ 'stes.subnavmenuitem.stesAmm.ausrichtung' }}"
+                        [parentForm]="kostenForm"
+                        formControlNameFrom="ausrichtungVon"
+                        formControlNameTo="ausrichtungBis"
+                        labelClass="col-md-6"
+                        wrapperClass="col-md-6"
+                        [isResponsive]="true"
+                        [readOnly]="disableDatePicker ? 'all' : ''"
+                    ></avam-date-range-picker>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-md-6 text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.ausrichtungszeitraum' | translate }}</label>
+                </div>
+                <div class="col-md-3">
+                    <p class="mb-2 text-right">{{ azKostenData?.ausrichtungszeitraumInMonaten | formatNumber: '1' }}</p>
+                    <hr class="hr-thick" />
+                </div>
+                <div class="col-md-1">
+                    <p>{{ 'stes.label.monate' | translate }}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 text-right">
+                    <label>{{ 'stes.subnavmenuitem.stesAmm.totalZuschuesse' | translate }}</label>
+                </div>
+                <div class="col-md-3 text-right">
+                    <p class="mb-0">{{ azKostenData?.betrag | formatSwissFranc: true }}</p>
+                </div>
+                <div class="col-md-1 pb-2">
+                    {{ 'amm.zahlungen.label.chf' | translate }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <hr class="hr-thick" />
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR, ammButtonsTypeEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-secondary ml-1" type="button" (click)="onCalculate()">
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'common.label.entscheidnr' | translate }} </b>
+        <span>{{ entscheidNr }}</span>
+    </div>
+</ng-template>

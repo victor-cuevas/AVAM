@@ -1,0 +1,45 @@
+<form [formGroup]="form" autocomplete="off" #ngForm="ngForm">
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input [parentForm]="form" controlName="rollede" selectLabel="benutzerverwaltung.label.rollede"></avam-label-input>
+                <avam-label-input [parentForm]="form" controlName="rollefr" selectLabel="benutzerverwaltung.label.rollefr"></avam-label-input>
+                <avam-label-input [parentForm]="form" controlName="rolleit" selectLabel="benutzerverwaltung.label.rolleit"></avam-label-input>
+            </div>
+        </div>
+
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input [parentForm]="form" controlName="rollecode" selectLabel="benutzerverwaltung.label.rollecode" [readOnly]="codeReadOnly"></avam-label-input>
+                <avam-label-checkbox componentId="dmsrolle" [parentForm]="form" controlName="dmsrolle" selectLabel="benutzerverwaltung.label.dmsrolle"></avam-label-checkbox>
+                <avam-multiselect
+                    id="benutzerstellentyp"
+                    [parentForm]="form"
+                    controlName="benutzerstellentyp"
+                    [options]="benutzerstellentyp"
+                    label="benutzerverwaltung.label.benutzerstellentyp"
+                    placeholder="common.label.waehlen"
+                ></avam-multiselect>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-dropdown
+                    [parentForm]="form"
+                    [options]="vollzugsregiontyp"
+                    controlName="vollzugsregiontyp"
+                    selectLabel="benutzerverwaltung.label.vollzugsregiontyp"
+                    placeholder="common.label.waehlen"
+                ></avam-label-dropdown>
+            </div>
+
+            <div class="avam-panel">
+                <avam-label-calendar id="gueltigab" [parentForm]="form" controlName="gueltigab" calendarLabel="systemmeldungen.label.gueltigab"></avam-label-calendar>
+                <avam-label-calendar id="gueltigbis" [parentForm]="form" controlName="gueltigbis" calendarLabel="systemmeldungen.label.gueltigbis"></avam-label-calendar>
+            </div>
+        </div>
+    </div>
+</form>

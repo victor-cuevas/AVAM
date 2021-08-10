@@ -1,0 +1,85 @@
+<avam-generic-table
+    #tableComponent
+    *ngIf="tableData"
+    [stateKey]="getStateKey()"
+    [dataSource]="tableData"
+    [headers]="displayedTableColumns"
+    [scrollable]="true"
+    (sortFunction)="sortFunction($event)"
+    [sortField]="'createdOn'"
+    [sortOrder]="-1"
+    [customSort]="true"
+    [maxHeight]="775"
+>
+    <ng-container *ngFor="let column of tableColumns" [cdkColumnDef]="column?.columnDef">
+        <ng-container *ngIf="column.columnDef === 'checkbox'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef><input #checkboxesAll type="checkbox" [checked]="allchecked" (click)="checkAll()" /></th>
+            <td [ngStyle]="{ background: row?.rowColor }" cdk-cell *cdkCellDef="let row"><input #checkboxes type="checkbox" [checked]="row.checked" (click)="checkbox(row)" /></td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'envelope'">
+            <th [sortable-column]="column.columnDef" [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                <div class="full-centered">
+                    <sort-icon *ngIf="tableComponent.isSorted(column.columnDef)" [column]="column.columnDef"></sort-icon>
+                    <i class="fa fa-envelope-open-o" aria-hidden="true"></i>
+                </div>
+            </th>
+            <td cdk-cell *cdkCellDef="let row">
+                <ng-container *ngIf="row.gelesen">
+                    <i class="full-centered fa fa-envelope-open-o" aria-hidden="true"></i>
+                </ng-container>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'actions'">
+            <th [ngStyle]="{ width: column?.width }" cdk-header-cell *cdkHeaderCellDef>
+                {{ column.header | translate }}
+            </th>
+            <td style="display: flex; justify-content: space-around;" cdk-cell *cdkCellDef="let row">
+                <button
+                    (primaryButtonClick)="onOpen(row)"
+                    class="fa fa-eye btn btn-primary btn-sm buttonOnHover"
+                    avamPrimaryButtonDirective
+                    type="button"
+                    [ngbTooltip]="'common.button.oeffnen' | translate"
+                    [disabled]="!row.allowOpen"
+                ></button>
+                <button
+                    (click)="onDeleteRow(row)"
+                    class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                    type="button"
+                    [ngbTooltip]="'common.button.loeschen' | translate"
+                ></button>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'createdOn'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | date: 'dd.MM.yyyy'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">{{
+                    column.cell(row) | date: 'dd.MM.yyyy'
+                }}</span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'geschaeftsart'">
+            <td cdk-cell *cdkCellDef="let row">
+                <span [ngbTooltip]="column.cell(row) | dbTranslate: 'text'" triggers="manual" #t="ngbTooltip" [avamTableTooltip]="t">{{
+                    column.cell(row) | dbTranslate: 'text'
+                }}</span>
+            </td>
+        </ng-container>
+
+        <ng-container *ngIf="column.columnDef === 'meldungsText'">
+            <td cdk-cell *cdkCellDef="let row" [ngbTooltip]="column.cell(row).displayToolTipMeldungsText | replaceQuotes">
+                <span>{{ column.cell(row).displayMeldungsText | replaceQuotes }}</span>
+            </td>
+        </ng-container>
+
+        <th [ngStyle]="{ width: column?.width }" [sortable-column]="column.columnDef" cdk-header-cell *cdkHeaderCellDef>
+            <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+        </th>
+        <td cdk-cell *cdkCellDef="let row">
+            <avam-generic-table-cell [column]="column" [row]="row"></avam-generic-table-cell>
+        </td>
+    </ng-container>
+</avam-generic-table>

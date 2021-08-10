@@ -1,0 +1,54 @@
+<stes-common-search
+    #baseSearchComponent
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [displayedColumns]="displayedColumns"
+    [sortField]="sortField"
+    infoleisteTranslationKey="amm.suchen.infoleiste"
+    [searchButtonDisabled]="searchButtonDisabled"
+    [stateKey]="stateKey"
+    (searchEvent)="onSearchEvent()"
+    (resetEvent)="onResetEvent()"
+    (navigationEvent)="onNavigationEvent($event)"
+    (changeLanguageEvent)="setTableData()"
+>
+    <div [formGroup]="searchForm">
+        <h3 class="title-label">
+            <span class="fa fa-search mr-2"></span>
+            <span>{{ 'amm.suchen.form.title' | translate }}</span>
+        </h3>
+        <div class="col-12 core-input" orFormControlState>
+            <core-input
+                [coreAutofocus]="true"
+                id="entscheidNr"
+                formControlName="entscheidNr"
+                [placeholder]="searchForm.controls.entscheidNr.enabled ? ('amm.suchen.form.placeholder.entscheid' | translate) : ''"
+            ></core-input>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div class="col-12 core-input" orFormControlState>
+            <core-input
+                id="gesuchsNr"
+                formControlName="gesuchsNr"
+                [placeholder]="searchForm.controls.gesuchsNr.enabled ? ('amm.suchen.form.placeholder.gesuchs' | translate) : ''"
+            ></core-input>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div class="col-12 core-input" orFormControlState>
+            <core-input
+                id="buchungsNr"
+                formControlName="buchungsNr"
+                [placeholder]="searchForm.controls.buchungsNr.enabled ? ('amm.suchen.form.placeholder.buchungs' | translate) : ''"
+            ></core-input>
+            <or-error-messages></or-error-messages>
+        </div>
+        <div class="col-12 core-input" orFormControlState>
+            <core-input
+                id="basisNr"
+                formControlName="basisNr"
+                [placeholder]="searchForm.controls.basisNr.enabled ? ('amm.suchen.form.placeholder.basis' | translate) : ''"
+            ></core-input>
+            <or-error-messages></or-error-messages>
+        </div>
+    </div>
+</stes-common-search>

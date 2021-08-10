@@ -1,0 +1,81 @@
+<form class="inline-components-table" [formGroup]="parentForm" #ngForm="ngForm">
+    <avam-generic-table
+        [dataSource]="betriebsabteilungen"
+        [headers]="headers"
+        [sortField]="ABTEILUNG_NR_COLUMN"
+        [sortOrder]="1"
+        [customSort]="true"
+        (sortFunction)="sortFunction($event)"
+    >
+        <ng-container *ngFor="let column of columns" [cdkColumnDef]="column.columnDef">
+            <ng-container *ngIf="column.columnDef === ABTEILUNG_NAME_COLUMN">
+                <th [sortable-column]="column.columnDef" cdk-header-cell class="abteilungName-column" *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === ABTEILUNG_NR_COLUMN">
+                <th [sortable-column]="column.columnDef" cdk-header-cell class="abteilungNr-column" *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === ALV_ANERKANNT_COLUMN">
+                <th [sortable-column]="column.columnDef" cdk-header-cell class="alvAnerkannt-column" *cdkHeaderCellDef>
+                    <avam-generic-table-header-cell [column]="column"></avam-generic-table-header-cell>
+                </th>
+            </ng-container>
+            <ng-container *ngIf="column.columnDef === 'actions'">
+                <th cdk-header-cell class="actions-column" *cdkHeaderCellDef>
+                    <div class="button-wrapper">
+                        <button type="button" class="fa fa-plus btn btn-secondary btn-sm buttonOnHover" (click)="addRow()" [ngbTooltip]="'common.button.add' | translate"></button>
+                    </div>
+                </th>
+            </ng-container>
+
+            <td cdk-cell *cdkCellDef="let row; let rowIndex = index">
+                <ng-container *ngIf="column.columnDef === ABTEILUNG_NAME_COLUMN">
+                    <avam-label-input
+                        id="abteilungName{{ rowIndex }}"
+                        [controlName]="column.columnDef"
+                        [parentForm]="formArray.controls[rowIndex]"
+                        [readOnly]="forPrinting || isGesamtbetrieb(row)"
+                        [inputClass]="'col-12'"
+                        placeholder="{{ 'kaeswe.label.abteilung' | translate }}"
+                    ></avam-label-input>
+                </ng-container>
+
+                <ng-container *ngIf="column.columnDef === ABTEILUNG_NR_COLUMN">
+                    <avam-label-input
+                        [controlName]="column.columnDef"
+                        [parentForm]="formArray.controls[rowIndex]"
+                        [readOnly]="forPrinting || isReadOnly(row)"
+                        [inputClass]="'col-12'"
+                        placeholder="{{ 'kaeswe.label.nr' | translate }}"
+                    ></avam-label-input>
+                </ng-container>
+
+                <ng-container *ngIf="column.columnDef === ALV_ANERKANNT_COLUMN" readonly="isGesamtbetrieb(row)">
+                    <avam-label-dropdown
+                        [parentForm]="formArray.controls[rowIndex]"
+                        [controlName]="column.columnDef"
+                        [options]="alvAnerkanntOptions"
+                        [readOnly]="forPrinting || isGesamtbetrieb(row)"
+                        [inputClass]="'col-12'"
+                        [hideEmptyOption]="true"
+                    ></avam-label-dropdown>
+                </ng-container>
+
+                <ng-container *ngIf="column.columnDef === 'actions'">
+                    <div class="button-wrapper">
+                        <button
+                            type="button"
+                            class="fa fa-trash-o btn btn-secondary btn-sm buttonOnHover"
+                            (click)="deleteRow(rowIndex)"
+                            [ngbTooltip]="'common.button.loeschen' | translate"
+                            [disabled]="isGesamtbetrieb(row)"
+                        ></button>
+                    </div>
+                </ng-container>
+            </td>
+        </ng-container>
+    </avam-generic-table>
+</form>

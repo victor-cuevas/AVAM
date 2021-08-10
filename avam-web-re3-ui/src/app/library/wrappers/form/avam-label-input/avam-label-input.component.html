@@ -1,0 +1,41 @@
+<div [formGroup]="parentForm" #ngForm="ngForm" [className]="textDirection">
+    <div
+        class="row mb-2 {{ customClassComponentWrapper }}"
+        [ngClass]="{
+            'form-group': !readOnly
+        }"
+    >
+        <div *ngIf="selectLabel" class="{{ labelClass ? labelClass : 'col-lg-4 col-md-4' }} text-right col-form-label">
+            <label class="mb-2" for="{{ id }}InputLable"> {{ selectLabel | translate }}</label>
+        </div>
+        <div class="{{ inputClass ? inputClass : selectLabel ? 'col-lg-8 col-md-8 align-self-center' : 'col-lg-12 col-md-12 align-self-center' }}">
+            <div [hidden]="readOnly" orFormControlState [class]="customClassControlWrapper">
+                <div class="d-flex {{ customClassCoreInputWrapper }}">
+                    <core-input
+                        #coreInput
+                        class="w-100 {{ customClassCoreInput }}"
+                        dynamicControlName
+                        [formControlName]="controlName"
+                        [disableControl]="isDisabled"
+                        ngbTooltip="{{ toolTip | translate }}"
+                        triggers="{{ toolTip ? 'hover' : 'click' }}"
+                        placeholder="{{ placeholder | translate }}"
+                        [type]="type"
+                        (onInput)="input($event)"
+                        (onChange)="change($event)"
+                        (onKeyup)="keyup($event)"
+                        (onBlur)="blur($event)"
+                    ></core-input>
+                    <ng-content select="[input-type=input]"></ng-content>
+                </div>
+                <or-error-messages extendWithWarnings></or-error-messages>
+            </div>
+            <div *ngIf="readOnly" class="d-flex pt-2 {{ customClassReadOnlyTextContainer }}">
+                <p class="mr-2 p-value-left-12 {{ customClassReadOnlyText }}" ngbTooltip="{{ toolTip | translate }}" triggers="{{ toolTip ? 'hover' : 'click' }}">
+                    {{ inputValue }}
+                </p>
+                <ng-content select="[input-type=readOnly]"></ng-content>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+{
+	"rootDir": "../",
+	"verbose": true,
+	"preset": "jest-preset-angular",
+	"setupTestFrameworkScriptFile": "./tests/setupJest.ts",
+  "moduleNameMapper": {
+    "^@app/(.*)$": "<rootDir>/src/app/$1",
+    "^@assets/(.*)$": "<rootDir>/src/assets/$1",
+    "^@environments/(.*)$": "<rootDir>/src/environments/$1",
+    "^@config/(.*)$": "<rootDir>/src/app/config/$1",
+    "^@core/(.*)$": "<rootDir>/src/app/core/$1",
+    "^@modules/(.*)$": "<rootDir>/src/app/modules/$1",
+    "^@shared/(.*)$": "<rootDir>/src/app/shared/$1",
+    "^@dtos/(.*)$": "<rootDir>/src/app/shared/models/dtos-generated/$1",
+    "^@auth/(.*)$": "<rootDir>/src/app/modules/auth/$1",
+    "^@error/(.*)$": "<rootDir>/src/app/modules/error/$1",
+    "^@home/(.*)$": "<rootDir>/src/app/modules/home/$1",
+    "^@stes/(.*)$": "<rootDir>/src/app/modules/stes/$1",
+    "^@myAvam/(.*)$": "<rootDir>/src/app/modules/myAvam/$1",
+    "^@test_helpers/(.*)$": "<rootDir>/tests/helpers/$1"
+  },
+	"collectCoverage": true,
+	"coverageDirectory": "./coverage/",
+	"testResultsProcessor": "jest-sonar-reporter"
+}

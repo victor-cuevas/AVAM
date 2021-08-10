@@ -1,0 +1,21 @@
+<avam-step1-oste-erfassen-form #formComponent></avam-step1-oste-erfassen-form>
+
+<ng-template #footerButtons>
+    <button class="btn btn-link" type="button" (click)="cancel()">
+        {{ 'common.button.abbrechen' | translate }}
+    </button>
+    <button class="btn btn-link" (click)="reset()">
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button
+        type="button"
+        class="btn btn-primary ml-1 keepDisabled"
+        [disabled]="!this.formComponent.form.valid"
+        [permissions]="[permissions.KEY_AG_OSTE_BEARBEITEN]"
+        (click)="moveNext()"
+    >
+        {{ 'common.button.weiter' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer class="btn-bar-zero-height" [buttonsTemplate]="footerButtons"></avam-action-footer>

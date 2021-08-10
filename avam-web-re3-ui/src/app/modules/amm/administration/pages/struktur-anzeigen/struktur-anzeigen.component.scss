@@ -1,0 +1,16 @@
+.scroll-table {
+    height: 65vh;
+    overflow-y: auto;
+}
+
+@media print {
+    avam-basic-tree-table {
+        .fa-plus-square {
+            visibility: hidden !important;
+        }
+
+        .fa-minus-square {
+            visibility: hidden !important;
+        }
+    }
+}

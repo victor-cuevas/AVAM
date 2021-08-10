@@ -1,0 +1,320 @@
+<form [formGroup]="pewoKostenForm" #ngForm="ngForm" closeBrowserTab [form]="pewoKostenForm" autocomplete="off">
+    <or-spinner [channel]="channel"></or-spinner>
+    <div class="print-block row">
+        <div class="col-xl-6">
+            <div class="avam-panel">
+                <avam-label-input
+                    [readOnly]="true"
+                    [inputClass]="'col-md-4'"
+                    selectLabel="{{ 'stes.subnavmenuitem.stesAmm.gesuchstyp' | translate }}"
+                    id="gesuchstyp"
+                    [parentForm]="pewoKostenForm"
+                    controlName="gesuchstyp"
+                >
+                </avam-label-input>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.subnavmenuitem.stesAmm.aFrueheresMonatlichesEinkommen' | translate }}</h3>
+                </label>
+                <div class="d-flex">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.vergleichseinkommen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-5 col-md-5"></div>
+                    <div class="col-md-3">
+                        <avam-currency-input
+                            avamAutofocus
+                            controlName="vergleichseinkommenA"
+                            [parentForm]="pewoKostenForm"
+                            id="vergleichseinkommenA"
+                            customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                            [readOnly]="disableFieldsByEntscheidStatus"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <br />
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.berechnungsGrundlage' | translate }}</label>
+                    </div>
+                    <div class="col-lg-5 col-md-5"></div>
+                    <div class="col-md-3 text-right">
+                        <p class="mb-2">{{ pewoKostenData?.berechnungsGrundlage | formatSwissFranc: true }}</p>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-lg-12 col-md-12 text-right">
+                        <hr class="hr-thin" />
+                    </div>
+                </div>
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.fahrtkosten' | translate }}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <avam-currency-input
+                            controlName="fahrtkostenA"
+                            [parentForm]="pewoKostenForm"
+                            id="fahrtkostenA"
+                            customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                            [readOnly]="disableFieldsByEntscheidStatus"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.auswertigeVerpflegung' | translate }}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <avam-currency-input
+                            controlName="auswertigeVerpflegungA"
+                            [parentForm]="pewoKostenForm"
+                            id="auswertigeVerpflegungA"
+                            customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                            [readOnly]="disableFieldsByEntscheidStatus"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.auswertigeUnterkunft' | translate }}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <avam-currency-input
+                            controlName="auswertigeUnterkunftA"
+                            [parentForm]="pewoKostenForm"
+                            id="auswertigeUnterkunftA"
+                            customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                            [readOnly]="disableFieldsByEntscheidStatus"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-lg-12 col-md-12 text-right">
+                        <hr class="hr-thin" />
+                    </div>
+                </div>
+                <div class="d-flex mb-2">
+                    <div class="col-lg-10 col-md-10 text-right p-0">
+                        <label>./.</label>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <p class="mb-2">{{ pewoKostenData?.kostenTotalFrueher | formatSwissFranc: true }}</p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="col-md-4 text-right">
+                        <label>
+                            <h3>{{ 'amm.nutzung.label.bereinigterverdienst' | translate }}</h3>
+                        </label>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 text-right">
+                        <p class="mb-2">{{ pewoKostenData?.bereinigterLohnFrueher | formatSwissFranc: true }}</p>
+                    </div>
+                </div>
+                <hr class="hr-thick-pewo-kosten" />
+            </div>
+            <div class="avam-panel">
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.finanzielleeinbusse' | translate }}</label>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <p class="mb-2">{{ pewoKostenData?.lohneinbusse | formatSwissFranc: true }} {{ 'amm.zahlungen.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.monatlicherzuschuss' | translate }}</label>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <p class="mb-2">{{ pewoKostenData?.zuschussMonatlich | formatSwissFranc: true }} {{ 'amm.zahlungen.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <avam-date-range-picker
+                    class="form-group"
+                    label="amm.nutzung.label.ausrichtung"
+                    [parentForm]="pewoKostenForm"
+                    formControlNameFrom="ausrichtungVon"
+                    formControlNameTo="ausrichtungBis"
+                    [isResponsive]="true"
+                    [readOnly]="disableFieldsByEntscheidStatus ? 'all' : ''"
+                ></avam-date-range-picker>
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.ausrichtungszeitraum' | translate }}</label>
+                    </div>
+                    <div class="col-md-2 text-right pr-0 ">
+                        <p class="mb-2">
+                            {{ pewoKostenData?.ausrichtungszeitraumInMonaten | formatNumber: '1' }}
+                        </p>
+                        <hr class="hr-thick-pewo-kosten" />
+                    </div>
+                    <div class="col-md-1">
+                        <p>{{ 'stes.label.monate' | translate }}</p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="col-md-4 text-right">
+                        <label>
+                            <h3>{{ 'stes.subnavmenuitem.stesAmm.totalZuschuesse' | translate }}</h3>
+                        </label>
+                    </div>
+                    <div class="col-md-2 text-right pr-0">
+                        <p class="mb-2">{{ pewoKostenData?.zuschussTotal | formatSwissFranc: true }}</p>
+                    </div>
+                    <div class="col-md-1">
+                        <p>{{ 'amm.zahlungen.label.chf' | translate }}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-1"></div>
+                    <div class="col-sm-6 col-md-5 ml-3">
+                        <hr class="hr-thick-pewo-kosten-totalzuschuesse" />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="avam-panel p-bottom-145rem">
+                <avam-label-dropdown
+                    selectLabel="{{ 'amm.nutzung.label.verkehrsmittel' | translate }}"
+                    [parentForm]="pewoKostenForm"
+                    controlName="verkehrsmittel"
+                    [options]="verkehrsmittelOptions"
+                    id="verkehrsmittel"
+                    inputClass="col-lg-8 col-md-8"
+                    [readOnly]="disableFieldsByEntscheidStatus"
+                >
+                </avam-label-dropdown>
+            </div>
+            <div class="avam-panel">
+                <label>
+                    <h3>{{ 'stes.subnavmenuitem.stesAmm.bFrueheresMonatlichesEinkommen' | translate }}</h3>
+                </label>
+                <div class="d-flex mb-3">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'amm.nutzung.label.vergleichseinkommen' | translate }}</label>
+                    </div>
+                    <div class="col-lg-5 col-md-5"></div>
+                    <div class="col-md-3">
+                        <avam-currency-input
+                            controlName="vergleichseinkommenB"
+                            [parentForm]="pewoKostenForm"
+                            id="vergleichseinkommenB"
+                            customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                            [readOnly]="disableFieldsByEntscheidStatus"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-lg-12 col-md-12 text-right">
+                        <hr class="hr-thin" />
+                    </div>
+                </div>
+                <br />
+                <br />
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.fahrtkosten' | translate }}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <avam-currency-input
+                            controlName="fahrtkostenB"
+                            [parentForm]="pewoKostenForm"
+                            id="fahrtkostenB"
+                            customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                            [readOnly]="disableFieldsByEntscheidStatus"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.auswertigeVerpflegung' | translate }}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <avam-currency-input
+                            controlName="auswertigeVerpflegungB"
+                            [parentForm]="pewoKostenForm"
+                            id="auswertigeVerpflegungB"
+                            customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                            [readOnly]="disableFieldsByEntscheidStatus"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <div class="d-flex mb-2">
+                    <div class="col-md-4 text-right">
+                        <label>{{ 'stes.subnavmenuitem.stesAmm.auswertigeUnterkunft' | translate }}</label>
+                    </div>
+                    <div class="col-md-3">
+                        <avam-currency-input
+                            controlName="auswertigeUnterkunftB"
+                            [parentForm]="pewoKostenForm"
+                            id="auswertigeUnterkunftB"
+                            customInputClass="{{ !disableFieldsByEntscheidStatus ? 'col-md-12' : 'col-md-12 flex-row-reverse' }}"
+                            [readOnly]="disableFieldsByEntscheidStatus || isGesuchstypPendler"
+                        ></avam-currency-input>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-lg-12 col-md-12 text-right">
+                        <hr class="hr-thin" />
+                    </div>
+                </div>
+                <div class="d-flex mb-2">
+                    <div class="col-lg-10 col-md-10 text-right p-0">
+                        <label>./.</label>
+                    </div>
+                    <div class="col-md-2 text-right">
+                        <p class="mb-2">{{ pewoKostenData?.kostenTotal | formatSwissFranc: true }}</p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="col-md-4 text-right">
+                        <label>
+                            <h3>{{ 'amm.nutzung.label.bereinigterverdienst' | translate }}</h3>
+                        </label>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-4 text-right">
+                        <p class="mb-2">{{ pewoKostenData?.bereinigterLohn | formatSwissFranc: true }}</p>
+                    </div>
+                </div>
+                <hr class="hr-thick-pewo-kosten" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<ng-template #footerButtons>
+    <button
+        *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR, ammButtonsTypeEnum.FKT_BUCHBAR])"
+        class="btn btn-link ml-1"
+        type="button"
+        (click)="onReset()"
+    >
+        {{ 'common.button.zuruecksetzen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-secondary ml-1" type="button" (click)="onCalculate()">
+        {{ 'common.button.berechnen' | translate }}
+    </button>
+    <button *ngIf="(buttons | async | buttonDisplayPipe: [ammButtonsTypeEnum.FKT_BEARBEITBAR])" class="btn btn-primary ml-1" type="button" (click)="onSave()">
+        {{ 'common.button.speichern' | translate }}
+    </button>
+</ng-template>
+
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>
+
+<ng-template #infobartemp>
+    <div class="item">
+        <b> {{ 'amm.nutzung.label.basisnr' | translate }} </b>
+        <span>{{ basisNr }}</span>
+    </div>
+    <div class="item">
+        <b> {{ 'common.label.entscheidnr' | translate }} </b>
+        <span>{{ entscheidNr }}</span>
+    </div>
+</ng-template>
+<avam-action-footer [buttonsTemplate]="footerButtons"></avam-action-footer>

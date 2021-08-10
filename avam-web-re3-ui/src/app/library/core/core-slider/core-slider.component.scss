@@ -1,0 +1,7 @@
+input[type=range]::-ms-tooltip {
+    display: none;
+}
+
+.disabled {
+    opacity: 0.5;
+}
